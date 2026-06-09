@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Real Inside (TRI) - India's premium performance nutrition ecosystem. Master Brand OS Presentation.">
+    <title>The Real Inside (TRI) - Master Brand OS Presentation</title>
+
+    <!-- Google Fonts for Editorial Sophistication & Geometric Precision -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES (THEME TOKENS)
+           =========================================== */
+        :root {
+            /* TRI Color Palette from Visual Identity System */
+            --bg-primary: #0A0A0B;       /* Deep Obsidian */
+            --bg-secondary: #121214;     /* Dark Charcoal Accent */
+            --accent-clay: #B85F48;      /* Canyon Clay (Primary Accent) */
+            --accent-rose: #E6A2A4;      /* Antique Rose (Secondary Accent) */
+            --accent-pink: #F8D7D9;      /* Soft Pink (Trust Indicators) */
+            --border-red: #7F4E3E;       /* Marsala Red (Subtle Borders) */
+            --text-chalk: #FBFBFB;       /* Off-White (Primary Text) */
+            --text-muted: #9A9590;       /* Warm Gray (Secondary Text) */
+            --card-overlay: rgba(18, 18, 20, 0.7);
+
+            /* Typography Rules */
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Montserrat', Helvetica, Arial, sans-serif;
+
+            /* Viewport Fluid Typography Scaling */
+            --title-size: clamp(2rem, 5.5vw, 4.5rem);
+            --h2-size: clamp(1.4rem, 3.8vw, 2.8rem);
+            --h3-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            --body-size: clamp(0.75rem, 1.4vw, 1.05rem);
+            --small-size: clamp(0.65rem, 1vw, 0.85rem);
+
+            /* Fluid Spacing & Layout */
+            --slide-padding: clamp(1.5rem, 6vw, 5rem);
+            --content-gap: clamp(1rem, 3vh, 2.5rem);
+            --element-gap: clamp(0.5rem, 1.5vh, 1.25rem);
+
+            /* Animation Variables */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-slow: 1.2s;
+            --duration-normal: 0.8s;
+            --duration-fast: 0.4s;
+        }
+
+        /* ===========================================
+           MANDATORY VIEWPORT FITTING STYLES
+           =========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-primary);
+            color: var(--text-chalk);
+            font-family: var(--font-body);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        /* Canvas Particle Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.65;
+        }
+
+        /* Each slide is exactly one viewport */
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+            border-bottom: 1px solid rgba(127, 78, 62, 0.15);
+        }
+
+        /* Content Container with double overflow protection */
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            max-height: 100%;
+            max-width: min(92vw, 1200px);
+            margin: 0 auto;
+            width: 100%;
+            overflow: hidden;
+            padding: var(--slide-padding);
+            gap: var(--content-gap);
+        }
+
+        /* Typography & Text Styling */
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            color: var(--text-chalk);
+        }
+
+        h2 span {
+            color: var(--accent-clay);
+            font-style: italic;
+        }
+
+        p {
+            font-size: var(--body-size);
+            line-height: 1.6;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 0.02em;
+        }
+
+        strong {
+            color: var(--text-chalk);
+            font-weight: 600;
+        }
+
+        /* Slide Overlay Radial Gradient (Soft Ambient Light) */
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(184, 95, 72, 0.06) 0%, rgba(248, 215, 217, 0.02) 40%, transparent 80%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ===========================================
+           COMPONENTS & REUSABLE LAYOUT SHAPES
+           =========================================== */
+        .slide-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: calc(-0.5 * var(--element-gap));
+            border-bottom: 1px solid rgba(127, 78, 62, 0.2);
+            padding-bottom: 0.75rem;
+        }
+
+        .brand-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: var(--text-chalk);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .brand-logo span {
+            color: var(--accent-clay);
+        }
+
+        .slide-chapter {
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-rose);
+            font-weight: 500;
+        }
+
+        /* Bento grids and flexible card containers */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--element-gap);
+            width: 100%;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--element-gap);
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--card-overlay);
+            border: 1px solid rgba(127, 78, 62, 0.25);
+            border-radius: 12px;
+            padding: clamp(1rem, 2.5vh, 2rem);
+            position: relative;
+            transition: border-color var(--duration-normal) var(--ease-out-expo),
+                        transform var(--duration-normal) var(--ease-out-expo);
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 100%;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(184, 95, 72, 0.08) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity var(--duration-normal) var(--ease-out-expo);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .card:hover {
+            border-color: var(--accent-clay);
+            transform: translateY(-4px);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            color: var(--accent-rose);
+            margin-bottom: 0.25rem;
+        }
+
+        .card p {
+            font-size: var(--body-size);
+        }
+
+        /* Bullet lists with customizable indicators */
+        .bullet-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.5rem, 1.5vh, 1.1rem);
+            width: 100%;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 2rem;
+            font-size: var(--body-size);
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        .bullet-list li::before {
+            content: "•";
+            color: var(--accent-clay);
+            font-size: 1.8rem;
+            position: absolute;
+            left: 0.5rem;
+            top: -0.3rem;
+            line-height: 1;
+        }
+
+        .bullet-list li strong {
+            color: var(--text-chalk);
+            font-weight: 500;
+        }
+
+        /* Buttons & Calls to Action */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-clay);
+            color: var(--bg-primary);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: var(--small-size);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            border: 1px solid var(--accent-clay);
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-out-expo);
+            text-decoration: none;
+            margin-top: 0.5rem;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--accent-clay);
+            box-shadow: 0 0 24px rgba(184, 95, 72, 0.4);
+        }
+
+        .cta-outline {
+            background: transparent;
+            color: var(--text-chalk);
+            border: 1px solid rgba(251, 251, 251, 0.3);
+        }
+
+        .cta-outline:hover {
+            background: var(--text-chalk);
+            color: var(--bg-primary);
+            border-color: var(--text-chalk);
+            box-shadow: 0 0 20px rgba(251, 251, 251, 0.15);
+        }
+
+        /* Badges */
+        .badge {
+            background-color: rgba(184, 95, 72, 0.12);
+            border: 1px solid rgba(184, 95, 72, 0.35);
+            color: var(--accent-rose);
+            padding: 0.35rem 0.85rem;
+            border-radius: 4px;
+            font-size: clamp(0.6rem, 1vh, 0.75rem);
+            font-family: var(--font-body);
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            align-self: flex-start;
+        }
+
+        /* ===========================================
+           STAGGERED REVEAL ANIMATIONS
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity var(--duration-normal) var(--ease-out-expo),
+                        transform var(--duration-normal) var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger delays */
+        .slide.visible .reveal:nth-child(1) { transition-delay: 0.15s; }
+        .slide.visible .reveal:nth-child(2) { transition-delay: 0.3s; }
+        .slide.visible .reveal:nth-child(3) { transition-delay: 0.45s; }
+        .slide.visible .reveal:nth-child(4) { transition-delay: 0.6s; }
+        .slide.visible .reveal:nth-child(5) { transition-delay: 0.75s; }
+        .slide.visible .reveal:nth-child(6) { transition-delay: 0.9s; }
+
+        .slide.visible .reveal-stagger {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Split layouts specifically for viewports */
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: var(--element-gap);
+            width: 100%;
+            height: 100%;
+            align-items: center;
+        }
+
+        .split-left, .split-right {
+            display: flex;
+            flex-direction: column;
+            gap: var(--element-gap);
+            max-height: 100%;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           CUSTOM GRAPHICS & INFOGRAPHICS (SVG + CSS)
+           =========================================== */
+        /* Table Style */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--body-size);
+        }
+
+        .comparison-table th {
+            text-align: left;
+            padding: 0.85rem 1rem;
+            color: var(--accent-rose);
+            font-family: var(--font-display);
+            font-size: clamp(1rem, 2vh, 1.25rem);
+            border-bottom: 2px solid var(--border-red);
+        }
+
+        .comparison-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(127, 78, 62, 0.15);
+            color: var(--text-muted);
+        }
+
+        .comparison-table tr:hover td {
+            color: var(--text-chalk);
+            background-color: rgba(251, 251, 251, 0.02);
+        }
+
+        /* Progress Bar (Visual indicator of slide scroll) */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(251, 251, 251, 0.05);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--accent-clay);
+            box-shadow: 0 0 10px rgba(184, 95, 72, 0.6);
+            transition: width 0.3s ease;
+        }
+
+        /* Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            right: clamp(1rem, 3vw, 2.5rem);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+            z-index: 999;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid var(--text-muted);
+            background: transparent;
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-out-expo);
+        }
+
+        .nav-dot:hover {
+            border-color: var(--accent-clay);
+            transform: scale(1.3);
+        }
+
+        .nav-dot.active {
+            background-color: var(--accent-clay);
+            border-color: var(--accent-clay);
+            transform: scale(1.5);
+            box-shadow: 0 0 8px var(--accent-clay);
+        }
+
+        .keyboard-hint {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--small-size);
+            color: rgba(251, 251, 251, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            pointer-events: none;
+            z-index: 99;
+            font-family: var(--font-body);
+        }
+
+        /* Matchday Performance Timeline Graphic */
+        .timeline-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            position: relative;
+            padding: 1.5rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 3.2rem;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(184,95,72,0.1) 0%, rgba(184,95,72,0.8) 50%, rgba(184,95,72,0.1) 100%);
+            z-index: 0;
+        }
+
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 30%;
+            z-index: 1;
+            position: relative;
+        }
+
+        .timeline-circle {
+            width: clamp(3rem, 7vh, 4.5rem);
+            height: clamp(3rem, 7vh, 4.5rem);
+            border-radius: 50%;
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--border-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            transition: all var(--duration-normal) var(--ease-out-expo);
+            color: var(--accent-rose);
+        }
+
+        .timeline-step:hover .timeline-circle {
+            border-color: var(--accent-clay);
+            color: var(--text-chalk);
+            box-shadow: 0 0 20px rgba(184, 95, 72, 0.4);
+            transform: scale(1.1);
+        }
+
+        .timeline-step h3 {
+            font-size: clamp(1rem, 2vh, 1.3rem);
+            color: var(--text-chalk);
+            margin-bottom: 0.4rem;
+        }
+
+        .timeline-step p {
+            font-size: var(--small-size);
+            color: var(--text-muted);
+            max-width: 90%;
+        }
+
+        /* CSS Gantt Chart Styling */
+        .gantt-chart {
+            display: grid;
+            grid-template-columns: 1.2fr 3fr;
+            gap: 0.75rem;
+            width: 100%;
+            font-family: var(--font-body);
+        }
+
+        .gantt-row {
+            display: contents;
+        }
+
+        .gantt-label {
+            color: var(--accent-rose);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(127, 78, 62, 0.15);
+            font-size: var(--body-size);
+            display: flex;
+            align-items: center;
+        }
+
+        .gantt-track {
+            position: relative;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(127, 78, 62, 0.15);
+            display: flex;
+            align-items: center;
+        }
+
+        .gantt-bar {
+            height: clamp(1.2rem, 3.5vh, 2rem);
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--accent-clay) 0%, var(--accent-rose) 100%);
+            display: flex;
+            align-items: center;
+            padding-left: 1rem;
+            color: var(--bg-primary);
+            font-size: var(--small-size);
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(184, 95, 72, 0.2);
+            transition: width 1s var(--ease-out-expo);
+        }
+
+        /* E-commerce trust stack */
+        .trust-stack {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            border: 1px solid rgba(127, 78, 62, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+
+        .trust-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.9rem 1.2rem;
+            border-bottom: 1px solid rgba(127, 78, 62, 0.15);
+            font-size: var(--body-size);
+        }
+
+        .trust-row:last-child {
+            border-bottom: none;
+        }
+
+        .trust-label {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .trust-value {
+            color: var(--accent-rose);
+            font-weight: 500;
+        }
+
+        /* E-commerce mock search registry */
+        .registry-mock {
+            width: 100%;
+            background: rgba(18, 18, 20, 0.8);
+            border: 1px solid var(--border-red);
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: var(--font-body);
+        }
+
+        .registry-input-box {
+            display: flex;
+            width: 100%;
+            gap: 0.5rem;
+        }
+
+        .registry-input {
+            flex: 1;
+            background: rgba(10, 10, 11, 0.9);
+            border: 1px solid rgba(127, 78, 62, 0.35);
+            padding: 0.75rem 1.2rem;
+            border-radius: 4px;
+            color: var(--text-chalk);
+            font-size: var(--body-size);
+            font-family: var(--font-body);
+        }
+
+        .registry-input:focus {
+            outline: none;
+            border-color: var(--accent-clay);
+            box-shadow: 0 0 8px rgba(184, 95, 72, 0.3);
+        }
+
+        .registry-btn {
+            background-color: var(--accent-clay);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: var(--small-size);
+            transition: all 0.3s ease;
+        }
+
+        .registry-btn:hover {
+            box-shadow: 0 0 12px rgba(184, 95, 72, 0.5);
+            transform: scale(1.02);
+        }
+
+        .registry-results {
+            background: rgba(10, 10, 11, 0.5);
+            border-radius: 4px;
+            padding: 0.85rem;
+            border-left: 2px solid var(--accent-clay);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* SVG Icons */
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        /* ===========================================
+           INLINE PRESENTATION EDIT MODE (OPT-IN ENGINE)
+           =========================================== */
+        .edit-hotzone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            z-index: 10000;
+            cursor: pointer;
+        }
+
+        .edit-toggle {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-red);
+            color: var(--accent-rose);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            z-index: 10001;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .edit-toggle.show,
+        .edit-toggle.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .edit-toggle.active {
+            background-color: var(--accent-clay);
+            color: var(--bg-primary);
+            border-color: var(--accent-clay);
+            box-shadow: 0 0 15px rgba(184, 95, 72, 0.5);
+        }
+
+        /* Styles applied when contenteditable is enabled */
+        [contenteditable="true"] {
+            outline: 1px dashed rgba(184, 95, 72, 0.4);
+            outline-offset: 4px;
+            border-radius: 4px;
+            cursor: text;
+        }
+
+        [contenteditable="true"]:focus {
+            outline: 2px solid var(--accent-clay);
+            background-color: rgba(184, 95, 72, 0.05);
+        }
+
+        /* Edit Controls Panel (visible when edit mode is active) */
+        .edit-panel {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-red);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 0.75rem;
+            z-index: 10002;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: all 0.4s var(--ease-out-expo);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .edit-panel.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .edit-btn {
+            background: rgba(251, 251, 251, 0.05);
+            border: 1px solid rgba(251, 251, 251, 0.2);
+            color: var(--text-chalk);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: var(--small-size);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: rgba(251, 251, 251, 0.15);
+        }
+
+        .edit-btn.primary {
+            background: var(--accent-clay);
+            color: var(--bg-primary);
+            border-color: var(--accent-clay);
+            font-weight: 600;
+        }
+
+        .edit-btn.primary:hover {
+            box-shadow: 0 0 10px rgba(184, 95, 72, 0.4);
+        }
+
+        /* ===========================================
+           RESPONSIVE HEIGHT-BASED MEDIA QUERIES
+           =========================================== */
+        /* Short viewports (< 700px height) */
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(1rem, 4vw, 2.5rem);
+                --content-gap: clamp(0.75rem, 2vh, 1.5rem);
+                --element-gap: clamp(0.4rem, 1.2vh, 0.85rem);
+                --title-size: clamp(1.6rem, 4.5vw, 3.2rem);
+                --h2-size: clamp(1.2rem, 3.2vw, 2.2rem);
+            }
+            .card {
+                padding: 0.85rem 1.25rem;
+            }
+            .bullet-list li {
+                gap: 0.4rem;
+            }
+        }
+
+        /* Very short viewports (< 600px height) */
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 3vw, 1.75rem);
+                --content-gap: clamp(0.5rem, 1.5vh, 1.1rem);
+                --element-gap: clamp(0.3rem, 1vh, 0.65rem);
+                --title-size: clamp(1.4rem, 4vw, 2.6rem);
+                --body-size: clamp(0.7rem, 1.2vw, 0.9rem);
+            }
+            .nav-dots, .keyboard-hint, .slide::after {
+                display: none;
+            }
+            .card {
+                padding: 0.65rem 1rem;
+            }
+        }
+
+        /* Extremely short (landscape phones, < 500px height) */
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: 0.5rem 1.5rem;
+                --title-size: clamp(1.2rem, 3.5vw, 2.2rem);
+                --h2-size: clamp(1rem, 2.5vw, 1.6rem);
+                --body-size: clamp(0.6rem, 1vw, 0.8rem);
+            }
+            .slide-header {
+                display: none;
+            }
+        }
+
+        /* Width-based Breakpoint for Mobile Snapping */
+        @media (max-width: 768px) {
+            .split-layout {
+                grid-template-columns: 1fr;
+            }
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .split-right {
+                display: none; /* Hide visual column on mobile viewports to prevent overflow */
+            }
+            .timeline-line {
+                display: none;
+            }
+            .timeline-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0;
+            }
+            .timeline-step {
+                width: 100%;
+                flex-direction: row;
+                text-align: left;
+                gap: 1rem;
+            }
+            .timeline-circle {
+                margin-bottom: 0;
+                width: 2.75rem;
+                height: 2.75rem;
+            }
+        }
+
+        /* Accessibility: Respect Reduced Motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation dots right side -->
+    <nav class="nav-dots" id="navDots"></nav>
+
+    <!-- Canvas backdrop particle bond simulation -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Inline Editor Trigger Hotzone and Button -->
+    <div class="edit-hotzone" id="editHotzone"></div>
+    <button class="edit-toggle" id="editToggle" title="Toggle Edit Mode (E)">✏️</button>
+
+    <!-- Edit Panel Controls -->
+    <div class="edit-panel" id="editPanel">
+        <button class="edit-btn" id="editResetBtn">Reset Changes</button>
+        <button class="edit-btn primary" id="editExportBtn">Export Saved Presentation</button>
+    </div>
+
+    <!-- MAIN SLIDE CONTAINER -->
+    <main class="slides-container" id="slidesContainer">
+
+        <!-- ===========================================
+           SLIDE 1: COVER SLIDE
+           =========================================== -->
+        <section class="slide" id="slide-1">
+            <div class="slide-content" style="align-items: center; text-align: center;">
+                <div class="badge reveal">Brand OS master deck</div>
+                <h1 class="reveal" style="font-size: var(--title-size); margin: 0.75rem 0;">The Real Inside (TRI)</h1>
+                <h3 class="reveal" style="font-family: var(--font-body); font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent-rose); font-size: clamp(1rem, 2.5vw, 1.6rem);">Premium Performance Nutrition</h3>
+                <p class="reveal" style="max-width: 600px; margin: var(--element-gap) 0 1.5rem; font-size: clamp(0.9rem, 1.6vw, 1.25rem);">India's most trusted premium performance nutrition ecosystem. Built strictly on radical transparency, gut-friendly sports science, and high-performance discipline.</p>
+                <a href="#slide-2" class="cta-button reveal">Explore Brand OS</a>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 2: BRAND POSITIONING & STRATEGY
+           =========================================== */ -->
+        <section class="slide" id="slide-2">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">01. Brand OS Foundations</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">Positioning</div>
+                        <h2 class="reveal">Decoupling from the <span>"Gym-Bro"</span> Domain</h2>
+                        <p class="reveal">The Real Inside (TRI) is positioned not as a bodybuilding mass-gain company, but as India's premier performance nutrition partner for modern athletic high-performers. We do not sell protein; we sell verified physical capability.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>Scientific Authority</strong>: Formulations engineered strictly with clean grass-fed raw materials.</li>
+                            <li><strong>Radical Transparency</strong>: Direct digital proof of 4-level independent laboratory batch tests.</li>
+                            <li><strong>Gut-Friendly Comfort</strong>: Formulated without artificial thickeners, soy, or fillers that cause gastric bloating.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <div class="card reveal">
+                            <h3>Brand Vision Statement</h3>
+                            <p style="font-style: italic; line-height: 1.8;">"To move performance nutrition from the dark, untruthful bodybuilding closet to an aspirational, scientific, and premium lifestyle tier. What's inside matters."</p>
+                            <span style="display: block; width: 40px; height: 1px; background-color: var(--accent-clay); margin: 0.5rem 0;"></span>
+                            <span style="font-size: var(--small-size); color: var(--text-chalk); font-weight: 500;">- Brand Strategy OS Council</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 3: TARGET PERSONAS
+           =========================================== -->
+        <section class="slide" id="slide-3">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">01. Brand OS Foundations</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="badge reveal">Target Archetypes</div>
+                <h2 class="reveal">High-Performing Cohorts</h2>
+                <p class="reveal" style="max-width: 800px;">Our customers represent elite athletic discipline, looking for products that match their rigorous standards of physical health and cognitive output.</p>
+                <div class="grid-3 reveal">
+                    <div class="card">
+                        <div class="badge" style="background: rgba(230,162,164,0.1); border-color: rgba(230,162,164,0.3); color: var(--accent-rose);">01. The Corporate Athlete</div>
+                        <p style="margin-top: 0.5rem;">Professional (25-45). Runs marathons, plays weekend league football, uses high-end trackers (WHOOP/Oura). Demands absolute gut comfort and cognitive clarity.</p>
+                    </div>
+                    <div class="card">
+                        <div class="badge" style="background: rgba(184,95,72,0.1); border-color: rgba(184,95,72,0.3); color: var(--accent-clay);">02. The Competitive Athlete</div>
+                        <p style="margin-top: 0.5rem;">Academy-level footballer, runner, or triathlete (16-30). Demands pure hydration, clean energy without heart crashes, and rapid post-match muscle recovery.</p>
+                    </div>
+                    <div class="card">
+                        <div class="badge" style="background: rgba(248,215,217,0.1); border-color: rgba(248,215,217,0.3); color: var(--accent-pink);">03. The Modern Creator</div>
+                        <p style="margin-top: 0.5rem;">Tech-savvy entrepreneur or creator. High mental and physical load. Relies on clean morning pre-match energy, sleep recovery routines, and visual aesthetics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 4: FOUNDER OS
+           =========================================== -->
+        <section class="slide" id="slide-4">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">01. Brand OS Foundations</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">Founder OS</div>
+                        <h2 class="reveal">Vedansh Vijay: <span>Quiet Confidence</span></h2>
+                        <p class="reveal">The face of modern Indian performance culture. Vedansh is positioned not as an influencer, but as an operational visionary building the future of premium nutrition in public.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>Building in Public</strong>: Sharing formulation spreadsheets, lab certificates, raw material sourcing diaries, and operational margins.</li>
+                            <li><strong>Authority Tone</strong>: Clean, educational, and direct. We share raw scientific truths instead of clickbait hooks.</li>
+                            <li><strong>Skeptic Bridge</strong>: Showing operational vulnerability (sourcing failures, testing delays) to secure ironclad trust.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <div class="card reveal" style="border-left: 3px solid var(--accent-clay);">
+                            <h3 style="font-family: var(--font-body); font-weight: 600; font-size: var(--body-size); letter-spacing: 0.1em; text-transform: uppercase;">Founder Branding Pillars</h3>
+                            <p style="margin: 0.5rem 0 0; font-size: var(--body-size); color: var(--text-chalk); font-weight: 500;">Weekly LinkedIn Narrative Threads</p>
+                            <p style="font-size: var(--small-size);">Detailing the raw mechanics behind grass-fed whey pricing and batch testing.</p>
+                            
+                            <p style="margin: 0.75rem 0 0; font-size: var(--body-size); color: var(--text-chalk); font-weight: 500;">The cinematic "Gut Check" series</p>
+                            <p style="font-size: var(--small-size);">Video essays breaking down why standard thickeners line gut walls and cause bloating.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 5: VISUAL IDENTITY OS
+           =========================================== -->
+        <section class="slide" id="slide-5">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">01. Brand OS Foundations</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="badge reveal">Visual Identity</div>
+                <h2 class="reveal">Fluid Minimalism & <span>Brushed Copper</span></h2>
+                <p class="reveal" style="max-width: 800px;">The visual guidelines bridge dark-luxury editorial authority with earthy, organic sports science tones. We strictly avoid high-saturation neon colors common in cheap supplements.</p>
+                <div class="grid-2 reveal">
+                    <div class="card" style="gap: 1rem;">
+                        <h3>Official Color Palette</h3>
+                        <div style="display: flex; gap: 0.5rem; width: 100%; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 100px; padding: 0.75rem; background: #0A0A0B; border: 1px solid rgba(251,251,251,0.1); border-radius: 4px; text-align: center;">
+                                <div style="width: 100%; height: 20px; background: #0A0A0B; border-radius: 2px; margin-bottom: 0.4rem;"></div>
+                                <span style="font-size: 10px; color: var(--text-chalk);">#0A0A0B<br>Obsidian Base</span>
+                            </div>
+                            <div style="flex: 1; min-width: 100px; padding: 0.75rem; background: #B85F48; border-radius: 4px; text-align: center; color: #0A0A0B;">
+                                <div style="width: 100%; height: 20px; background: #B85F48; border-radius: 2px; margin-bottom: 0.4rem;"></div>
+                                <span style="font-size: 10px; font-weight: 600;">#B85F48<br>Canyon Clay</span>
+                            </div>
+                            <div style="flex: 1; min-width: 100px; padding: 0.75rem; background: #E6A2A4; border-radius: 4px; text-align: center; color: #0A0A0B;">
+                                <div style="width: 100%; height: 20px; background: #E6A2A4; border-radius: 2px; margin-bottom: 0.4rem;"></div>
+                                <span style="font-size: 10px; font-weight: 600;">#E6A2A4<br>Antique Rose</span>
+                            </div>
+                            <div style="flex: 1; min-width: 100px; padding: 0.75rem; background: #F8D7D9; border-radius: 4px; text-align: center; color: #0A0A0B;">
+                                <div style="width: 100%; height: 20px; background: #F8D7D9; border-radius: 2px; margin-bottom: 0.4rem;"></div>
+                                <span style="font-size: 10px; font-weight: 600;">#F8D7D9<br>Soft Pink</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="gap: 1rem;">
+                        <h3>Typography lockup</h3>
+                        <div style="padding: 0.75rem; border-left: 2px solid var(--accent-clay);">
+                            <p style="font-family: var(--font-display); font-size: var(--h3-size); color: var(--text-chalk); font-weight: 600;">Playfair Display (Serif)</p>
+                            <p style="font-size: var(--small-size); margin-bottom: 0.75rem;">Establishes premium editorial authority and calm sports-science trust.</p>
+                            <p style="font-family: var(--font-body); font-size: var(--body-size); color: var(--text-chalk); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;">MONTSERRAT (SANS)</p>
+                            <p style="font-size: var(--small-size);">Ensures modern geometric structure, readability, and technical data precision.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 6: CONTENT OS PILLARS
+           =========================================== -->
+        <section class="slide" id="slide-6">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">02. Marketing & Content Engine</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">Content Strategy</div>
+                        <h2 class="reveal">The Content OS Engine</h2>
+                        <p class="reveal">The Real Inside (TRI) operates as an educational media channel first and an advertising catalog second. We educate first, inspire second, and sell third.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>Technical Authoritativeness</strong>: Standard copywriting drafts are rewritten inside our scientific guardrail matrix.</li>
+                            <li><strong>Cinematic Quality</strong>: Shorts and Reels use moody obsidian setups with warm copper side-lighting, avoiding cheap gym ring lights.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <div class="card reveal" style="gap: 1rem;">
+                            <h3>Core Pillar Distribution</h3>
+                            <div style="display: flex; flex-direction: column; gap: 0.6rem; width: 100%;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: var(--small-size); margin-bottom: 0.2rem;">
+                                        <span>Pillar 1: Sports & Gut Science</span>
+                                        <span style="color: var(--accent-clay); font-weight: 600;">50%</span>
+                                    </div>
+                                    <div style="width: 100%; height: 6px; background: rgba(251,251,251,0.05); border-radius: 3px;">
+                                        <div style="width: 50%; height: 100%; background: var(--accent-clay); border-radius: 3px;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: var(--small-size); margin-bottom: 0.2rem;">
+                                        <span>Pillar 2: Cinematic Athlete Stories</span>
+                                        <span style="color: var(--accent-clay); font-weight: 600;">20%</span>
+                                    </div>
+                                    <div style="width: 100%; height: 6px; background: rgba(251,251,251,0.05); border-radius: 3px;">
+                                        <div style="width: 20%; height: 100%; background: var(--accent-clay); border-radius: 3px;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: var(--small-size); margin-bottom: 0.2rem;">
+                                        <span>Pillar 3: High-Discipline Lifestyle</span>
+                                        <span style="color: var(--accent-clay); font-weight: 600;">15%</span>
+                                    </div>
+                                    <div style="width: 100%; height: 6px; background: rgba(251,251,251,0.05); border-radius: 3px;">
+                                        <div style="width: 15%; height: 100%; background: var(--accent-clay); border-radius: 3px;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: var(--small-size); margin-bottom: 0.2rem;">
+                                        <span>Pillar 4: Sourcing Transparency</span>
+                                        <span style="color: var(--accent-clay); font-weight: 600;">15%</span>
+                                    </div>
+                                    <div style="width: 100%; height: 6px; background: rgba(251,251,251,0.05); border-radius: 3px;">
+                                        <div style="width: 15%; height: 100%; background: var(--accent-clay); border-radius: 3px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 7: INGREDIENT & FORMULA AUDIT
+           =========================================== -->
+        <section class="slide" id="slide-7">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">02. Marketing & Content Engine</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="badge reveal">Formulation</div>
+                <h2 class="reveal">The <span>"Formula Audit"</span> Campaign</h2>
+                <p class="reveal" style="max-width: 800px;">We tackle consumer skepticism head-on. The core marketing hook highlights the biological truth of why massive commercial proteins cause bloating, acne, and gastric distress.</p>
+                <div class="grid-2 reveal">
+                    <div class="card" style="border-left: 2px solid var(--border-red);">
+                        <h3>🚫 Standard Supplement Failures</h3>
+                        <p style="font-size: var(--small-size); margin-bottom: 0.5rem; color: var(--accent-rose);">Thickeners (Xanthan Gum, Guar Gum)</p>
+                        <p style="font-size: var(--small-size); margin-bottom: 0.75rem;">Lines the intestinal walls, slowing down amino absorption and triggering bloating.</p>
+                        <p style="font-size: var(--small-size); margin-bottom: 0.5rem; color: var(--accent-rose);">Proprietary hidden blends & soy lecithin</p>
+                        <p style="font-size: var(--small-size);">Conceals cheap raw materials, causing gut friction and bloating for high-performers.</p>
+                    </div>
+                    <div class="card" style="border-left: 2px solid var(--accent-clay);">
+                        <h3>🏆 The The Real Inside (TRI) Integrity</h3>
+                        <p style="font-size: var(--small-size); margin-bottom: 0.5rem; color: var(--text-chalk); font-weight: 500;">Zero Thickeners, Zero Gums, Zero Fillers</p>
+                        <p style="font-size: var(--small-size); margin-bottom: 0.75rem;">True Whey mixes like water, offering light and highly comfortable gastric emptying.</p>
+                        <p style="font-size: var(--small-size); margin-bottom: 0.5rem; color: var(--text-chalk); font-weight: 500;">Digestive Enzyme Complexes (Bromelain & Papain)</p>
+                        <p style="font-size: var(--small-size);">Specifically added to break down peptide bonds instantly, accelerating absorption by 2x.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 8: D2C ACQUISITION FUNNEL & TRIAL PACK
+           =========================================== -->
+        <section class="slide" id="slide-8">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">02. Marketing & Content Engine</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">Acquisition Strategy</div>
+                        <h2 class="reveal">The <span>Trial-First</span> Loop</h2>
+                        <p class="reveal">Traditional supplement brands try to sell ₹3,000 bulk protein tubs immediately, causing high friction. The Real Inside (TRI) uses a low-risk, high-trust entry point.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>The TRI Fusion Pack (₹599 SKU)</strong>: Features 3 days of complete nutrition (3x True Whey, 3x BCAA, 3x Pre-workout).</li>
+                            <li><strong>Risk Mitigation</strong>: Eliminates massive financial commitment, inviting high conversion rates while capturing premium intent.</li>
+                            <li><strong>exclusivity rule</strong>: Bulk products are shielded. We funnel first-time buyers through the trial pack first to verify taste and gut comfort.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <div class="card reveal" style="padding: 1.5rem; border: 1px dashed var(--accent-clay);">
+                            <h3 style="font-size: var(--body-size); font-family: var(--font-body); font-weight: 600; text-transform: uppercase; color: var(--text-chalk); letter-spacing: 0.1em;">TRI Fusion Pack Offering</h3>
+                            <p style="font-family: var(--font-display); font-size: var(--h2-size); color: var(--accent-rose); margin: 0.4rem 0;">₹599 <span style="font-size: 14px; font-family: var(--font-body); color: var(--text-muted); font-weight: 300; text-decoration: line-through;">₹999</span></p>
+                            <p style="font-size: var(--small-size); margin-bottom: 0.85rem;">Includes 9 high-performance individual sachets.</p>
+                            <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: var(--small-size); border-top: 1px solid rgba(127,78,62,0.15); padding-top: 0.85rem;">
+                                <div style="display: flex; justify-content: space-between;"><span>✓ True Whey Grass-Fed</span><span style="color: var(--accent-rose);">3 Sachets</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span>✓ TRI Power BCAA</span><span style="color: var(--accent-rose);">3 Sachets</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span>✓ TRI Pump Pre-Workout</span><span style="color: var(--accent-rose);">3 Sachets</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 9: PAID ACQUISITION BLUEPRINTS
+           =========================================== -->
+        <section class="slide" id="slide-9">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">02. Marketing & Content Engine</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="badge reveal">Paid Media</div>
+                <h2 class="reveal">Consolidated <span>Direct Response</span> Media Blueprints</h2>
+                <p class="reveal" style="max-width: 800px;">Our account architectures reject complex micro-targeting that chokes algorithms. Creative assets serve as our primary targeting lever.</p>
+                <div class="grid-3 reveal">
+                    <div class="card">
+                        <h3>01. Meta Sandbox</h3>
+                        <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 500; text-transform: uppercase;">Consolidated Broad Targeting</p>
+                        <p style="font-size: var(--small-size); margin-top: 0.25rem;">Consolidated CBO broad ads targeting premium interests (WHOOP, Marathons, Garmin) driving CAC &lt; ₹450 on the TRI Fusion Pack.</p>
+                    </div>
+                    <div class="card">
+                        <h3>02. Google intent</h3>
+                        <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 500; text-transform: uppercase;">High-Intent Capture</p>
+                        <p style="font-size: var(--small-size); margin-top: 0.25rem;">Targeting premium scientific searches ("gut-friendly whey protein", "non-bloating pre-workout") linking to dedicated ingredient audit landing pages.</p>
+                    </div>
+                    <div class="card">
+                        <h3>03. Retargeting OS</h3>
+                        <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 500; text-transform: uppercase;">Founder Brand Narrative</p>
+                        <p style="font-size: var(--small-size); margin-top: 0.25rem;">Cinematic direct-to-camera retargeting videos of Vedansh Vijay answering product composition queries to convert warm website visitors.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 10: UGC STRATEGY
+           =========================================== -->
+        <section class="slide" id="slide-10">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">02. Marketing & Content Engine</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">UGC Content</div>
+                        <h2 class="reveal">The <span>"Skeptic-to-Advocate"</span> UGC Model</h2>
+                        <p class="reveal">Most D2C brands produce fake-looking UGC. The Real Inside (TRI) UGC must feel authentic, visually gorgeous, and scientifically objective.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>The Skeptic Hook (0-3s)</strong>: The creator vocalizes the exact doubt of the viewer: "I thought this trial box was just clever branding. Here's why I was wrong."</li>
+                            <li><strong>Scientific Verification (3-20s)</strong>: The creator scans the packaging QR code, highlights independent heavy metal results, and unboxes clean sachets.</li>
+                            <li><strong>Physical Proof (20-30s)</strong>: Showing actual mixability (watery texture) and documenting the complete absence of bloating over 3 days.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <div class="card reveal" style="border-left: 2px solid var(--accent-clay);">
+                            <h3 style="font-family: var(--font-body); font-weight: 600; font-size: var(--body-size); letter-spacing: 0.1em; text-transform: uppercase;">Strict Creator Guidelines</h3>
+                            <p style="font-size: var(--small-size); margin-top: 0.4rem;"><strong>Demographics</strong>: Active marathoners, corporate amateur footballers, yoga instructors, and nutrition students. Zero chaotic gym-bro influencers.</p>
+                            <p style="font-size: var(--small-size); margin-top: 0.5rem;"><strong>Aesthetic Staging</strong>: Minimalist kitchens, high-end gyms, Turf fields under natural side-lighting. No overhead fluorescent kitchen lights.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 11: INFLUENCER PARTNERSHIPS
+           =========================================== -->
+        <section class="slide" id="slide-11">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">03. Partnerships & Dominance</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="badge reveal">Influencer OS</div>
+                <h2 class="reveal">The Technical <span>Ecosystem</span></h2>
+                <p class="reveal" style="max-width: 800px;">We avoid massive capital burn on generic macro-influencers. Our ecosystem is built entirely around technical credibility and long-term athletic advocacy.</p>
+                <div class="grid-3 reveal">
+                    <div class="card">
+                        <h3>Tier 1: Elite Ambassadors</h3>
+                        <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 500; text-transform: uppercase;">Athletic Faces</p>
+                        <p style="font-size: var(--small-size); margin-top: 0.25rem;">Active professional Indian footballers (ISL/I-League), national track runners, and competitive cyclists. Long-term cinematic lifestyle integrations.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Tier 2: Technical Experts</h3>
+                        <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 500; text-transform: uppercase;">Scientific Trust</p>
+                        <p style="font-size: var(--small-size); margin-top: 0.25rem;">Certified sports nutritionists, physical therapists, and athletic coaches. deep product breakdowns and community Q&As.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Tier 3: Lifestyle Performers</h3>
+                        <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 500; text-transform: uppercase;">Aspirational Growth</p>
+                        <p style="font-size: var(--small-size); margin-top: 0.25rem;">High-income corporate professionals and tech founders showing daily personal discipline, unboxing routines, and affiliate conversion loops.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 12: INFLUENCER ONBOARDING PROTOCOL
+           =========================================== -->
+        <section class="slide" id="slide-12">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">03. Partnerships & Dominance</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">Influencer Protocol</div>
+                        <h2 class="reveal">The 14-Day <span>Testing Gate</span></h2>
+                        <p class="reveal">Modern consumers have high ad blindness. To maintain absolute integrity, The Real Inside (TRI) rejects standard paid-shouting promotions.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>The 14-Day Test Rule</strong>: No partner is allowed to promote TRI without testing the TRI Fusion Pack and bulk products for a minimum of 14 days.</li>
+                            <li><strong>Honest Advocacy</strong>: Partners only go live if they observe a physical improvement in their digestion, recovery times, and physical stamina.</li>
+                            <li><strong>No Coupon Shouting</strong>: Exclude all "USE CODE 20% OFF" promotional designs. Conversions are driven strictly through custom co-branded educational links (`therealinside.com/athlete`).</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <div class="card reveal" style="padding: 1.5rem; background: rgba(184, 95, 72, 0.05); border-color: var(--accent-clay);">
+                            <h3 style="font-size: var(--body-size); font-family: var(--font-body); font-weight: 600; text-transform: uppercase; color: var(--accent-clay); letter-spacing: 0.1em;">Outbound VIP Message Framework</h3>
+                            <p style="font-size: var(--small-size); font-style: italic; line-height: 1.8; margin-top: 0.5rem; color: var(--text-chalk);">"We don't do standard transactional sponsorships. We want to send you our 3-day TRI Fusion Pack. We only partner with athletes who notice a physical improvement in their digestion and recovery over 14 days."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 13: FOOTBALL MARKETING DOMINANCE
+           =========================================== -->
+        <section class="slide" id="slide-13">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">03. Partnerships & Dominance</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">Football Marketing</div>
+                        <h2 class="reveal">Owning the <span>"Matchday"</span> Category</h2>
+                        <p class="reveal">Football is India's fastest-growing athletic and corporate sport, yet it completely lacks a dedicated high-performance nutrition brand. The Real Inside (TRI) owns this category by positioning nutrition as premium gear.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>Academy Alliances</strong>: Partnering with top private football academies in metro hubs (Mumbai, Bengaluru, Goa).</li>
+                            <li><strong>Halftime Hydration</strong>: Positioning co-branded matte obsidian dispensers on touchlines to supply technical BCAA mixes to players.</li>
+                            <li><strong>Corporate Tournaments</strong>: Sponsoring elite corporate 5-a-side leagues. Offering the TRI Fusion Pack as part of the official registration kit.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <div class="card reveal" style="border: 1px solid var(--accent-rose); gap: 1rem;">
+                            <h3>High-Performance Focus</h3>
+                            <p style="font-size: var(--small-size);">Football is a mixed aerobic-anaerobic endurance sport demanding explosive sprint power and sustained spatial intelligence for 90+ minutes. Ordinary gym-bro pre-workouts and high-sugar sports drinks fail under this heavy cardiovascular load.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 14: MATCHDAY PROTOCOL TIMELINE
+           =========================================== -->
+        <section class="slide" id="slide-14">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">03. Partnerships & Dominance</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="badge reveal">Protocol</div>
+                <h2 class="reveal">The Matchday Performance Timeline</h2>
+                <p class="reveal" style="max-width: 850px;">A scientifically mapped hydration and recovery schedule engineered specifically to support rapid gastric emptying and buffer fatigue during high-intensity intervals.</p>
+                
+                <div class="timeline-container reveal">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-step">
+                        <div class="timeline-circle">
+                            <!-- Pre-Workout Icon -->
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l3-8z"/></svg>
+                        </div>
+                        <h3>01. Pre-Match Load</h3>
+                        <p style="color: var(--accent-rose); font-weight: 500; margin-bottom: 0.25rem;">-120 to -45 Mins</p>
+                        <p><strong>TRI Pump Drake</strong>: L-Citrulline Malate expands blood vessels for explosive oxygenation. Natural caffeine sharpens spatial awareness.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-circle">
+                            <!-- Hydration/BCAA Icon -->
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C12 2 6 8.5 6 12C6 15.31 8.69 18 12 18C15.31 18 18 15.31 18 12C18 8.5 12 2 12 2Z"/></svg>
+                        </div>
+                        <h3>02. Halftime Buffer</h3>
+                        <p style="color: var(--accent-rose); font-weight: 500; margin-bottom: 0.25rem;">At Halftime Break</p>
+                        <p><strong>TRI Power BCAA</strong>: Chilled pure electrolytes replace sweat loss instantly. Zero sugars prevent stomach heaviness or cramps.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="timeline-circle">
+                            <!-- Recovery Icon -->
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                        </div>
+                        <h3>03. Post-Match Recovery</h3>
+                        <p style="color: var(--accent-rose); font-weight: 500; margin-bottom: 0.25rem;">Within 45 Mins</p>
+                        <p><strong>True Whey</strong>: Grass-fed concentrate with papain digestive enzymes. Promotes rapid absorption to repair micro-tears.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 15: WEBSITE OS & CRO WIRE-MAPPING
+           =========================================== -->
+        <section class="slide" id="slide-15">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">04. Systems & Growth</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">E-Commerce OS</div>
+                        <h2 class="reveal">Website <span>CRO & Bento</span> Architecture</h2>
+                        <p class="reveal">The Real Inside's D2C store rejects standard, cluttered e-commerce templates. It operates as a high-conversion, single-page checkout portal styled in fluid minimalism.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>The Trust Stack</strong>: Displaying chemical verification guarantees directly within the product purchase card to resolve buying anxiety.</li>
+                            <li><strong>Slide-Out Drawer Cart</strong>: Seamless 1-step cart drawers with integrated Apple Pay/Google Pay express checkout options.</li>
+                            <li><strong>Anatomy Hotspots</strong>: Interactive 3D package models allowing users to click and audit individual digestive enzymes and raw ingredients.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <!-- Simulated Trust Stack Mockup -->
+                        <div class="trust-stack reveal">
+                            <div class="trust-row" style="background: rgba(184, 95, 72, 0.05);">
+                                <span class="trust-label" style="color: var(--text-chalk); font-weight: 500;">✓ Brand Authenticity Verification</span>
+                                <span class="trust-value" style="color: var(--accent-clay);">100% Passed</span>
+                            </div>
+                            <div class="trust-row">
+                                <span class="trust-label">▪ Heavy Metals (Lead/Cadmium)</span>
+                                <span class="trust-value">Negative</span>
+                            </div>
+                            <div class="trust-row">
+                                <span class="trust-label">▪ Toxins & Aflatoxins</span>
+                                <span class="trust-value">Negative</span>
+                            </div>
+                            <div class="trust-row">
+                                <span class="trust-label">▪ Xanthan/Guar Gum Additives</span>
+                                <span class="trust-value">0% None</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 16: BATCH LAB REGISTRY INTERFACE
+           =========================================== -->
+        <section class="slide" id="slide-16">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">04. Systems & Growth</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">Radical Transparency</div>
+                        <h2 class="reveal">The Live <span>Batch Lab Registry</span></h2>
+                        <p class="reveal">The Real Inside (TRI) is the first supplement ecosystem in India to host a public, searchable index of all independent laboratory batch reports.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>Interactive QR Codes</strong>: Scan the barcode printed on the side of any box to instantly launch the specific batch's verification PDF.</li>
+                            <li><strong>Chemical Verification</strong>: Direct proof of negative results for Arsenic, Lead, Cadmium, and Aflatoxins.</li>
+                            <li><strong>Skeptic Defense</strong>: Neutralizes buying friction by replacing empty claims with direct operational data.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <!-- Search Registry Mockup -->
+                        <div class="registry-mock reveal">
+                            <h3 style="font-family: var(--font-body); font-weight: 600; font-size: var(--body-size); letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent-rose); margin-bottom: -0.25rem;">Search Lab Database</h3>
+                            <p style="font-size: var(--small-size);">Enter physical batch number printed on packaging:</p>
+                            <div class="registry-input-box">
+                                <input type="text" class="registry-input" value="TRI-TW-0626" disabled>
+                                <button class="registry-btn">Verify</button>
+                            </div>
+                            <div class="registry-results">
+                                <div>
+                                    <p style="color: var(--text-chalk); font-weight: 500; font-size: var(--small-size);">Batch TRI-TW-0626</p>
+                                    <p style="font-size: 10px; color: var(--accent-pink);">Status: 4-Level Lab Certified Passed</p>
+                                </div>
+                                <span style="font-size: 11px; color: var(--accent-clay); text-decoration: underline; cursor: pointer;">View PDF Report</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 17: COMMUNITY ARCHITECTURE (TEAM TRI)
+           =========================================== -->
+        <section class="slide" id="slide-17">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">04. Systems & Growth</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="badge reveal">Community OS</div>
+                <h2 class="reveal">TEAM TRI: <span>Exclusive Club</span> Architecture</h2>
+                <p class="reveal" style="max-width: 800px;">Our community is our primary defense against rising acquisition costs, gamifying status triggers to unlock exclusive rewards and sports-science check-ins.</p>
+                <div class="grid-3 reveal">
+                    <div class="card">
+                        <h3>WhatsApp VIP Gateway</h3>
+                        <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 500; text-transform: uppercase;">Transaction & Utility</p>
+                        <p style="font-size: var(--small-size); margin-top: 0.25rem;">Transactional updates, unboxing guidelines, localized hot weather hydration alerts, and direct co-founder checkout channels.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Telegram Athletic Arena</h3>
+                        <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 500; text-transform: uppercase;">Broad Action & Meetups</p>
+                        <p style="font-size: var(--small-size); margin-top: 0.25rem;">Local athletic meetups coordination, 5K sprint challenges verification, sharing training milestones, and grassroots corporate footballer networking.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Exclusive Discord Mastermind</h3>
+                        <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 500; text-transform: uppercase;">Technical Retention</p>
+                        <p style="font-size: var(--small-size); margin-top: 0.25rem;">Live Sunday Q&As with technical sports scientists, structured diet planner tools, and direct feedback discussions with Vedansh Vijay.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 18: RETENTION & LTV ARCHITECTURE
+           =========================================== -->
+        <section class="slide" id="slide-18">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">04. Systems & Growth</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">LTV Optimization</div>
+                        <h2 class="reveal">The <span>Habit Formation</span> Loops</h2>
+                        <p class="reveal">First-purchase CAC is offset by converting 3-day trialists into long-term bulk subscription advocates. We target LTV:CAC &gt; 4:1 over 180 days.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>Day 1-4 Post-Purchase CRM</strong>: WhatsApp prompts explaining pre-workout biochemistry, halftime electrolyte delivery, and collection feedback loops.</li>
+                            <li><strong>Day 5 Subscription Trigger</strong>: Seamless upsell to bulk tubs with dynamic schedules (30, 45, 60 days) to match personal fitness calendars.</li>
+                            <li><strong>"Failed-Batch" Campaign</strong>: If a batch fails testing, we document its destruction. Transparency becomes our highest-converting customer loyalty asset.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <div class="card reveal" style="border-left: 3px solid var(--accent-clay);">
+                            <h3>VIP Subscriber Retention</h3>
+                            <p style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 600; text-transform: uppercase; margin-top: 0.4rem;">Target metrics</p>
+                            <p style="font-size: var(--small-size);">Blended subscription retention of **&gt;91.5%** month-over-month. Dynamic cancellation friction survey offers one-click down-sells or timing pauses to prevent churn.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 19: MASTER AI KNOWLEDGE BASE
+           =========================================== -->
+        <section class="slide" id="slide-19">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">04. Systems & Growth</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="split-layout">
+                    <div class="split-left">
+                        <div class="badge reveal">AI Knowledge Base</div>
+                        <h2 class="reveal">The Master <span>AI Brand OS</span> Sync</h2>
+                        <p class="reveal">To scale D2C operations without brand dilution, all visual tokens, product science guidelines, and tone rules are centralized inside a master AI sync system.</p>
+                        <ul class="bullet-list reveal">
+                            <li><strong>Copywriting & Editorial Agent</strong>: Custom-prompted Llama models auditing and rewriting drafts to eliminate all gym-bro cliches.</li>
+                            <li><strong>Chief Sports Scientist Agent</strong>: Automated systems validating biochemical accuracy of educational scripts and emails.</li>
+                            <li><strong>Downstream Sync</strong>: Modifications inside the master file instantly propagate to Shopify themes and Airtable briefs.</li>
+                        </ul>
+                    </div>
+                    <div class="split-right">
+                        <div class="card reveal" style="background: rgba(10, 10, 11, 0.4); border: 1px solid var(--border-red); gap: 0.75rem;">
+                            <h3>Synchronized Agent Council</h3>
+                            <div style="font-size: var(--small-size); display: flex; flex-direction: column; gap: 0.4rem;">
+                                <div><span style="color: var(--accent-rose); font-weight: 600;">[Copywriter Agent]</span>: Enforces Pomelli voice guidelines.</div>
+                                <div><span style="color: var(--accent-rose); font-weight: 600;">[Media Buyer Agent]</span>: sandbox hook test generation.</div>
+                                <div><span style="color: var(--accent-rose); font-weight: 600;">[Football Growth Agent]</span>: Alliance outreach & timelines.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 20: MASTER IMPLEMENTATION ROADMAP
+           =========================================== -->
+        <section class="slide" id="slide-20">
+            <div class="slide-content">
+                <div class="slide-header">
+                    <span class="slide-chapter">05. Operational Roadmap</span>
+                    <span class="brand-logo">TRI<span>.</span></span>
+                </div>
+                <div class="badge reveal">Roadmap</div>
+                <h2 class="reveal">Master Implementation Timeline</h2>
+                <p class="reveal" style="max-width: 850px;">A synchronized rollout program scaling brand OS guidelines, e-commerce development, and football community integrations over the upcoming weeks.</p>
+                
+                <div class="gantt-chart reveal">
+                    <div class="gantt-row">
+                        <div class="gantt-label">Phase 1: Identity Sync</div>
+                        <div class="gantt-track">
+                            <div class="gantt-bar" style="width: 40%;">Asset Tone Audit & CSS Tokens Setup</div>
+                        </div>
+                    </div>
+                    <div class="gantt-row">
+                        <div class="gantt-label">Phase 2: Transparency OS</div>
+                        <div class="gantt-track">
+                            <div class="gantt-bar" style="width: 60%; margin-left: 20%; background: linear-gradient(90deg, var(--accent-clay) 0%, var(--accent-pink) 100%);">Live Lab Registry Sync & QR Print</div>
+                        </div>
+                    </div>
+                    <div class="gantt-row">
+                        <div class="gantt-label">Phase 3: Digital Launch</div>
+                        <div class="gantt-track">
+                            <div class="gantt-bar" style="width: 70%; margin-left: 30%;">Shopify single-page Checkout & Meta Sandbox</div>
+                        </div>
+                    </div>
+                    <div class="gantt-row">
+                        <div class="gantt-label">Phase 4: Football Scale</div>
+                        <div class="gantt-track">
+                            <div class="gantt-bar" style="width: 100%; background: linear-gradient(90deg, var(--accent-rose) 0%, var(--accent-pink) 100%);">Academy Alliances & Halftime Hydration Hubs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===========================================
+           SLIDE 21: CLOSING SLIDE
+           =========================================== -->
+        <section class="slide" id="slide-21">
+            <div class="slide-content" style="align-items: center; text-align: center;">
+                <div class="badge reveal">The Real Inside (TRI)</div>
+                <h1 class="reveal" style="font-size: var(--title-size); margin: 0.75rem 0;">What's Inside <span>Matters.</span></h1>
+                <p class="reveal" style="max-width: 650px; margin-bottom: 1.5rem;">Join us in engineering the future of high-performance nutrition culture in India. Partner with TRI to unlock raw sports science transparency, authentic athletic advocacy, and premium operational value.</p>
+                <div style="display: flex; gap: 1rem; width: auto;" class="reveal">
+                    <a href="#slide-1" class="cta-button">Replay Pitch</a>
+                    <a href="#slide-20" class="cta-button cta-outline">Operational Specs</a>
+                </div>
+                <div style="margin-top: clamp(2rem, 6vh, 4rem); font-size: var(--small-size); color: var(--text-muted); display: flex; gap: clamp(1rem, 3vw, 2.5rem);" class="reveal">
+                    <span>Email: partnerships@therealinside.com</span>
+                    <span>•</span>
+                    <span>Web: www.therealinside.com</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Keyboard Navigation Hint -->
+    <div class="keyboard-hint">Use Keyboard Arrows / Space to Scroll</div>
+
+    <!-- ===========================================
+       PRESENTATION CONTROL SCRIPTS
+       =========================================== -->
+    <script>
+        class SlidePresentation {
+            constructor() {
+                this.slidesContainer = document.getElementById('slidesContainer');
+                this.slides = document.querySelectorAll('.slide');
+                this.progressBar = document.getElementById('progressBar');
+                this.navDotsContainer = document.getElementById('navDots');
+                this.currentSlide = 0;
+                this.isScrolling = false;
+
+                this.init();
+            }
+
+            init() {
+                // Setup navigation dots dynamically
+                this.slides.forEach((slide, index) => {
+                    const dot = document.createElement('button');
+                    dot.classList.add('nav-dot');
+                    if (index === 0) dot.classList.add('active');
+                    dot.title = `Slide ${index + 1}: ${slide.querySelector('h2, h1')?.innerText.replace('<span>', '').replace('</span>', '') || ''}`;
+                    dot.addEventListener('click', () => this.scrollToSlide(index));
+                    this.navDotsContainer.appendChild(dot);
+                });
+
+                this.navDots = document.querySelectorAll('.nav-dot');
+
+                // Intersection Observer for scroll triggers
+                this.setupIntersectionObserver();
+
+                // Scroll and Keyboard Nav Bindings
+                window.addEventListener('keydown', (e) => this.handleKeyDown(e));
+                window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
+                this.setupTouchNav();
+
+                // Initial layout check
+                this.updateProgressBar();
+            }
+
+            setupIntersectionObserver() {
+                const options = {
+                    root: null,
+                    threshold: 0.55
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const slideIndex = Array.from(this.slides).indexOf(entry.target);
+                            this.currentSlide = slideIndex;
+                            entry.target.classList.add('visible');
+                            this.updateActiveDot(slideIndex);
+                            this.updateProgressBar();
+                        }
+                    });
+                }, options);
+
+                this.slides.forEach(slide => observer.observe(slide));
+            }
+
+            scrollToSlide(index) {
+                if (index < 0 || index >= this.slides.length) return;
+                this.slides[index].scrollIntoView({ behavior: 'smooth' });
+                this.currentSlide = index;
+                this.updateActiveDot(index);
+                this.updateProgressBar();
+            }
+
+            handleKeyDown(e) {
+                // Ignore key navigation if user is inline editing text
+                if (document.activeElement && document.activeElement.getAttribute('contenteditable') === 'true') {
+                    return;
+                }
+
+                if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    this.scrollToSlide(this.currentSlide + 1);
+                } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    this.scrollToSlide(this.currentSlide - 1);
+                }
+            }
+
+            handleScroll() {
+                this.updateProgressBar();
+            }
+
+            setupTouchNav() {
+                let startY = 0;
+                window.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                }, { passive: true });
+
+                window.addEventListener('touchend', (e) => {
+                    // Skip touch swipe routing if editing
+                    if (document.activeElement && document.activeElement.getAttribute('contenteditable') === 'true') {
+                        return;
+                    }
+                    const endY = e.changedTouches[0].clientY;
+                    const diffY = startY - endY;
+                    if (Math.abs(diffY) > 50) { // Threshold for swipe
+                        if (diffY > 0) {
+                            this.scrollToSlide(this.currentSlide + 1);
+                        } else {
+                            this.scrollToSlide(this.currentSlide - 1);
+                        }
+                    }
+                }, { passive: true });
+            }
+
+            updateActiveDot(activeIndex) {
+                this.navDots.forEach((dot, index) => {
+                    if (index === activeIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            updateProgressBar() {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                this.progressBar.style.width = `${scrollPercent}%`;
+            }
+        }
+
+        // ===========================================
+        // DYNAMIC BACKDROP CANVAS PARTICLE SYSTEM
+        // ===========================================
+        class CanvasBackground {
+            constructor() {
+                this.canvas = document.getElementById('bg-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.maxParticles = 50;
+                this.colors = ['#B85F48', '#E6A2A4', '#F8D7D9']; // Canyon Clay, Antique Rose, Soft Pink
+
+                this.init();
+            }
+
+            init() {
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
+
+                // Spawn initial particles
+                for (let i = 0; i < this.maxParticles; i++) {
+                    this.particles.push(this.createParticle());
+                }
+
+                this.animate();
+            }
+
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            createParticle() {
+                return {
+                    x: Math.random() * this.canvas.width,
+                    y: Math.random() * this.canvas.height,
+                    vx: (Math.random() - 0.5) * 0.25,
+                    vy: (Math.random() - 0.5) * 0.25,
+                    radius: Math.random() * 3 + 1,
+                    color: this.colors[Math.floor(Math.random() * this.colors.length)],
+                    alpha: Math.random() * 0.35 + 0.1
+                };
+            }
+
+            animate() {
+                requestAnimationFrame(() => this.animate());
+
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Draw and Update Particles
+                this.particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Boundary checks
+                    if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    this.ctx.fillStyle = p.color;
+                    this.ctx.globalAlpha = p.alpha;
+                    this.ctx.fill();
+                });
+
+                // Faint biological constellation lines representing formulation integrity bonds
+                this.ctx.globalAlpha = 0.04;
+                this.ctx.strokeStyle = '#7F4E3E';
+                this.ctx.lineWidth = 0.5;
+
+                for (let i = 0; i < this.particles.length; i++) {
+                    for (let j = i + 1; j < this.particles.length; j++) {
+                        const dist = Math.hypot(this.particles[i].x - this.particles[j].x, this.particles[i].y - this.particles[j].y);
+                        if (dist < 120) {
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+                            this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+                            this.ctx.stroke();
+                        }
+                    }
+                }
+            }
+        }
+
+        // ===========================================
+        // BROWSER INLINE TEXT EDITOR (OPT-IN ENGINE)
+        // ===========================================
+        class InlineEditor {
+            constructor() {
+                this.isActive = false;
+                this.editHotzone = document.getElementById('editHotzone');
+                this.editToggle = document.getElementById('editToggle');
+                this.editPanel = document.getElementById('editPanel');
+                this.resetBtn = document.getElementById('editResetBtn');
+                this.exportBtn = document.getElementById('editExportBtn');
+                this.hideTimeout = null;
+
+                this.init();
+            }
+
+            init() {
+                // 1. Hover Hotzone grace period bindings
+                this.editHotzone.addEventListener('mouseenter', () => {
+                    clearTimeout(this.hideTimeout);
+                    this.editToggle.classList.add('show');
+                });
+                this.editHotzone.addEventListener('mouseleave', () => {
+                    this.hideTimeout = setTimeout(() => {
+                        if (!this.isActive) this.editToggle.classList.remove('show');
+                    }, 400);
+                });
+                this.editToggle.addEventListener('mouseenter', () => clearTimeout(this.hideTimeout));
+                this.editToggle.addEventListener('mouseleave', () => {
+                    this.hideTimeout = setTimeout(() => {
+                        if (!this.isActive) this.editToggle.classList.remove('show');
+                    }, 400);
+                });
+
+                // 2. Click events on hotzone and toggle
+                this.editHotzone.addEventListener('click', () => this.toggleEditMode());
+                this.editToggle.addEventListener('click', () => this.toggleEditMode());
+
+                // 3. Keyboard shortcut (E key)
+                document.addEventListener('keydown', (e) => {
+                    if ((e.key === 'e' || e.key === 'E') && !e.target.getAttribute('contenteditable')) {
+                        e.preventDefault();
+                        this.toggleEditMode();
+                    }
+                });
+
+                // 4. Panel button clicks
+                this.resetBtn.addEventListener('click', () => this.resetChanges());
+                this.exportBtn.addEventListener('click', () => this.exportHTML());
+
+                // Load saved content from LocalStorage on init
+                this.loadSavedContent();
+            }
+
+            toggleEditMode() {
+                this.isActive = !this.isActive;
+                this.editToggle.classList.toggle('active', this.isActive);
+                this.editPanel.classList.toggle('active', this.isActive);
+
+                // Find all text elements to make editable
+                const textElements = document.querySelectorAll('h1, h2, h3, p, li, span.trust-label, span.trust-value, span.gantt-bar');
+
+                textElements.forEach(el => {
+                    // Do not edit brand logo, navigation labels, or utility elements
+                    if (el.closest('.slide-header') || el.classList.contains('brand-logo') || el.classList.contains('slide-chapter') || el.classList.contains('keyboard-hint')) {
+                        return;
+                    }
+                    el.setAttribute('contenteditable', this.isActive ? 'true' : 'false');
+                    
+                    if (this.isActive) {
+                        el.addEventListener('blur', () => this.saveToLocalStorage());
+                    }
+                });
+            }
+
+            saveToLocalStorage() {
+                // Save slides container HTML content
+                const containerHtml = document.getElementById('slidesContainer').innerHTML;
+                localStorage.setItem('tri_presentation_markup', containerHtml);
+            }
+
+            loadSavedContent() {
+                const savedMarkup = localStorage.getItem('tri_presentation_markup');
+                if (savedMarkup) {
+                    document.getElementById('slidesContainer').innerHTML = savedMarkup;
+                }
+            }
+
+            resetChanges() {
+                if (confirm('Are you sure you want to revert all inline text changes to the original presentation content?')) {
+                    localStorage.removeItem('tri_presentation_markup');
+                    location.reload();
+                }
+            }
+
+            exportHTML() {
+                this.saveToLocalStorage();
+                
+                // Temporarily disable editing state before clone so exported code has contenteditable = false
+                const textElements = document.querySelectorAll('[contenteditable="true"]');
+                textElements.forEach(el => el.setAttribute('contenteditable', 'false'));
+                
+                // Get complete HTML document structure
+                const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+                
+                // Restore edit tags if active
+                if (this.isActive) {
+                    textElements.forEach(el => el.setAttribute('contenteditable', 'true'));
+                }
+
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'TRI_Master_Brand_OS_Presentation_Custom.html';
+                a.click();
+            }
+        }
+
+        // Initialize presentation, backdrop canvas, and editing engines
+        document.addEventListener('DOMContentLoaded', () => {
+            new SlidePresentation();
+            new CanvasBackground();
+            new InlineEditor();
+        });
+    </script>
+</body>
+</html>

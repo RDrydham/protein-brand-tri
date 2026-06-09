@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ATRI — TRI Fusion Pack · The Real Inside</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --obsidian:    #08080A;
+      --canyon:      #B85F48;
+      --soft-pink:   #F8D7D9;
+      --rose:        #E6A2A4;
+      --marsala:     #7F4E3E;
+      --chalk:       #FBFBFB;
+      --gold:        #C8A96E;
+      --gold-bright: #E2C47A;
+    }
+
+    html, body {
+      background: var(--obsidian);
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* ═══════════════════════════════════
+       SCENE
+    ═══════════════════════════════════ */
+    #scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse 100% 80% at 50% 70%, #180c09 0%, #0d0608 40%, #08080A 100%);
+    }
+
+    /* Multi-layer deep ambient light */
+    .amb-glow {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #amb1 {
+      width: 1000px; height: 500px;
+      bottom: -100px; left: 50%; transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(184,95,72,0.14) 0%, rgba(200,169,110,0.06) 45%, transparent 75%);
+      filter: blur(60px);
+    }
+    #amb2 {
+      width: 600px; height: 600px;
+      top: -200px; left: 50%; transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(200,169,110,0.05) 0%, transparent 70%);
+      filter: blur(80px);
+    }
+    #amb3 {
+      width: 300px; height: 300px;
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      background: radial-gradient(circle, rgba(184,95,72,0.0) 0%, transparent 70%);
+      filter: blur(40px);
+      transition: all 0.6s ease;
+    }
+
+    /* ═══════════════════════════════════
+       WEBGL CANVAS
+    ═══════════════════════════════════ */
+    #gl-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════
+       PRODUCT IMAGE — THE BOX
+    ═══════════════════════════════════ */
+    #box-wrap {
+      position: absolute;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* centered, will animate */
+    }
+
+    #box-img {
+      width: clamp(200px, 22vw, 320px);
+      object-fit: contain;
+      filter: drop-shadow(0 40px 80px rgba(0,0,0,0.8)) drop-shadow(0 0 40px rgba(184,95,72,0.2));
+      transform-origin: center bottom;
+      will-change: transform, filter;
+    }
+
+    /* ═══════════════════════════════════
+       SACHETS — real images
+    ═══════════════════════════════════ */
+    .sachet-wrap {
+      position: absolute;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .sachet-img {
+      object-fit: contain;
+      border-radius: 12px;
+      filter: drop-shadow(0 24px 48px rgba(0,0,0,0.85));
+      will-change: filter;
+    }
+
+    /* Individual glow colors injected by JS */
+    #sw .sachet-img { width: clamp(90px,10vw,145px); }
+    #sb .sachet-img { width: clamp(100px,11vw,160px); }
+    #sd .sachet-img { width: clamp(90px,10vw,145px); }
+
+    /* ═══════════════════════════════════
+       LABEL CHIPS UNDER SACHETS
+    ═══════════════════════════════════ */
+    .sachet-chip {
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(251,251,251,0.0);
+      transition: color 0.5s ease;
+      pointer-events: none;
+    }
+    .sachet-chip.lit { color: rgba(251,251,251,0.45); }
+
+    /* ═══════════════════════════════════
+       SHOCKWAVE RING (DOM)
+    ═══════════════════════════════════ */
+    .ring {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      border-radius: 50%;
+      border: 1.5px solid rgba(200,169,110,0.7);
+      transform: translate(-50%,-50%) scale(0);
+      z-index: 15;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* ═══════════════════════════════════
+       FLOOR REFLECTION LINE
+    ═══════════════════════════════════ */
+    #floor-line {
+      position: absolute;
+      bottom: calc(50% - 180px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(200,169,110,0.12) 20%,
+        rgba(184,95,72,0.18) 50%,
+        rgba(200,169,110,0.12) 80%,
+        transparent 100%
+      );
+      z-index: 10;
+      opacity: 0;
+      transition: width 1.2s ease, opacity 0.8s ease;
+    }
+    #floor-line.show { width: 500px; opacity: 1; }
+
+    /* ═══════════════════════════════════
+       FLOATING TRUST PILLS
+    ═══════════════════════════════════ */
+    .pill {
+      position: absolute;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.09);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 100px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(251,251,251,0.6);
+      white-space: nowrap;
+      z-index: 40;
+      opacity: 0;
+      transform: translateY(14px) scale(0.92);
+      transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.5s ease;
+      pointer-events: none;
+    }
+    .pill.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .pill svg { width: 13px; height: 13px; flex-shrink: 0; color: var(--gold); }
+    .pill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+    #p1 { top: 18%; left: 6%;  animation: pf1 7s ease-in-out infinite; }
+    #p2 { top: 30%; right: 5%; animation: pf2 8.5s ease-in-out infinite; }
+    #p3 { bottom: 32%; left: 5%; animation: pf1 9s ease-in-out infinite 0.5s; }
+    #p4 { bottom: 26%; right: 6%; animation: pf2 7.5s ease-in-out infinite 1s; }
+    #p5 { top: 50%; left: 3.5%; animation: pf1 11s ease-in-out infinite 0.3s; }
+
+    @keyframes pf1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-11px)} }
+    @keyframes pf2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+
+    /* ═══════════════════════════════════
+       COUNT WATERMARK (9)
+    ═══════════════════════════════════ */
+    #count-mark {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 8;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #count-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(80px, 14vw, 160px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(180deg, rgba(200,169,110,0.12) 0%, rgba(200,169,110,0.03) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    #count-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: rgba(200,169,110,0.2);
+      margin-top: -10px;
+    }
+
+    /* ═══════════════════════════════════
+       HEADLINE COPY BLOCK (bottom)
+    ═══════════════════════════════════ */
+    #copy-block {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      z-index: 45;
+      text-align: center;
+      padding-bottom: clamp(48px, 6vh, 80px);
+      pointer-events: none;
+    }
+    #copy-eyebrow {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    #copy-eyebrow.show { opacity: 1; transform: translateY(0); }
+    #copy-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(34px, 5.5vw, 72px);
+      font-weight: 900;
+      line-height: 1.04;
+      color: var(--chalk);
+      margin-bottom: 14px;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 1.1s ease 0.12s, transform 1.1s ease 0.12s;
+    }
+    #copy-h1.show { opacity: 1; transform: translateY(0); }
+    #copy-h1 em {
+      font-style: italic;
+      background: linear-gradient(120deg, var(--gold-bright) 0%, var(--rose) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    #copy-sub {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: rgba(251,251,251,0.32);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
+    }
+    #copy-sub.show { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════
+       CTA BUTTON
+    ═══════════════════════════════════ */
+    #cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      padding: 14px 36px;
+      background: linear-gradient(135deg, var(--canyon) 0%, var(--marsala) 100%);
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--chalk);
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s, box-shadow 0.3s ease, filter 0.3s ease;
+      box-shadow: 0 8px 32px rgba(184,95,72,0.35), 0 0 0 0 rgba(184,95,72,0);
+      pointer-events: all;
+    }
+    #cta-btn.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #cta-btn:hover {
+      box-shadow: 0 12px 48px rgba(184,95,72,0.55), 0 0 60px rgba(184,95,72,0.2);
+      filter: brightness(1.1);
+    }
+    #cta-btn svg { width: 14px; height: 14px; }
+
+    /* ═══════════════════════════════════
+       SCROLL INDICATOR
+    ═══════════════════════════════════ */
+    #scroll-ind {
+      position: absolute;
+      bottom: 20px;
+      right: 36px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+    #scroll-ind.show { opacity: 1; }
+    #scroll-ind span {
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(251,251,251,0.25);
+      writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(180deg, rgba(200,169,110,0.6) 0%, transparent 100%);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100%{ transform:scaleY(1); opacity:0.6; }
+      50%{ transform:scaleY(0.5); opacity:0.2; }
+    }
+
+    /* ═══════════════════════════════════
+       SHINE SWEEP
+    ═══════════════════════════════════ */
+    #shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(108deg, transparent 38%, rgba(255,255,255,0.028) 50%, transparent 62%);
+      z-index: 50;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(-120%);
+    }
+
+    /* ═══════════════════════════════════
+       PRODUCT REAL IMAGE (hero_product)
+    ═══════════════════════════════════ */
+    #real-product {
+      position: absolute;
+      z-index: 22;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #real-product img {
+      width: clamp(280px, 28vw, 420px);
+      object-fit: contain;
+      filter: drop-shadow(0 40px 100px rgba(0,0,0,0.9)) drop-shadow(0 0 60px rgba(184,95,72,0.15));
+    }
+
+    /* ═══════════════════════════════════
+       PRODUCT SACHET REAL IMAGES
+    ═══════════════════════════════════ */
+    #sachet-hero {
+      position: absolute;
+      z-index: 25;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #sachet-hero img {
+      width: clamp(320px, 38vw, 560px);
+      object-fit: contain;
+      filter: drop-shadow(0 32px 80px rgba(0,0,0,0.9)) drop-shadow(0 0 80px rgba(184,95,72,0.18));
+    }
+
+    /* ═══════════════════════════════════
+       MOBILE
+    ═══════════════════════════════════ */
+    @media (max-width: 768px) {
+      #p1, #p4 { display: none; }
+      #p2 { top: 10%; right: 3%; font-size: 8px; }
+      #p3 { bottom: 16%; left: 3%; font-size: 8px; }
+      #p5 { display: none; }
+      #copy-block { padding-bottom: 90px; }
+    }
+  </style>
+</head>
+<body>
+<div id="scene">
+
+  <!-- Ambient lights -->
+  <div class="amb-glow" id="amb1"></div>
+  <div class="amb-glow" id="amb2"></div>
+  <div class="amb-glow" id="amb3"></div>
+
+  <!-- WebGL-grade particle canvas -->
+  <canvas id="gl-canvas"></canvas>
+
+  <!-- Shockwave DOM rings -->
+  <div class="ring" id="r1"></div>
+  <div class="ring" id="r2"></div>
+  <div class="ring" id="r3"></div>
+
+  <!-- Floor reflection -->
+  <div id="floor-line"></div>
+
+  <!-- 9 Watermark -->
+  <div id="count-mark">
+    <div id="count-num">9</div>
+    <div id="count-label">Sachets</div>
+  </div>
+
+  <!-- Trust pills -->
+  <div class="pill" id="p1">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+    </svg>
+    4-Level Tested
+  </div>
+  <div class="pill" id="p2">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11m0 0H5a2 2 0 0 1-2-2V9m6 5h10a2 2 0 0 0 2-2V9m0 0H3"/>
+    </svg>
+    Lab Verified
+  </div>
+  <div class="pill" id="p3">
+    <div class="pill-dot"></div>
+    No Hidden Blends
+  </div>
+  <div class="pill" id="p4">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+    Gut Friendly
+  </div>
+  <div class="pill" id="p5">
+    <div class="pill-dot"></div>
+    FSSAI Certified
+  </div>
+
+  <!-- ── THE BOX (front photo) ── -->
+  <div id="real-product">
+    <img src="assets/hero_product.png" alt="TRI Fusion Pack box — front" id="box-front-img"/>
+  </div>
+
+  <!-- ── THE SACHET HERO PHOTO (all 3) ── -->
+  <div id="sachet-hero">
+    <img src="assets/hero_product.png" alt="TRI Fusion Pack sachets" id="sachet-main-img"/>
+  </div>
+
+  <!-- Sachet individual wraps (positioned by JS) -->
+  <div class="sachet-wrap" id="sw">
+    <img class="sachet-img" src="assets/whey_coffee_delight_photoshoot.webp" alt="True Whey sachet"/>
+    <span class="sachet-chip" id="chipW">True Whey · 35g</span>
+  </div>
+  <div class="sachet-wrap" id="sb">
+    <img class="sachet-img" src="assets/bcaa_kiwi_strawberry_photoshoot.webp" alt="TRI Power BCAA sachet"/>
+    <span class="sachet-chip" id="chipB">TRI Power BCAA · 10g</span>
+  </div>
+  <div class="sachet-wrap" id="sd">
+    <img class="sachet-img" src="assets/drake_lemon_lime_photoshoot.webp" alt="TRI Pump Drake sachet"/>
+    <span class="sachet-chip" id="chipD">TRI Pump Drake · 15g</span>
+  </div>
+
+  <!-- Bottom copy -->
+  <div id="copy-block">
+    <div id="copy-eyebrow">Performance Nutrition · India's Most Transparent</div>
+    <h1 id="copy-h1">What's inside<br><em>matters.</em></h1>
+    <p id="copy-sub">3 Products · 9 Sachets · 3 Days · One Ecosystem</p>
+    <a href="shop.html" id="cta-btn">
+      Try the Fusion Pack
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div id="scroll-ind">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+
+  <!-- Shine sweep -->
+  <div id="shine"></div>
+
+</div><!-- /scene -->
+
+<!-- GSAP CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+
+/* ════════════════════════════════════════════
+   CANVAS PARTICLE ENGINE (High-Fidelity)
+════════════════════════════════════════════ */
+const C   = document.getElementById('gl-canvas');
+const ctx = C.getContext('2d');
+let W, H;
+
+function resize() {
+  W = C.width  = window.innerWidth;
+  H = C.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+/* Colour palette */
+const PAL = [
+  [200,169,110], // gold
+  [184, 95, 72], // canyon
+  [248,215,217], // soft pink
+  [230,162,164], // rose
+  [255,255,255], // white
+  [200,169,110], // gold (weighted)
+  [184, 95, 72], // canyon (weighted)
+];
+
+/* Particle pool */
+const POOL = [];
+let burstDone = false;
+let frameN = 0;
+
+class P {
+  constructor(x, y, type) {
+    this.reset(x, y, type);
+  }
+  reset(x, y, type) {
+    this.x = x; this.y = y;
+    this.type = type; // 'burst' | 'ember' | 'ambient' | 'ribbon'
+
+    const c = PAL[Math.floor(Math.random() * PAL.length)];
+    this.r = c[0]; this.g = c[1]; this.b = c[2];
+
+    if (type === 'burst') {
+      const ang   = Math.random() * Math.PI * 2;
+      const speed = 3 + Math.random() * 12;
+      this.vx     = Math.cos(ang) * speed;
+      this.vy     = Math.sin(ang) * speed - Math.random() * 5;
+      this.size   = 1.2 + Math.random() * 5;
+      this.alpha  = 1;
+      this.decay  = 0.013 + Math.random() * 0.02;
+      this.grav   = 0.1;
+      this.spark  = Math.random() > 0.6; // glowing sparks
+      if (this.spark) { this.size *= 2.2; this.decay *= 0.55; }
+    } else if (type === 'ember') {
+      const ang   = (Math.random() - 0.5) * Math.PI;
+      const speed = 1 + Math.random() * 4;
+      this.vx     = Math.cos(ang) * speed;
+      this.vy     = -Math.abs(Math.sin(ang) * speed) - 1;
+      this.size   = 0.8 + Math.random() * 3;
+      this.alpha  = 0.7 + Math.random() * 0.3;
+      this.decay  = 0.005 + Math.random() * 0.01;
+      this.grav   = 0.03;
+      this.spark  = false;
+    } else if (type === 'ribbon') {
+      const ang   = -Math.PI/2 + (Math.random()-0.5)*1.2;
+      const speed = 4 + Math.random() * 8;
+      this.vx     = Math.cos(ang) * speed;
+      this.vy     = Math.sin(ang) * speed;
+      this.size   = 0.8 + Math.random() * 1.6;
+      this.length = 12 + Math.random() * 30;
+      this.alpha  = 0.9;
+      this.decay  = 0.01 + Math.random() * 0.015;
+      this.grav   = 0.04;
+      this.spark  = false;
+    } else {
+      // ambient
+      this.vx     = (Math.random()-0.5) * 0.5;
+      this.vy     = -0.2 - Math.random() * 0.5;
+      this.size   = 0.4 + Math.random() * 2;
+      this.alpha  = 0.06 + Math.random() * 0.18;
+      this.decay  = 0.0006 + Math.random() * 0.001;
+      this.grav   = -0.002;
+      this.spark  = false;
+    }
+    this.alive  = true;
+    return this;
+  }
+
+  tick() {
+    this.x     += this.vx;
+    this.y     += this.vy;
+    this.vy    += this.grav;
+    this.vx    *= (this.type === 'burst') ? 0.965 : 0.99;
+    this.alpha -= this.decay;
+    if (this.alpha <= 0) this.alive = false;
+  }
+
+  draw() {
+    if (!this.alive) return;
+    const a = Math.max(0, Math.min(1, this.alpha));
+    ctx.save();
+
+    if (this.type === 'ribbon') {
+      const ex = this.x - this.vx * (this.length / this.size);
+      const ey = this.y - this.vy * (this.length / this.size);
+      const grad = ctx.createLinearGradient(ex, ey, this.x, this.y);
+      grad.addColorStop(0, `rgba(${this.r},${this.g},${this.b},0)`);
+      grad.addColorStop(1, `rgba(${this.r},${this.g},${this.b},${a})`);
+      ctx.beginPath();
+      ctx.moveTo(ex, ey);
+      ctx.lineTo(this.x, this.y);
+      ctx.lineWidth = this.size;
+      ctx.strokeStyle = grad;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    } else if (this.spark) {
+      // Radial glow for sparks
+      const rg = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2.5);
+      rg.addColorStop(0,   `rgba(${this.r},${this.g},${this.b},${a})`);
+      rg.addColorStop(0.4, `rgba(${this.r},${this.g},${this.b},${a * 0.4})`);
+      rg.addColorStop(1,   `rgba(${this.r},${this.g},${this.b},0)`);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = rg;
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.r},${this.g},${this.b},${a})`;
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+/* Ring (canvas shockwave) */
+class Ring {
+  constructor(x, y, maxR, color, lineW) {
+    this.x = x; this.y = y;
+    this.r = 0; this.maxR = maxR;
+    this.speed = maxR / 38;
+    this.alpha = 0.85;
+    this.color = color;
+    this.lineW = lineW || 1.5;
+    this.alive = true;
+  }
+  tick() {
+    this.r = Math.min(this.r + this.speed, this.maxR);
+    this.alpha -= 0.018;
+    if (this.alpha <= 0) this.alive = false;
+  }
+  draw() {
+    if (!this.alive) return;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.strokeStyle = this.color.replace('A', this.alpha.toFixed(2));
+    ctx.lineWidth = this.lineW;
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+let rings = [];
+
+function spawnBurst(cx, cy, count) {
+  for (let i = 0; i < count; i++) POOL.push(new P(cx, cy, 'burst'));
+  for (let i = 0; i < 80;    i++) POOL.push(new P(cx + (Math.random()-0.5)*60, cy + (Math.random()-0.5)*60, 'ribbon'));
+  for (let i = 0; i < 60;    i++) POOL.push(new P(cx + (Math.random()-0.5)*80, cy + (Math.random()-0.5)*80, 'ember'));
+  rings.push(new Ring(cx, cy, Math.max(W,H) * 0.7, 'rgba(200,169,110,A)', 1));
+  rings.push(new Ring(cx, cy, Math.max(W,H) * 0.5, 'rgba(184,95,72,A)',   1.5));
+  rings.push(new Ring(cx, cy, Math.max(W,H) * 0.32,'rgba(248,215,217,A)', 0.8));
+}
+
+function loop() {
+  requestAnimationFrame(loop);
+  frameN++;
+  ctx.clearRect(0, 0, W, H);
+
+  // Ambient spawn (every 3 frames)
+  if (frameN % 3 === 0) {
+    for (let i = 0; i < 2; i++) {
+      POOL.push(new P(
+        W * 0.2 + Math.random() * W * 0.6,
+        H * 0.5 + Math.random() * H * 0.5,
+        'ambient'
+      ));
+    }
+  }
+
+  // Update & draw
+  for (let i = POOL.length - 1; i >= 0; i--) {
+    POOL[i].tick();
+    POOL[i].draw();
+    if (!POOL[i].alive) POOL.splice(i, 1);
+  }
+  for (let i = rings.length - 1; i >= 0; i--) {
+    rings[i].tick();
+    rings[i].draw();
+    if (!rings[i].alive) rings.splice(i, 1);
+  }
+}
+loop();
+
+/* ════════════════════════════════════════════
+   GSAP MASTER SEQUENCE
+════════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
+
+const realProduct = $('real-product');
+const sachetHero  = $('sachet-hero');
+const sw = $('sw'), sb = $('sb'), sd = $('sd');
+const chipW = $('chipW'), chipB = $('chipB'), chipD = $('chipD');
+const amb3  = $('amb3');
+const shine = $('shine');
+
+function go() {
+  const cx = W / 2, cy = H / 2;
+
+  /* — set initial states — */
+  gsap.set(realProduct, { opacity:0, scale:0.75, y:30, xPercent:-50, yPercent:-50, left:'50%', top:'50%', position:'absolute' });
+  gsap.set(sachetHero,  { opacity:0, scale:0.8, y:0, xPercent:-50, yPercent:-50, left:'50%', top:'50%', position:'absolute' });
+  gsap.set(sw, { position:'absolute', left: cx - 55, top: cy - 80, opacity:0, scale:0, rotate:0, x:0, y:0 });
+  gsap.set(sb, { position:'absolute', left: cx - 65, top: cy - 80, opacity:0, scale:0, rotate:0, x:0, y:0 });
+  gsap.set(sd, { position:'absolute', left: cx - 55, top: cy - 80, opacity:0, scale:0, rotate:0, x:0, y:0 });
+  gsap.set($('count-mark'), { opacity:0 });
+  gsap.set($('copy-eyebrow'), { opacity:0 });
+  gsap.set($('copy-h1'),      { opacity:0 });
+  gsap.set($('copy-sub'),     { opacity:0 });
+  gsap.set($('cta-btn'),      { opacity:0 });
+
+  const tl = gsap.timeline({ defaults: { ease:'power3.out' } });
+
+  /* ────────────────────────────
+     ACT 1 (0–1.2s): Box rises
+  ──────────────────────────── */
+  // Watermark fades
+  tl.to($('count-mark'), { opacity:1, duration:0.8, ease:'power2.out' }, 0);
+
+  // Box materialises with cinematic entrance
+  tl.to(realProduct, {
+    opacity: 1, scale: 1, y: 0,
+    duration: 1.1, ease: 'back.out(1.25)',
+  }, 0.1);
+
+  // Floor line extends
+  tl.call(() => $('floor-line').classList.add('show'), [], 0.4);
+
+  // Box breathes (anticipation)
+  tl.to(realProduct, {
+    scale: 1.05, duration: 0.3, ease:'power2.inOut',
+    yoyo:true, repeat:1
+  }, 1.2);
+
+  /* ────────────────────────────
+     ACT 2 (1.7s): THE EXPLOSION
+  ──────────────────────────── */
+  // Canvas burst fires at peak
+  tl.call(() => {
+    spawnBurst(cx, cy, 420);
+    // Ambient glow flares
+    gsap.to(amb3, {
+      width:'600px', height:'600px',
+      background:'radial-gradient(circle, rgba(184,95,72,0.22) 0%, transparent 65%)',
+      duration: 0.3, ease:'power4.out',
+      onComplete: () => {
+        gsap.to(amb3, {
+          width:'200px', height:'200px',
+          background:'radial-gradient(circle, rgba(184,95,72,0.05) 0%, transparent 70%)',
+          duration: 1.5, ease:'power2.out'
+        });
+      }
+    });
+  }, [], 1.7);
+
+  // Screen flash
+  tl.fromTo(shine,
+    { opacity:0, x:'-120%' },
+    { opacity:1, x:'160%', duration:0.6, ease:'power2.out' },
+  1.7);
+
+  // Box SHUDDERS
+  tl.to(realProduct, {
+    x:'-=12', duration:0.04, ease:'none',
+    yoyo:true, repeat:9,
+  }, 1.68);
+
+  // Box flash-brightens
+  tl.to(realProduct, {
+    filter:'drop-shadow(0 40px 100px rgba(0,0,0,0.9)) drop-shadow(0 0 100px rgba(200,169,110,0.9)) brightness(1.5)',
+    duration:0.12, ease:'none',
+    yoyo:true, repeat:1
+  }, 1.68);
+
+  // Box fades slightly as sachets take stage
+  tl.to(realProduct, {
+    opacity: 0.55, scale: 0.88, y: 40,
+    duration: 0.7, ease:'power3.inOut',
+    filter:'drop-shadow(0 40px 100px rgba(0,0,0,0.9)) drop-shadow(0 0 20px rgba(184,95,72,0.05)) brightness(0.9)'
+  }, 2.0);
+
+  /* ────────────────────────────
+     ACT 3 (1.85s): SACHETS BURST
+  ──────────────────────────── */
+  // All 3 sachets explode out simultaneously
+  // — TRUE WHEY (right, lean back)
+  tl.to(sw, {
+    opacity:1, scale:1.05,
+    x: W * 0.22, y: -H * 0.14, rotate: 16,
+    duration: 0.7, ease:'back.out(1.5)',
+  }, 1.85);
+
+  // — BCAA (center hero, surges highest)
+  tl.to(sb, {
+    opacity:1, scale:1.2,
+    x: 0, y: -H * 0.27, rotate: 0,
+    duration: 0.72, ease:'back.out(1.6)',
+  }, 1.85);
+
+  // — DRAKE (left, lean)
+  tl.to(sd, {
+    opacity:1, scale:1.05,
+    x: -W * 0.22, y: -H * 0.14, rotate: -16,
+    duration: 0.7, ease:'back.out(1.5)',
+  }, 1.85);
+
+  // Second burst echo (smaller)
+  tl.call(() => {
+    for(let i=0;i<120;i++) {
+      const p = new P(cx + (Math.random()-0.5)*100, cy + (Math.random()-0.5)*100, 'burst');
+      p.size *= 0.55; POOL.push(p);
+    }
+    rings.push(new Ring(cx, cy, Math.max(W,H)*0.4, 'rgba(200,169,110,A)', 0.8));
+  }, [], 2.2);
+
+  /* Settle bounce */
+  tl.to(sb, { y: '-=' + (H*0.02), duration:0.35, ease:'back.out(2)', yoyo:true, repeat:1 }, 2.6);
+  tl.to(sw, { y: '-=' + (H*0.015), duration:0.3,  ease:'back.out(2)', yoyo:true, repeat:1 }, 2.7);
+  tl.to(sd, { y: '-=' + (H*0.015), duration:0.3,  ease:'back.out(2)', yoyo:true, repeat:1 }, 2.65);
+
+  /* Sachet glow halos */
+  tl.to(sw.querySelector('img'), {
+    filter:'drop-shadow(0 24px 48px rgba(0,0,0,0.85)) drop-shadow(0 0 60px rgba(248,180,170,0.7))',
+    duration:0.5
+  }, 2.7);
+  tl.to(sb.querySelector('img'), {
+    filter:'drop-shadow(0 32px 64px rgba(0,0,0,0.85)) drop-shadow(0 0 90px rgba(150,210,100,0.6))',
+    duration:0.5
+  }, 2.7);
+  tl.to(sd.querySelector('img'), {
+    filter:'drop-shadow(0 24px 48px rgba(0,0,0,0.85)) drop-shadow(0 0 60px rgba(220,140,80,0.7))',
+    duration:0.5
+  }, 2.7);
+
+  /* ────────────────────────────
+     ACT 4 (3.0s): CHIPS + COPY
+  ──────────────────────────── */
+  tl.call(() => {
+    chipW.classList.add('lit');
+    chipB.classList.add('lit');
+    chipD.classList.add('lit');
+  }, [], 3.0);
+
+  // Pills stagger in
+  tl.call(() => {
+    [$('p1'),$('p2'),$('p3'),$('p4'),$('p5')].forEach((el,i) => {
+      if(el) setTimeout(() => el.classList.add('show'), i*110);
+    });
+  }, [], 3.1);
+
+  // Headline copy
+  tl.call(() => $('copy-eyebrow').classList.add('show'), [], 3.2);
+  tl.call(() => $('copy-h1').classList.add('show'),      [], 3.35);
+  tl.call(() => $('copy-sub').classList.add('show'),     [], 3.5);
+  tl.call(() => $('cta-btn').classList.add('show'),      [], 3.65);
+  tl.call(() => $('scroll-ind').classList.add('show'),   [], 3.8);
+
+  /* ────────────────────────────
+     ACT 5 (4.0s+): IDLE FLOAT
+  ──────────────────────────── */
+  tl.call(idleLoop, [], 4.2);
+
+  // Shine sweep repeats
+  gsap.to(shine, {
+    x:'160%', opacity:1, duration:1.2, ease:'power2.inOut',
+    repeat:-1, repeatDelay:9,
+    onRepeat: () => gsap.set(shine, { x:'-120%', opacity:0 })
+  });
+}
+
+function idleLoop() {
+  // Continuous floating
+  gsap.to(sb, { y:'-=20', duration:2.8, ease:'sine.inOut', yoyo:true, repeat:-1 });
+  gsap.to(sw, { y:'-=15', duration:3.2, ease:'sine.inOut', yoyo:true, repeat:-1, delay:0.5 });
+  gsap.to(sd, { y:'-=15', duration:2.9, ease:'sine.inOut', yoyo:true, repeat:-1, delay:1.0 });
+
+  // Box breathes
+  gsap.to(realProduct, { scale:0.92, duration:3.8, ease:'sine.inOut', yoyo:true, repeat:-1 });
+
+  // Sachet glow pulses
+  gsap.to(sb.querySelector('img'), {
+    filter:'drop-shadow(0 32px 64px rgba(0,0,0,0.85)) drop-shadow(0 0 130px rgba(150,210,100,0.9))',
+    duration:2.4, ease:'sine.inOut', yoyo:true, repeat:-1
+  });
+  gsap.to(sw.querySelector('img'), {
+    filter:'drop-shadow(0 24px 48px rgba(0,0,0,0.85)) drop-shadow(0 0 90px rgba(248,180,170,0.85))',
+    duration:2.8, ease:'sine.inOut', yoyo:true, repeat:-1, delay:0.7
+  });
+  gsap.to(sd.querySelector('img'), {
+    filter:'drop-shadow(0 24px 48px rgba(0,0,0,0.85)) drop-shadow(0 0 90px rgba(220,140,80,0.85))',
+    duration:2.6, ease:'sine.inOut', yoyo:true, repeat:-1, delay:1.2
+  });
+
+  // 3D tilt on sachets — slow hypnotic rotation
+  gsap.to(sb, { rotateY:10, duration:4, ease:'sine.inOut', yoyo:true, repeat:-1 });
+  gsap.to(sw, { rotateY:8, duration:3.6, ease:'sine.inOut', yoyo:true, repeat:-1, delay:0.4 });
+  gsap.to(sd, { rotateY:-8, duration:3.8, ease:'sine.inOut', yoyo:true, repeat:-1, delay:0.9 });
+}
+
+/* Hover interactivity on sachets */
+[sw, sb, sd].forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    gsap.to(el, { scale:'+=' + (el===sb ? 0.08 : 0.1), duration:0.35, ease:'power2.out' });
+  });
+  el.addEventListener('mouseleave', () => {
+    gsap.to(el, { scale:'-=' + (el===sb ? 0.08 : 0.1), duration:0.35, ease:'power2.out' });
+  });
+});
+
+window.addEventListener('load', () => setTimeout(go, 100));
+</script>
+</body>
+</html>

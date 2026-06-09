@@ -1,0 +1,24 @@
+[
+  {
+    "timestamp": "2026-06-01T08:13:33.963Z",
+    "name": "Jane Doe",
+    "email": "jane@performance.com",
+    "weight": 68,
+    "intensity": "Elite",
+    "protein": 150,
+    "hydration": 3.1,
+    "bcaa": 15,
+    "recovery": 24
+  },
+  {
+    "timestamp": "2026-06-01T09:10:50.020Z",
+    "name": "Model Audit Test",
+    "email": "audit@therealinside.com",
+    "weight": "82",
+    "intensity": "Elite",
+    "protein": "180",
+    "hydration": "3.7",
+    "bcaa": "15",
+    "recovery": "24"
+  }
+]

@@ -1,0 +1,26 @@
+# Large binary files (skip to stay under GitHub limits)
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# Large PDFs - comment out below line if you want to include the brandbook PDF
+# *.pdf
+
+# Raw image dumps (large)
+RAW IMAGES/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node modules (if any)
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Scratch/temp files
+scratch/

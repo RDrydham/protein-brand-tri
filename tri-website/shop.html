@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Shop TRI — Clean. Transparent. Effective. Buy TRI Fusion Pack, TRI Protein, and TRI BCAA. Eurofins verified, clinically dosed performance nutrition." />
+  <meta name="keywords" content="TRI shop, buy protein, BCAA, pre-workout, TRI Fusion Pack, TRI Protein, TRI BCAA, performance nutrition India" />
+  <meta property="og:title" content="Shop — THE REAL INSIDE (TRI)" />
+  <meta property="og:description" content="Clean. Transparent. Effective. Shop all TRI products — Eurofins verified, clinically dosed." />
+  <meta property="og:image" content="assets/hero_product.png" />
+  <meta property="og:type" content="website" />
+  <title>ATRI | Shop — All Products</title>
+
+  <!-- Shared TRI Design System -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/tri.css" />
+
+  <style>
+    /* ================================================================
+       SHOP PAGE — PAGE-SPECIFIC STYLES
+       Uses tri.css tokens and classes as the foundation.
+    ================================================================ */
+
+    /* ── PAGE HERO ────────────────────────────────────────────────── */
+    .shop-page-hero {
+      padding: 140px 0 80px;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--blush) 55%, var(--cream-warm) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .shop-page-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 520px; height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(248,215,217,0.6) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .shop-page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(230,162,164,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .shop-page-hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .shop-hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-label);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--rose-dark);
+      margin-bottom: 20px;
+    }
+    .shop-hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--rose-dark);
+    }
+    .shop-hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--rose-dark);
+    }
+    .shop-page-h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(52px, 9vw, 96px);
+      font-weight: 700;
+      line-height: 0.95;
+      color: var(--dark);
+      margin-bottom: 22px;
+      letter-spacing: -0.01em;
+    }
+    .shop-page-h1 em {
+      font-style: italic;
+      color: var(--rose-dark);
+    }
+    .shop-page-subtitle {
+      font-family: var(--font-label);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted-text);
+    }
+
+    /* ── PRODUCTS SECTION ─────────────────────────────────────────── */
+    .shop-products-section {
+      padding: 80px 0 100px;
+      background: var(--cream-section);
+    }
+    
+    /* ── SINGLE PRODUCT STOREFRONT ────────────────────────────────── */
+    .shop-product-detail-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 56px;
+      align-items: start;
+      margin-bottom: 90px;
+    }
+    .shop-product-gallery {
+      position: sticky;
+      top: 110px;
+    }
+    .shop-product-main-image-wrap {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--t-med), box-shadow var(--t-med);
+    }
+    .shop-product-main-image-wrap:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
+    }
+    .shop-product-main-image-wrap img {
+      width: 78%;
+      height: 78%;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.08));
+      transition: transform 0.6s var(--ease);
+    }
+    .shop-product-main-image-wrap:hover img {
+      transform: scale(1.04);
+    }
+    .shop-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 5;
+      background: var(--gold);
+      color: #fff;
+      font-family: var(--font-label);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 5px 11px;
+      border-radius: var(--r-full);
+    }
+    .shop-product-gallery-pills {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .gallery-pill {
+      font-family: var(--font-label);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--rose-dark);
+      background: var(--blush);
+      padding: 5px 12px;
+      border-radius: var(--r-full);
+      border: 1px solid rgba(230,162,164,0.2);
+    }
+
+    /* Product Info Column */
+    .shop-product-info {
+      padding: 5px 0;
+    }
+    .shop-info-eyebrow {
+      display: inline-block;
+      font-family: var(--font-label);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--rose-dark);
+      margin-bottom: 12px;
+    }
+    .shop-product-title {
+      font-family: var(--font-serif);
+      font-size: 46px;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--dark);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .shop-product-tagline {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .shop-price-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(200, 169, 110, 0.05);
+      border: 1.5px dashed var(--gold);
+      padding: 16px 24px;
+      border-radius: var(--r-lg);
+      margin-bottom: 28px;
+      width: fit-content;
+    }
+    .shop-price-current {
+      font-family: var(--font-label);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--dark);
+    }
+    .shop-price-original {
+      font-family: var(--font-label);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--muted-text);
+      text-decoration: line-through;
+    }
+    .shop-price-discount {
+      font-family: var(--font-label);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #3a8f3a;
+      background: rgba(58,143,58,0.1);
+      padding: 4px 10px;
+      border-radius: var(--r-full);
+    }
+    .shop-product-description {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--dark);
+      margin-bottom: 32px;
+    }
+    .shop-add-to-cart-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--gold);
+      color: #fff;
+      font-family: var(--font-label);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 18px 32px;
+      border-radius: var(--r-full);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(200,169,110,0.15);
+      transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
+      margin-bottom: 12px;
+      white-space: nowrap;
+    }
+    .shop-add-to-cart-btn:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200,169,110,0.3);
+    }
+    .shop-add-to-cart-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+    .shop-shipping-note {
+      font-size: 11px;
+      color: var(--muted-text);
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .shop-features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+    }
+    .shop-feature-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .feat-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+    .shop-feature-item strong {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+    .shop-feature-item p {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted-text);
+    }
+    
+    /* Inside Breakdown Section */
+    .shop-inside-breakdown {
+      margin-top: 100px;
+      border-top: 1px solid var(--border);
+      padding-top: 80px;
+    }
+    .breakdown-title {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .breakdown-subtitle {
+      font-size: 14px;
+      text-align: center;
+      color: var(--muted-text);
+      margin-bottom: 48px;
+    }
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .breakdown-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 36px 24px;
+      text-align: center;
+      transition: transform var(--t-med), box-shadow var(--t-med), border-color var(--t-med);
+    }
+    .breakdown-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-strong);
+    }
+    .breakdown-card img {
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 24px;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
+      transition: transform 0.4s var(--ease);
+    }
+    .breakdown-card:hover img {
+      transform: scale(1.05);
+    }
+    .breakdown-card h3 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .breakdown-badge {
+      display: inline-block;
+      font-family: var(--font-label);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--rose-dark);
+      background: var(--blush);
+      padding: 3px 10px;
+      border-radius: var(--r-full);
+      margin-bottom: 14px;
+      border: 1px solid rgba(230,162,164,0.15);
+    }
+    .breakdown-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted-text);
+    }
+
+    /* ── TRUST STRIP (shop-specific white bg) ─────────────────────── */
+    .shop-trust-section {
+      background: #fff;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 0;
+    }
+    .shop-trust-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    .shop-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 36px;
+      font-family: var(--font-label);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dark);
+    }
+    .shop-trust-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--blush);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .shop-trust-icon svg {
+      width: 18px;
+      height: 18px;
+      color: var(--rose-dark);
+    }
+    .shop-trust-divider {
+      width: 1px;
+      height: 44px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .shop-product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .shop-product-gallery {
+        position: static;
+      }
+      .breakdown-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 640px) {
+      .breakdown-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .shop-product-title {
+        font-size: 36px;
+      }
+      .shop-trust-inner  { flex-direction: column; align-items: flex-start; padding: 0 20px; }
+      .shop-trust-item   { padding: 10px 16px; }
+      .shop-trust-divider { width: 100%; height: 1px; }
+      .shop-page-hero    { padding: 130px 0 60px; }
+    }
+
+    /* ═══════════════════════════════════════
+       SHOP — MOBILE DOMINATION
+       All inside @media. Desktop = untouched.
+    ═══════════════════════════════════════ */
+    @media (max-width: 768px) {
+      /* Page hero */
+      .shop-page-hero {
+        padding: 80px 0 44px;
+      }
+      .shop-page-hero-inner { padding: 0 20px; }
+      .shop-page-h1 {
+        font-size: clamp(36px, 9vw, 56px);
+        margin-bottom: 14px;
+      }
+      .shop-hero-eyebrow { margin-bottom: 14px; }
+
+      /* Products section */
+      .shop-products-section { padding: 48px 0 64px; }
+      .container { padding: 0 20px; }
+
+      /* Product layout → single column */
+      .shop-product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        margin-bottom: 56px;
+      }
+      /* Gallery */
+      .shop-product-gallery { position: static; }
+      .shop-product-main-image-wrap {
+        aspect-ratio: 3/2;
+        border-radius: 16px;
+      }
+      .shop-product-main-image-wrap:hover { transform: none; }
+      .shop-product-gallery-pills { gap: 8px; flex-wrap: wrap; }
+
+      /* Info */
+      .shop-product-title { font-size: clamp(28px, 7vw, 40px); margin-bottom: 6px; }
+      .shop-product-tagline { font-size: 13px; margin-bottom: 18px; }
+
+      /* Price box — full width */
+      .shop-price-box {
+        width: 100%;
+        padding: 14px 18px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .shop-price-current { font-size: 28px; }
+      .shop-price-original { font-size: 16px; }
+
+      /* Description */
+      .shop-product-description { font-size: 14px; margin-bottom: 24px; }
+
+      /* Add to cart — 56px minimum touch target */
+      .shop-add-to-cart-btn {
+        padding: 18px 24px;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        min-height: 56px;
+        border-radius: 100px;
+        /* Active state feedback on touch */
+      }
+      .shop-add-to-cart-btn:hover { transform: none; box-shadow: 0 4px 16px rgba(200,169,110,0.15); }
+      .shop-add-to-cart-btn:active { transform: scale(0.99); }
+
+      .shop-shipping-note { margin-bottom: 24px; }
+
+      /* Features list */
+      .shop-features-list { gap: 16px; padding-top: 24px; }
+      .shop-feature-item strong { font-size: 13px; }
+      .shop-feature-item p { font-size: 12px; }
+
+      /* Inside Breakdown */
+      .shop-inside-breakdown { margin-top: 64px; padding-top: 52px; }
+      .breakdown-title { font-size: clamp(22px, 5.5vw, 30px); }
+      .breakdown-grid { grid-template-columns: 1fr; gap: 16px; }
+      .breakdown-card { padding: 28px 20px; border-radius: 16px; }
+      .breakdown-card:hover { transform: none; box-shadow: none; }
+      .breakdown-card:active { transform: scale(0.99); }
+      .breakdown-card img { height: 100px; }
+
+      /* Trust strip — horizontal scroll on mobile */
+      .shop-trust-section { padding: 24px 0; }
+      .shop-trust-inner {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 0 20px;
+        gap: 0;
+      }
+      .shop-trust-inner::-webkit-scrollbar { display: none; }
+      .shop-trust-item {
+        flex-shrink: 0;
+        padding: 8px 20px;
+        font-size: 10px;
+      }
+      .shop-trust-icon { width: 32px; height: 32px; }
+      .shop-trust-icon svg { width: 15px; height: 15px; }
+      .shop-trust-divider { flex-shrink: 0; width: 1px; height: 36px; }
+
+      /* Newsletter */
+      .newsletter-section { padding: 48px 0; }
+      .newsletter-inner { padding: 0 20px; }
+      .newsletter-form {
+        flex-direction: column;
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .newsletter-input {
+        border-radius: 16px 16px 0 0;
+        border-bottom: 1px solid var(--border);
+        padding: 16px 18px;
+        font-size: 16px; /* iOS no zoom */
+      }
+      .newsletter-btn {
+        border-radius: 0 0 16px 16px;
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .shop-page-h1 { font-size: clamp(30px, 9vw, 44px); }
+      .shop-product-title { font-size: clamp(24px, 7vw, 34px); }
+      .breakdown-card img { height: 80px; }
+      .gallery-pill { font-size: 8px; padding: 4px 10px; }
+    }
+
+    @media (max-width: 375px) {
+      .shop-page-hero { padding: 70px 0 36px; }
+      input, select, textarea { font-size: 16px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TOAST
+  ════════════════════════════════════════════════════════════ -->
+  <div id="tri-toast"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MOBILE NAV
+  ════════════════════════════════════════════════════════════ -->
+  <div id="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <div class="mn-hdr">
+      <a href="index.html" class="mn-logo">ATRI<span class="mn-logo-sub">The Real Inside</span></a>
+      <button class="mn-close-btn" aria-label="Close menu">✕</button>
+    </div>
+    <div class="mn-inner">
+      <div class="mn-divider"></div>
+      <div class="mn-links">
+        <a href="index.html">Home</a>
+        <a href="shop.html" class="active">Shop</a>
+        <a href="inside.html">Inside</a>
+        <a href="lab-reports.html">Lab Reports</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a href="shop.html" class="mobile-nav-cta">Shop Now — ₹599</a>
+    </div>
+    <div class="mn-footer">
+      <span class="mn-footer-tagline">The Real Inside</span>
+      <div class="mn-footer-links">
+        <a href="inside.html">Ingredients</a>
+        <a href="lab-reports.html">Lab Proof</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════════════════════════ -->
+  <nav id="tri-nav">
+    <div class="nav-inner">
+
+      <!-- Logo -->
+      <a aria-label="TRI — The Real Inside" class="nav-motion-logo" href="index.html">
+<svg class="atri-hud-logo" fill="none" height="70" id="tri-header-logo" viewbox="-2 -6 184 84" width="160" xmlns="http://www.w3.org/2000/svg">
+<style>
+            .atri-hud-logo { cursor: pointer; overflow: visible; }
+            @keyframes scanSweep {
+              0% { transform: translateY(0); opacity: 0; }
+              10% { opacity: 1; }
+              90% { opacity: 1; }
+              100% { transform: translateY(68px); opacity: 0; }
+            }
+            .hud-scanline { animation: scanSweep 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+            @keyframes targetLock {
+              0% { transform: translate(25px, 26px) scale(1.6); opacity: 0; }
+              15% { opacity: 1; }
+              80% { opacity: 1; transform: translate(25px, 26px) scale(1) rotate(180deg); }
+              100% { opacity: 0; transform: translate(25px, 26px) scale(0.9) rotate(240deg); }
+            }
+            .hud-target { transform-origin: 25px 26px; animation: targetLock 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+            @keyframes rotateCW { to { transform: rotate(360deg); } }
+            @keyframes rotateCCW { to { transform: rotate(-360deg); } }
+            .hud-ring-outer { transform-origin: 25px 26px; animation: rotateCW 5s linear infinite; }
+            .hud-ring-inner { transform-origin: 25px 26px; animation: rotateCCW 3.5s linear infinite; }
+            @keyframes drawTriangle {
+              0% { stroke-dashoffset: 120; opacity: 0; }
+              20% { opacity: 1; }
+              75% { stroke-dashoffset: 0; fill: rgba(242, 122, 34, 0.0); }
+              100% { stroke-dashoffset: 0; fill: rgba(242, 122, 34, 0.04); }
+            }
+            .logo-triangle { stroke-dasharray: 120; stroke-dashoffset: 120; animation: drawTriangle 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 0.1s; }
+            @keyframes glitchText {
+              0% { opacity: 0; transform: translateX(-6px); filter: blur(3px); }
+              30% { opacity: 0.2; transform: translateX(3px); filter: none; }
+              35% { opacity: 0.05; }
+              45% { opacity: 0.75; transform: translateX(-3px); text-shadow: -1.5px 0 #f27a22, 1.5px 0 #00ffff; }
+              50% { opacity: 0.4; }
+              58% { opacity: 1; transform: translateX(0); text-shadow: none; filter: none; }
+              100% { opacity: 1; }
+            }
+            .logo-tri-text { animation: glitchText 1.5s ease-out forwards; animation-delay: 0.35s; opacity: 0; }
+            @keyframes drawArch {
+              0% { stroke-dashoffset: 140; opacity: 0; }
+              30% { opacity: 1; }
+              100% { stroke-dashoffset: 0; }
+            }
+            .logo-arch { stroke-dasharray: 140; stroke-dashoffset: 140; animation: drawArch 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.6s; }
+            @keyframes fadeInSub { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+            .logo-sub1 { animation: fadeInSub 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.1s; opacity: 0; }
+            .logo-sub2 { animation: fadeInSub 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.4s; opacity: 0; }
+            @keyframes flashHUD { 0% { opacity: 0; } 8% { opacity: 1; } 15% { opacity: 0.15; } 22% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
+            .hud-readout { animation: flashHUD 2.4s ease-out forwards; }
+            .nav-motion-logo:hover .hud-scanline { animation: scanSweep 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite; }
+            .nav-motion-logo:hover .logo-tri-text { animation: hoverGlitch 0.4s ease-out; }
+            @keyframes hoverGlitch {
+              0% { transform: translate(1px, -1px); text-shadow: 1px -1px #f27a22, -1px 1px #00ffff; }
+              40% { transform: translate(-1.5px, 1px); text-shadow: -1px 1px #f27a22, 1px -1px #00ffff; }
+              80% { transform: translate(1px, 0.5px); text-shadow: 0.5px -0.5px #f27a22; }
+              100% { transform: translate(0, 0); text-shadow: none; }
+            }
+            .nav-motion-logo:hover .logo-triangle { animation: trianglePulse 0.6s ease-in-out; }
+            @keyframes trianglePulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); filter: drop-shadow(0 0 4px #f27a22); } 100% { transform: scale(1); } }
+          </style>
+<defs>
+<filter height="140%" id="logo-glow" width="140%" x="-20%" y="-20%">
+<fegaussianblur result="blur" stddeviation="1.5"></fegaussianblur>
+<femerge>
+<femergenode in="blur"></femergenode>
+<femergenode in="SourceGraphic"></femergenode>
+</femerge>
+</filter>
+</defs>
+<line class="hud-scanline" filter="url(#logo-glow)" opacity="0" stroke="#f27a22" stroke-width="1.5" x1="5" x2="175" y1="3" y2="3"></line>
+<g class="hud-target">
+<circle class="hud-ring-outer" cx="25" cy="28" fill="none" r="22" stroke="#f27a22" stroke-dasharray="4 6" stroke-width="0.8"></circle>
+<circle class="hud-ring-inner" cx="25" cy="28" fill="none" opacity="0.6" r="16" stroke="#f27a22" stroke-dasharray="8 2" stroke-width="0.5"></circle>
+<path d="M 3 28 H 11 M 39 28 H 47 M 25 6 V 14 M 25 42 V 50" stroke="#f27a22" stroke-width="0.8"></path>
+</g>
+<polygon class="logo-triangle" fill="none" points="25,9 44,41 6,41" stroke="#f27a22" stroke-linejoin="round" stroke-width="3.5"></polygon>
+<text class="logo-tri-text" fill="#111111" font-family="'Montserrat', 'Inter', sans-serif" font-size="33" font-weight="900" letter-spacing="0.02em" x="52" y="38">TRI</text>
+<path class="logo-arch" d="M 6,49 Q 57,44 108,49" fill="none" stroke="#f27a22" stroke-linecap="round" stroke-width="1.8"></path>
+<text class="logo-sub1" fill="#111111" font-family="'Montserrat', 'Inter', sans-serif" font-size="6.2" font-weight="800" letter-spacing="0.28em" text-anchor="middle" x="57" y="60">THE REAL INSIDE</text>
+<text class="logo-sub2" fill="#444444" font-family="Georgia, 'Times New Roman', serif" font-size="5.8" font-style="italic" text-anchor="middle" x="57" y="71">what's inside matters</text>
+<g class="hud-readout" fill="#f27a22" font-family="monospace" font-size="3" opacity="0.8">
+<text x="6" y="60">[SYS_INIT]</text>
+<text x="114" y="60">LOCK_99.7%</text>
+</g>
+</svg>
+</a>
+
+      <!-- Links -->
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html" class="active">Shop</a></li>
+        <li><a href="inside.html">Inside</a></li>
+        <li><a href="lab-reports.html">Lab Reports</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <!-- Right controls -->
+      <div class="nav-right">
+        <!-- Cart icon -->
+        <button class="nav-cart-btn" id="cart-icon-btn" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-count" id="cart-count-badge">0</span>
+        </button>
+
+        <!-- Hamburger -->
+        <button class="nav-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       1. PAGE HEADER
+  ════════════════════════════════════════════════════════════ -->
+  <section class="shop-page-hero">
+    <div class="shop-page-hero-inner">
+      <div class="shop-hero-eyebrow hero-animate">All Products</div>
+      <h1 class="shop-page-h1 hero-animate">All <em>Products</em></h1>
+      <p class="shop-page-subtitle hero-animate">Clean. Transparent. Effective.</p>
+    </div>
+  </section>
+
+  <!-- Ticker strip -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">THE REAL INSIDE</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">EUROFINS VERIFIED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">ZERO PROPRIETARY BLENDS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">CLINICALLY DOSED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">GUT-FRIENDLY ALWAYS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">100% LABEL ACCURACY</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">WHAT'S INSIDE MATTERS</span><span class="ticker-dot">·</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">THE REAL INSIDE</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">EUROFINS VERIFIED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">ZERO PROPRIETARY BLENDS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">CLINICALLY DOSED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">GUT-FRIENDLY ALWAYS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">100% LABEL ACCURACY</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">WHAT'S INSIDE MATTERS</span><span class="ticker-dot">·</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       2. PRODUCT GRID
+  ════════════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════════════════════
+       2. PRODUCT DETAIL VIEW
+  ═══════════════════════════════════════════════════════════ -->
+  <section class="shop-products-section">
+    <div class="container">
+      
+      <!-- Single Product Detail Grid -->
+      <div class="shop-product-detail-layout">
+        
+        <!-- Left: Image Gallery Showcase -->
+        <div class="shop-product-gallery">
+          <div class="shop-product-main-image-wrap">
+            <div class="shop-badge">🔥 Try Pack</div>
+            <img
+              src="assets/tri_fusion_pack_ad.webp"
+              alt="TRI Fusion Pack — Protein + EAAs + Pre-Workout Try Pack"
+              loading="eager"
+            />
+          </div>
+          <div class="shop-product-gallery-pills">
+            <div class="gallery-pill">9 Sachets</div>
+            <div class="gallery-pill">3 Systems</div>
+            <div class="gallery-pill">Eurofins Verified</div>
+          </div>
+        </div>
+        
+        <!-- Right: Purchase Details & Benefits -->
+        <div class="shop-product-info">
+          <span class="shop-info-eyebrow">Try Pack</span>
+          <h1 class="shop-product-title">TRI Fusion Pack</h1>
+          <p class="shop-product-tagline">Protein + EAAs + Pre-Workout — 9 Sachets</p>
+          
+          <div class="shop-price-box">
+            <span class="shop-price-current">₹599</span>
+            <span class="shop-price-original">₹899</span>
+            <span class="shop-price-discount">Save ₹300</span>
+          </div>
+          
+          <p class="shop-product-description">
+            Experience the complete 3-day performance protocol before committing to larger sizes. The TRI Fusion Pack delivers Pump Drake Pre-Workout for explosive drive, Power BCAA for intra-workout recovery, and True Whey Protein for post-workout muscle synthesis. All cold-processed, lab-verified, and 100% gut-friendly with proteolytic enzymes.
+          </p>
+          
+          <button
+            class="shop-add-to-cart-btn"
+            data-add-cart
+            data-name="TRI Fusion Pack (Try Pack)"
+            data-price="599"
+            data-image="assets/tri_fusion_pack_ad.webp"
+            data-variant="Complete System"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            Add to Cart — ₹599
+          </button>
+          
+          <p class="shop-shipping-note">Free shipping on orders above ₹999 · Safe Checkout · Made in India</p>
+          
+          <div class="shop-features-list">
+            <div class="shop-feature-item">
+              <span class="feat-icon">⚡</span>
+              <div>
+                <strong>3 Synchronized Formulations</strong>
+                <p>Engineered to cover your entire workout cycle: Pre, Intra, and Post-workout nutrition.</p>
+              </div>
+            </div>
+            <div class="shop-feature-item">
+              <span class="feat-icon">🌿</span>
+              <div>
+                <strong>Zero Gastric Bloating</strong>
+                <p>Pre-embedded digestive plant enzymes Papain and Bromelain guarantee easy digestion.</p>
+              </div>
+            </div>
+            <div class="shop-feature-item">
+              <span class="feat-icon">🔬</span>
+              <div>
+                <strong>5-Level Lab Integrity</strong>
+                <p>Tested by Eurofins for absolute label accuracy, purity, and zero heavy metal contaminants.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- Detailed Inside Breakdown -->
+      <div class="shop-inside-breakdown">
+        <h2 class="breakdown-title">What's Inside the Box</h2>
+        <p class="breakdown-subtitle">Nine high-performance sachets containing three clinically dosed systems.</p>
+        
+        <div class="breakdown-grid">
+          
+          <!-- System 1: Pre-Workout -->
+          <div class="breakdown-card">
+            <img src="assets/drake_pineapple_photoshoot.webp" alt="Pump Drake Pre-Workout" loading="lazy" />
+            <h3>1. Pump Drake Pre-Workout</h3>
+            <span class="breakdown-badge">3 Sachets</span>
+            <p class="breakdown-desc">6g Citrulline Malate, 3.2g Beta-Alanine, and 200mg natural caffeine. Delivers explosive energy, maximum pumps, and zero crash.</p>
+          </div>
+          
+          <!-- System 2: BCAA Intra-Workout -->
+          <div class="breakdown-card">
+            <img src="assets/bcaa_kiwi_strawberry_photoshoot.webp" alt="Power BCAA Intra-Workout" loading="lazy" />
+            <h3>2. Power BCAA Intra-Workout</h3>
+            <span class="breakdown-badge">3 Sachets</span>
+            <p class="breakdown-desc">7g BCAAs at the gold-standard 2:1:1 ratio, plus 3g hydration electrolytes. Buffers fatigue and prevents muscle breakdown.</p>
+          </div>
+          
+          <!-- System 3: True Whey Post-Workout -->
+          <div class="breakdown-card">
+            <img src="assets/whey_coffee_delight_photoshoot.webp" alt="True Whey Post-Workout" loading="lazy" />
+            <h3>3. True Whey Protein</h3>
+            <span class="breakdown-badge">3 Sachets</span>
+            <p class="breakdown-desc">24.5g cold-processed grass-fed whey concentrate, powered by 200mg digestive enzymes for maximum post-workout repair without bloat.</p>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       3. TRUST STRIP
+  ════════════════════════════════════════════════════════════ -->
+  <section class="shop-trust-section">
+    <div class="shop-trust-inner">
+
+      <!-- Free Shipping -->
+      <div class="shop-trust-item">
+        <div class="shop-trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/>
+            <rect x="9" y="11" width="14" height="10" rx="2"/>
+            <circle cx="12" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          </svg>
+        </div>
+        Free Shipping above ₹999
+      </div>
+      <div class="shop-trust-divider" aria-hidden="true"></div>
+
+      <!-- Secure Payment -->
+      <div class="shop-trust-item">
+        <div class="shop-trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+        </div>
+        Secure Payment
+      </div>
+      <div class="shop-trust-divider" aria-hidden="true"></div>
+
+      <!-- Genuine Products -->
+      <div class="shop-trust-item">
+        <div class="shop-trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        100% Genuine Products
+      </div>
+      <div class="shop-trust-divider" aria-hidden="true"></div>
+
+      <!-- Easy Returns -->
+      <div class="shop-trust-item">
+        <div class="shop-trust-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
+          </svg>
+        </div>
+        Easy Returns
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       4. NEWSLETTER
+  ════════════════════════════════════════════════════════════ -->
+  <section class="newsletter-section">
+    <div class="newsletter-inner">
+      <p class="newsletter-eyebrow">Stay in the loop</p>
+      <h2 class="newsletter-heading">Get Early Access &amp; Exclusive Offers</h2>
+      <p class="newsletter-sub">Be the first to know about new products, lab reports, and subscriber-only discounts. No spam, ever.</p>
+      <form class="newsletter-form" id="newsletter-form" novalidate>
+        <input
+          type="email"
+          class="newsletter-input"
+          id="newsletter-email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          required
+        />
+        <button type="submit" class="newsletter-btn">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       5. FOOTER
+  ════════════════════════════════════════════════════════════ -->
+  <footer class="tri-footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Brand -->
+        <div class="footer-brand">
+          <svg aria-label="TRI - The Real Inside" class="footer-logo-svg" fill="none" height="65" viewbox="-2 -6 184 84" width="160" xmlns="http://www.w3.org/2000/svg">
+<polygon fill="none" points="25,9 44,41 6,41" stroke="#f27a22" stroke-linejoin="round" stroke-width="3.5"></polygon>
+<text fill="#ffffff" font-family="'Montserrat', 'Inter', sans-serif" font-size="33" font-weight="900" letter-spacing="0.02em" x="52" y="38">TRI</text>
+<path d="M 6,49 Q 57,44 108,49" fill="none" stroke="#f27a22" stroke-linecap="round" stroke-width="1.8"></path>
+<text fill="#ffffff" font-family="'Montserrat', 'Inter', sans-serif" font-size="6.2" font-weight="800" letter-spacing="0.28em" text-anchor="middle" x="57" y="60">THE REAL INSIDE</text>
+<text fill="rgba(255,255,255,0.7)" font-family="Georgia, 'Times New Roman', serif" font-size="5.8" font-style="italic" text-anchor="middle" x="57" y="71">what's inside matters</text>
+</svg>
+          <p class="footer-tagline">The most transparently formulated sports nutrition brand in India. Eurofins verified, clinically dosed, always honest.</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/atriwellness/" class="footer-social" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+            <a href="https://twitter.com/atriwellness" class="footer-social" aria-label="Twitter / X" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.5 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@atriwellness" class="footer-social" aria-label="YouTube" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+                <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Shop -->
+        <div>
+          <div class="footer-col-title">Shop</div>
+          <ul class="footer-col-links">
+            <li><a href="shop.html">TRI Fusion Pack — ₹599</a></li>
+            <li><a href="inside.html">Inside the Pack</a></li>
+            <li><a href="lab-reports.html">Lab Reports Index</a></li>
+          </ul>
+        </div>
+
+        <!-- Registry -->
+        <div>
+          <div class="footer-col-title">Registry</div>
+          <ul class="footer-col-links">
+            <li><a href="lab-reports.html">Lab Reports Index</a></li>
+            <li><a href="lab-reports.html">Verify Batch</a></li>
+            <li><a href="inside.html#ingredients">The Formula</a></li>
+            <li><a href="inside.html">Transparency Engine</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <div class="footer-col-title">Company</div>
+          <ul class="footer-col-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="contact.html#privacy">Privacy Policy</a></li>
+            <li><a href="contact.html#terms">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <div class="footer-col-title">Get in Touch</div>
+          <ul class="footer-col-links">
+            <li><a href="mailto:hello@atriwellness.com">hello@atriwellness.com</a></li>
+            <li><a href="tel:+911234567890">+91 12345 67890</a></li>
+            <li style="color:rgba(255,248,248,0.3);font-size:12px;margin-top:8px;">Mon–Sat · 9 AM – 7 PM IST</a></li>
+          </ul>
+        </div>
+
+      </div><!-- /footer-grid -->
+
+      <!-- Footer bottom bar -->
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 THE REAL INSIDE (TRI). All rights reserved.</span>
+        <div class="footer-legal">
+          <a href="contact.html#privacy">Privacy</a>
+          <a href="contact.html#terms">Terms</a>
+          <a href="contact.html#cookies">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CART SIDEBAR
+  ════════════════════════════════════════════════════════════ -->
+  <div id="cart-overlay"></div>
+  <aside id="cart-panel" role="dialog" aria-label="Shopping cart">
+    <div class="cart-panel-header">
+      <span class="cart-panel-title">Your Cart</span>
+      <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cart-total-amount">₹0</span>
+      </div>
+      <button class="cart-checkout-btn" onclick="window.showToast && showToast('Checkout coming soon!')">
+        Checkout
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CHATBOT
+  ════════════════════════════════════════════════════════════ -->
+  <button id="chatbot-btn" aria-label="Open chat">
+    <div class="cb-pulse"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+    </svg>
+  </button>
+
+  <div id="chatbot-panel" role="dialog" aria-label="TRI chat assistant">
+    <div class="cb-header">
+      <div class="cb-avatar">🌿</div>
+      <div class="cb-header-text">
+        <div class="cb-name">TRI Performance Coach</div>
+        <div class="cb-status">
+          <span class="cb-dot"></span>
+          Online · Ready to help
+        </div>
+      </div>
+      <button class="cb-close" id="chatbot-close" aria-label="Close chat">✕</button>
+    </div>
+    <div class="cb-messages" id="cb-messages">
+      <div class="cb-msg bot">Hey! I'm TRI's Performance Coach. Ask me about any product, ingredients, or lab reports. 💪</div>
+    </div>
+    <div class="cb-quick-replies">
+      <button class="cb-quick">What's in Fusion Pack?</button>
+      <button class="cb-quick">Is it gut-friendly?</button>
+      <button class="cb-quick">Verify my batch</button>
+      <button class="cb-quick">Order support</button>
+    </div>
+    <div class="cb-input-row">
+      <input type="text" class="cb-input" id="cb-input" placeholder="Ask anything..." autocomplete="off" />
+      <button class="cb-send" id="cb-send" aria-label="Send message">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SHARED JS (handles loader, cursor, nav, cart, chatbot,
+       scroll reveal, toast, newsletter forms)
+  ════════════════════════════════════════════════════════════ -->
+  <script src="assets/tri.js"></script>
+
+  <script>
+    /* ── Mobile Menu (supplement tri.js which looks for .nav-hamburger) ── */
+    (function() {
+      var btn = document.getElementById('mobile-menu-btn');
+      var mobileNav = document.getElementById('mobile-nav');
+      if (btn && mobileNav && !btn._wired) {
+        btn._wired = true;
+        function openShopNav() {
+          btn.classList.add('open');
+          mobileNav.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
+        function closeShopNav() {
+          btn.classList.remove('open');
+          mobileNav.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+        btn.addEventListener('click', function() {
+          mobileNav.classList.contains('open') ? closeShopNav() : openShopNav();
+        });
+        var closeBtn = mobileNav.querySelector('.mn-close-btn');
+        if (closeBtn) closeBtn.addEventListener('click', closeShopNav);
+        mobileNav.querySelectorAll('a').forEach(function(a) {
+          a.addEventListener('click', closeShopNav);
+        });
+        mobileNav.addEventListener('click', function(e) { if (e.target === mobileNav) closeShopNav(); });
+      }
+    })();
+
+    /* ── Cart supplemental wiring ── */
+    (function() {
+      var cartBtn = document.getElementById('cart-icon-btn');
+      var overlay = document.getElementById('cart-overlay');
+      var closeBtn = document.getElementById('cart-close-btn');
+      if (cartBtn && !cartBtn._wired) {
+        cartBtn._wired = true;
+        cartBtn.addEventListener('click', function() {
+          if (window.openCart) window.openCart();
+        });
+      }
+      if (overlay && !overlay._wired) {
+        overlay._wired = true;
+        overlay.addEventListener('click', function() {
+          if (window.closeCart) window.closeCart();
+        });
+      }
+      if (closeBtn && !closeBtn._wired) {
+        closeBtn._wired = true;
+        closeBtn.addEventListener('click', function() {
+          if (window.closeCart) window.closeCart();
+        });
+      }
+    })();
+  </script>
+
+  <!-- Newsletter form wiring (supplement tri.js which handles .newsletter-form) -->
+  <script>
+    // tri.js already wires .newsletter-form submit via class selector;
+    // nothing extra needed. Below is a tiny guard in case the form
+    // uses the legacy id-based submit pattern.
+    const nlForm = document.getElementById('newsletter-form');
+    if (nlForm && !nlForm._triWired) {
+      nlForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const input = nlForm.querySelector('input[type="email"]');
+        const email = input?.value?.trim();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          window.showToast && showToast('Please enter a valid email');
+          return;
+        }
+        const btn = nlForm.querySelector('button');
+        const orig = btn.textContent;
+        btn.textContent = '...';
+        btn.disabled = true;
+        fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        }).catch(() => {});
+        if (input) input.value = '';
+        btn.textContent = '✓ Subscribed!';
+        btn.style.background = '#4CAF50';
+        window.showToast && showToast('Welcome to TRI! 🌿');
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 3000);
+      });
+    }
+  </script>
+
+</body>
+</html>

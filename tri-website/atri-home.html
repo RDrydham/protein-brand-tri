@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ATRI – The Real Inside | TRI Fusion Pack</title>
+  <meta name="description" content="Clean performance. No hidden blends. Built for your gut. Shop the TRI Fusion Pack — Pre Workout, BCAA & Protein in one." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       ATRI HOMEPAGE — PIXEL-PERFECT 4K REPLICA
+       Reference: ChatGPT Image Jun 5, 2026 + RAW IMAGES/1780677794875.png
+       
+       Exact brand values:
+         Logo gold:      #B8822A
+         Hero text:      #9A6B1F (warm dark gold)
+         Hero BG:        peach gradient  #FAE6D9 → #E8B090
+         Trust bar:      #F5EDE3
+         CTA gold btn:   #B8822A
+         Outline btn:    rgba(30,30,30,0.7) border
+    ============================================================ */
+
+    *, *::before, *::after {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    :root {
+      --gold:          #B8822A;
+      --gold-dark:     #9A6B1F;
+      --gold-hover:    #A0701F;
+      --gold-light:    #D4A55A;
+      --gold-shadow:   rgba(184,130,42,0.32);
+      --text-black:    #1A1A1A;
+      --text-dark:     #2C2C2C;
+      --text-muted:    #6A6A6A;
+      --white:         #FFFFFF;
+      --cream:         #F5EDE3;
+      --cream-border:  rgba(184,130,42,0.14);
+
+      /* Hero gradient — extracted from screenshot */
+      --hero-bg:       linear-gradient(
+        108deg,
+        #FAE6D9 0%,
+        #F9DDD0 18%,
+        #F7D3C4 35%,
+        #F4CABC 50%,
+        #F0C2B1 65%,
+        #EDBAAB 78%,
+        #E8B298 90%,
+        #E2AA8E 100%
+      );
+
+      --nav-h:         72px;
+      --trust-h:       78px;
+      --font-serif:    'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      --font-ui:       'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius-pill:   40px;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ===========================================
+       NAVBAR
+    =========================================== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      width: 100%;
+      height: var(--nav-h);
+      background: var(--white);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 48px;
+    }
+
+    .navbar__inner {
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ---- LOGO ---- */
+    .logo {
+      display: inline-flex;
+      flex-direction: column;
+      text-decoration: none;
+      flex-shrink: 0;
+      margin-right: 64px;
+      user-select: none;
+    }
+
+    .logo__mark {
+      display: flex;
+      align-items: center;
+      gap: 1px;
+    }
+
+    /* Triangle △ rendered as inline SVG (with crossbar, matching brand Δ mark) */
+    .logo__tri {
+      width: 22px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-right: 4px;
+      position: relative;
+      top: 0px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo__name {
+      font-family: var(--font-serif);
+      font-size: 31px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2.5px;
+      line-height: 1;
+    }
+
+    .logo__tagline {
+      font-family: var(--font-ui);
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 3.5px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 2px;
+      padding-left: 20px; /* optical alignment under TRI */
+    }
+
+    /* ---- NAV LINKS ---- */
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 42px;
+      list-style: none;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .nav__links a {
+      font-family: var(--font-ui);
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-decoration: none;
+      letter-spacing: 0.25px;
+      transition: color 0.2s ease;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav__links a:hover {
+      color: var(--gold);
+    }
+
+    /* Home — active underline */
+    .nav__links .is-active a {
+      color: var(--text-dark);
+    }
+
+    .nav__links .is-active a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--gold);
+    }
+
+    .nav__links li {
+      overflow: visible;
+    }
+
+    /* ---- NAV ACTIONS ---- */
+    .nav__actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .nav__icon-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-dark);
+      border-radius: 50%;
+      transition: color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .nav__icon-btn:hover {
+      color: var(--gold);
+      background: rgba(184,130,42,0.07);
+    }
+
+    .nav__icon-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: 5px;
+      right: 4px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 3px;
+      background: var(--gold);
+      color: var(--white);
+      font-size: 9.5px;
+      font-weight: 700;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .btn-nav-shop {
+      margin-left: 14px;
+      background: var(--gold);
+      color: var(--white);
+      border: none;
+      border-radius: 9999px;
+      padding: 11px 26px;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+      transition: background 0.22s ease, transform 0.15s ease, box-shadow 0.22s ease;
+      white-space: nowrap;
+    }
+
+    .btn-nav-shop:hover {
+      background: var(--gold-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 18px var(--gold-shadow);
+    }
+
+    /* ===========================================
+       HERO
+    =========================================== */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - var(--nav-h) - var(--trust-h));
+      min-height: 520px;
+      max-height: 680px;
+      overflow: hidden;
+      /* Fallback bg in case image loads slow */
+      background: linear-gradient(108deg, #FAE6D9 0%, #F7D3C4 35%, #F0C2B1 65%, #E2AA8E 100%);
+    }
+
+    /* Full-bleed product scene image — covers entire hero */
+    .hero__product-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      z-index: 0;
+    }
+
+    /* Soft vignette on left so headline text stays legible */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(250,230,217,0.55) 0%,
+        rgba(250,230,217,0.30) 38%,
+        transparent 60%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 56px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero__copy {
+      max-width: 500px;
+    }
+
+    .hero__headline {
+      font-family: var(--font-serif);
+      font-size: clamp(52px, 6vw, 88px);
+      font-weight: 700;
+      line-height: 1.03;
+      color: var(--gold-dark);
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+
+    .hero__sub {
+      font-family: var(--font-ui);
+      font-size: clamp(16px, 1.45vw, 20px);
+      font-weight: 400;
+      color: var(--text-dark);
+      line-height: 1.7;
+      margin-bottom: 44px;
+    }
+
+    .hero__btns {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 15px 34px;
+      font-family: var(--font-ui);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.25px;
+      transition: background 0.22s, transform 0.15s, box-shadow 0.22s;
+      box-shadow: 0 4px 18px var(--gold-shadow);
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(184,130,42,0.42);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-dark);
+      border: 1.8px solid rgba(28,28,28,0.60);
+      border-radius: var(--radius-pill);
+      padding: 13.5px 30px;
+      font-family: var(--font-ui);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      transition: border-color 0.22s, color 0.22s, transform 0.15s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ===========================================
+       TRUST BAR
+    =========================================== */
+    .trust-bar {
+      background: var(--cream);
+      border-top: 1px solid var(--cream-border);
+      height: var(--trust-h);
+      display: flex;
+      align-items: center;
+      padding: 0 56px;
+    }
+
+    .trust-bar__inner {
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .trust-item__icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+
+    .trust-item__icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .trust-item__label {
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 500;
+      color: #585858;
+      letter-spacing: 0.15px;
+      white-space: nowrap;
+    }
+
+    .trust-sep {
+      width: 1px;
+      height: 32px;
+      background: rgba(184,130,42,0.22);
+      flex-shrink: 0;
+    }
+
+    /* ===========================================
+       MICRO-ANIMATIONS
+    =========================================== */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .hero__headline {
+      animation: fadeSlideUp 0.7s ease both;
+      animation-delay: 0.05s;
+    }
+    .hero__sub {
+      animation: fadeSlideUp 0.7s ease both;
+      animation-delay: 0.18s;
+    }
+    .hero__btns {
+      animation: fadeSlideUp 0.7s ease both;
+      animation-delay: 0.32s;
+    }
+    .hero__product-img {
+      animation: fadeIn 0.9s ease both;
+      animation-delay: 0.1s;
+    }
+    .trust-bar {
+      animation: fadeSlideUp 0.6s ease both;
+      animation-delay: 0.5s;
+    }
+
+    /* ===========================================
+       RESPONSIVE — TABLET
+    =========================================== */
+    @media (max-width: 1024px) {
+      .navbar { padding: 0 28px; }
+      .nav__links { gap: 28px; }
+      .hero { max-height: 600px; }
+      .hero__content { padding: 0 28px; }
+      .hero__product-img { width: 58%; }
+      .trust-bar { padding: 0 28px; }
+    }
+
+    /* ===========================================
+       RESPONSIVE — MOBILE
+    =========================================== */
+    @media (max-width: 768px) {
+      .nav__links { display: none; }
+      .navbar { padding: 0 18px; }
+      .logo { margin-right: auto; }
+
+      .hero {
+        max-height: none;
+        height: auto;
+        min-height: auto;
+        padding-bottom: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .hero__product-img {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        object-position: center top;
+        order: 2;
+      }
+
+      .hero::before { display: none; }
+
+      .hero__content {
+        height: auto;
+        padding: 40px 22px 30px;
+        order: 1;
+      }
+
+      .hero__copy { max-width: 100%; }
+
+      .trust-bar {
+        height: auto;
+        padding: 18px 22px;
+      }
+
+      .trust-bar__inner {
+        flex-wrap: wrap;
+        gap: 14px 20px;
+        justify-content: flex-start;
+      }
+
+      .trust-sep { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ██████ NAVBAR ██████ -->
+  <header>
+    <nav class="navbar" role="navigation" aria-label="Main navigation" id="main-nav">
+      <div class="navbar__inner">
+
+        <!-- LOGO -->
+        <a href="index.html" class="logo" aria-label="ATRI – The Real Inside, home">
+          <div class="logo__mark">
+            <!-- SVG triangle Δ with crossbar — matches brand mark on product packaging -->
+            <svg class="logo__tri" viewBox="0 0 22 20" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="11,1.5 21,18.5 1,18.5" stroke="#B8822A" stroke-width="2" stroke-linejoin="round" fill="none"/>
+              <line x1="5.5" y1="13.5" x2="16.5" y2="13.5" stroke="#B8822A" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <span class="logo__name">TRI</span>
+          </div>
+          <span class="logo__tagline">THE REAL INSIDE</span>
+        </a>
+
+        <!-- NAVIGATION LINKS -->
+        <ul class="nav__links" role="list">
+          <li class="is-active"><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="inside.html">Inside</a></li>
+          <li><a href="lab-reports.html">Lab Reports</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <!-- ACTIONS -->
+        <div class="nav__actions">
+          <!-- Cart -->
+          <button class="nav__icon-btn" aria-label="Cart – 2 items" id="btn-cart">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            <span class="cart-count" aria-hidden="true">2</span>
+          </button>
+
+          <!-- Primary CTA -->
+          <button class="btn-nav-shop" id="btn-nav-shop" onclick="location.href='shop.html'">
+            Shop Now
+          </button>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- ██████ HERO ██████ -->
+  <main>
+    <section class="hero" aria-label="TRI Fusion Pack – hero banner">
+
+      <!-- Product scene image (right 62%) -->
+      <img
+        class="hero__product-img"
+        src="assets/raw_hero_product_scene.png"
+        alt="ATRI TRI Fusion Pack supplement box displayed on a stone pedestal with oranges and soft peach swirls"
+        width="900"
+        height="680"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+
+      <div class="hero__content">
+        <div class="hero__copy">
+          <h1 class="hero__headline">
+            What's inside<br>matters.
+          </h1>
+          <p class="hero__sub">
+            Clean performance. No hidden blends.<br>
+            Built for your gut.
+          </p>
+          <div class="hero__btns">
+            <button class="btn-primary" id="hero-shop-btn" onclick="location.href='shop.html'">
+              Shop Now
+            </button>
+            <button class="btn-outline" id="hero-explore-btn" onclick="location.href='inside.html'">
+              Explore the Inside
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ██████ TRUST BAR ██████ -->
+    <section class="trust-bar" aria-label="Brand pillars">
+      <div class="trust-bar__inner">
+
+        <!-- Lab Verified -->
+        <div class="trust-item">
+          <div class="trust-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <!-- Flask / Beaker icon -->
+              <path d="M9 3h6M9 3v5.5L5 15.5A2 2 0 006.9 18H17.1a2 2 0 001.9-2.5L15 8.5V3"/>
+              <line x1="6.5" y1="13" x2="17.5" y2="13"/>
+            </svg>
+          </div>
+          <span class="trust-item__label">Lab Verified</span>
+        </div>
+
+        <div class="trust-sep" aria-hidden="true"></div>
+
+        <!-- Transparent -->
+        <div class="trust-item">
+          <div class="trust-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <!-- Shield + check -->
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+          </div>
+          <span class="trust-item__label">Transparent</span>
+        </div>
+
+        <div class="trust-sep" aria-hidden="true"></div>
+
+        <!-- No Hidden Blends -->
+        <div class="trust-item">
+          <div class="trust-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <!-- Eye / visibility icon: represents full transparency, no hidden blends -->
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <span class="trust-item__label">No Hidden Blends</span>
+        </div>
+
+        <div class="trust-sep" aria-hidden="true"></div>
+
+        <!-- Consumer First -->
+        <div class="trust-item">
+          <div class="trust-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <!-- Person icon -->
+              <circle cx="12" cy="7" r="4"/>
+              <path d="M4 21v-1a8 8 0 0116 0v1"/>
+            </svg>
+          </div>
+          <span class="trust-item__label">Consumer First</span>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRI — The Real Inside | Science Inside</title>
+  <meta name="description" content="TRI supplements — True Whey, TRI Power BCAA, TRI Pump Drake. Premium nutrition, science revealed." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blush:     #F8D7D9;
+      --rose:      #E6A2A4;
+      --ivory:     #FAF8F4;
+      --champagne: #F5EFE6;
+      --espresso:  #0F0905;
+      --mocha:     #1A1208;
+      --sand:      #C4A882;
+      --gold:      #C9A96E;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--espresso);
+      overflow: hidden;
+      font-family: 'DM Sans', 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Deep vignette */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 90% 80% at 50% 50%,
+        transparent 35%, rgba(6,3,1,0.65) 100%);
+      pointer-events: none; z-index: 10;
+    }
+
+    /* ── Stage ── */
+    #stage {
+      position: relative;
+      width: 100vw; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Canvas ── */
+    #tri-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+    }
+
+    /* ── Ambient glow ── */
+    #tri-glow {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 65% 52% at 50% 50%,
+        rgba(230,162,164,0.10) 0%,
+        rgba(248,215,217,0.03) 55%,
+        transparent 72%);
+      opacity: 0;
+      will-change: opacity;
+      pointer-events: none;
+    }
+
+    /* ── Products ── */
+    #tri-products {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      gap: clamp(18px, 3.6vw, 54px);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .tri-card {
+      display: flex; flex-direction: column; align-items: center;
+      opacity: 0; will-change: transform, opacity, filter;
+      transform: translateY(32px) scale(0.88);
+      filter: blur(8px);
+    }
+
+    .tri-sachet {
+      position: relative;
+      width: clamp(96px, 11.8vw, 168px);
+    }
+
+    .tri-sachet-inner {
+      width: 100%;
+      aspect-ratio: 0.72;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.07) inset,
+        0 2px 0  rgba(255,255,255,0.08) inset,
+        0 28px 70px rgba(0,0,0,0.72),
+        0 8px 24px rgba(0,0,0,0.50);
+    }
+
+    .tri-sachet-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block; border-radius: 14px;
+      will-change: transform;
+      transition: transform 0.6s ease;
+    }
+
+    /* Premium shimmer sweep */
+    .tri-sachet-inner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        128deg,
+        transparent 0%, transparent 28%,
+        rgba(255,255,255,0.14) 46%, rgba(255,255,255,0.05) 52%,
+        transparent 68%, transparent 100%
+      );
+      background-size: 260% 260%;
+      background-position: -160% 0;
+      border-radius: 14px;
+      z-index: 2;
+      animation: shimmer 4.8s ease-in-out infinite;
+    }
+
+    /* Subtle edge rim */
+    .tri-sachet-inner::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 14px;
+      box-shadow:
+        0 0 0 1px rgba(248,215,217,0.09) inset,
+        0 -4px 20px rgba(248,215,217,0.06) inset;
+      z-index: 3; pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -160% 0; opacity:0; }
+      10%  { opacity:1; }
+      58%  { background-position: 260% 0; opacity:1; }
+      70%  { opacity:0; }
+      100% { background-position: 260% 0; opacity:0; }
+    }
+
+    /* Label */
+    .tri-label {
+      margin-top: 14px;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      opacity: 0; will-change: opacity;
+      transform: translateY(8px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .tri-card.visible .tri-label {
+      opacity: 1; transform: translateY(0);
+    }
+
+    .tri-name {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(9px, 0.95vw, 12px);
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blush);
+    }
+
+    .tri-sub {
+      font-size: clamp(7.5px, 0.75vw, 9.5px);
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(248,215,217,0.36);
+    }
+
+    /* ── Cluster labels ── */
+    #tri-cluster-labels {
+      position: absolute; inset: 0;
+      z-index: 4; pointer-events: none;
+    }
+
+    .cl {
+      position: absolute;
+      transform: translate(-50%, calc(-50% - 36px));
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+      opacity: 0; will-change: opacity;
+    }
+
+    .cl-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      border: 1px solid rgba(248,215,217,0.45);
+      background: rgba(248,215,217,0.12);
+      animation: pulse-dot 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity:0.6; }
+      50%       { transform: scale(1.5); opacity:1; }
+    }
+
+    .cl-text {
+      font-size: clamp(8px, 0.82vw, 10.5px);
+      font-weight: 400;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(248,215,217,0.52);
+      white-space: nowrap;
+    }
+
+    /* ── Brand lockup ── */
+    #tri-brand {
+      position: absolute;
+      bottom: clamp(20px, 3.8vh, 50px);
+      left: 50%; transform: translateX(-50%);
+      text-align: center; opacity: 0;
+      will-change: opacity; z-index: 8;
+      pointer-events: none;
+    }
+
+    .tri-logo {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(13px, 1.4vw, 18px);
+      font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--blush);
+    }
+
+    .tri-tagline {
+      margin-top: 5px;
+      font-size: clamp(8px, 0.75vw, 10px);
+      font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(248,215,217,0.33);
+    }
+
+    /* ── HUD ── */
+    #tri-hud {
+      position: absolute; top: clamp(14px, 2.2vh, 28px);
+      left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 9px;
+      z-index: 9; pointer-events: none;
+    }
+
+    #tri-dots {
+      display: flex; gap: 7px;
+    }
+
+    .tri-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(248,215,217,0.16);
+      transition: background 0.5s ease, transform 0.5s ease;
+    }
+    .tri-dot.on {
+      background: rgba(248,215,217,0.68);
+      transform: scale(1.5);
+    }
+
+    #tri-phase-txt {
+      font-size: clamp(7px, 0.68vw, 9px);
+      font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(248,215,217,0.22);
+      transition: opacity 0.5s ease;
+      white-space: nowrap;
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      #tri-products { gap: 10px; }
+      .tri-sachet-inner { border-radius: 10px; }
+    }
+  </style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="tri-canvas"></canvas>
+  <div id="tri-glow"></div>
+
+  <!-- Cluster molecule labels -->
+  <div id="tri-cluster-labels">
+    <div class="cl" id="cl0" style="left:21%; top:52%">
+      <div class="cl-dot"></div>
+      <span class="cl-text">Protein</span>
+    </div>
+    <div class="cl" id="cl1" style="left:50%; top:50%">
+      <div class="cl-dot" style="animation-delay:0.4s"></div>
+      <span class="cl-text">BCAA</span>
+    </div>
+    <div class="cl" id="cl2" style="left:79%; top:52%">
+      <div class="cl-dot" style="animation-delay:0.8s"></div>
+      <span class="cl-text">Pre-Workout</span>
+    </div>
+  </div>
+
+  <!-- Products -->
+  <div id="tri-products">
+
+    <div class="tri-card" id="triCard0">
+      <div class="tri-sachet">
+        <div class="tri-sachet-inner">
+          <img src="assets/whey_russian_chocolate.webp"
+               alt="TRI True Whey — Russian Chocolate" loading="eager" />
+        </div>
+      </div>
+      <div class="tri-label">
+        <span class="tri-name">True Whey</span>
+        <span class="tri-sub">Russian Chocolate · 35g</span>
+      </div>
+    </div>
+
+    <div class="tri-card" id="triCard1">
+      <div class="tri-sachet">
+        <div class="tri-sachet-inner">
+          <img src="assets/bcaa_mojito.webp"
+               alt="TRI Power BCAA — Mojito" loading="eager" />
+        </div>
+      </div>
+      <div class="tri-label">
+        <span class="tri-name">TRI Power BCAA</span>
+        <span class="tri-sub">Mojito Flavour · 10g</span>
+      </div>
+    </div>
+
+    <div class="tri-card" id="triCard2">
+      <div class="tri-sachet">
+        <div class="tri-sachet-inner">
+          <img src="assets/drake_lemon_lime.webp"
+               alt="TRI Pump Drake — Lemon Lime" loading="eager" />
+        </div>
+      </div>
+      <div class="tri-label">
+        <span class="tri-name">TRI Pump Drake</span>
+        <span class="tri-sub">Lemon Lime · 15g</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Brand -->
+  <div id="tri-brand">
+    <div class="tri-logo">△ TRI</div>
+    <div class="tri-tagline">The Real Inside · What's Inside Matters</div>
+  </div>
+
+  <!-- HUD -->
+  <div id="tri-hud">
+    <div id="tri-dots">
+      <div class="tri-dot on" id="td0"></div>
+      <div class="tri-dot"    id="td1"></div>
+      <div class="tri-dot"    id="td2"></div>
+    </div>
+    <div id="tri-phase-txt">Molecular Structure</div>
+  </div>
+
+</div>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   TRI — Molecular → Sachet → Molecular  |  Infinite Premium Loop
+   
+   Timeline (~20s per full cycle):
+     [0.0]  MOLECULE  5.0s   — 3 organic floating clusters
+     [5.0]  CONVERGE  2.8s   — particles pull toward sachet zones
+     [7.8]  EMERGE    1.2s   — sachets materialize, particles fade
+     [9.0]  SHOWCASE  6.0s   — gentle float + light sweep
+     [15.0] DISSOLVE  2.2s   — sachets dissolve, particles return
+     [17.2] REST      1.4s   — clusters re-form
+     [18.6] → loop
+═══════════════════════════════════════════════════════════════════ */
+
+'use strict';
+
+const CV  = document.getElementById('tri-canvas');
+const CTX = CV.getContext('2d');
+
+// ── Brand palette ──────────────────────────────────────────────────
+const PALETTE = [
+  { r:230, g:162, b:164 }, // Rose  → Whey/Protein
+  { r:188, g:226, b:170 }, // Sage  → BCAA
+  { r:248, g:232, b:185 }, // Gold  → Pre-Workout/Drake
+];
+
+// ── Viewport ───────────────────────────────────────────────────────
+let VW = 0, VH = 0;
+const resize = () => { VW = CV.width = window.innerWidth; VH = CV.height = window.innerHeight; };
+window.addEventListener('resize', () => { resize(); rebuildParticles(); });
+resize();
+
+// ── Geometry helpers ───────────────────────────────────────────────
+const clusterPos = () => [
+  { x: VW * 0.215, y: VH * 0.500 },
+  { x: VW * 0.500, y: VH * 0.482 },
+  { x: VW * 0.785, y: VH * 0.500 },
+];
+
+const sachetPos = () => {
+  const sw = Math.min(VW * 0.114, 162);
+  const sh = sw * 1.43;
+  const g  = sw + Math.min(VW * 0.04, 58);
+  const cx = VW / 2, cy = VH / 2 - 12;
+  return [
+    { cx: cx - g, cy, w: sw, h: sh },
+    { cx,         cy, w: sw, h: sh },
+    { cx: cx + g, cy, w: sw, h: sh },
+  ];
+};
+
+// ── Particle ───────────────────────────────────────────────────────
+const N_PARTICLES = 264;  // 88 × 3
+const N_PER_GROUP = 88;
+
+class Particle {
+  constructor(group) {
+    this.g = group;
+    this._randomizeHome();
+    this.x  = this.hx + (Math.random() - .5) * 90;
+    this.y  = this.hy + (Math.random() - .5) * 90;
+    this.tx = this.hx; this.ty = this.hy;
+
+    this.radius   = Math.random() * 1.9 + 0.6;
+    this.baseAlph = Math.random() * 0.48 + 0.16;
+    this.alph     = this.baseAlph;
+
+    // Lissajous-style organic drift
+    this.dA  = Math.random() * Math.PI * 2;
+    this.dS  = 0.0025 + Math.random() * 0.004;
+    this.dAx = 18 + Math.random() * 22;
+    this.dAy = 10 + Math.random() * 16;
+    this.dP  = Math.random() * Math.PI * 2;
+
+    // Convergence speed (staggered for organic feel)
+    this.spd = 0.018 + Math.random() * 0.030;
+  }
+
+  _randomizeHome() {
+    const c = clusterPos()[this.g];
+    const s = Math.min(VW, VH) * 0.082;
+    this.hx = c.x + (Math.random() - .5) * s * 2;
+    this.hy = c.y + (Math.random() - .5) * s * 2;
+  }
+
+  refreshHome() {
+    this._randomizeHome();
+    this.tx = this.hx; this.ty = this.hy;
+  }
+
+  targetSachet() {
+    const z = sachetPos()[this.g];
+    const m = 9;
+    this.tx = z.cx - z.w/2 + m + Math.random() * (z.w - m * 2);
+    this.ty = z.cy - z.h/2 + m + Math.random() * (z.h - m * 2);
+  }
+
+  update(phase, frame) {
+    switch (phase) {
+      case 'molecule':
+      case 'rest':
+        this.dA += this.dS;
+        const ox = Math.cos(this.dA + this.dP) * this.dAx;
+        const oy = Math.sin(this.dA * 0.7  + this.dP) * this.dAy;
+        this.x += ((this.hx + ox) - this.x) * 0.036;
+        this.y += ((this.hy + oy) - this.y) * 0.036;
+        this.alph = this.baseAlph + Math.sin(frame * 0.0012 + this.dP) * 0.09;
+        break;
+
+      case 'converge':
+        this.x += (this.tx - this.x) * this.spd;
+        this.y += (this.ty - this.y) * this.spd;
+        break;
+
+      case 'product':
+        this.x += (this.tx - this.x) * 0.10 + (Math.random() - .5) * 0.28;
+        this.y += (this.ty - this.y) * 0.10 + (Math.random() - .5) * 0.28;
+        break;
+
+      case 'dissolve':
+        this.x += (this.hx - this.x) * this.spd;
+        this.y += (this.hy - this.y) * this.spd;
+        break;
+    }
+  }
+
+  render(alphaScale) {
+    const a = Math.max(0, Math.min(1, this.alph * alphaScale));
+    if (a < 0.012) return;
+    const c = PALETTE[this.g];
+    CTX.beginPath();
+    CTX.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    CTX.fillStyle = `rgba(${c.r},${c.g},${c.b},${a})`;
+    CTX.fill();
+  }
+}
+
+// ── Particle pool ──────────────────────────────────────────────────
+let particles = [];
+function rebuildParticles() {
+  particles = Array.from({ length: N_PARTICLES }, (_, i) =>
+    new Particle(Math.min(Math.floor(i / N_PER_GROUP), 2))
+  );
+}
+rebuildParticles();
+
+// ── Molecular bond lines ───────────────────────────────────────────
+function drawBonds(phase, scale) {
+  if (phase === 'product') return;
+  const maxD  = phase === 'converge' || phase === 'dissolve' ? 36 : 62;
+  const baseA = (phase === 'molecule' || phase === 'rest') ? 0.085 : 0.045;
+
+  CTX.lineWidth = 0.40;
+  for (let i = 0; i < particles.length; i += 2) {
+    const a = particles[i];
+    for (let j = i + 2; j < particles.length; j += 2) {
+      const b = particles[j];
+      if (a.g !== b.g) continue;
+      const dx = a.x - b.x, dy = a.y - b.y;
+      const d2 = dx*dx + dy*dy;
+      if (d2 < maxD * maxD) {
+        const d  = Math.sqrt(d2);
+        const fa = baseA * (1 - d / maxD) * scale;
+        const c  = PALETTE[a.g];
+        CTX.strokeStyle = `rgba(${c.r},${c.g},${c.b},${fa})`;
+        CTX.beginPath();
+        CTX.moveTo(a.x, a.y);
+        CTX.lineTo(b.x, b.y);
+        CTX.stroke();
+      }
+    }
+  }
+}
+
+// ── DOM refs ───────────────────────────────────────────────────────
+const triCards = [0,1,2].map(i => document.getElementById('triCard' + i));
+const triCls   = [0,1,2].map(i => document.getElementById('cl' + i));
+const triDots  = [0,1,2].map(i => document.getElementById('td' + i));
+const glowEl   = document.getElementById('tri-glow');
+const brandEl  = document.getElementById('tri-brand');
+const phaseTxt = document.getElementById('tri-phase-txt');
+
+// ── State ──────────────────────────────────────────────────────────
+let phase      = 'molecule';
+let ptAlpha    = 1.0;   // GSAP-controlled
+let frame      = 0;
+let booted     = false;
+
+// GSAP proxy
+const G = {
+  ptAlpha:  1,
+  cardOp:   0, cardY: 32, cardSc: 0.88, cardBlur: 8,
+  lblOp:    0,
+  glowOp:   0,
+  brandOp:  0,
+  // per-card stagger stores (unused directly – applied in tl stagger)
+};
+
+function applyG() {
+  ptAlpha = G.ptAlpha;
+  glowEl.style.opacity  = G.glowOp;
+  brandEl.style.opacity = G.brandOp;
+  triCls.forEach(c => c.style.opacity = G.lblOp);
+}
+
+function setDot(i) {
+  triDots.forEach((d, idx) => d.classList.toggle('on', idx === i));
+}
+
+function setPhase(txt) {
+  phaseTxt.style.opacity = '0';
+  setTimeout(() => { phaseTxt.textContent = txt; phaseTxt.style.opacity = '1'; }, 280);
+}
+
+// ── Card helpers (staggered) ───────────────────────────────────────
+function showCards(tl, atLabel) {
+  triCards.forEach((card, i) => {
+    const t = atLabel ? `${atLabel}+=${i * 0.18}` : `+=${i * 0.18}`;
+    tl.to(card, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      duration: 0.9,
+      ease: 'power3.out',
+      onUpdate: applyG,
+    }, i === 0 ? (atLabel || '+=0') : `<+=${0.18}`);
+    // show label with slight extra delay
+    tl.to(card.querySelector('.tri-label'), {
+      opacity: 1, y: 0,
+      duration: 0.55, ease: 'power2.out',
+    }, `<+=0.35`);
+  });
+}
+
+function hideCards(tl) {
+  triCards.forEach((card, i) => {
+    const lbl = card.querySelector('.tri-label');
+    tl.to(lbl,  { opacity: 0, y: 8, duration: 0.35, ease: 'power2.in'   }, i === 0 ? '+=0' : `<+=0.10`);
+    tl.to(card, {
+      opacity: 0, y: 32, scale: 0.88, filter: 'blur(8px)',
+      duration: 0.6, ease: 'power2.in',
+    }, '<+=0.10');
+  });
+}
+
+// ── Reset card state ───────────────────────────────────────────────
+function resetCards() {
+  triCards.forEach(card => {
+    card.style.opacity  = '0';
+    card.style.transform = 'translateY(32px) scale(0.88)';
+    card.style.filter    = 'blur(8px)';
+    card.querySelector('.tri-label').style.opacity  = '0';
+    card.querySelector('.tri-label').style.transform = 'translateY(8px)';
+  });
+}
+
+// ── Floating card GSAP animation (runs forever) ────────────────────
+function floatCards() {
+  triCards.forEach((card, i) => {
+    gsap.to(card, {
+      y: `${-(9 + i * 2.5)}`,
+      duration: 3.5 + i * 0.6,
+      ease: 'sine.inOut',
+      yoyo: true, repeat: -1,
+      delay: i * 0.45,
+    });
+  });
+}
+
+// ── Main animation cycle ───────────────────────────────────────────
+function runCycle() {
+  resetCards();
+
+  const tl = gsap.timeline({ onComplete: runCycle });
+
+  /* ───── MOLECULE (5.0s) ───── */
+  tl.call(() => {
+    phase = 'molecule';
+    setDot(0);
+    setPhase('Molecular Structure');
+    particles.forEach(p => p.refreshHome());
+  });
+  tl.to(G, { ptAlpha: 1, lblOp: 1, duration: 1.0, ease: 'power2.out', onUpdate: applyG });
+  tl.to({}, { duration: 4.0 });
+
+  /* ───── CONVERGE (2.8s) ───── */
+  tl.call(() => {
+    phase = 'converge';
+    setDot(1);
+    setPhase('Converging');
+    particles.forEach(p => p.targetSachet());
+  });
+  tl.to(G, { lblOp: 0, duration: 0.5, ease: 'power2.in', onUpdate: applyG });
+  tl.to(G, { glowOp: 1, duration: 1.2, ease: 'power2.out', onUpdate: applyG }, '-=0.2');
+  tl.to({}, { duration: 2.3 });
+
+  /* ───── EMERGE (1.2s) ───── */
+  tl.call(() => {
+    phase = 'product';
+    setDot(2);
+    setPhase('The Real Inside');
+  });
+  // Fade particles out while cards fade in (staggered)
+  tl.to(G, { ptAlpha: 0, duration: 1.0, ease: 'power2.inOut', onUpdate: applyG });
+  showCards(tl, '<');
+  tl.to(G, { brandOp: 1, duration: 0.65, ease: 'power2.out', onUpdate: applyG }, '-=0.35');
+
+  /* ───── SHOWCASE (6.0s) ───── */
+  tl.to({}, { duration: 6.0 });
+
+  /* ───── DISSOLVE (2.2s) ───── */
+  tl.call(() => {
+    phase = 'dissolve';
+    setDot(1);
+    setPhase('Dissolving');
+    particles.forEach(p => p.refreshHome());
+  });
+  tl.to(G, { brandOp: 0, duration: 0.55, ease: 'power2.in', onUpdate: applyG });
+  hideCards(tl);
+  tl.to(G, { ptAlpha: 1, duration: 1.2, ease: 'power2.inOut', onUpdate: applyG }, '<+=0.2');
+  tl.to(G, { glowOp: 0, duration: 0.8, ease: 'power2.out', onUpdate: applyG }, '-=0.5');
+
+  /* ───── REST (1.4s) ───── */
+  tl.call(() => {
+    phase = 'rest';
+    setDot(0);
+    setPhase('Molecular Structure');
+  });
+  tl.to({}, { duration: 1.4 });
+}
+
+// ── Render loop ────────────────────────────────────────────────────
+(function loop() {
+  requestAnimationFrame(loop);
+  frame++;
+  CTX.clearRect(0, 0, VW, VH);
+  if (!booted) return;
+  drawBonds(phase, ptAlpha);
+  particles.forEach(p => { p.update(phase, frame); p.render(ptAlpha); });
+})();
+
+// ── Boot (wait for images) ─────────────────────────────────────────
+;(function boot() {
+  const imgs  = document.querySelectorAll('.tri-sachet-inner img');
+  let   count = 0;
+  const done  = () => { if (++count >= imgs.length && !booted) start(); };
+  imgs.forEach(img => img.complete ? done() : (img.onload = img.onerror = done));
+  setTimeout(() => { if (!booted) start(); }, 700);
+
+  function start() {
+    booted = true;
+    floatCards();
+    runCycle();
+  }
+})();
+</script>
+</body>
+</html>

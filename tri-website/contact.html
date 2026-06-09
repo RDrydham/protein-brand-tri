@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact ATRI Wellness — have questions, feedback or want to say hi? We'd love to hear from you. Email, phone, or fill our form." />
+  <meta name="keywords" content="contact TRI, ATRI wellness contact, hello@atriwellness.com, Bengaluru nutrition" />
+  <meta property="og:title" content="ATRI | Contact Us" />
+  <meta property="og:description" content="Get in touch with TRI. Questions, feedback, or orders — we're here for you." />
+  <meta property="og:type" content="website" />
+  <title>ATRI | Contact Us</title>
+
+  <!-- Shared Design System -->
+  <link rel="stylesheet" href="assets/tri.css" />
+
+  <style>
+    /* ================================================================
+       CONTACT PAGE — PAGE-SPECIFIC STYLES
+    ================================================================ */
+
+    /* ── HERO ── */
+    .ct-hero {
+      padding: 140px 0 90px;
+      background: linear-gradient(150deg, var(--cream) 0%, var(--blush) 55%, var(--cream-warm) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .ct-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -140px;
+      width: 520px; height: 520px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(248,215,217,0.55) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .ct-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 360px; height: 360px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(230,162,164,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .ct-hero-inner {
+      position: relative; z-index: 2;
+      max-width: 700px; margin: 0 auto;
+      padding: 0 24px;
+    }
+    .ct-hero-eyebrow {
+      font-family: var(--font-label);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--rose-dark);
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .ct-hero-eyebrow::before {
+      content: ''; display: block;
+      width: 24px; height: 1.5px;
+      background: var(--rose-dark);
+    }
+    .ct-hero-h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(44px, 7.5vw, 84px);
+      font-weight: 700; color: var(--dark);
+      line-height: 1.06; margin-bottom: 20px;
+    }
+    .ct-hero-sub {
+      font-size: clamp(15px, 1.8vw, 17px);
+      color: var(--muted-text); line-height: 1.75;
+      max-width: 540px; margin: 0 auto;
+    }
+
+    /* ── CONTACT SECTION ── */
+    .ct-section {
+      padding: 100px 0;
+      background: var(--cream);
+    }
+    .ct-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.45fr;
+      gap: 64px;
+      align-items: start;
+      max-width: 1160px; margin: 0 auto; padding: 0 40px;
+    }
+    @media (max-width: 900px) {
+      .ct-grid { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; }
+    }
+
+    /* Left col — Info */
+    .ct-info { display: flex; flex-direction: column; gap: 28px; }
+    .ct-info-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 700; color: var(--dark);
+      line-height: 1.18; margin-bottom: 4px;
+    }
+    .ct-info-sub {
+      font-size: 14px; color: var(--muted-text); line-height: 1.7;
+    }
+
+    /* Info cards */
+    .ct-info-cards { display: flex; flex-direction: column; gap: 14px; }
+    .ct-card {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 20px 22px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      transition: border-color var(--t-med), box-shadow var(--t-med), transform var(--t-med);
+    }
+    .ct-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-sm);
+      transform: translateX(5px);
+    }
+    .ct-card-icon {
+      width: 46px; height: 46px; flex-shrink: 0;
+      background: var(--blush);
+      border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .ct-card-label {
+      font-family: var(--font-label);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--rose-dark); margin-bottom: 4px;
+    }
+    .ct-card-value {
+      font-size: 14px; font-weight: 600; color: var(--dark);
+      line-height: 1.5;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+    .ct-card-value a {
+      color: var(--dark); text-decoration: none;
+      transition: color var(--t-fast);
+    }
+    .ct-card-value a:hover { color: var(--gold); }
+
+    /* Social row */
+    .ct-social-block {
+      padding: 22px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+    }
+    .ct-social-label {
+      font-family: var(--font-label);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--muted-text); margin-bottom: 14px;
+      display: block;
+    }
+    .ct-social-icons {
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .ct-social-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 16px;
+      background: var(--cream-warm);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-full);
+      font-family: var(--font-label);
+      font-size: 11px; font-weight: 600; color: var(--dark);
+      text-decoration: none; cursor: pointer;
+      transition: all var(--t-med);
+    }
+    .ct-social-btn:hover {
+      background: var(--gold); color: #fff;
+      border-color: var(--gold);
+      box-shadow: 0 6px 20px rgba(200,169,110,0.3);
+    }
+    .ct-social-btn span { font-size: 15px; }
+
+    /* Right col — Form card */
+    .ct-form-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: clamp(32px, 5vw, 52px);
+      box-shadow: var(--shadow-md);
+      position: relative; overflow: hidden;
+    }
+    .ct-form-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--rose), var(--gold));
+    }
+    .ct-form-heading {
+      font-family: var(--font-serif);
+      font-size: 24px; font-weight: 700; color: var(--dark);
+      margin-bottom: 6px;
+    }
+    .ct-form-sub {
+      font-size: 13px; color: var(--muted-text);
+      margin-bottom: 28px; line-height: 1.6;
+    }
+
+    /* Form fields */
+    .form-row { margin-bottom: 18px; }
+    .form-row label {
+      display: block;
+      font-family: var(--font-label);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dark); margin-bottom: 8px;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      border: 1.5px solid rgba(230,162,164,0.35);
+      border-radius: var(--r-md);
+      padding: 14px 18px;
+      font-family: var(--font-sans); font-size: 14px;
+      color: var(--dark);
+      background: var(--cream-warm);
+      outline: none;
+      transition: border-color var(--t-med), box-shadow var(--t-med), background var(--t-fast);
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,169,110,0.12);
+      background: #fff;
+    }
+    .form-textarea { min-height: 140px; resize: vertical; line-height: 1.65; }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--muted-text); opacity: 0.65; }
+
+    .form-submit {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 16px 24px;
+      background: var(--gold); color: #fff;
+      font-family: var(--font-label);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      border: none; border-radius: var(--r-full);
+      cursor: pointer; margin-top: 8px;
+      transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
+    }
+    .form-submit:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(200,169,110,0.35);
+    }
+    .form-submit svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* ── FAQ SECTION ── */
+    .faq-section {
+      padding: 100px 0;
+      background: var(--cream-section);
+    }
+    .faq-inner {
+      max-width: 800px; margin: 0 auto; padding: 0 40px;
+    }
+    @media (max-width: 600px) { .faq-inner { padding: 0 20px; } }
+
+    .faq-header { text-align: center; margin-bottom: 56px; }
+    .faq-eyebrow {
+      font-family: var(--font-label);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--rose-dark);
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .faq-eyebrow::before {
+      content: ''; width: 24px; height: 1.5px;
+      background: var(--rose-dark);
+    }
+    .faq-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 700; color: var(--dark);
+      line-height: 1.12;
+    }
+
+    /* Accordion */
+    .faq-list { display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      transition: border-color var(--t-med), box-shadow var(--t-med);
+    }
+    .faq-item.open {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+    .faq-question {
+      width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+      background: none; border: none; cursor: pointer;
+      text-align: left;
+      font-family: var(--font-sans);
+      font-size: 15px; font-weight: 600;
+      color: var(--dark); line-height: 1.45;
+      transition: color var(--t-fast);
+    }
+    .faq-question:hover { color: var(--gold); }
+    .faq-item.open .faq-question { color: var(--gold); }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--blush);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--t-fast), transform var(--t-med);
+    }
+    .faq-icon svg {
+      width: 14px; height: 14px;
+      color: var(--rose-dark);
+      transition: transform var(--t-med);
+    }
+    .faq-item.open .faq-icon {
+      background: var(--gold);
+    }
+    .faq-item.open .faq-icon svg {
+      color: #fff;
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.38s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s;
+    }
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      font-size: 14px; color: var(--muted-text);
+      line-height: 1.75;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    /* ── NEWSLETTER SECTION ── */
+    .ct-newsletter {
+      background: var(--blush);
+      padding: 72px 0;
+    }
+    .ct-newsletter-inner {
+      max-width: 560px; margin: 0 auto; padding: 0 40px;
+      text-align: center;
+    }
+    .ct-nl-eyebrow {
+      font-family: var(--font-label);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--rose-dark); margin-bottom: 10px;
+    }
+    .ct-nl-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 700; color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .ct-nl-sub {
+      font-size: 14px; color: var(--muted-text);
+      margin-bottom: 28px; line-height: 1.65;
+    }
+    .ct-nl-form {
+      display: flex;
+      border: 1.5px solid rgba(26,26,26,0.1);
+      border-radius: var(--r-full); overflow: hidden;
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+    .ct-nl-input {
+      flex: 1; border: none; background: transparent;
+      padding: 14px 20px;
+      font-family: var(--font-sans); font-size: 14px;
+      color: var(--dark); outline: none;
+    }
+    .ct-nl-input::placeholder { color: var(--muted-text); opacity: 0.7; }
+    .ct-nl-btn {
+      background: var(--gold); color: #fff; border: none;
+      padding: 0 26px;
+      font-family: var(--font-label);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      white-space: nowrap; cursor: pointer;
+      transition: background var(--t-fast);
+    }
+    .ct-nl-btn:hover { background: var(--gold-dark); }
+    @media (max-width: 520px) {
+      .ct-nl-form { flex-direction: column; border-radius: var(--r-lg); }
+      .ct-nl-btn { padding: 14px; border-radius: 0 0 var(--r-lg) var(--r-lg); }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      .ct-section { padding: 64px 0; }
+      .faq-section { padding: 64px 0; }
+      .ct-newsletter { padding: 56px 0; }
+      .ct-hero { padding: 120px 0 70px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page Loader -->
+  <div id="tri-loader">
+    <div class="loader-logo" style="width: 180px; height: 75px; display: inline-flex; align-items: center; justify-content: center; font-size: inherit; letter-spacing: normal; opacity: 0;">
+      <svg class="atri-hud-logo" width="180" height="80" viewBox="-2 -6 184 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <style>
+          .atri-hud-logo { overflow: visible; }
+          @keyframes scanSweep {
+            0% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(68px); opacity: 0; }
+          }
+          .hud-scanline { animation: scanSweep 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+          @keyframes targetLock {
+            0% { transform: translate(25px, 26px) scale(1.6); opacity: 0; }
+            15% { opacity: 1; }
+            80% { opacity: 1; transform: translate(25px, 26px) scale(1) rotate(180deg); }
+            100% { opacity: 0; transform: translate(25px, 26px) scale(0.9) rotate(240deg); }
+          }
+          .hud-target { transform-origin: 25px 26px; animation: targetLock 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+          @keyframes rotateCW { to { transform: rotate(360deg); } }
+          @keyframes rotateCCW { to { transform: rotate(-360deg); } }
+          .hud-ring-outer { transform-origin: 25px 26px; animation: rotateCW 5s linear infinite; }
+          .hud-ring-inner { transform-origin: 25px 26px; animation: rotateCCW 3.5s linear infinite; }
+          @keyframes drawTriangle {
+            0% { stroke-dashoffset: 120; opacity: 0; }
+            20% { opacity: 1; }
+            75% { stroke-dashoffset: 0; fill: rgba(242, 122, 34, 0.0); }
+            100% { stroke-dashoffset: 0; fill: rgba(242, 122, 34, 0.04); }
+          }
+          .logo-triangle { stroke-dasharray: 120; stroke-dashoffset: 120; animation: drawTriangle 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 0.1s; }
+          @keyframes glitchText {
+            0% { opacity: 0; transform: translateX(-6px); filter: blur(3px); }
+            30% { opacity: 0.2; transform: translateX(3px); filter: none; }
+            35% { opacity: 0.05; }
+            45% { opacity: 0.75; transform: translateX(-3px); text-shadow: -1.5px 0 #f27a22, 1.5px 0 #00ffff; }
+            50% { opacity: 0.4; }
+            58% { opacity: 1; transform: translateX(0); text-shadow: none; filter: none; }
+            100% { opacity: 1; }
+          }
+          .logo-tri-text-white { animation: glitchText 1.5s ease-out forwards; animation-delay: 0.35s; opacity: 0; }
+          @keyframes drawArch {
+            0% { stroke-dashoffset: 140; opacity: 0; }
+            30% { opacity: 1; }
+            100% { stroke-dashoffset: 0; }
+          }
+          .logo-arch { stroke-dasharray: 140; stroke-dashoffset: 140; animation: drawArch 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.6s; }
+          @keyframes fadeInSub { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+          .logo-sub1-white { animation: fadeInSub 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.1s; opacity: 0; }
+          .logo-sub2-white { animation: fadeInSub 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.4s; opacity: 0; }
+          @keyframes flashHUD { 0% { opacity: 0; } 8% { opacity: 1; } 15% { opacity: 0.15; } 22% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
+          .hud-readout { animation: flashHUD 2.4s ease-out forwards; }
+        </style>
+        <defs>
+          <filter id="loader-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="1.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <line class="hud-scanline" x1="5" y1="3" x2="175" y2="3" stroke="#f27a22" stroke-width="1.5" filter="url(#loader-glow)" opacity="0" />
+        <g class="hud-target">
+          <circle class="hud-ring-outer" cx="25" cy="26" r="22" stroke="#f27a22" stroke-width="0.8" stroke-dasharray="4 6" fill="none" />
+          <circle class="hud-ring-inner" cx="25" cy="26" r="16" stroke="#f27a22" stroke-width="0.5" stroke-dasharray="8 2" fill="none" opacity="0.6" />
+          <path d="M 3 28 H 11 M 39 28 H 47 M 25 6 V 14 M 25 42 V 50" stroke="#f27a22" stroke-width="0.8" />
+        </g>
+        <polygon class="logo-triangle" points="25,9 44,41 6,41" stroke="#f27a22" stroke-width="3.5" stroke-linejoin="round" fill="none" />
+        <text class="logo-tri-text-white" x="52" y="38" font-family="'Montserrat', 'Inter', sans-serif" font-size="33" font-weight="900" fill="#ffffff" letter-spacing="0.02em">TRI</text>
+        <path class="logo-arch" d="M 6,49 Q 57,44 108,49" stroke="#f27a22" stroke-width="1.8" stroke-linecap="round" fill="none" />
+        <text class="logo-sub1-white" x="57" y="55" font-family="'Montserrat', 'Inter', sans-serif" font-size="6.2" font-weight="800" fill="#ffffff" letter-spacing="0.28em" text-anchor="middle">THE REAL INSIDE</text>
+        <text class="logo-sub2-white" x="57" y="65" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="5.8" fill="rgba(255,255,255,0.7)" text-anchor="middle">what's inside matters</text>
+        <g class="hud-readout" font-family="monospace" font-size="3" fill="#f27a22" opacity="0.8">
+          <text x="6" y="60">[SYS_INIT]</text>
+          <text x="114" y="60">LOCK_99.7%</text>
+        </g>
+      </svg>
+    </div>
+    <div class="loader-tagline">The Real Inside</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="tri-toast"></div>
+
+  <!-- Mobile Navigation -->
+  <div id="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <div class="mn-hdr">
+      <a href="index.html" class="mn-logo">ATRI<span class="mn-logo-sub">The Real Inside</span></a>
+      <button class="mn-close-btn" aria-label="Close menu">✕</button>
+    </div>
+    <div class="mn-inner">
+      <div class="mn-divider"></div>
+      <div class="mn-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="inside.html">Inside</a>
+        <a href="lab-reports.html">Lab Reports</a>
+        <a href="contact.html" class="active">Contact</a>
+      </div>
+      <a href="shop.html" class="mobile-nav-cta">Shop Now — ₹599</a>
+    </div>
+    <div class="mn-footer">
+      <span class="mn-footer-tagline">The Real Inside</span>
+      <div class="mn-footer-links">
+        <a href="inside.html">Ingredients</a>
+        <a href="lab-reports.html">Lab Proof</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="tri-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-motion-logo" aria-label="TRI — The Real Inside">
+        <svg class="atri-hud-logo" id="tri-header-logo" width="160" height="70" viewBox="-2 -6 184 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <style>
+            .atri-hud-logo { cursor: pointer; overflow: visible; }
+            @keyframes scanSweep {
+              0% { transform: translateY(0); opacity: 0; }
+              10% { opacity: 1; }
+              90% { opacity: 1; }
+              100% { transform: translateY(68px); opacity: 0; }
+            }
+            .hud-scanline { animation: scanSweep 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+            @keyframes targetLock {
+              0% { transform: translate(25px, 26px) scale(1.6); opacity: 0; }
+              15% { opacity: 1; }
+              80% { opacity: 1; transform: translate(25px, 26px) scale(1) rotate(180deg); }
+              100% { opacity: 0; transform: translate(25px, 26px) scale(0.9) rotate(240deg); }
+            }
+            .hud-target { transform-origin: 25px 26px; animation: targetLock 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+            @keyframes rotateCW { to { transform: rotate(360deg); } }
+            @keyframes rotateCCW { to { transform: rotate(-360deg); } }
+            .hud-ring-outer { transform-origin: 25px 26px; animation: rotateCW 5s linear infinite; }
+            .hud-ring-inner { transform-origin: 25px 26px; animation: rotateCCW 3.5s linear infinite; }
+            @keyframes drawTriangle {
+              0% { stroke-dashoffset: 120; opacity: 0; }
+              20% { opacity: 1; }
+              75% { stroke-dashoffset: 0; fill: rgba(242, 122, 34, 0.0); }
+              100% { stroke-dashoffset: 0; fill: rgba(242, 122, 34, 0.04); }
+            }
+            .logo-triangle { stroke-dasharray: 120; stroke-dashoffset: 120; animation: drawTriangle 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 0.1s; }
+            @keyframes glitchText {
+              0% { opacity: 0; transform: translateX(-6px); filter: blur(3px); }
+              30% { opacity: 0.2; transform: translateX(3px); filter: none; }
+              35% { opacity: 0.05; }
+              45% { opacity: 0.75; transform: translateX(-3px); text-shadow: -1.5px 0 #f27a22, 1.5px 0 #00ffff; }
+              50% { opacity: 0.4; }
+              58% { opacity: 1; transform: translateX(0); text-shadow: none; filter: none; }
+              100% { opacity: 1; }
+            }
+            .logo-tri-text { animation: glitchText 1.5s ease-out forwards; animation-delay: 0.35s; opacity: 0; }
+            @keyframes drawArch {
+              0% { stroke-dashoffset: 140; opacity: 0; }
+              30% { opacity: 1; }
+              100% { stroke-dashoffset: 0; }
+            }
+            .logo-arch { stroke-dasharray: 140; stroke-dashoffset: 140; animation: drawArch 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.6s; }
+            @keyframes fadeInSub { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+            .logo-sub1 { animation: fadeInSub 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.1s; opacity: 0; }
+            .logo-sub2 { animation: fadeInSub 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.4s; opacity: 0; }
+            @keyframes flashHUD { 0% { opacity: 0; } 8% { opacity: 1; } 15% { opacity: 0.15; } 22% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
+            .hud-readout { animation: flashHUD 2.4s ease-out forwards; }
+            .nav-motion-logo:hover .hud-scanline { animation: scanSweep 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite; }
+            .nav-motion-logo:hover .logo-tri-text { animation: hoverGlitch 0.4s ease-out; }
+            @keyframes hoverGlitch {
+              0% { transform: translate(1px, -1px); text-shadow: 1px -1px #f27a22, -1px 1px #00ffff; }
+              40% { transform: translate(-1.5px, 1px); text-shadow: -1px 1px #f27a22, 1px -1px #00ffff; }
+              80% { transform: translate(1px, 0.5px); text-shadow: 0.5px -0.5px #f27a22; }
+              100% { transform: translate(0, 0); text-shadow: none; }
+            }
+            .nav-motion-logo:hover .logo-triangle { animation: trianglePulse 0.6s ease-in-out; }
+            @keyframes trianglePulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); filter: drop-shadow(0 0 4px #f27a22); } 100% { transform: scale(1); } }
+          </style>
+          <defs>
+            <filter id="logo-glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="1.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <line class="hud-scanline" x1="5" y1="3" x2="175" y2="3" stroke="#f27a22" stroke-width="1.5" filter="url(#logo-glow)" opacity="0" />
+          <g class="hud-target">
+            <circle class="hud-ring-outer" cx="25" cy="26" r="22" stroke="#f27a22" stroke-width="0.8" stroke-dasharray="4 6" fill="none" />
+            <circle class="hud-ring-inner" cx="25" cy="26" r="16" stroke="#f27a22" stroke-width="0.5" stroke-dasharray="8 2" fill="none" opacity="0.6" />
+            <path d="M 3 28 H 11 M 39 28 H 47 M 25 6 V 14 M 25 42 V 50" stroke="#f27a22" stroke-width="0.8" />
+          </g>
+          <polygon class="logo-triangle" points="25,9 44,41 6,41" stroke="#f27a22" stroke-width="3.5" stroke-linejoin="round" fill="none" />
+          <text class="logo-tri-text" x="52" y="38" font-family="'Montserrat', 'Inter', sans-serif" font-size="33" font-weight="900" fill="#111111" letter-spacing="0.02em">TRI</text>
+          <path class="logo-arch" d="M 6,49 Q 57,44 108,49" stroke="#f27a22" stroke-width="1.8" stroke-linecap="round" fill="none" />
+          <text class="logo-sub1" x="57" y="55" font-family="'Montserrat', 'Inter', sans-serif" font-size="6.2" font-weight="800" fill="#111111" letter-spacing="0.28em" text-anchor="middle">THE REAL INSIDE</text>
+          <text class="logo-sub2" x="57" y="65" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="5.8" fill="#444444" text-anchor="middle">what's inside matters</text>
+          <g class="hud-readout" font-family="monospace" font-size="3" fill="#f27a22" opacity="0.8">
+            <text x="6" y="60">[SYS_INIT]</text>
+            <text x="114" y="60">LOCK_99.7%</text>
+          </g>
+        </svg>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="inside.html">Inside</a></li>
+        <li><a href="lab-reports.html">Lab Reports</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <button class="nav-cart-btn" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-count" id="cart-count">0</span>
+        </button>
+        <a href="shop.html" class="nav-cta">Shop Now</a>
+        <button class="nav-hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =====================================================
+       1. PAGE HERO
+  ===================================================== -->
+  <section class="ct-hero">
+    <div class="ct-hero-inner">
+      <div class="ct-hero-eyebrow hero-animate">Get In Touch</div>
+      <h1 class="ct-hero-h1 hero-animate">We're here to help.</h1>
+      <p class="ct-hero-sub hero-animate">Have questions, feedback or just want to say hi? We'd love to hear from you.</p>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       2. MAIN CONTACT SECTION
+  ===================================================== -->
+  <section class="ct-section">
+    <div class="ct-grid">
+
+      <!-- LEFT: Contact Information -->
+      <div class="ct-info reveal from-left">
+        <div>
+          <h2 class="ct-info-heading">Contact Information</h2>
+          <p class="ct-info-sub">We're a founder-led team that genuinely cares. Reach out — we respond fast.</p>
+        </div>
+
+        <div class="ct-info-cards">
+
+          <!-- Email -->
+          <div class="ct-card">
+            <div class="ct-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--rose-dark)" stroke-width="1.8">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="ct-card-label">Email</div>
+              <div class="ct-card-value">
+                <a href="mailto:hello@atriwellness.com">hello@atriwellness.com</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="ct-card">
+            <div class="ct-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--rose-dark)" stroke-width="1.8">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.13 13a19.79 19.79 0 01-3.07-8.67A2 2 0 012.04 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.08 6.08l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="ct-card-label">Phone</div>
+              <div class="ct-card-value">
+                <a href="tel:+911234567890">+91 12345 67890</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Address -->
+          <div class="ct-card">
+            <div class="ct-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--rose-dark)" stroke-width="1.8">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <div class="ct-card-label">Address</div>
+              <div class="ct-card-value">ATRI Wellness Private Limited,<br>Bengaluru, Karnataka, India</div>
+            </div>
+          </div>
+
+        </div><!-- /ct-info-cards -->
+
+        <!-- Social Icons -->
+        <div class="ct-social-block">
+          <span class="ct-social-label">Follow Us</span>
+          <div class="ct-social-icons">
+            <a href="#" class="ct-social-btn" aria-label="Instagram">
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              Instagram
+            </a>
+            <a href="#" class="ct-social-btn" aria-label="Facebook">
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                </svg>
+              </span>
+              Facebook
+            </a>
+            <a href="#" class="ct-social-btn" aria-label="Twitter">
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                </svg>
+              </span>
+              Twitter
+            </a>
+            <a href="#" class="ct-social-btn" aria-label="YouTube">
+              <span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 001.95-1.97A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+                  <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+                </svg>
+              </span>
+              YouTube
+            </a>
+          </div>
+        </div>
+      </div><!-- /ct-info -->
+
+      <!-- RIGHT: Contact Form -->
+      <div class="ct-form-card reveal from-right">
+        <div class="ct-form-heading">Send us a message</div>
+        <p class="ct-form-sub">Fill in the form and we'll get back to you within 24 hours.</p>
+
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <label for="ct-name">Your Name</label>
+            <input
+              type="text"
+              id="ct-name"
+              name="name"
+              class="form-input"
+              placeholder="e.g. Arjun Sharma"
+              required
+              autocomplete="name"
+            />
+          </div>
+
+          <div class="form-row">
+            <label for="ct-email">Email Address</label>
+            <input
+              type="email"
+              id="ct-email"
+              name="email"
+              class="form-input"
+              placeholder="you@example.com"
+              required
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="form-row">
+            <label for="ct-subject">Subject</label>
+            <input
+              type="text"
+              id="ct-subject"
+              name="subject"
+              class="form-input"
+              placeholder="e.g. Order inquiry / Lab report question"
+            />
+          </div>
+
+          <div class="form-row">
+            <label for="ct-message">Your Message</label>
+            <textarea
+              id="ct-message"
+              name="message"
+              class="form-textarea"
+              placeholder="Tell us what's on your mind…"
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="form-submit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Send Message
+          </button>
+        </form>
+      </div><!-- /ct-form-card -->
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       3. FAQ SECTION
+  ===================================================== -->
+  <section class="faq-section">
+    <div class="faq-inner">
+      <div class="faq-header reveal">
+        <div class="faq-eyebrow">FAQs</div>
+        <h2 class="faq-heading">Common Questions</h2>
+      </div>
+
+      <div class="faq-list stagger">
+
+        <!-- FAQ 1 -->
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Where can I find my batch number?
+            <span class="faq-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Your batch number is printed on the bottom of the packaging, typically starting with #ATRI followed by 6 digits.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Are your products lab tested?
+            <span class="faq-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes! Every single batch goes through 4 stages of testing. View our full lab reports on the <a href="lab-reports.html" style="color:var(--gold);text-decoration:underline;">Lab Reports page</a>.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Do you ship pan-India?
+            <span class="faq-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes, we deliver across India. Free shipping on orders above ₹999.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            What is your return policy?
+            <span class="faq-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              We offer easy returns within 7 days of delivery. Contact us with your order details and we'll sort it out right away.
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How do I verify my product is authentic?
+            <span class="faq-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Scan the QR code on your product or enter your batch number on our <a href="lab-reports.html" style="color:var(--gold);text-decoration:underline;">Lab Reports page</a> to instantly verify authenticity.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /faq-list -->
+    </div>
+  </section>
+
+  <!-- =====================================================
+       4. NEWSLETTER SECTION
+  ===================================================== -->
+  <section class="ct-newsletter">
+    <div class="ct-newsletter-inner reveal">
+      <div class="ct-nl-eyebrow">Stay Connected</div>
+      <h3 class="ct-nl-heading">Get Lab Reports &amp; Wellness Updates</h3>
+      <p class="ct-nl-sub">New batch reports, formula breakdowns, and honest nutrition science — straight to your inbox. No spam, ever.</p>
+      <form class="ct-nl-form newsletter-form" onsubmit="return false;">
+        <input type="email" class="ct-nl-input" placeholder="your@email.com" autocomplete="email" />
+        <button type="submit" class="ct-nl-btn">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       TICKER
+  ===================================================== -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">HELLO@ATRIWELLNESS.COM</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">+91 12345 67890</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">BENGALURU, INDIA</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">WHAT'S INSIDE MATTERS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">EUROFINS VERIFIED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">ZERO HIDDEN BLENDS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">HELLO@ATRIWELLNESS.COM</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">+91 12345 67890</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">BENGALURU, INDIA</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">WHAT'S INSIDE MATTERS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">EUROFINS VERIFIED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">ZERO HIDDEN BLENDS</span><span class="ticker-dot">·</span>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       FOOTER
+  ===================================================== -->
+  <footer class="tri-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand -->
+        <div class="footer-brand" style="margin-bottom: 16px;">
+          <svg class="footer-logo-svg" width="160" height="70" viewBox="-2 -6 184 84" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="TRI - The Real Inside">
+            <polygon points="25,9 44,41 6,41" stroke="#f27a22" stroke-width="3.5" stroke-linejoin="round" fill="none" />
+            <text x="52" y="38" font-family="'Montserrat', 'Inter', sans-serif" font-size="33" font-weight="900" fill="#ffffff" letter-spacing="0.02em">TRI</text>
+            <path d="M 6,49 Q 57,44 108,49" stroke="#f27a22" stroke-width="1.8" stroke-linecap="round" fill="none" />
+            <text x="57" y="55" font-family="'Montserrat', 'Inter', sans-serif" font-size="6.2" font-weight="800" fill="#ffffff" letter-spacing="0.28em" text-anchor="middle">THE REAL INSIDE</text>
+            <text x="57" y="65" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="5.8" fill="rgba(255,255,255,0.7)" text-anchor="middle">what's inside matters</text>
+          </svg>
+        </div>
+          <p class="footer-tagline">India's most transparent sports nutrition brand. Eurofins verified, clinically dosed, always honest.</p>
+          <div class="footer-socials">
+            <a href="#" class="footer-social" aria-label="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+            <a href="#" class="footer-social" aria-label="Facebook">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+              </svg>
+            </a>
+            <a href="#" class="footer-social" aria-label="Twitter">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+              </svg>
+            </a>
+            <a href="#" class="footer-social" aria-label="YouTube">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 001.95-1.97A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+                <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Shop -->
+        <div>
+          <div class="footer-col-title">Shop</div>
+          <ul class="footer-col-links">
+            <li><a href="shop.html">TRI Fusion Pack — ₹599</a></li>
+            <li><a href="inside.html">Inside the Pack</a></li>
+            <li><a href="lab-reports.html">Lab Reports Index</a></li>
+          </ul>
+        </div>
+
+        <!-- Registry -->
+        <div>
+          <div class="footer-col-title">Registry</div>
+          <ul class="footer-col-links">
+            <li><a href="lab-reports.html">Verify Batch</a></li>
+            <li><a href="lab-reports.html">Lab Reports Index</a></li>
+            <li><a href="index.html#transparency">Transparency Engine</a></li>
+          </ul>
+        </div>
+
+        <!-- Info -->
+        <div>
+          <div class="footer-col-title">Info</div>
+          <ul class="footer-col-links">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <div class="footer-col-title">Contact</div>
+          <ul class="footer-col-links">
+            <li><a href="mailto:hello@atriwellness.com">hello@atriwellness.com</a></li>
+            <li><a href="tel:+911234567890">+91 12345 67890</a></li>
+            <li><a href="contact.html">Send a Message</a></li>
+          </ul>
+        </div>
+      </div><!-- /footer-grid -->
+
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 THE REAL INSIDE (TRI). All rights reserved.</span>
+        <div class="footer-legal">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <span class="footer-copy">What's Inside Matters.</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================
+       CHATBOT
+  ===================================================== -->
+  <button id="chatbot-btn" aria-label="Open chat">
+    <div class="cb-pulse"></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+    </svg>
+  </button>
+
+  <div id="chatbot-panel">
+    <div class="cb-header">
+      <div class="cb-avatar">α</div>
+      <div class="cb-header-text">
+        <div class="cb-name">Alpha · TRI Intelligence</div>
+        <div class="cb-status"><span class="cb-dot"></span> Online</div>
+      </div>
+      <span class="cb-close" id="chatbot-close">✕</span>
+    </div>
+    <div class="cb-messages" id="cb-messages">
+      <div class="cb-msg bot">Hello! I'm Alpha — TRI's performance intelligence. Ask me about any formula, batch, or your personalized protocol.</div>
+    </div>
+    <div class="cb-quick-replies">
+      <button class="cb-quick">⚡ Products</button>
+      <button class="cb-quick">🔬 Lab Reports</button>
+      <button class="cb-quick">🛡️ Verify Batch</button>
+      <button class="cb-quick">📋 My Protocol</button>
+    </div>
+    <div class="cb-input-row">
+      <input type="text" id="cb-input" class="cb-input" placeholder="Ask Alpha…" />
+      <button id="cb-send" class="cb-send" aria-label="Send">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       CART SIDEBAR
+  ===================================================== -->
+  <div id="cart-overlay"></div>
+  <div id="cart-panel">
+    <div class="cart-panel-header">
+      <div class="cart-panel-title">Your Cart</div>
+      <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="cart-body" id="cart-body">
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛒</div>
+        <p style="font-family:var(--font-serif);font-size:18px;font-weight:600;color:var(--dark);margin-bottom:6px">Your cart is empty</p>
+        <p style="font-size:13px;color:var(--text-muted)">Add some TRI products to begin.</p>
+      </div>
+    </div>
+    <div class="cart-footer" id="cart-footer" style="display:none;">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cart-total-amount">₹0</span>
+      </div>
+      <button class="cart-checkout-btn" onclick="window.open('https://wa.me/919999999999','_blank')">
+        Checkout via WhatsApp →
+      </button>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       SCRIPTS
+  ===================================================== -->
+  <!-- Shared TRI script -->
+  <script src="assets/tri.js"></script>
+
+  <script>
+    /* ================================================================
+       CONTACT FORM — Page-level handler
+       tri.js handles the form via id="contact-form", so we hook into
+       the submit event to show friendly feedback.
+    ================================================================ */
+    (function () {
+      const form = document.getElementById('contact-form');
+      if (form) {
+        // tri.js already binds a submit listener; we listen on capture
+        // to show validation feedback before tri.js processes it.
+        form.addEventListener('submit', function (e) {
+          const name    = form.querySelector('[name="name"]')?.value.trim();
+          const email   = form.querySelector('[name="email"]')?.value.trim();
+          const message = form.querySelector('[name="message"]')?.value.trim();
+          if (!name || !email || !message) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            if (window.showToast) window.showToast('Please fill in all required fields.');
+          }
+        }, true); // capture phase so it runs before tri.js
+      }
+    })();
+
+    /* ================================================================
+       FAQ ACCORDION
+    ================================================================ */
+    (function () {
+      const items = document.querySelectorAll('.faq-item');
+      items.forEach(function (item) {
+        const btn    = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        if (!btn || !answer) return;
+
+        btn.addEventListener('click', function () {
+          const isOpen = item.classList.contains('open');
+
+          // Close all
+          items.forEach(function (other) {
+            const otherAnswer = other.querySelector('.faq-answer');
+            const otherBtn    = other.querySelector('.faq-question');
+            other.classList.remove('open');
+            if (otherAnswer) otherAnswer.style.maxHeight = '0';
+            if (otherBtn)    otherBtn.setAttribute('aria-expanded', 'false');
+          });
+
+          // Toggle clicked
+          if (!isOpen) {
+            item.classList.add('open');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
