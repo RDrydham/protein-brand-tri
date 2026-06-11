@@ -28,7 +28,7 @@ def start_tunnel():
         return
         
     print(f"\n=============================================")
-    print(f"🔥 Tunnel Active: {url}")
+    print(f"Tunnel Active: {url}")
     print(f"=============================================\n")
     
     # Keep alive

@@ -17,7 +17,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- TRI Shared Design System -->
-  <link rel="stylesheet" href="assets/tri.css" />
+  <link rel="stylesheet" href="assets/tri.css?v=3.2" />
+  <link rel="stylesheet" href="assets/tri-motion.css"/>
+  <link rel="stylesheet" href="assets/footer.css">
 
   <style>
     /* ================================================================
@@ -156,7 +158,7 @@
     #mobile-nav.open a.mn-link:nth-child(4){animation-delay:.2s}
     #mobile-nav.open a.mn-link:nth-child(5){animation-delay:.25s}
     #mobile-nav.open a.mn-link:nth-child(6){animation-delay:.3s}
-    .mn-cta{
+    .mn-cta-unused{
       display:inline-flex; align-items:center; justify-content:center;
       background:linear-gradient(135deg,#bc8133,#d4973f);
       color:#fff;
@@ -169,8 +171,8 @@
       width:fit-content; margin-top:4px;
       opacity:0; text-decoration:none; border-bottom:none!important;
     }
-    #mobile-nav.open .mn-cta{ animation:mmLinkIn .4s ease .35s both; }
-    .mn-cta:hover{ transform:translateY(-2px); box-shadow:0 10px 36px rgba(188,129,51,.5); }
+    #mobile-nav.open .mn-cta-unused{ animation:mmLinkIn .4s ease .35s both; }
+    .mn-cta-unused:hover{ transform:translateY(-2px); box-shadow:0 10px 36px rgba(188,129,51,.5); }
     .mn-footer{
       position:absolute; bottom:0; left:0; right:0;
       padding:24px 40px;
@@ -1126,112 +1128,25 @@
   <!-- Toast notification -->
   <div id="cart-toast">✓ Added to Cart</div>
 
-  <!-- Loader -->
-  <div id="about-loader">
-    <div id="l-logo" style="opacity: 0;">
-      <svg class="atri-hud-logo" width="180" height="80" viewBox="-2 -6 184 84" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <style>
-          .atri-hud-logo { overflow: visible; }
-          @keyframes scanSweep {
-            0% { transform: translateY(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(68px); opacity: 0; }
-          }
-          .hud-scanline { animation: scanSweep 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
-          @keyframes targetLock {
-            0% { transform: translate(25px, 26px) scale(1.6); opacity: 0; }
-            15% { opacity: 1; }
-            80% { opacity: 1; transform: translate(25px, 26px) scale(1) rotate(180deg); }
-            100% { opacity: 0; transform: translate(25px, 26px) scale(0.9) rotate(240deg); }
-          }
-          .hud-target { transform-origin: 25px 26px; animation: targetLock 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
-          @keyframes rotateCW { to { transform: rotate(360deg); } }
-          @keyframes rotateCCW { to { transform: rotate(-360deg); } }
-          .hud-ring-outer { transform-origin: 25px 26px; animation: rotateCW 5s linear infinite; }
-          .hud-ring-inner { transform-origin: 25px 26px; animation: rotateCCW 3.5s linear infinite; }
-          @keyframes drawTriangle {
-            0% { stroke-dashoffset: 120; opacity: 0; }
-            20% { opacity: 1; }
-            75% { stroke-dashoffset: 0; fill: rgba(242, 122, 34, 0.0); }
-            100% { stroke-dashoffset: 0; fill: rgba(242, 122, 34, 0.04); }
-          }
-          .logo-triangle { stroke-dasharray: 120; stroke-dashoffset: 120; animation: drawTriangle 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; animation-delay: 0.1s; }
-          @keyframes glitchText {
-            0% { opacity: 0; transform: translateX(-6px); filter: blur(3px); }
-            30% { opacity: 0.2; transform: translateX(3px); filter: none; }
-            35% { opacity: 0.05; }
-            45% { opacity: 0.75; transform: translateX(-3px); text-shadow: -1.5px 0 #f27a22, 1.5px 0 #00ffff; }
-            50% { opacity: 0.4; }
-            58% { opacity: 1; transform: translateX(0); text-shadow: none; filter: none; }
-            100% { opacity: 1; }
-          }
-          .logo-tri-text-white { animation: glitchText 1.5s ease-out forwards; animation-delay: 0.35s; opacity: 0; }
-          @keyframes drawArch {
-            0% { stroke-dashoffset: 140; opacity: 0; }
-            30% { opacity: 1; }
-            100% { stroke-dashoffset: 0; }
-          }
-          .logo-arch { stroke-dasharray: 140; stroke-dashoffset: 140; animation: drawArch 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 0.6s; }
-          @keyframes fadeInSub { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-          .logo-sub1-white { animation: fadeInSub 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.1s; opacity: 0; }
-          .logo-sub2-white { animation: fadeInSub 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: 1.4s; opacity: 0; }
-          @keyframes flashHUD { 0% { opacity: 0; } 8% { opacity: 1; } 15% { opacity: 0.15; } 22% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
-          .hud-readout { animation: flashHUD 2.4s ease-out forwards; }
-        </style>
-        <defs>
-          <filter id="loader-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="1.5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        <line class="hud-scanline" x1="5" y1="3" x2="175" y2="3" stroke="#f27a22" stroke-width="1.5" filter="url(#loader-glow)" opacity="0" />
-        <g class="hud-target">
-          <circle class="hud-ring-outer" cx="25" cy="26" r="22" stroke="#f27a22" stroke-width="0.8" stroke-dasharray="4 6" fill="none" />
-          <circle class="hud-ring-inner" cx="25" cy="26" r="16" stroke="#f27a22" stroke-width="0.5" stroke-dasharray="8 2" fill="none" opacity="0.6" />
-          <path d="M 3 28 H 11 M 39 28 H 47 M 25 6 V 14 M 25 42 V 50" stroke="#f27a22" stroke-width="0.8" />
-        </g>
-        <polygon class="logo-triangle" points="25,9 44,41 6,41" stroke="#f27a22" stroke-width="3.5" stroke-linejoin="round" fill="none" />
-        <text class="logo-tri-text-white" x="52" y="38" font-family="'Montserrat', 'Inter', sans-serif" font-size="33" font-weight="900" fill="#ffffff" letter-spacing="0.02em">TRI</text>
-        <path class="logo-arch" d="M 6,49 Q 57,44 108,49" stroke="#f27a22" stroke-width="1.8" stroke-linecap="round" fill="none" />
-        <text class="logo-sub1-white" x="57" y="55" font-family="'Montserrat', 'Inter', sans-serif" font-size="6.2" font-weight="800" fill="#ffffff" letter-spacing="0.28em" text-anchor="middle">THE REAL INSIDE</text>
-        <text class="logo-sub2-white" x="57" y="65" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="5.8" fill="rgba(255,255,255,0.7)" text-anchor="middle">what's inside matters</text>
-        <g class="hud-readout" font-family="monospace" font-size="3" fill="#f27a22" opacity="0.8">
-          <text x="6" y="60">[SYS_INIT]</text>
-          <text x="114" y="60">LOCK_99.7%</text>
-        </g>
-      </svg>
-    </div>
-    <div class="l-bar"><div class="l-fill" id="l-fill"></div></div>
-    <div class="l-pct" id="l-pct">0%</div>
-  </div>
+
 
   <!-- Mobile Menu -->
   <div id="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation menu">
     <div class="mn-header">
-      <a href="index.html" class="mn-logo">ATRI<span class="mn-logo-sub">The Real Inside</span></a>
+      <a href="index.html" class="mn-logo">TRI<span class="mn-logo-sub">The Real Inside</span></a>
       <button id="mobile-close" aria-label="Close menu">✕</button>
     </div>
     <div class="mn-inner">
       <div class="mn-divider"></div>
       <div class="mn-links">
         <a href="index.html" class="mn-link">Home</a>
+        <a href="shop.html" class="mn-link">Shop</a>
         <a href="inside.html" class="mn-link">Inside</a>
         <a href="lab-reports.html" class="mn-link">Lab Reports</a>
         <a href="about.html" class="mn-link active">About Us</a>
         <a href="contact.html" class="mn-link">Contact</a>
       </div>
-      <a href="shop.html" class="mn-cta">Shop Now — ₹599</a>
-    </div>
-    <div class="mn-footer">
-      <span class="mn-footer-tagline">The Real Inside</span>
-      <div class="mn-footer-links">
-        <a href="inside.html">Ingredients</a>
-        <a href="lab-reports.html">Lab Proof</a>
-      </div>
+      <a href="shop.html" class="mobile-nav-cta" style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">Shop Now — <span style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">₹</span>599</a>
     </div>
   </div>
 
@@ -1315,7 +1230,7 @@
           <circle class="hud-ring-inner" cx="25" cy="26" r="16" stroke="#f27a22" stroke-width="0.5" stroke-dasharray="8 2" fill="none" opacity="0.6" />
           <path d="M 3 28 H 11 M 39 28 H 47 M 25 6 V 14 M 25 42 V 50" stroke="#f27a22" stroke-width="0.8" />
         </g>
-        <polygon class="logo-triangle" points="25,9 44,41 6,41" stroke="#f27a22" stroke-width="3.5" stroke-linejoin="round" fill="none" />
+        <path class="logo-triangle" d="M 25,9 L 6,41 L 44,41 L 29,15" stroke="#f27a22" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
         <text class="logo-tri-text" x="52" y="38" font-family="'Montserrat', 'Inter', sans-serif" font-size="33" font-weight="900" fill="#111111" letter-spacing="0.02em">TRI</text>
         <path class="logo-arch" d="M 6,49 Q 57,44 108,49" stroke="#f27a22" stroke-width="1.8" stroke-linecap="round" fill="none" />
         <text class="logo-sub1" x="57" y="55" font-family="'Montserrat', 'Inter', sans-serif" font-size="6.2" font-weight="800" fill="#111111" letter-spacing="0.28em" text-anchor="middle">THE REAL INSIDE</text>
@@ -1639,63 +1554,51 @@
   <!-- ================================================================
        FOOTER
   ================================================================ -->
-  <footer class="tri-footer">
-    <div class="footer-grid-about">
-      <!-- Brand -->
-      <div class="footer-brand-about" style="margin-bottom: 16px;">
-        <svg class="footer-logo-svg" width="160" height="70" viewBox="-2 -6 184 84" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="TRI - The Real Inside">
-          <polygon points="25,9 44,41 6,41" stroke="#f27a22" stroke-width="3.5" stroke-linejoin="round" fill="none" />
-          <text x="52" y="38" font-family="'Montserrat', 'Inter', sans-serif" font-size="33" font-weight="900" fill="#ffffff" letter-spacing="0.02em">TRI</text>
-          <path d="M 6,49 Q 57,44 108,49" stroke="#f27a22" stroke-width="1.8" stroke-linecap="round" fill="none" />
-          <text x="57" y="55" font-family="'Montserrat', 'Inter', sans-serif" font-size="6.2" font-weight="800" fill="#ffffff" letter-spacing="0.28em" text-anchor="middle">THE REAL INSIDE</text>
-          <text x="57" y="65" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="5.8" fill="rgba(255,255,255,0.7)" text-anchor="middle">what's inside matters</text>
+  <footer id="tri-footer" aria-label="Site footer">
+  <div class="tri-footer-inner">
+    <div class="tri-footer-top">
+      <div class="tri-footer-brand">
+        <svg aria-label="TRI - The Real Inside" class="footer-logo-svg" fill="none" height="65" viewBox="-2 -6 184 84" width="160" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 25,9 L 6,41 L 44,41 L 29,15" stroke="#f27a22" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <text fill="#ffffff" font-family="'Montserrat', 'Inter', sans-serif" font-size="33" font-weight="900" letter-spacing="0.02em" x="52" y="38">TRI</text>
+          <path d="M 6,49 Q 57,44 108,49" fill="none" stroke="#f27a22" stroke-linecap="round" stroke-width="1.8"></path>
+          <text fill="#ffffff" font-family="'Montserrat', 'Inter', sans-serif" font-size="6.2" font-weight="800" letter-spacing="0.28em" text-anchor="middle" x="57" y="60">THE REAL INSIDE</text>
+          <text fill="rgba(255,255,255,0.7)" font-family="Georgia, 'Times New Roman', serif" font-size="5.8" font-style="italic" text-anchor="middle" x="57" y="71">what's inside matters</text>
         </svg>
+        <p>India's most transparent performance nutrition. Every batch tested. Every result published.</p>
       </div>
-        <p class="footer-tagline-about">THE REAL INSIDE is India's most transparently formulated sports nutrition brand. Lab verified, clinically dosed, gut friendly — always honest.</p>
-        <div class="footer-socials-about">
-          <a href="#" class="footer-social-about" aria-label="Instagram">📸</a>
-          <a href="#" class="footer-social-about" aria-label="WhatsApp">💬</a>
-          <a href="#" class="footer-social-about" aria-label="YouTube">▶️</a>
-        </div>
+      <div class="tri-footer-col">
+        <h4>Shop</h4>
+        <a href="shop.html">TRI Fusion Pack</a>
+        <a href="shop.html">True Whey</a>
+        <a href="shop.html">TRI Power BCAA</a>
+        <a href="shop.html">TRI Pump Drake</a>
       </div>
-
-      <!-- Shop -->
-      <div>
-        <div class="footer-col-title-about">Shop</div>
-        <ul class="footer-links-about">
-          <li><a href="shop.html">TRI Fusion Pack — ₹599</a></li>
-          <li><a href="inside.html">Inside the Pack</a></li>
-          <li><a href="lab-reports.html">Lab Reports Index</a></li>
-        </ul>
+      <div class="tri-footer-col">
+        <h4>Company</h4>
+        <a href="about.html">About TRI</a>
+        <a href="inside.html">The Inside</a>
+        <a href="lab-reports.html">Lab Reports</a>
+        <a href="contact.html">Contact</a>
       </div>
-
-      <!-- Verify -->
-      <div>
-        <div class="footer-col-title-about">Verify</div>
-        <ul class="footer-links-about">
-          <li><a href="shop.html#batch">Verify Your Batch</a></li>
-          <li><a href="lab-reports.html">Lab Reports Index</a></li>
-          <li><a href="inside.html">Transparency Engine</a></li>
-        </ul>
-      </div>
-
-      <!-- Info -->
-      <div>
-        <div class="footer-col-title-about">Info</div>
-        <ul class="footer-links-about">
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-        </ul>
+      <div class="tri-footer-col">
+        <h4>Support</h4>
+        <a href="contact.html#faq">FAQ</a>
+        <a href="shipping-policy.html">Shipping Policy</a>
+        <a href="return-policy.html">Return Policy</a>
+        <a href="privacy.html">Privacy Policy</a>
       </div>
     </div>
-
-    <div class="footer-bottom-about">
-      <span class="footer-copy-about">© 2026 ATRI | THE REAL INSIDE (TRI). All rights reserved.</span>
-      <span class="footer-copy-about">What's Inside Matters.</span>
+    <div class="tri-footer-bottom">
+      <p class="tri-footer-copy">© 2024 TRI — The Real Inside. All rights reserved.</p>
+      <nav class="tri-footer-legal" aria-label="Legal links">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="#">Cookies</a>
+      </nav>
     </div>
-  </footer>
+  </div>
+</footer>
 
   <!-- ================================================================
        ALPHA CHAT BOT
@@ -1768,6 +1671,7 @@
 
   <!-- TRI Shared JS -->
   <script src="assets/tri.js"></script>
+  <script src="assets/tri-motion.js?v=4.0"></script>
 
 
   <script>
@@ -1775,33 +1679,8 @@
        LOADER
     ================================================================ */
     window.addEventListener('load', () => {
-      const logo = document.getElementById('l-logo');
-      const fill = document.getElementById('l-fill');
-      const pct  = document.getElementById('l-pct');
-      const ldr  = document.getElementById('about-loader');
-
-      gsap.to(logo, { opacity: 1, duration: .5, ease: 'power2.out' });
-
-      let n = 0;
-      const tick = setInterval(() => {
-        n += Math.random() * 22;
-        if (n > 100) n = 100;
-        pct.textContent = Math.floor(n) + '%';
-        fill.style.width = n + '%';
-        if (n >= 100) {
-          clearInterval(tick);
-          setTimeout(() => {
-            gsap.to(ldr, {
-              opacity: 0, duration: 0.6, ease: 'power2.inOut',
-              onComplete: () => {
-                ldr.style.display = 'none';
-                initHero();
-                initScrollAnimations();
-              }
-            });
-          }, 150);
-        }
-      }, 50);
+      initHero();
+      initScrollAnimations();
     });
 
     /* ================================================================
@@ -1905,7 +1784,7 @@
       document.body.style.overflow = 'hidden';
     });
     document.getElementById('mobile-close').addEventListener('click', closeMM);
-    document.querySelectorAll('#mobile-nav a.mn-link, #mobile-nav a.mn-cta').forEach(a => a.addEventListener('click', closeMM));
+    document.querySelectorAll('#mobile-nav a.mn-link, #mobile-nav a.mobile-nav-cta').forEach(a => a.addEventListener('click', closeMM));
     function closeMM() {
       document.getElementById('mobile-nav').classList.remove('open');
       document.body.style.overflow = '';
@@ -2004,7 +1883,7 @@
           footer.style.display = 'block';
           document.getElementById('cart-total').textContent = '₹' + total.toLocaleString('en-IN');
           document.getElementById('cart-shipping').textContent =
-            total >= 1200 ? '✓ Free Shipping Unlocked' : `Add ${Math.ceil((1200-total)/600)} more pack for Free Shipping`;
+            '✓ Free Standard Shipping Unlocked';
         }
       }
     }
@@ -2081,7 +1960,7 @@
         whey: "Inside the Fusion Pack — True Whey Protein: 20g cold-processed grass-fed whey concentrate per serving. Full essential amino acid profile. Integrated 200mg Bromelain + Papain enzyme complex — zero bloat guaranteed.",
         enzyme: "TRI Enzyme Complex: 100mg Bromelain (pineapple) + 100mg Papain (papaya). These proteolytic enzymes pre-digest proteins before they reach your gut, eliminating bloat and maximizing absorption speed.",
         verify: "To verify: visit Lab Reports page, enter your sachet batch ID (e.g. TRI-2026-A001). The Eurofins COA will show protein content, heavy metals panel, and label accuracy percentage.",
-        price: "The TRI Fusion Pack is ₹599. It includes 9 sachets total: 3× True Whey, 3× Power BCAA, and 3× Pump Drake — a complete 3-day performance trial. Free shipping on orders of 2+ packs (₹1,200+).",
+        price: "The TRI Fusion Pack is ₹599. It includes 9 sachets total: 3× True Whey, 3× Power BCAA, and 3× Pump Drake — a complete 3-day performance trial. Free shipping on all orders.",
         default: "I have scanned the TRI formulation database. What would you like to know — our story, values, products, batch verification, pricing, or your protocol? Ask anything."
       };
 

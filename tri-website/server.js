@@ -13,6 +13,29 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Disable browser caching for HTML and CSS during development/testing
+app.use((req, res, next) => {
+  const url = req.url.toLowerCase().split('?')[0];
+  if (
+    url === '/' ||
+    url === '/about' ||
+    url === '/inside' ||
+    url === '/lab-reports' ||
+    url === '/shop' ||
+    url === '/contact' ||
+    url.endsWith('.html') ||
+    url.endsWith('.css') ||
+    url.endsWith('.js')
+  ) {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  } else {
+    res.setHeader('Cache-Control', 'no-cache');
+  }
+  next();
+});
+
 // Serve static files from the website directory
 app.use(express.static(path.join(__dirname)));
 

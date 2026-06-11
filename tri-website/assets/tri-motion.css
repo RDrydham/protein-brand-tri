@@ -1,0 +1,482 @@
+/* =============================================================
+   TRI — ULTRA PREMIUM MOTION SYSTEM v3.0
+   Rule: ONLY transform + opacity. No box-shadow, no filter animations.
+   Max 2 simultaneous infinite animations per page.
+   ============================================================= */
+
+/* ─── EASING TOKENS ─────────────────────────────────────────── */
+:root {
+  --spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --smooth:  cubic-bezier(0.16, 1.00, 0.30, 1);
+  --fast:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   1. BUTTONS — Hover lift + active press (desktop & mobile)
+   ONLY transform. No box-shadow animation.
+══════════════════════════════════════════════════════════════ */
+
+.btn-primary,
+.nav-cta,
+.cart-checkout-btn,
+.cp-checkout,
+.product-card-cta,
+[data-add-cart],
+.mm-cta,
+.mm-shop-cta,
+.find-btn,
+.nl-btn {
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.18s var(--spring), opacity 0.15s ease;
+}
+
+/* Desktop hover lift only */
+@media (hover: hover) {
+  .btn-primary:hover,
+  .nav-cta:hover,
+  .cart-checkout-btn:hover,
+  .cp-checkout:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Universal active press */
+.btn-primary:active,
+.nav-cta:active,
+.cart-checkout-btn:active,
+.cp-checkout:active,
+.product-card-cta:active,
+[data-add-cart]:active,
+.mm-cta:active,
+.mm-shop-cta:active {
+  transform: scale(0.96) !important;
+  transition: transform 0.08s ease !important;
+}
+
+/* Arrow inside btn: slide right on desktop hover */
+@media (hover: hover) {
+  .btn-primary svg,
+  [data-add-cart] svg {
+    transition: transform 0.2s var(--spring);
+  }
+  .btn-primary:hover svg,
+  [data-add-cart]:hover svg {
+    transform: translateX(4px);
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   2. CHATBOT — Single float animation. One ring only.
+   THE only persistent animation on the whole page.
+══════════════════════════════════════════════════════════════ */
+
+@keyframes chatFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+
+@keyframes chatRing {
+  0%   { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+#chatbot-btn {
+  animation: chatFloat 3.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+#chatbot-btn::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: rgba(188, 129, 51, 0.45);
+  opacity: 0;
+  animation: chatRing 2.8s ease-out 0.8s infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Tap: stop float, scale down */
+#chatbot-btn:active {
+  animation: none !important;
+  transform: scale(0.9) !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   3. NAV — Smooth transition on scroll class change
+══════════════════════════════════════════════════════════════ */
+
+#tri-nav,
+#nav {
+  transition: box-shadow 0.3s ease, background 0.3s ease, transform 0.35s var(--smooth);
+  will-change: transform;
+}
+
+/* Nav links active underline */
+.nav-links a {
+  position: relative;
+  transition: color 0.18s ease;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: #bc8133;
+  border-radius: 2px;
+  transition: width 0.22s var(--smooth);
+}
+@media (hover: hover) {
+  .nav-links a:hover::after { width: 80%; }
+}
+.nav-links a.active::after { width: 24px; }
+
+/* Logo hover — desktop only */
+.nav-logo,
+.nav-motion-logo {
+  transition: transform 0.22s var(--spring);
+}
+@media (hover: hover) {
+  .nav-logo:hover,
+  .nav-motion-logo:hover {
+    transform: scale(1.04);
+  }
+}
+.nav-logo:active,
+.nav-motion-logo:active {
+  transform: scale(0.96);
+}
+
+/* Cart icon tap/hover */
+.nav-cart,
+.nav-cart-btn {
+  transition: transform 0.18s var(--spring);
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  .nav-cart:hover,
+  .nav-cart-btn:hover {
+    transform: scale(1.12) rotate(-6deg);
+  }
+}
+.nav-cart:active,
+.nav-cart-btn:active {
+  transform: scale(0.88) !important;
+}
+
+/* Hamburger tap */
+.nav-ham,
+.nav-hamburger,
+.nav-menu-btn {
+  transition: transform 0.18s var(--spring);
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-ham:active,
+.nav-hamburger:active,
+.nav-menu-btn:active {
+  transform: scale(0.88) !important;
+}
+
+/* Ham spans morph */
+.nav-ham span,
+.nav-hamburger span,
+.nav-menu-btn span {
+  transition: transform 0.28s var(--smooth), opacity 0.18s ease;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   4. CART BADGE — Spring pop on add
+══════════════════════════════════════════════════════════════ */
+
+@keyframes badgePop {
+  0%   { transform: scale(0); }
+  55%  { transform: scale(1.28); }
+  75%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.cart-badge.show,
+.cart-count.show,
+.cart-count.visible {
+  animation: badgePop 0.4s var(--spring) forwards;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   5. PRODUCT CARDS — Hover lift (desktop only), tap feedback
+══════════════════════════════════════════════════════════════ */
+
+.product-card,
+.shop-product-card,
+.power-card,
+.breakdown-card,
+.test-card {
+  transition: transform 0.25s var(--smooth), box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .product-card:hover,
+  .shop-product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.10);
+  }
+  .power-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 52px rgba(0,0,0,0.10);
+  }
+  .test-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  }
+
+  /* Image lift on desktop card hover */
+  .product-card:hover .product-card-image img,
+  .shop-product-card:hover .product-card-image img {
+    transform: scale(1.06) translateY(-3px);
+    transition: transform 0.4s var(--smooth);
+  }
+}
+
+/* Card image base transition */
+.product-card .product-card-image img,
+.shop-product-card .product-card-image img {
+  transition: transform 0.4s var(--smooth);
+}
+
+/* Mobile tap */
+@media (hover: none) {
+  .product-card:active,
+  .shop-product-card:active,
+  .power-card:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   6. SCROLL REVEAL — Fade + translateY only. Fast, clean.
+══════════════════════════════════════════════════════════════ */
+
+.reveal {
+  transition: opacity 0.55s var(--smooth), transform 0.55s var(--smooth);
+}
+.reveal.visible,
+.reveal.in {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   7. CART PANEL — Slide in
+══════════════════════════════════════════════════════════════ */
+
+#cart-panel {
+  transition: right 0.38s var(--smooth);
+}
+
+/* Cart items appear */
+@keyframes cartItemIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.cart-item {
+  animation: cartItemIn 0.28s var(--smooth) both;
+}
+.cart-item:nth-child(1) { animation-delay: 0.04s; }
+.cart-item:nth-child(2) { animation-delay: 0.08s; }
+.cart-item:nth-child(3) { animation-delay: 0.12s; }
+
+
+/* ══════════════════════════════════════════════════════════════
+   8. MOBILE MENU PANEL — Slide
+══════════════════════════════════════════════════════════════ */
+
+#mobile-menu,
+#mobile-nav {
+  transition: transform 0.38s var(--smooth), opacity 0.25s ease, visibility 0.38s;
+}
+
+/* Close button spin on hover/tap */
+#mm-close,
+.mm-close,
+#cp-close {
+  transition: transform 0.22s var(--spring);
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  #mm-close:hover,
+  .mm-close:hover,
+  #cp-close:hover {
+    transform: rotate(90deg) scale(1.1);
+  }
+}
+#mm-close:active,
+.mm-close:active,
+#cp-close:active {
+  transform: rotate(90deg) scale(0.9) !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   9. TOAST — Bounce in
+══════════════════════════════════════════════════════════════ */
+
+@keyframes toastIn {
+  from { transform: translateX(-50%) translateY(16px); opacity: 0; }
+  to   { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+#toast.show,
+#tri-toast.show {
+  animation: toastIn 0.35s var(--spring) forwards;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   10. FOOTER SOCIALS — Tap lift
+══════════════════════════════════════════════════════════════ */
+
+.footer-social {
+  transition: transform 0.18s var(--spring);
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  .footer-social:hover { transform: translateY(-4px) scale(1.1); }
+}
+.footer-social:active { transform: scale(0.90) !important; }
+
+.footer-col-links a {
+  position: relative;
+  transition: color 0.18s ease;
+}
+.footer-col-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #bc8133;
+  transition: width 0.22s var(--smooth);
+}
+@media (hover: hover) {
+  .footer-col-links a:hover::after { width: 100%; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   11. TICKER DOTS — Minimal pulse (transform only)
+══════════════════════════════════════════════════════════════ */
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.4); opacity: 1; }
+}
+.ticker-dot {
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+/* Pause ticker on hover */
+@media (hover: hover) {
+  .ticker-wrap:hover .ticker-track {
+    animation-play-state: paused;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   12. GHOST / OUTLINE BUTTONS
+══════════════════════════════════════════════════════════════ */
+
+.btn-ghost,
+.btn-outline-light {
+  transition: transform 0.18s var(--spring), background 0.18s ease, color 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  .btn-ghost:hover,
+  .btn-outline-light:hover { transform: translateY(-2px); }
+}
+.btn-ghost:active,
+.btn-outline-light:active { transform: scale(0.96) !important; }
+
+
+/* ══════════════════════════════════════════════════════════════
+   13. POWER CARD LINK ARROW
+══════════════════════════════════════════════════════════════ */
+
+.power-card-link {
+  transition: color 0.18s ease;
+}
+.power-card-link svg {
+  transition: transform 0.2s var(--spring);
+}
+@media (hover: hover) {
+  .power-card-link:hover svg { transform: translateX(4px); }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   14. NEWSLETTER FORM FOCUS
+══════════════════════════════════════════════════════════════ */
+
+.newsletter-btn {
+  transition: transform 0.18s var(--spring);
+}
+@media (hover: hover) {
+  .newsletter-btn:hover { transform: scale(1.04); }
+}
+.newsletter-btn:active { transform: scale(0.96) !important; }
+
+
+/* ══════════════════════════════════════════════════════════════
+   15. MOBILE — ONLY transform + opacity animations
+   No box-shadow, no filter, no color animations.
+══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+  /* Disable card 3D — no perspective on mobile */
+  .product-card,
+  .shop-product-card {
+    will-change: auto;
+  }
+
+  /* Make chatbot ring shorter on mobile for perf */
+  #chatbot-btn::before {
+    animation-duration: 3.5s;
+  }
+
+  /* Ensure tap highlight is removed site-wide */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   REDUCED MOTION
+══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  #chatbot-btn,
+  #chatbot-btn::before,
+  .ticker-dot {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

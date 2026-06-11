@@ -1,0 +1,95 @@
+/* =============================================================
+   TRI GLOBAL FOOTER — shared across all pages
+   Matches lab-reports.html design exactly
+   ============================================================= */
+
+#tri-footer {
+  background: #000;
+  padding: 64px 0 32px;
+  font-family: 'DM Sans', 'Inter', sans-serif;
+}
+.tri-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.tri-footer-top {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+/* Brand column */
+.tri-footer-brand p {
+  font-size: 13px;
+  color: rgba(255,255,255,.45);
+  line-height: 1.7;
+  margin-top: 14px;
+  max-width: 220px;
+}
+/* Link columns */
+.tri-footer-col h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  margin-bottom: 18px;
+}
+.tri-footer-col a {
+  display: block;
+  font-size: 13.5px;
+  color: rgba(255,255,255,.55);
+  margin-bottom: 10px;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+.tri-footer-col a:hover { color: #fff; }
+/* Bottom bar */
+.tri-footer-bottom {
+  padding-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.tri-footer-copy {
+  font-size: 12px;
+  color: rgba(255,255,255,.3);
+}
+.tri-footer-legal { display: flex; gap: 20px; }
+.tri-footer-legal a {
+  font-size: 12px;
+  color: rgba(255,255,255,.3);
+  transition: color 0.2s;
+  text-decoration: none;
+}
+.tri-footer-legal a:hover { color: rgba(255,255,255,.6); }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .tri-footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .tri-footer-inner { padding: 0 32px; }
+}
+@media (max-width: 640px) {
+  #tri-footer { padding: 48px 0 24px; }
+  .tri-footer-inner { padding: 0 20px; }
+  .tri-footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    padding-bottom: 32px;
+  }
+  .tri-footer-brand { grid-column: 1 / -1; }
+  .tri-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-top: 20px;
+  }
+}
+@media (max-width: 400px) {
+  .tri-footer-top { grid-template-columns: 1fr; }
+}

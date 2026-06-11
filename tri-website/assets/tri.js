@@ -7,38 +7,11 @@
   'use strict';
 
   /* ════════════════════════════════════════
-     LOADER
+     LOADER (Bypassed)
   ════════════════════════════════════════ */
   const loader = document.getElementById('tri-loader') || document.getElementById('loader');
   if (loader) {
-    document.body.style.overflow = 'hidden';
-    let pct = 0;
-    const fill = loader.querySelector('.l-fill');
-    const pctEl = loader.querySelector('.l-pct');
-    const logoEl = loader.querySelector('.l-logo');
-    if (logoEl) {
-      logoEl.style.transition = 'opacity 0.4s ease';
-      setTimeout(() => logoEl.style.opacity = '1', 100);
-    }
-    const tick = setInterval(() => {
-      pct = Math.min(pct + Math.random() * 18 + 8, 100);
-      if (fill) fill.style.width = pct + '%';
-      if (pctEl) pctEl.textContent = Math.floor(pct) + '%';
-      if (pct >= 100) {
-        clearInterval(tick);
-        setTimeout(() => {
-          loader.style.transition = 'opacity 0.5s ease';
-          loader.style.opacity = '0';
-          setTimeout(() => {
-            loader.style.display = 'none';
-            document.body.style.overflow = '';
-            runEntranceAnimations();
-          }, 520);
-        }, 200);
-      }
-    }, 55);
-  } else {
-    runEntranceAnimations();
+    loader.style.display = 'none';
   }
 
 
@@ -443,5 +416,7 @@
       card.style.transition = 'transform 0.15s ease';
     });
   });
+
+  runEntranceAnimations();
 
 })();

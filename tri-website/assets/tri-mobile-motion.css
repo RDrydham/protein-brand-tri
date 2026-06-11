@@ -1,0 +1,518 @@
+/* =============================================================
+   TRI — MOBILE MOTION LAYER v2.0
+   Always-on animations for touch devices.
+   No hover needed. 60fps GPU only.
+   ============================================================= */
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 1 — CONTINUOUS BUTTON SHIMMER (Always running on mobile)
+   The shimmer sweeps back and forth automatically
+═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+
+  /* ── Looping shimmer on ALL primary CTA buttons ──────────── */
+  @keyframes mobileShimmerSweep {
+    0%   { transform: translateX(-130%) skewX(-12deg); }
+    100% { transform: translateX(230%)  skewX(-12deg); }
+  }
+
+  .btn-primary::before,
+  .nav-cta::before,
+  .cart-checkout-btn::before,
+  .product-card-cta::before,
+  [data-add-cart]::before,
+  .mm-cta::before,
+  .cp-checkout::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 40% !important;
+    height: 100% !important;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255,255,255,0.22) 40%,
+      rgba(255,255,255,0.40) 50%,
+      rgba(255,255,255,0.22) 60%,
+      transparent
+    ) !important;
+    transform: translateX(-130%) skewX(-12deg) !important;
+    animation: mobileShimmerSweep 2.8s cubic-bezier(0.4,0,0.6,1) infinite !important;
+    pointer-events: none !important;
+    z-index: 2 !important;
+  }
+
+  /* Stagger shimmer timing per button type */
+  .nav-cta::before            { animation-delay: 0s !important; }
+  .btn-primary::before        { animation-delay: 0.4s !important; }
+  .cart-checkout-btn::before  { animation-delay: 0.8s !important; }
+  .product-card-cta::before   { animation-delay: 0.3s !important; }
+  [data-add-cart]::before     { animation-delay: 0.6s !important; }
+  .cp-checkout::before        { animation-delay: 1s !important; }
+
+  /* ── Ambient glow pulse on buttons ─────────────────────── */
+  @keyframes mobileGlowPulse {
+    0%, 100% { box-shadow: 0 4px 16px rgba(200,169,110,0.25), 0 1px 4px rgba(0,0,0,0.12); }
+    50%       { box-shadow: 0 6px 28px rgba(200,169,110,0.50), 0 2px 8px rgba(0,0,0,0.16); }
+  }
+
+  .btn-primary,
+  .nav-cta,
+  .cart-checkout-btn,
+  .cp-checkout {
+    animation: mobileGlowPulse 2.4s ease-in-out infinite !important;
+  }
+
+  /* ── Tap feedback — spring bounce ───────────────────────── */
+  @keyframes tapSpring {
+    0%   { transform: scale(0.93); }
+    50%  { transform: scale(1.05); }
+    75%  { transform: scale(0.98); }
+    100% { transform: scale(1); }
+  }
+
+  .btn-primary:active,
+  .nav-cta:active,
+  .cart-checkout-btn:active,
+  .product-card-cta:active,
+  [data-add-cart]:active,
+  .cp-checkout:active {
+    animation: tapSpring 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 2 — CART ICON: Continuous heartbeat attention pulse
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes cartHeartbeat {
+    0%, 90%, 100% { transform: scale(1); }
+    92%           { transform: scale(1.22) rotate(-8deg); }
+    95%           { transform: scale(0.95) rotate(4deg); }
+    98%           { transform: scale(1.08); }
+  }
+
+  .nav-cart,
+  .nav-cart-btn,
+  .nav-icon-btn[class*="cart"] {
+    animation: cartHeartbeat 3.5s ease-in-out infinite !important;
+    transform-origin: center !important;
+  }
+
+  /* Cart badge — persistent glow ring */
+  @keyframes badgeGlowRing {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0.8); }
+    50%       { box-shadow: 0 0 0 5px rgba(200,169,110,0); }
+  }
+
+  .cart-badge,
+  .cart-count,
+  #cart-count {
+    animation: badgeGlowRing 2s ease-out infinite !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 3 — CHATBOT BUTTON: Dramatic ring pulse on mobile
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes mobileChatFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%       { transform: translateY(-6px) scale(1.04); }
+  }
+
+  @keyframes mobilePulseRing1 {
+    0%   { transform: scale(1);    opacity: 0.65; }
+    100% { transform: scale(1.85); opacity: 0; }
+  }
+
+  @keyframes mobilePulseRing2 {
+    0%   { transform: scale(1);    opacity: 0.45; }
+    100% { transform: scale(2.2);  opacity: 0; }
+  }
+
+  #chatbot-btn {
+    animation: mobileChatFloat 2.8s ease-in-out infinite !important;
+  }
+
+  #chatbot-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: -5px !important;
+    border-radius: 50% !important;
+    background: rgba(188,129,51,0.5) !important;
+    opacity: 0 !important;
+    animation: mobilePulseRing1 2.2s ease-out 0.3s infinite !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+  }
+
+  #chatbot-btn::after {
+    content: '' !important;
+    position: absolute !important;
+    inset: -10px !important;
+    border-radius: 50% !important;
+    background: rgba(188,129,51,0.28) !important;
+    opacity: 0 !important;
+    animation: mobilePulseRing2 2.2s ease-out 0.7s infinite !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 4 — HAMBURGER MENU: Attention wiggle
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes hamWiggle {
+    0%, 85%, 100% { transform: rotate(0deg); }
+    87%           { transform: rotate(-8deg); }
+    91%           { transform: rotate(8deg); }
+    95%           { transform: rotate(-4deg); }
+    98%           { transform: rotate(3deg); }
+  }
+
+  .nav-ham,
+  .nav-hamburger,
+  .nav-menu-btn {
+    animation: hamWiggle 4s ease-in-out 2s infinite !important;
+    transform-origin: center !important;
+  }
+
+  .nav-ham:active,
+  .nav-hamburger:active,
+  .nav-menu-btn:active {
+    animation: tapSpring 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 5 — PRODUCT CARDS: Scroll-triggered entrance glow
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes cardRevealMobile {
+    0%   { opacity: 0; transform: translateY(28px) scale(0.96); }
+    60%  { opacity: 1; transform: translateY(-4px) scale(1.01); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .product-card.mob-revealed,
+  .shop-product-card.mob-revealed {
+    animation: cardRevealMobile 0.55s cubic-bezier(0.16,1,0.3,1) both !important;
+  }
+
+  /* Card image subtle float after reveal */
+  @keyframes cardImgFloat {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-5px); }
+  }
+
+  .product-card.mob-revealed .product-card-image img,
+  .shop-product-card.mob-revealed .product-card-image img {
+    animation: cardImgFloat 4s ease-in-out 0.6s infinite !important;
+  }
+
+  /* Tap: scale + glow flash */
+  @keyframes cardTapGlow {
+    0%   { box-shadow: 0 0 0 0 rgba(200,169,110,0.6); transform: scale(0.97); }
+    50%  { box-shadow: 0 0 0 12px rgba(200,169,110,0); transform: scale(1.01); }
+    100% { box-shadow: none; transform: scale(1); }
+  }
+
+  .product-card:active,
+  .shop-product-card:active {
+    animation: cardTapGlow 0.4s ease forwards !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 6 — TRUST STRIP ICONS: Breathing glow
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes iconBreath {
+    0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(200,120,122,0); }
+    50%       { transform: scale(1.08); box-shadow: 0 4px 16px rgba(200,120,122,0.25); }
+  }
+
+  .trust-icon {
+    animation: iconBreath 3s ease-in-out infinite !important;
+  }
+
+  /* Stagger each icon */
+  .trust-item:nth-child(1) .trust-icon { animation-delay: 0s !important; }
+  .trust-item:nth-child(2) .trust-icon { animation-delay: 0.5s !important; }
+  .trust-item:nth-child(3) .trust-icon { animation-delay: 1.0s !important; }
+  .trust-item:nth-child(4) .trust-icon { animation-delay: 1.5s !important; }
+  .trust-item:nth-child(5) .trust-icon { animation-delay: 2.0s !important; }
+  .trust-item:nth-child(6) .trust-icon { animation-delay: 2.5s !important; }
+
+  /* Tap: spin the icon */
+  .trust-item:active .trust-icon,
+  .trust-icon:active {
+    animation: iconTap 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
+  }
+
+  @keyframes iconTap {
+    0%   { transform: scale(1) rotate(0deg); }
+    40%  { transform: scale(1.3) rotate(-15deg); }
+    70%  { transform: scale(0.95) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 7 — FOOTER SOCIALS: Bounce + glow on tap
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes socialMobilePop {
+    0%   { transform: scale(1); }
+    30%  { transform: scale(1.28) translateY(-5px); }
+    60%  { transform: scale(0.92) translateY(2px); }
+    80%  { transform: scale(1.06); }
+    100% { transform: scale(1) translateY(0); }
+  }
+
+  .footer-social:active {
+    animation: socialMobilePop 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 8 — NAV LOGO: Subtle glimmer breathe
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes logoGlimmer {
+    0%, 100% { filter: brightness(1); }
+    50%       { filter: brightness(1.12) drop-shadow(0 0 6px rgba(200,169,110,0.4)); }
+  }
+
+  .nav-logo,
+  .nav-motion-logo {
+    animation: logoGlimmer 4s ease-in-out infinite !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 9 — POWER CARDS: Wave entrance + idle shimmer border
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes powerCardReveal {
+    0%   { opacity: 0; transform: translateX(-20px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  .power-card.mob-revealed {
+    animation: powerCardReveal 0.5s cubic-bezier(0.16,1,0.3,1) both !important;
+  }
+
+  /* Animated gradient border on power cards */
+  @keyframes powerBorderGlow {
+    0%, 100% { box-shadow: 0 2px 16px rgba(200,169,110,0.08); }
+    50%       { box-shadow: 0 4px 24px rgba(200,169,110,0.22); }
+  }
+
+  .power-card {
+    animation: powerBorderGlow 3s ease-in-out infinite !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 10 — SECTION HEADINGS: Dramatic mobile reveal
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes mobileHeadReveal {
+    0%   { opacity: 0; transform: translateY(24px) scale(0.97); }
+    60%  { opacity: 1; transform: translateY(-3px) scale(1.01); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  h1.mob-revealed,
+  h2.mob-revealed,
+  h3.mob-revealed,
+  .section-h2.mob-revealed,
+  .hero-heading.mob-revealed {
+    animation: mobileHeadReveal 0.65s cubic-bezier(0.16,1,0.3,1) both !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 11 — EYEBROW / LABELS: Slide in from left
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes eyebrowSlide {
+    0%   { opacity: 0; transform: translateX(-16px); letter-spacing: 0.05em; }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  .section-eyebrow.mob-revealed,
+  .hero-eyebrow.mob-revealed {
+    animation: eyebrowSlide 0.5s cubic-bezier(0.16,1,0.3,1) both !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 12 — ADD TO CART BUTTONS: Persistent neon glow
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes addCartGlow {
+    0%, 100% {
+      box-shadow: 0 4px 14px rgba(200,169,110,0.20),
+                  0 0 0 0 rgba(200,169,110,0.40);
+    }
+    50% {
+      box-shadow: 0 6px 24px rgba(200,169,110,0.45),
+                  0 0 0 4px rgba(200,169,110,0.10);
+    }
+  }
+
+  [data-add-cart] {
+    animation: addCartGlow 2s ease-in-out infinite !important;
+  }
+
+  /* Big tap spring when adding to cart */
+  [data-add-cart]:active {
+    animation: tapSpring 0.38s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 13 — MOBILE MENU LINKS: Character-level stagger
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes mmLinkFloat {
+    0%, 100% { transform: translateX(0); }
+    50%       { transform: translateX(4px); }
+  }
+
+  #mobile-menu.open .mm-nav-link {
+    animation: mmLinkFloat 3s ease-in-out infinite !important;
+  }
+
+  #mobile-menu.open .mm-nav-link:nth-child(1) { animation-delay: 0s !important; }
+  #mobile-menu.open .mm-nav-link:nth-child(2) { animation-delay: 0.3s !important; }
+  #mobile-menu.open .mm-nav-link:nth-child(3) { animation-delay: 0.6s !important; }
+  #mobile-menu.open .mm-nav-link:nth-child(4) { animation-delay: 0.9s !important; }
+  #mobile-menu.open .mm-nav-link:nth-child(5) { animation-delay: 1.2s !important; }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 14 — TICKER STRIP: Enhanced dot pulse
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes tickerDotMobile {
+    0%, 100% { transform: scale(1); opacity: 0.5; box-shadow: none; }
+    50%       { transform: scale(1.6); opacity: 1; box-shadow: 0 0 6px rgba(200,169,110,0.8); }
+  }
+
+  .ticker-dot {
+    animation: tickerDotMobile 1.6s ease-in-out infinite !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 15 — CLOSE BUTTONS: Spin on tap
+  ═══════════════════════════════════════════════════════════ */
+
+  #mm-close:active,
+  .mm-close:active,
+  #cp-close:active {
+    animation: closeSpin 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
+  }
+
+  @keyframes closeSpin {
+    0%   { transform: rotate(0deg) scale(1); }
+    50%  { transform: rotate(100deg) scale(1.15); }
+    75%  { transform: rotate(85deg) scale(0.95); }
+    100% { transform: rotate(90deg) scale(1); }
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 16 — TOAST: Bouncy entrance on mobile
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes mobileToastPop {
+    0%   { transform: translateX(-50%) translateY(32px) scale(0.8); opacity: 0; }
+    55%  { transform: translateX(-50%) translateY(-8px) scale(1.05); opacity: 1; }
+    75%  { transform: translateX(-50%) translateY(3px) scale(0.98); }
+    100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+  }
+
+  #toast.show,
+  #tri-toast.show {
+    animation: mobileToastPop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 17 — NAV SCROLL INDICATOR: Progress bar shimmer
+  ═══════════════════════════════════════════════════════════ */
+
+  #tri-nav::after,
+  #nav::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    height: 2px !important;
+    width: var(--scroll-progress, 0%) !important;
+    background: linear-gradient(90deg, #bc8133, #e6a2a4, #bc8133) !important;
+    background-size: 200% 100% !important;
+    animation: navBarShimmer 2s linear infinite !important;
+    transition: width 0.1s ease !important;
+    pointer-events: none !important;
+    z-index: 10 !important;
+  }
+
+  @keyframes navBarShimmer {
+    0%   { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     SECTION 18 — CHECKOUT BUTTON: Urgent pulse + label bounce
+  ═══════════════════════════════════════════════════════════ */
+
+  @keyframes checkoutUrgency {
+    0%, 100% {
+      box-shadow: 0 4px 20px rgba(26,26,26,0.25);
+      transform: translateY(0);
+    }
+    50% {
+      box-shadow: 0 8px 32px rgba(26,26,26,0.40);
+      transform: translateY(-2px);
+    }
+  }
+
+  .cp-checkout {
+    animation: checkoutUrgency 2s ease-in-out infinite !important;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     UTILITY: Scroll-reveal base state (JS applies .mob-revealed)
+  ═══════════════════════════════════════════════════════════ */
+
+  .mob-reveal-init {
+    opacity: 0;
+    transform: translateY(20px);
+    will-change: opacity, transform;
+  }
+
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REDUCED MOTION: Kills everything on mobile too
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
