@@ -24,3 +24,7 @@ build/
 
 # Scratch/temp files
 scratch/
+
+# Zip archives
+*.zip
+

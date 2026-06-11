@@ -215,7 +215,7 @@
     if (targetProg >= 1) return;
     if (autoRAF) cancelAnimationFrame(autoRAF);
     const sv = targetProg, st = performance.now();
-    const dur = (1 - sv) * 4000; // 4s for full run (remaining portion)
+    const dur = (1 - sv) * 2500; // 2.5s for full run (faster reveal)
     function adv(now) {
       targetProg = clamp(sv + (now - st) / dur, 0, 1);
       if (targetProg < 1) autoRAF = requestAnimationFrame(adv);
@@ -224,17 +224,17 @@
     autoRAF = requestAnimationFrame(adv);
   }
 
-  function stopPlay(immediate = false) {
+  function stopPlay() {
+    // Once the animation has completed (sachet cards shown),
+    // never reset — keep content visible for returning visitors.
+    if (targetProg >= 0.82) return;
     if (autoRAF) cancelAnimationFrame(autoRAF);
     autoRAF = null;
-    if (immediate) {
-      targetProg = 0;
-      return;
-    }
-    if (targetProg < 0.5) {
+    // Only reset if we haven't revealed much yet
+    if (targetProg < 0.25) {
       const sv = targetProg, st = performance.now();
       function ret(now) {
-        targetProg = clamp(sv - (now - st) / 700, 0, 1);
+        targetProg = clamp(sv - (now - st) / 500, 0, 1);
         if (targetProg > 0) autoRAF = requestAnimationFrame(ret);
         else autoRAF = null;
       }
@@ -251,6 +251,8 @@
   }
 
   function stopLoop() {
+    // Keep loop running if content has been revealed
+    if (targetProg >= 0.82) return;
     isLooping = false;
   }
 
@@ -261,12 +263,13 @@
       const e = entries[0];
       if (e.isIntersecting) {
         startLoop();
-        if (e.intersectionRatio >= 0.20) startPlay();
+        // Start as soon as ANY part of section is visible (not just 20%)
+        startPlay();
       } else {
-        stopPlay(true);
+        stopPlay();
         stopLoop();
       }
-    }, { threshold: [0, 0.2, 0.5, 0.8, 1] }).observe(sec);
+    }, { threshold: [0, 0.1, 0.2, 0.5, 0.8, 1] }).observe(sec);
   }
 
   /* ── Render loop ── */
