@@ -1,4 +1,4 @@
-# ATRI FOOTBALL MARKETING PLAYBOOK
+# THE REAL INSIDE FOOTBALL MARKETING PLAYBOOK
 ## Division: Marketing OS | Document: 08_Football_Marketing_Playbook.md
 
 ---
@@ -6,7 +6,7 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. Football Marketing Specialist & Business Development Agent
-Football is India's fastest-growing athletic and corporate sport, yet it lacks a dedicated high-performance nutrition brand. ATRI is positioned to own the **"Matchday Nutrition" category**. By embedding our products directly within academy training sessions, elite amateur leagues, and professional clubs, we establish immediate physical dominance over standard "gym-only" supplements.
+Football is India's fastest-growing athletic and corporate sport, yet it lacks a dedicated high-performance nutrition brand. THE REAL INSIDE is positioned to own the **"Matchday Nutrition" category**. By embedding our products directly within academy training sessions, elite amateur leagues, and professional clubs, we establish immediate physical dominance over standard "gym-only" supplements.
 
 ### B. Sports Nutrition Expert
 Football is a mixed aerobic-anaerobic endurance sport demanding intense sprinting, agility, and cognitive focus for 90+ minutes. General supplements don't solve this. True performance demands:
@@ -21,7 +21,7 @@ Modern football players, from amateur weekend warriors to academy stars, associa
 
 ## 2. The Matchday Nutrition Framework
 
-ATRI’s core athletic offering is the **Matchday Performance Protocol**, structured around the TRI Fusion Pack:
+THE REAL INSIDE’s core athletic offering is the **Matchday Performance Protocol**, structured around the TRI Fusion Pack:
 
 ```
   [-2 Hours: Pre-Match]        [Halftime: Support]        [Post-Match: Recover]
@@ -48,7 +48,7 @@ ATRI’s core athletic offering is the **Matchday Performance Protocol**, struct
 
 ## 3. Strategic Recommendations
 
-*   **Establish the "TEAM ATRI Academy Alliance":** Partner with the top 10 elite private football academies in metro cities (Mumbai, Bengaluru, Delhi NCR, Goa). Provide co-branded halftime hydration stations, supplying academy coaches and youth players with technical hydration setups.
+*   **Establish the "TEAM THE REAL INSIDE Academy Alliance":** Partner with the top 10 elite private football academies in metro cities (Mumbai, Bengaluru, Delhi NCR, Goa). Provide co-branded halftime hydration stations, supplying academy coaches and youth players with technical hydration setups.
 *   **Target the Corporate Football Leagues:** Sponsor high-ticket corporate football tournaments (e.g., Corporate 5-a-side leagues). Offer the TRI Fusion Pack as part of the official tournament registration kit to capture high-income corporate professionals.
 *   **Develop "Matchday Fuel" Educational Reels:** Create highly visual reels mapping out the exact nutrition and hydration schedules of professional footballers, contrasting it with the poor nutrition habits of amateur players.
 
@@ -79,7 +79,7 @@ gantt
 ### SOP-FT-01: Academy Halftime Hydration Setup
 *   **Objective:** Standardize the premium physical brand presence at partner academies and tournaments.
 *   **Execution Protocol:**
-    1.  **Visual Setup:** Position two clean, matte obsidian ATRI hydration dispensers at the pitch touchline. Keep all generic plastic bottles out of sight.
+    1.  **Visual Setup:** Position two clean, matte obsidian THE REAL INSIDE hydration dispensers at the pitch touchline. Keep all generic plastic bottles out of sight.
     2.  **Mixing Precision:** Mix TRI Power BCAA strictly according to technical ratios (1 scoop per 400ml water). Ensure water is chilled but not freezing, to maximize stomach gastric emptying and absorption.
     3.  **Educational Collateral:** Ensure all participants receive a co-branded water bottle and a cardsheet detailing the 3-Step Matchday Protocol and the 4-level test batch report.
 
@@ -103,5 +103,5 @@ gantt
 ## 8. Execution Priorities
 
 1.  **Priority 1 (Immediate):** Draft and design the physical "Matchday Nutrition Protocol" cardsheet included in tournament trial packs.
-2.  **Priority 2 (High):** Pitch the ATRI Halftime Hydration Program to the top 3 high-profile soccer leagues in Mumbai and Bengaluru.
-3.  **Priority 3 (Medium):** Script a cinematic video feature with an ISL / I-League professional footballer auditing the ATRI batch tests.
+2.  **Priority 2 (High):** Pitch the THE REAL INSIDE Halftime Hydration Program to the top 3 high-profile soccer leagues in Mumbai and Bengaluru.
+3.  **Priority 3 (Medium):** Script a cinematic video feature with an ISL / I-League professional footballer auditing the THE REAL INSIDE batch tests.

@@ -1,9 +1,17 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
 const XLSX = require('xlsx');
 const nodemailer = require('nodemailer');
+
+// Import routes
+const authRoutes = require('./routes/authRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,6 +43,13 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// Register API routes
+app.use('/api/auth', authRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Serve static files from the website directory
 app.use(express.static(path.join(__dirname)));
@@ -447,6 +462,10 @@ app.post('/api/save-lead', async (req, res) => {
 });
 
 // Clean multi-page routes for sub-pages (without needing .html in URL)
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
 app.get('/about', (req, res) => {
   res.sendFile(path.join(__dirname, 'about.html'));
 });

@@ -28,3 +28,7 @@ scratch/
 # Zip archives
 *.zip
 
+# Local environment credentials
+.env
+
+

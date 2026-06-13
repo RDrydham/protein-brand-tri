@@ -1,4 +1,4 @@
-# ATRI INFLUENCER PLAYBOOK
+# THE REAL INSIDE INFLUENCER PLAYBOOK
 ## Division: Marketing OS | Document: 07_Influencer_Playbook.md
 
 ---
@@ -6,10 +6,10 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. Influencer Marketing & PR Agent
-Most supplement brands burn capital on macro-influencers who yield low-trust, transactional conversions. ATRI’s strategy centers around **High-Credibility micro and nano partnerships** (Sports nutritionists, professional athletic coaches, ironman athletes, semi-pro footballers). We recruit partners based on technical credibility rather than absolute follower count.
+Most supplement brands burn capital on macro-influencers who yield low-trust, transactional conversions. THE REAL INSIDE’s strategy centers around **High-Credibility micro and nano partnerships** (Sports nutritionists, professional athletic coaches, ironman athletes, semi-pro footballers). We recruit partners based on technical credibility rather than absolute follower count.
 
 ### B. Consumer Psychology Agent
-Modern consumers know what paid promotions look like. When an elite athlete explains ATRI from an analytical perspective—highlighting how they personally audited the 4-level test certificates before agreeing to put it in their body—the promotion shifts from an ad to an authentic professional recommendation.
+Modern consumers know what paid promotions look like. When an elite athlete explains THE REAL INSIDE from an analytical perspective—highlighting how they personally audited the 4-level test certificates before agreeing to put it in their body—the promotion shifts from an ad to an authentic professional recommendation.
 
 ### C. Sports Nutrition & Product Strategy Expert
 We provide our influencer partners with detailed "Science Decks" containing complete raw ingredient sourcing sheets, certificates of analysis, and formulation rationales. By equipping them with actual biochemical knowledge rather than empty advertising taglines, they represent the brand with scientific authority.
@@ -48,7 +48,7 @@ graph TD
 
 ## 3. Strategic Recommendations
 
-*   **Implement a Strict "Audit-First" Onboarding Protocol:** Do not allow any influencer to promote ATRI without them receiving, testing, and reviewing the TRI Fusion Pack for a minimum of 14 days. We only partner with authentic advocates.
+*   **Implement a Strict "Audit-First" Onboarding Protocol:** Do not allow any influencer to promote THE REAL INSIDE without them receiving, testing, and reviewing the TRI Fusion Pack for a minimum of 14 days. We only partner with authentic advocates.
 *   **Cinematic Ambassador Video Profiles:** Instead of standard static grid posts, produce highly styled, documentary-like 60-second video profiles showcasing the ambassador’s physical struggle, training regimen, and clean recovery process.
 *   **Exclude "Discount Code Shouting":** Never allow partners to post loud banners saying "USE CODE 20% OFF NOW." All partner conversions must be driven by premium storytelling and personalized, clean educational landing pages (`therealinside.com/partnername`).
 
@@ -84,7 +84,7 @@ gantt
     >
     > We’ve been following your athletic journey, specifically how you break down your matchday preparation/running mechanics. 
     >
-    > We are building ATRI—a sports nutrition brand dedicated strictly to gut-friendly performance and absolute formulation transparency. No gums, no thickeners, and independent 4-level testing.
+    > We are building THE REAL INSIDE—a sports nutrition brand dedicated strictly to gut-friendly performance and absolute formulation transparency. No gums, no thickeners, and independent 4-level testing.
     >
     > We don’t do standard transactional sponsorships. We want to send you our 3-day TRI Fusion Pack to test. We only partner with athletes who notice a physical improvement in their digestion and recovery over 14 days. 
     >

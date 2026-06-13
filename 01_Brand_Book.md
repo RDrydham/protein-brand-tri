@@ -1,4 +1,4 @@
-# ATRI BRAND BOOK
+# THE REAL INSIDE BRAND BOOK
 ## Division: Brand OS | Document: 01_Brand_Book.md
 
 ---
@@ -6,7 +6,7 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. Brand Strategy Agent
-ATRI is positioned as India's most trusted premium performance nutrition ecosystem. Our core objective is to move performance nutrition from the dark, untruthful "gym-bro" domain to an aspirational, scientific, and premium lifestyle tier. We do not sell protein; we sell verified physical capability.
+THE REAL INSIDE is positioned as India's most trusted premium performance nutrition ecosystem. Our core objective is to move performance nutrition from the dark, untruthful "gym-bro" domain to an aspirational, scientific, and premium lifestyle tier. We do not sell protein; we sell verified physical capability.
 
 ### B. Consumer Psychology Agent
 Our target audience experiences profound skepticism due to the prevalence of fake supplements, digestion issues (bloating, acne), and hidden blends. By using a **Trial-First strategy** (TRI Fusion Pack) and promoting radical transparency (4-level lab testing), we satisfy the customer's need for safety, control, and immediate sensory verification.
@@ -24,8 +24,8 @@ Our copy must read with **holistic sophistication**. Aligned with the Pomelli Br
 ### A. The Core Mission
 To build India’s most trusted premium performance nutrition ecosystem. We pledge absolute, uncompromising formulation transparency and gut-friendly sports science.
 
-### B. What ATRI is NOT vs. What ATRI IS
-| ATRI IS NOT 🚫 | ATRI IS 🏆 |
+### B. What THE REAL INSIDE is NOT vs. What THE REAL INSIDE IS
+| THE REAL INSIDE IS NOT 🚫 | THE REAL INSIDE IS 🏆 |
 | :--- | :--- |
 | A bodybuilding brand shouting about "mass gains" | A premium performance nutrition company for high-performers |
 | A discount supplement company pushing cheap formulas | A premium, science-first aspirational brand |
@@ -70,7 +70,7 @@ gantt
 ## 5. Standard Operating Procedures (SOPs)
 
 ### SOP-BR-01: Copywriting Tone & Compliance
-*   **Objective:** Ensure all outward-facing copy aligns with the ATRI brand personality.
+*   **Objective:** Ensure all outward-facing copy aligns with the THE REAL INSIDE brand personality.
 *   **Step-by-Step Execution:**
     1.  **Auditing Tone:** Before publishing, check copy against the **Pomelli Brand Voice scale** (Direct, Professional, Goal-oriented, Reliable).
     2.  **Restricted Words Check:** Eliminate all occurrences of "Gym-bro" vocabulary. Refer to the table below:

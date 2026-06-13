@@ -389,12 +389,14 @@
   animation: dotPulse 2s ease-in-out infinite;
 }
 
-/* Pause ticker on hover */
+/* Pause ticker on hover - COMMENTED OUT to prevent pausing on mouse over */
+/*
 @media (hover: hover) {
   .ticker-wrap:hover .ticker-track {
     animation-play-state: paused;
   }
 }
+*/
 
 
 /* ══════════════════════════════════════════════════════════════

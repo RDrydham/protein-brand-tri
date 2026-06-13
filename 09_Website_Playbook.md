@@ -1,4 +1,4 @@
-# ATRI WEBSITE PLAYBOOK
+# THE REAL INSIDE WEBSITE PLAYBOOK
 ## Division: Growth OS | Document: 09_Website_Playbook.md
 
 ---
@@ -6,7 +6,7 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. Website UX/UI, Conversion Optimization (CRO) & E-commerce Agents
-ATRI's website must bridge visual luxury with high-performance conversion mechanics. Aligned with the Pomelli Brand Book, the interface uses a dark canvas (Deep Obsidian) offset by copper highlights (Canyon Clay) and elegant serif headings (Playfair Display). We eliminate all standard, cluttered e-commerce patterns in favor of clean space, smooth micro-animations, and a highly streamlined single-page checkout loop.
+THE REAL INSIDE's website must bridge visual luxury with high-performance conversion mechanics. Aligned with the Pomelli Brand Book, the interface uses a dark canvas (Deep Obsidian) offset by copper highlights (Canyon Clay) and elegant serif headings (Playfair Display). We eliminate all standard, cluttered e-commerce patterns in favor of clean space, smooth micro-animations, and a highly streamlined single-page checkout loop.
 
 ### B. Consumer Psychology Agent
 Modern buyers seek trust, fast loading speeds, and structural clarity. The homepage layout follows a **"Trust Stack" hierarchy**: Hook -> Visual Demo -> Formulation Audit -> Lab Verification Registry -> Trial Pack Conversion module. By displaying independent lab certifications directly within the product purchase card, we neutralize buying anxiety before the click.
@@ -31,7 +31,7 @@ The D2C website functions as an educational portal. Product pages must go beyond
 
 ```
 ┌────────────────────────────────────────┐
-│ [≡] ATRI    THE REAL INSIDE   [🛒]     │  <-- Header: Dark Obsidian, Playfair logo
+│ [≡] THE REAL INSIDE    THE REAL INSIDE   [🛒]     │  <-- Header: Dark Obsidian, Playfair logo
 ├────────────────────────────────────────┤
 │                                        │
 │          CINEMATIC BOX IMAGE           │  <-- Premium unboxing render (soft-touch)
@@ -97,7 +97,7 @@ gantt
 ## 5. Standard Operating Procedures (SOPs)
 
 ### SOP-WE-01: Product Page Upload & Compliance
-*   **Objective:** Ensure new products uploaded to the website conform strictly to ATRI's visual and CRO standards.
+*   **Objective:** Ensure new products uploaded to the website conform strictly to THE REAL INSIDE's visual and CRO standards.
 *   **Execution Steps:**
     1.  **Visual Asset Verification:** Ensure the primary product image uses a deep obsidian canvas backdrop. Shadows must be soft-brushed; reflections must have copper hues.
     2.  **Copy Formatting:**

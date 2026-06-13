@@ -1,4 +1,4 @@
-# ATRI VISUAL IDENTITY SYSTEM
+# THE REAL INSIDE VISUAL IDENTITY SYSTEM
 ## Division: Brand OS | Document: 03_Visual_Identity_System.md
 
 ---
@@ -6,13 +6,13 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. Creative Director & UI/UX Agent
-The visual identity of ATRI bridges high-contrast dark luxury with warm, copper-elegance organic tones. Aligned with the Pomelli Brand Book, we utilize specific typography (Playfair Display for high-editorial authority, Montserrat for structural precision) to command immediate attention. The spacing must follow a rigid minimalist grid to communicate scientific precision.
+The visual identity of THE REAL INSIDE bridges high-contrast dark luxury with warm, copper-elegance organic tones. Aligned with the Pomelli Brand Book, we utilize specific typography (Playfair Display for high-editorial authority, Montserrat for structural precision) to command immediate attention. The spacing must follow a rigid minimalist grid to communicate scientific precision.
 
 ### B. Product Strategy Agent
 The packaging of the TRI Fusion Pack serves as a primary physical billboard. The packaging uses high-contrast typography, premium sensory finishes (matte soft-touch coating), and copper-foiled typography accents. Every visual touchpoint must feel premium and state of the art, completely eliminating standard plastic jar aesthetics.
 
 ### C. Consumer Psychology Agent
-Colors evoke physiological responses. Canyon Clay and Marsala Red suggest premium grounded performance (organic, scientific, earthy, gut-safe), while Soft Pink and Antique Rose introduce a soft elegance (clean, trustworthy, recovery-focused). By avoiding high-saturation neon greens and bright blues common in gym products, ATRI visually stands out as clean and transparent.
+Colors evoke physiological responses. Canyon Clay and Marsala Red suggest premium grounded performance (organic, scientific, earthy, gut-safe), while Soft Pink and Antique Rose introduce a soft elegance (clean, trustworthy, recovery-focused). By avoiding high-saturation neon greens and bright blues common in gym products, THE REAL INSIDE visually stands out as clean and transparent.
 
 ---
 
@@ -45,7 +45,7 @@ Colors evoke physiological responses. Canyon Clay and Marsala Red suggest premiu
 ## 3. Strategic Recommendations
 
 *   **Implement "Fluid Minimalism" Layouts:** All web and print media must use wide, structural margins (8% of viewport width) with generous padding (80px–120px vertical spacers) to simulate premium retail environments (similar to Apple and WHOOP).
-*   **Tactile Packaging Enhancements:** Enforce soft-touch matte lamination on the TRI Fusion Pack box, using spot-UV gloss over the liquid copper swirls and embossed hot-foil copper stamping on the "ATRI" logo.
+*   **Tactile Packaging Enhancements:** Enforce soft-touch matte lamination on the TRI Fusion Pack box, using spot-UV gloss over the liquid copper swirls and embossed hot-foil copper stamping on the "THE REAL INSIDE" logo.
 *   **Strict Image Filter Guidelines:** All brand photography (athlete culture, ingredients, unboxing) must have desaturated, high-contrast, moody dark environments with natural warm light highlights, avoiding flat white-box studio lighting.
 
 ---
@@ -86,7 +86,7 @@ gantt
 
 ## 6. Automation Opportunities
 
-*   **Figma-to-GitHub Token Sync:** Set up a GitHub Action linked to the Figma Tokens plugin. When the design team updates a visual variable in Figma, the action automatically commits the updated CSS variables into the ATRI Shopify theme repository, preventing developer styling drift.
+*   **Figma-to-GitHub Token Sync:** Set up a GitHub Action linked to the Figma Tokens plugin. When the design team updates a visual variable in Figma, the action automatically commits the updated CSS variables into the THE REAL INSIDE Shopify theme repository, preventing developer styling drift.
 *   **Automated Image Quality Classifier:** Utilize an AI vision script that automatically analyzes uploaded marketing assets. It flags and blocks any image that doesn't fit the specified color profile (Deep Obsidian + Brushed Copper) or exhibits flat lighting.
 
 ---

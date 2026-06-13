@@ -1,4 +1,4 @@
-# ATRI MARKETING PLAYBOOK
+# THE REAL INSIDE MARKETING PLAYBOOK
 ## Division: Marketing OS | Document: 05_Marketing_Playbook.md
 
 ---
@@ -25,7 +25,7 @@ Our ad hooks will highlight physical output metrics (e.g., buffering fatigue dur
 *   **Hook 2:** "3 days. 3 clean formulations. Zero bloating. The TRI Fusion Pack is here."
 *   **Script Structure (UGC Video):**
     *   *0-3s Hook:* Show a close-up of a standard plastic supplement jar being thrown in a recycling bin. "I'm done wasting money on hidden blends that bloat my stomach."
-    *   *3-15s Body:* Show the premium, copper-detailed TRI Fusion Pack. Unbox the 9 individual sachets. Explain: "This is ATRI. A trial-first ecosystem. 3 days of True Whey, TRI Power BCAA, and TRI Pump Pre-Workout. Clean ingredients, zero gums, zero fillers."
+    *   *3-15s Body:* Show the premium, copper-detailed TRI Fusion Pack. Unbox the 9 individual sachets. Explain: "This is THE REAL INSIDE. A trial-first ecosystem. 3 days of True Whey, TRI Power BCAA, and TRI Pump Pre-Workout. Clean ingredients, zero gums, zero fillers."
     *   *15-25s Social Proof / Trust:* Show the 4-level batch test registry QR code on the box side. "They are the first brand in India to individually test every batch for heavy metals and toxins."
     *   *25-30s CTA:* "Get your TRI Fusion Pack today for ₹599. Taste the difference. What's inside matters."
 *   **Creatives:** High-definition lifestyle unboxing video (Obsidian color grade, copper accents).
@@ -38,7 +38,7 @@ Our ad hooks will highlight physical output metrics (e.g., buffering fatigue dur
 *   **Audience:** Users searching for high-quality, gut-friendly protein alternatives.
 *   **Target Keywords:** *best gut friendly protein India, transparent whey protein, non bloating whey protein, tested heavy metal free supplement*.
 *   **Ad Copy Structure:**
-    *   *Headline 1:* ATRI™ True Whey - Lab Certified Gut-Friendly
+    *   *Headline 1:* THE REAL INSIDE™ True Whey - Lab Certified Gut-Friendly
     *   *Headline 2:* No Hidden Blends. No Bloating.
     *   *Headline 3:* 4-Level Tested for Heavy Metals
     *   *Description:* High-performance recovery engineered for premium athletes, professionals, and runners. Try the TRI Fusion Pack first. "What's inside matters." Free from artificial fillers.
@@ -50,7 +50,7 @@ Our ad hooks will highlight physical output metrics (e.g., buffering fatigue dur
 *   **Objective:** Retargeting and High-Value Brand Awareness.
 *   **Audience:** Custom warm audience (Website visitors last 30 days, Instagram engagers last 60 days).
 *   **Script Structure (Vedansh Vijay Direct-to-Camera):**
-    *   *0-5s Hook:* Vedansh sitting in a high-end minimalist dark studio. "I didn't start ATRI to compete in the gym-bro market. I started it because I was tired of getting bloated from massive generic whey proteins."
+    *   *0-5s Hook:* Vedansh sitting in a high-end minimalist dark studio. "I didn't start THE REAL INSIDE to compete in the gym-bro market. I started it because I was tired of getting bloated from massive generic whey proteins."
     *   *5-20s Story:* "When we built True Whey, we threw out xanthan gum, soy lecithin, and proprietary blends. We replaced them with premium grass-fed concentrate and digestive enzymes."
     *   *20-30s CTA:* "If you are ready for a premium, scientific approach to performance, try our 3-day Fusion Pack first. You don't have to trust us blindly. Look at the lab report yourself."
 *   **Creatives:** A raw, highly professional 4K video essay.
@@ -91,7 +91,7 @@ gantt
 ### SOP-PM-01: Paid Acquisition Campaign Launch Protocol
 *   **Objective:** Launch high-performance, structurally sound campaigns on Meta Ads.
 *   **Step-by-Step Execution:**
-    1.  **Naming Convention:** Enforce: `[ATRI] - [Acquisition/Retargeting] - [Broad/Warm] - [Creative Angle Name]`.
+    1.  **Naming Convention:** Enforce: `[THE REAL INSIDE] - [Acquisition/Retargeting] - [Broad/Warm] - [Creative Angle Name]`.
     2.  **Campaign Budget Optimization (CBO):** Turn CBO "ON" to let Meta automatically distribute budgets to high-performing ad sets.
     3.  **Visual Quality Check:** Check that video formatting is strictly 9:16 for Reels/Stories and 4:5 for feed ads. Verify color grade corresponds to the Deep Obsidian / Canyon Clay LUT presets.
     4.  **Destination Link Check:** Ensure all active links map to the dedicated TRI Fusion landing page with proper tracking parameters (`utm_source=meta&utm_medium=paid&utm_campaign=fusion_acquisition`).

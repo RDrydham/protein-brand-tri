@@ -1,4 +1,4 @@
-# ATRI COMMUNITY PLAYBOOK
+# THE REAL INSIDE COMMUNITY PLAYBOOK
 ## Division: Growth OS | Document: 10_Community_Playbook.md
 
 ---
@@ -6,20 +6,20 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. Community Building, Retention & CRM Agents
-ATRI's community ecosystem is our primary defense against rising acquisition costs. "TEAM ATRI" is designed not as a generic broadcast feed, but as an exclusive digital club for modern performance culture. The community provides physical utility (training coaching, exclusive academy events, diet design calculators) that drives high customer retention.
+THE REAL INSIDE's community ecosystem is our primary defense against rising acquisition costs. "TEAM THE REAL INSIDE" is designed not as a generic broadcast feed, but as an exclusive digital club for modern performance culture. The community provides physical utility (training coaching, exclusive academy events, diet design calculators) that drives high customer retention.
 
 ### B. Consumer Psychology Agent
-Modern high-performers seek **association and social identity**. By aligning themselves with ATRI, they visually assert themselves as disciplined, performance-oriented, and scientific. We gamify the ambassador experience to tap into status triggers (e.g., unlocking limited-edition copper shaker bottles or exclusive athletic coaching sessions).
+Modern high-performers seek **association and social identity**. By aligning themselves with THE REAL INSIDE, they visually assert themselves as disciplined, performance-oriented, and scientific. We gamify the ambassador experience to tap into status triggers (e.g., unlocking limited-edition copper shaker bottles or exclusive athletic coaching sessions).
 
 ### C. Sports Nutrition & Football Specialist
 The community serves as a support squad. Members receive direct advice from verified sports nutritionists. Rather than researching incorrect supplement dosages online, they have immediate access to technical sports scientists who help design custom training and recovery protocols.
 
 ---
 
-## 2. TEAM ATRI Channel Architecture
+## 2. TEAM THE REAL INSIDE Channel Architecture
 
 ```
-                       [TEAM ATRI ECOSYSTEM]
+                       [TEAM THE REAL INSIDE ECOSYSTEM]
                        /        |        \
                       /         |         \
          [WhatsApp VIP]   [Telegram Hub]   [Exclusive Discord]
@@ -47,12 +47,12 @@ The community serves as a support squad. Members receive direct advice from veri
 
 ## 3. Strategic Recommendations
 
-*   **Gamify the TEAM ATRI Ambassador Tiers:** Implement a structured points system based on customer activity:
+*   **Gamify the TEAM THE REAL INSIDE Ambassador Tiers:** Implement a structured points system based on customer activity:
     1.  *Tier 1: Explorer (Entry):* Purchase Fusion Pack. Unlocks basic nutrition tools database.
-    2.  *Tier 2: Performer (Bulk/Repeat):* Repurchase 2x bulk tubs. Unlocks limited-edition matte obsidian copper-stamped ATRI shaker.
+    2.  *Tier 2: Performer (Bulk/Repeat):* Repurchase 2x bulk tubs. Unlocks limited-edition matte obsidian copper-stamped THE REAL INSIDE shaker.
     3.  *Tier 3: Elite Advocate (10+ Refers or ISL Academy status):* Unlocks direct video consultations with sports scientists and exclusive co-branded apparel.
 *   **Host Weekly "Science Check-Ins":** Run a recurring live Discord/Telegram audio call on Sunday evenings where a technical sports nutritionist answers members' questions regarding bloating, recovery plateaus, or training pacing.
-*   **Double-Sided Referral Loop:** Standardize a transparent referral program: *"Gift ₹150 off a TRI Fusion Pack to your team captain or running partner. You receive ₹150 in ATRI points towards your next True Whey purchase once they complete their trial."*
+*   **Double-Sided Referral Loop:** Standardize a transparent referral program: *"Gift ₹150 off a TRI Fusion Pack to your team captain or running partner. You receive ₹150 in THE REAL INSIDE points towards your next True Whey purchase once they complete their trial."*
 
 ---
 
@@ -60,7 +60,7 @@ The community serves as a support squad. Members receive direct advice from veri
 
 ```mermaid
 gantt
-    title TEAM ATRI Community Launch
+    title TEAM THE REAL INSIDE Community Launch
     dateFormat  YYYY-MM-DD
     section Setup
     Build Discord Server & Perms     :active, 2026-06-01, 4d
@@ -82,10 +82,10 @@ gantt
 *   **Objective:** Keep channels highly constructive, disciplined, and brand-aligned, preventing spam.
 *   **Execution Protocol:**
     1.  **Spam Filter:** Block all external links, promotional discount codes, and unrelated fitness channels.
-    2.  **Voice Standards:** Exclude all toxic "gym-bro" arguments or steroid discussions. Moderation must align with ATRI voice parameters: calm, intelligent, scientific, encouraging.
+    2.  **Voice Standards:** Exclude all toxic "gym-bro" arguments or steroid discussions. Moderation must align with THE REAL INSIDE voice parameters: calm, intelligent, scientific, encouraging.
     3.  **Medical Queries:** If a community member asks a highly complex medical question:
         *   *Action:* Direct them immediately to the Tier 2 sports nutritionist channel.
-        *   *Compliance:* Remind them: "ATRI is a high-performance supplement, not a medical treatment. Consult your sports doctor before significant changes."
+        *   *Compliance:* Remind them: "THE REAL INSIDE is a high-performance supplement, not a medical treatment. Consult your sports doctor before significant changes."
 
 ---
 
@@ -95,7 +95,7 @@ gantt
     1.  Zapier automatically posts a customized welcome graphic in the Discord lobby.
     2.  An automated warehouse freight ticket is generated to ship them their reward (Limited Shaker).
     3.  Their personal Discord role is automatically upgraded to "Performer," unlocking private channels.
-*   **AI Community Question Responder:** Integrate a custom semantic AI assistant inside the Discord server's `#nutrition-science` channel. When members ask basic questions (e.g., "what is the best timing for TRI Power BCAA?"), the AI instantly queries the ATRI scientific database and responds with a perfectly formatted, brand-aligned educational explanation.
+*   **AI Community Question Responder:** Integrate a custom semantic AI assistant inside the Discord server's `#nutrition-science` channel. When members ask basic questions (e.g., "what is the best timing for TRI Power BCAA?"), the AI instantly queries the THE REAL INSIDE scientific database and responds with a perfectly formatted, brand-aligned educational explanation.
 
 ---
 
@@ -111,4 +111,4 @@ gantt
 
 1.  **Priority 1 (Immediate):** Provision the core Discord server layout and set up the automatic verification system for buyers.
 2.  **Priority 2 (High):** Standardize the referral engine dashboard on the Shopify store.
-3.  **Priority 3 (Medium):** Create the welcome onboarding PDF guide for new TEAM ATRI community members.
+3.  **Priority 3 (Medium):** Create the welcome onboarding PDF guide for new TEAM THE REAL INSIDE community members.

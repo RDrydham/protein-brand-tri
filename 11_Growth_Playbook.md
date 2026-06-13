@@ -1,4 +1,4 @@
-# ATRI GROWTH PLAYBOOK
+# THE REAL INSIDE GROWTH PLAYBOOK
 ## Division: Growth OS | Document: 11_Growth_Playbook.md
 
 ---
@@ -6,7 +6,7 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. D2C Growth, E-commerce & Retention Agents
-LTV:CAC optimization is the core financial engine of ATRI. High acquisition costs on trial products are only viable if we execute a high-converting, post-purchase cohort retention protocol. We target a **Customer Lifetime Value (LTV) to Customer Acquisition Cost (CAC) ratio of >4:1** over 180 days by turning one-time trialists into recurring bulk subscription advocates.
+LTV:CAC optimization is the core financial engine of THE REAL INSIDE. High acquisition costs on trial products are only viable if we execute a high-converting, post-purchase cohort retention protocol. We target a **Customer Lifetime Value (LTV) to Customer Acquisition Cost (CAC) ratio of >4:1** over 180 days by turning one-time trialists into recurring bulk subscription advocates.
 
 ### B. Consumer Psychology Agent
 Retention begins at the moment of unboxing. When the TRI Fusion Pack arrives, the physical sensory touchpoints (the premium textured cardboard, copper-foiled typography, co-founder's note, and clear sachet layouts) trigger intense post-purchase satisfaction, instantly dissolving buying skepticism and paving the path for bulk repurchases.
@@ -40,12 +40,12 @@ Supplements yield results only through consistency. Our growth funnel is structu
 ### Step 1: The Premium Tactile Unboxing Experience
 *   **Physical Box:** Premium rigid cardboard finished with soft-touch matte lamination. Design features copper-foil swirls and high-contrast Montserrat typography.
 *   **The Collateral Inside:**
-    1.  *A Founder Letter:* An authentic, clean note from Vedansh Vijay detailing the ATRI mission, printed in premium serif Playfair Display on textured cardstock.
+    1.  *A Founder Letter:* An authentic, clean note from Vedansh Vijay detailing the THE REAL INSIDE mission, printed in premium serif Playfair Display on textured cardstock.
     2.  *The 3-Step Matchday Cardsheet:* A beautifully styled infographic detailing exactly when to take each sachet (Pre-workout, Halftime BCAA, Post-workout Whey).
     3.  *The Lab Test Verification:* A prominent QR code linking directly to the batch's independent chemical verification report.
 
 ### Step 2: Post-Purchase Lifecycle Retention Flows (WhatsApp & Email)
-*   **Day 1 (Delivery Day):** *"Welcome to TEAM ATRI. Your trial pack has arrived. Scan the QR code inside to view your batch's independent lab reports. What's inside matters."*
+*   **Day 1 (Delivery Day):** *"Welcome to TEAM THE REAL INSIDE. Your trial pack has arrived. Scan the QR code inside to view your batch's independent lab reports. What's inside matters."*
 *   **Day 2 (TIMING & SCIENCE):** *"Pre-workout timing is everything. For maximum muscle perfusion and stamina, drink TRI Pump Drake exactly 30 minutes before your workout or kickoff."*
 *   **Day 3 (HALFTIME HYDRATION):** *"Why standard sports drinks cause cramps: high sugars. TRI Power BCAA uses pure electrolytes and zero gums to buffer fatigue with rapid gastric emptying."*
 *   **Day 4 (THE UPGRADE TRIGGER):** *"How did your body feel? Ready to make physical performance a habit? Claim your 15% VIP discount on monthly bulk tubs of True Whey + BCAA + Pre-Workout."*

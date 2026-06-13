@@ -1,4 +1,4 @@
-# ATRI UGC PLAYBOOK
+# THE REAL INSIDE UGC PLAYBOOK
 ## Division: Marketing OS | Document: 06_UGC_Playbook.md
 
 ---
@@ -6,7 +6,7 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. UGC Specialist Agent
-Most D2C brands fail at User Generated Content (UGC) because their videos feel scripted and artificial. ATRI UGC must feel authentic, visually gorgeous, and scientifically objective. Our creators are sports enthusiasts, footballers, and modern professionals who speak about fitness with calm intelligence.
+Most D2C brands fail at User Generated Content (UGC) because their videos feel scripted and artificial. THE REAL INSIDE UGC must feel authentic, visually gorgeous, and scientifically objective. Our creators are sports enthusiasts, footballers, and modern professionals who speak about fitness with calm intelligence.
 
 ### B. Creative Director & Website UX/UI Agent
 UGC visual assets must respect our brand's **dark luxury and copper elegance visual codes**. While shot on iPhones, videos must maintain sophisticated lighting, clean background staging, and avoid flat kitchen-counter setups. Subtitles must use structural geometric sans-serif fonts in line with the Pomelli design layout.
@@ -20,7 +20,7 @@ The key to converting UGC viewers is matching their inner skeptic. We script UGC
 
 ### Angle 1: The "Bloat-Free Whey" Verification (Digestion Angle)
 *   **Hook (0-3s):** "If you get bloating or acne from whey protein, you are probably drinking structural fillers." (Visual: Creator showing a bloated stomach or reading a standard protein tub's complex back label).
-*   **Body (3-15s):** Creator unboxes ATRI True Whey from the TRI Fusion Pack. "ATRI throws out soy lecithin, thickeners, and gums. It's strictly 100% grass-fed concentrate with bromelain and papain digestive enzymes. It mixes like water, with zero clumping."
+*   **Body (3-15s):** Creator unboxes THE REAL INSIDE True Whey from the TRI Fusion Pack. "THE REAL INSIDE throws out soy lecithin, thickeners, and gums. It's strictly 100% grass-fed concentrate with bromelain and papain digestive enzymes. It mixes like water, with zero clumping."
 *   **Climax (15-25s):** Creator drinks the protein. "No stomach cramps, no bloating. Clean, gut-friendly absorption."
 *   **CTA (25-30s):** "Stop settling for low-quality blends. Test the 3-day Fusion Pack first. What's inside matters."
 
@@ -36,7 +36,7 @@ The key to converting UGC viewers is matching their inner skeptic. We script UGC
 
 ### Angle 3: The 4-Level Lab Test Unboxing (Trust & Credibility)
 *   **Hook (0-3s):** "This is the first supplement brand I've seen that actually lists independent heavy metal tests on their box." (Visual: Extreme close-up of scanning the batch QR code on the TRI Fusion Pack).
-*   **Body (3-15s):** Show the mobile screen displaying the PDF lab registry showing negative results for Arsenic, Lead, Cadmium, and Aflatoxin. "ATRI tests every single batch for 4 distinct levels. Absolute formulation transparency."
+*   **Body (3-15s):** Show the mobile screen displaying the PDF lab registry showing negative results for Arsenic, Lead, Cadmium, and Aflatoxin. "THE REAL INSIDE tests every single batch for 4 distinct levels. Absolute formulation transparency."
 *   **CTA (15-20s):** "Verify what's inside before you put it in your body. Try the Fusion Pack today."
 
 ---
@@ -63,7 +63,7 @@ gantt
     Deploy Whitelisted Paid Ads         : 2026-06-20, 7d
 ```
 
-1.  **Phase 1: Sourcing & Vetting (Week 1):** Scrape and select 25 creators matching the ATRI target athlete archetype.
+1.  **Phase 1: Sourcing & Vetting (Week 1):** Scrape and select 25 creators matching the THE REAL INSIDE target athlete archetype.
 2.  **Phase 2: Briefing & Shipments (Week 2):** Send out the custom Pomelli-inspired TRI Fusion packs alongside structured UGC scripts.
 3.  **Phase 3: Launch & Testing (Weeks 3-4):** Validate incoming UGC assets within Meta Sandbox campaigns, scaling the top 3 high-converting hooks.
 

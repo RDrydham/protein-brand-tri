@@ -1,4 +1,4 @@
-# ATRI FOUNDER BRAND BOOK
+# THE REAL INSIDE FOUNDER BRAND BOOK
 ## Division: Founder OS | Document: 02_Founder_Brand_Book.md
 
 ---
@@ -6,13 +6,13 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. Founder Branding Agent
-Vedansh Vijay is positioned not as an influencer, but as a young visionary founder-operator leading the future of modern Indian performance culture. His personal brand serves as the trust anchor for ATRI. His branding must mirror the calm, disciplined, and premium tone of the product.
+Vedansh Vijay is positioned not as an influencer, but as a young visionary founder-operator leading the future of modern Indian performance culture. His personal brand serves as the trust anchor for THE REAL INSIDE. His branding must mirror the calm, disciplined, and premium tone of the product.
 
 ### B. Social Media & Copywriting Agent
 The tone of the founder must be authentic, direct, clean, and highly educational. We avoid sensationalism and clickbait hooks. Instead, the founder writes with quiet confidence, sharing raw numbers, scientific truths, and structural startup challenges.
 
 ### C. Consumer Psychology Agent
-Modern consumers connect with people, not logos. By showing the inner workings of ATRI—our sourcing, lab test failures, product iteration, and manufacturing setups—Vedansh establishes an unbreakable bond of trust that no faceless MNC can compete with.
+Modern consumers connect with people, not logos. By showing the inner workings of THE REAL INSIDE—our sourcing, lab test failures, product iteration, and manufacturing setups—Vedansh establishes an unbreakable bond of trust that no faceless MNC can compete with.
 
 ---
 
@@ -20,12 +20,12 @@ Modern consumers connect with people, not logos. By showing the inner workings o
 
 ### A. Core Profile
 *   **Name:** Vedansh Vijay
-*   **Tagline / Title:** Face of Modern Indian Performance Culture | Founder of ATRI
+*   **Tagline / Title:** Face of Modern Indian Performance Culture | Founder of THE REAL INSIDE
 *   **Personality Attributes:** Disciplined, ambitious, calm, highly intelligent, trustworthy, premium, modern.
 *   **Core Narrative:** A young, disciplined visionary builder who noticed the toxic, untruthful, and digestively harmful formulations of massive generic supplement brands, and decided to engineer a gut-friendly, transparent performance nutrition ecosystem built for modern high-performers.
 
 ### B. Personal Brand Pillars
-1.  **Building in Public (Transparency):** Documenting the operations, formulation changes, batch testing, and team growth of ATRI.
+1.  **Building in Public (Transparency):** Documenting the operations, formulation changes, batch testing, and team growth of THE REAL INSIDE.
 2.  **Performance Lifestyle & Discipline:** Showcasing early morning routines, athletic training (specifically amateur/elite football), cognitive workflows, and sleep recovery.
 3.  **Modern Indian Athlete Culture:** Highlighting underfunded Indian sports, football academy challenges, and sports nutrition science education.
 
@@ -33,8 +33,8 @@ Modern consumers connect with people, not logos. By showing the inner workings o
 
 ## 3. Strategic Recommendations
 
-*   **Establish a Weekly "Building ATRI" Series:** Publish a high-value weekly narrative thread on LinkedIn and Twitter detailing the raw startup journey (e.g., margins, sourcing challenges, ingredient tasting, and testing certificates).
-*   **The Founder's "Gut Check" Campaign:** Launch video essays where Vedansh breaks down why standard market whey proteins cause bloating, detailing the exact biochemistry behind lactose intolerance, filler agents, and ATRI's gut-friendly solutions.
+*   **Establish a Weekly "Building THE REAL INSIDE" Series:** Publish a high-value weekly narrative thread on LinkedIn and Twitter detailing the raw startup journey (e.g., margins, sourcing challenges, ingredient tasting, and testing certificates).
+*   **The Founder's "Gut Check" Campaign:** Launch video essays where Vedansh breaks down why standard market whey proteins cause bloating, detailing the exact biochemistry behind lactose intolerance, filler agents, and THE REAL INSIDE's gut-friendly solutions.
 *   **Premium Podcasting (Quality over Quantity):** Host a monthly video podcast interviewing elite Indian athletes, sports nutrition scientists, and visionary builders. Maintain WHOOP/Apple cinematic visuals (low-light, clean studio setup).
 
 ---
@@ -95,5 +95,5 @@ gantt
 ## 8. Execution Priorities
 
 1.  **Priority 1 (Immediate):** Write and schedule the first 3 "Building in Public" LinkedIn posts detailing the formulation of True Whey.
-2.  **Priority 2 (High):** Script and storyboard the 3-minute launch video essay: *"Why I Started ATRI (And Why What's Inside Matters)"*.
+2.  **Priority 2 (High):** Script and storyboard the 3-minute launch video essay: *"Why I Started THE REAL INSIDE (And Why What's Inside Matters)"*.
 3.  **Priority 3 (Medium):** Establish the visual guidelines and lighting presets with the videographer.

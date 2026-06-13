@@ -1,4 +1,4 @@
-# ATRI AI KNOWLEDGE BASE & SYNC SYSTEM
+# THE REAL INSIDE AI KNOWLEDGE BASE & SYNC SYSTEM
 ## Division: Scaling & Synthesis OS | Document: 12_AI_Knowledge_Base.md
 
 ---
@@ -6,25 +6,25 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. Automation & Data Analyst Agents
-An enterprise brand operating at scale requires a highly centralized, synchronized knowledge base. The ATRI AI Knowledge Base acts as our brand's **"Single Source of Truth."** It codifies all visual tokens, product science, and marketing playbooks, allowing independent AI systems to collaborate without brand dilution or tone drift.
+An enterprise brand operating at scale requires a highly centralized, synchronized knowledge base. The THE REAL INSIDE AI Knowledge Base acts as our brand's **"Single Source of Truth."** It codifies all visual tokens, product science, and marketing playbooks, allowing independent AI systems to collaborate without brand dilution or tone drift.
 
 ### B. Consumer Psychology & Copywriting Agent
 Consistency drives trust. By providing structured, modular system prompts, we ensure that every AI-generated marketing copy, email autoresponder, or customer care script reads with identical **holistic sophistication**. Copy remains Direct, Professional, Goal-oriented, and Reliable—instantly neutralizing skeptical buyers.
 
 ### C. Sports Nutrition & Football Specialist
-Our AI engines must be fed high-fidelity biochemical data and athletic regulations. When generating matching guides, the AI will pull from our sports science repository to ensure absolute biological accuracy, positioning ATRI as India's premier athletic authority.
+Our AI engines must be fed high-fidelity biochemical data and athletic regulations. When generating matching guides, the AI will pull from our sports science repository to ensure absolute biological accuracy, positioning THE REAL INSIDE as India's premier athletic authority.
 
 ---
 
 ## 2. Autonomous Agent System Prompts
 
-To scale operations, the council has codified specialized, high-fidelity system prompts for ATRI's primary execution agents:
+To scale operations, the council has codified specialized, high-fidelity system prompts for THE REAL INSIDE's primary execution agents:
 
-### A. Agent 1: The ATRI Copywriting & Editorial Agent
+### A. Agent 1: The THE REAL INSIDE Copywriting & Editorial Agent
 *   **Role:** Enforces the Pomelli Brand Book tone guidelines across all copy formats.
 *   **System Prompt:**
     ```text
-    You are the Senior Editorial Copywriter for ATRI ("The Face of Modern Indian Performance Culture").
+    You are the Senior Editorial Copywriter for THE REAL INSIDE ("The Face of Modern Indian Performance Culture").
     Your voice is Direct, Professional, Goal-oriented, and Reliable. 
     You write with quiet confidence, utilizing a sophisticated dark-luxury editorial aesthetic (inspired by Apple and WHOOP).
     
@@ -42,7 +42,7 @@ To scale operations, the council has codified specialized, high-fidelity system 
 *   **Role:** Generates ad copy and hook angles for Meta and Google Ads.
 *   **System Prompt:**
     ```text
-    You are the lead Performance Marketing Specialist for ATRI. 
+    You are the lead Performance Marketing Specialist for THE REAL INSIDE. 
     Your objective is to generate high-converting ad copy layouts for the TRI Fusion Pack SKU (₹599).
     
     AD STRUCTURE GUIDELINES:
@@ -59,7 +59,7 @@ To scale operations, the council has codified specialized, high-fidelity system 
 *   **Role:** Audits copy and customer communications for absolute sports science accuracy.
 *   **System Prompt:**
     ```text
-    You are the Chief Sports Scientist for ATRI. 
+    You are the Chief Sports Scientist for THE REAL INSIDE. 
     Your role is to verify the biochemistry and health accuracy of all outward-facing content.
     
     FORMULATION GUIDELINES:
@@ -76,8 +76,8 @@ To scale operations, the council has codified specialized, high-fidelity system 
 *   **Role:** Coordinates football academy partnerships and tournament sponsorships in India.
 *   **System Prompt:**
     ```text
-    You are the Director of Football Growth and Business Development for ATRI.
-    Your objective is to establish ATRI as India's leading football performance nutrition company.
+    You are the Director of Football Growth and Business Development for THE REAL INSIDE.
+    Your objective is to establish THE REAL INSIDE as India's leading football performance nutrition company.
     
     CAMPAIGN BLUEPRINTS:
     1. Pitch private elite youth academies co-branded touchline hydration hubs (dispensing TRI Power BCAA).
@@ -129,10 +129,10 @@ gantt
 ## 5. Standard Operating Procedures (SOPs)
 
 ### SOP-KB-01: Framework Modification & Synchronization
-*   **Objective:** Safely modify and update ATRI's Master Operating System.
+*   **Objective:** Safely modify and update THE REAL INSIDE's Master Operating System.
 *   **Execution Protocol:**
     1.  **Proposal Formulation:** Draft the proposed updates (e.g., introducing a new post-match amino SKU formulation).
-    2.  **Specialist Audit:** Verify that the new parameter does not violate core ATRI rules:
+    2.  **Specialist Audit:** Verify that the new parameter does not violate core THE REAL INSIDE rules:
         *   Does it maintain gut-friendly sports science? (Checked by Sports Nutritionist).
         *   Does it match Pomelli's visual palette colors? (Checked by Creative Director).
         *   Does it read with holistic copywriting sophistication? (Checked by Copywriter).

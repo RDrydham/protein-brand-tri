@@ -1,4 +1,4 @@
-# ATRI CONTENT PLAYBOOK
+# THE REAL INSIDE CONTENT PLAYBOOK
 ## Division: Marketing OS | Document: 04_Content_Playbook.md
 
 ---
@@ -6,7 +6,7 @@
 ## 1. Specialist Agent Analysis & Alignment
 
 ### A. Marketing & Social Media Agent
-The ATRI content engine operates as a high-value media channel rather than an advertisement feed. We educate first, inspire second, and sell third. Content must feel editorial, peer-reviewed, and beautifully styled, adhering strictly to the Pomelli design values (Canyon Clay tones, clean layouts).
+The THE REAL INSIDE content engine operates as a high-value media channel rather than an advertisement feed. We educate first, inspire second, and sell third. Content must feel editorial, peer-reviewed, and beautifully styled, adhering strictly to the Pomelli design values (Canyon Clay tones, clean layouts).
 
 ### B. Consumer Psychology & Trend Analysis Agent
 Consumers have ad blindness. By structuring content around the psychology of "intellectual value" (deep biochemical explanations of digestive enzymes, amino acid uptake ratios, lactic acid buffering), we convert skepticism into deep scientific trust.
@@ -46,9 +46,9 @@ graph LR
 
 ## 3. Strategic Recommendations
 
-*   **Establish the "Formula Audit" Series:** Create short-form video formats where ATRI's sports nutritionists critically analyze standard commercial protein formulas, showing how hidden blends and thickeners cause bloating.
+*   **Establish the "Formula Audit" Series:** Create short-form video formats where THE REAL INSIDE's sports nutritionists critically analyze standard commercial protein formulas, showing how hidden blends and thickeners cause bloating.
 *   **Cinematic "Matchday Nutrition" Frameworks:** Produce stylized videos showing the timeline of an athlete's nutrition leading up to a football match (2 hours pre-match, halftime hydration, post-match recovery).
-*   **Launch the ATRI Research Hub:** Compile monthly research digests translating complex scientific literature into actionable, beautiful infographics.
+*   **Launch the THE REAL INSIDE Research Hub:** Compile monthly research digests translating complex scientific literature into actionable, beautiful infographics.
 
 ---
 
@@ -79,7 +79,7 @@ gantt
 *   **Structural Blueprint:**
     1.  **The Scientific Hook (0-5s):** Start with an anatomical or formulation truth that breaks common beliefs. *Example:* "90% of athletes bloating from whey aren't actually lactose intolerant. It’s the thickeners."
     2.  **The Core Problem (5-20s):** Explain the biological mechanism of why standard products cause issues (e.g., Xanthan gum lining the gut walls, slowing down amino absorption).
-    3.  **The ATRI Solution (20-40s):** Explain how ATRI True Whey solves this by omitting artificial thickeners and using clean, gut-friendly enzymes.
+    3.  **The THE REAL INSIDE Solution (20-40s):** Explain how THE REAL INSIDE True Whey solves this by omitting artificial thickeners and using clean, gut-friendly enzymes.
     4.  **Scientific Call to Action (40-60s):** Avoid aggressive "buy now" sales language. *Use:* "Check the 4-level lab test for yourself. QR code is on our profile. What's inside matters."
 
 ---
