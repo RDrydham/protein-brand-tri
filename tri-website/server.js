@@ -31,6 +31,7 @@ app.use((req, res, next) => {
     url === '/lab-reports' ||
     url === '/shop' ||
     url === '/contact' ||
+    url === '/my-orders' ||
     url.endsWith('.html') ||
     url.endsWith('.css') ||
     url.endsWith('.js')
@@ -484,6 +485,10 @@ app.get('/shop', (req, res) => {
 
 app.get('/contact', (req, res) => {
   res.sendFile(path.join(__dirname, 'contact.html'));
+});
+
+app.get('/my-orders', (req, res) => {
+  res.sendFile(path.join(__dirname, 'my-orders.html'));
 });
 
 // Fallback for static html routing (serves index.html for undefined frontend routes)

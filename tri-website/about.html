@@ -1122,6 +1122,7 @@
       #about-hero { padding-top: 72px; }
     }
   </style>
+<link rel="stylesheet" href="assets/tri-auth-ui.css">
 </head>
 <body>
 
@@ -1145,6 +1146,9 @@
         <a href="lab-reports.html" class="mn-link">Lab Reports</a>
         <a href="about.html" class="mn-link active">About Us</a>
         <a href="contact.html" class="mn-link">Contact</a>
+        <a href="/my-orders" id="mm-orders-link" style="display:none;">My Orders</a>
+        <a href="#" id="mm-login-link">Sign In / Register</a>
+        <a href="#" id="mm-logout-link" style="display:none; color:#C8787A;">Sign Out</a>
       </div>
       <a href="shop.html" class="mobile-nav-cta" style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">Shop Now — <span style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">₹</span>599</a>
     </div>
@@ -1259,6 +1263,9 @@
           <path d="M16 10a4 4 0 01-8 0"/>
         </svg>
         <span class="cart-badge" id="cart-badge">0</span>
+      </button>
+      <button class="nav-account" id="account-btn" aria-label="My Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </button>
       <a href="shop.html" class="nav-shop-btn">Shop Now</a>
       <button class="nav-hamburger" id="hamburger">
@@ -1978,5 +1985,8 @@
       setTimeout(() => { typing.remove(); addMsg(reply, 'bot'); }, 900);
     }
   </script>
+<script src="assets/tri-auth.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+<script src="assets/tri-auth-ui.js"></script>
 </body>
 </html>

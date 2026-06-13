@@ -1,0 +1,258 @@
+/* ── TRI AUTH UI STYLES ─────────────────────────────────────────── */
+/* Auth Modal + Account Nav Button — shared across all pages        */
+
+/* ── AUTH MODAL ─────────────────────────────────────────── */
+#auth-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,26,0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+#auth-overlay.open { display: flex; }
+#auth-panel {
+  background: #FFF8F8;
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  box-shadow: 0 32px 80px rgba(26,26,26,0.22);
+  animation: authFadeUp 0.3s cubic-bezier(.16,1,.3,1);
+}
+@keyframes authFadeUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+#auth-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #8A7A7A;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+#auth-close:hover { background: rgba(200,120,122,0.1); color: #C8787A; }
+.auth-logo {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.auth-logo span {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #1A1A1A;
+  letter-spacing: -0.02em;
+}
+.auth-logo sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8A7A7A;
+  display: block;
+  margin-top: 2px;
+}
+.auth-tabs {
+  display: flex;
+  background: #FDF3F3;
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 28px;
+  gap: 4px;
+}
+.auth-tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: none;
+  border-radius: 9px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #8A7A7A;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.auth-tab.active {
+  background: #fff;
+  color: #1A1A1A;
+  box-shadow: 0 2px 8px rgba(200,120,122,0.12);
+}
+.auth-form { display: flex; flex-direction: column; gap: 14px; }
+.auth-field label {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8A7A7A;
+  margin-bottom: 6px;
+}
+.auth-field input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid rgba(230,162,164,0.35);
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: #1A1A1A;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+.auth-field input:focus {
+  border-color: #C8787A;
+  box-shadow: 0 0 0 3px rgba(200,120,122,0.12);
+}
+.auth-field input.error { border-color: #e05555; }
+.auth-error-msg {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #e05555;
+  text-align: center;
+  min-height: 18px;
+  margin-top: -4px;
+}
+.auth-submit {
+  width: 100%;
+  padding: 14px;
+  background: #C8787A;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 4px;
+  position: relative;
+}
+.auth-submit:hover { background: #b86668; transform: translateY(-1px); }
+.auth-submit:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+.auth-switch-text {
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #8A7A7A;
+  margin-top: 16px;
+}
+.auth-switch-text button {
+  background: none;
+  border: none;
+  color: #C8787A;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+}
+#auth-hint {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #8A7A7A;
+  text-align: center;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+/* ── ACCOUNT NAV BUTTON ─────────────────────────────────── */
+.nav-account {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1A1A;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.nav-account:hover { background: rgba(0,0,0,.06); }
+.nav-account svg { width: 20px; height: 20px; }
+.nav-account .acct-initials {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C8787A, #E6A2A4);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.05em;
+}
+.acct-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #fff;
+  border: 1px solid rgba(230,162,164,0.3);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(26,26,26,0.14);
+  min-width: 168px;
+  padding: 8px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 1000;
+  animation: authFadeUp 0.2s ease;
+}
+.acct-dropdown.open { display: flex; }
+.acct-dropdown a,
+.acct-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1A1A1A;
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+  box-sizing: border-box;
+}
+.acct-dropdown a:hover,
+.acct-dropdown button:hover { background: #FDF3F3; color: #C8787A; }
+.acct-dropdown .dd-divider {
+  height: 1px;
+  background: rgba(230,162,164,0.2);
+  margin: 4px 0;
+}
+.acct-dropdown .dd-name {
+  padding: 8px 14px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8A7A7A;
+  cursor: default;
+}
+.acct-dropdown .dd-name:hover { background: none; color: #8A7A7A; }
+.acct-dropdown .dd-logout { color: #C8787A; }
+.acct-dropdown .dd-logout:hover { background: rgba(200,120,122,0.08); }

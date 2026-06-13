@@ -157,7 +157,7 @@ exports.removeFromCart = async (req, res) => {
 // 5. SYNC LOCAL GUEST CART TO DB ON LOGIN
 exports.syncCart = async (req, res) => {
   try {
-    const { cart } = req.body; // Array of guest cart items: [{ name, price, variant, image, qty }]
+    const cart = req.body.cart || req.body.items; // Array of guest cart items: [{ name, price, variant, image, qty }]
 
     if (!cart || !Array.isArray(cart)) {
       return res.status(400).json({

@@ -3,36 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="Shop TRI — Clean. Transparent. Effective. Buy TRI Fusion Pack, TRI Protein, and TRI BCAA. Eurofins verified, clinically dosed performance nutrition." />
-  <meta name="keywords" content="TRI shop, buy protein, BCAA, pre-workout, TRI Fusion Pack, TRI Protein, TRI BCAA, performance nutrition India" />
-  <meta property="og:title" content="Shop — THE REAL INSIDE (TRI)" />
-  <meta property="og:description" content="Clean. Transparent. Effective. Shop all TRI products — Eurofins verified, clinically dosed." />
+  <meta name="description" content="View your TRI orders — track purchases, shipping status, and order history for your TRI performance nutrition." />
+  <meta name="keywords" content="TRI orders, my orders, order history, TRI performance nutrition, order tracking" />
+  <meta property="og:title" content="My Orders — THE REAL INSIDE (TRI)" />
+  <meta property="og:description" content="View and track all your TRI orders. Your performance journey, documented." />
   <meta property="og:image" content="assets/hero_product.png" />
   <meta property="og:type" content="website" />
-  <title>THE REAL INSIDE | Shop — All Products</title>
+  <title>THE REAL INSIDE | My Orders</title>
 
   <!-- Shared TRI Design System -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/tri.css?v=3.2" />
   <link rel="stylesheet" href="assets/tri-motion.css"/>
   <link rel="stylesheet" href="assets/footer.css">
+  <link rel="stylesheet" href="assets/tri-auth-ui.css">
 
   <style>
     /* ================================================================
-       SHOP PAGE — PAGE-SPECIFIC STYLES
+       MY ORDERS PAGE — PAGE-SPECIFIC STYLES
        Uses tri.css tokens and classes as the foundation.
     ================================================================ */
 
     /* ── PAGE HERO ────────────────────────────────────────────────── */
-    .shop-page-hero {
+    .orders-page-hero {
       padding: 140px 0 80px;
       background: linear-gradient(135deg, var(--cream) 0%, var(--blush) 55%, var(--cream-warm) 100%);
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .shop-page-hero::before {
+    .orders-page-hero::before {
       content: '';
       position: absolute;
       top: -120px; right: -120px;
@@ -41,7 +43,7 @@
       background: radial-gradient(circle, rgba(248,215,217,0.6) 0%, transparent 70%);
       pointer-events: none;
     }
-    .shop-page-hero::after {
+    .orders-page-hero::after {
       content: '';
       position: absolute;
       bottom: -60px; left: -60px;
@@ -50,14 +52,14 @@
       background: radial-gradient(circle, rgba(230,162,164,0.2) 0%, transparent 70%);
       pointer-events: none;
     }
-    .shop-page-hero-inner {
+    .orders-page-hero-inner {
       position: relative;
       z-index: 2;
       max-width: 700px;
       margin: 0 auto;
       padding: 0 24px;
     }
-    .shop-hero-eyebrow {
+    .orders-hero-eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 10px;
@@ -69,21 +71,21 @@
       color: var(--rose-dark);
       margin-bottom: 20px;
     }
-    .shop-hero-eyebrow::before {
+    .orders-hero-eyebrow::before {
       content: '';
       display: block;
       width: 24px;
       height: 1.5px;
       background: var(--rose-dark);
     }
-    .shop-hero-eyebrow::after {
+    .orders-hero-eyebrow::after {
       content: '';
       display: block;
       width: 24px;
       height: 1.5px;
       background: var(--rose-dark);
     }
-    .shop-page-h1 {
+    .orders-page-h1 {
       font-family: var(--font-serif);
       font-size: clamp(52px, 9vw, 96px);
       font-weight: 700;
@@ -92,11 +94,11 @@
       margin-bottom: 22px;
       letter-spacing: -0.01em;
     }
-    .shop-page-h1 em {
+    .orders-page-h1 em {
       font-style: italic;
       color: var(--rose-dark);
     }
-    .shop-page-subtitle {
+    .orders-page-subtitle {
       font-family: var(--font-label);
       font-size: 13px;
       font-weight: 600;
@@ -105,511 +107,263 @@
       color: var(--muted-text);
     }
 
-    /* ── PRODUCTS SECTION ─────────────────────────────────────────── */
-    .shop-products-section {
-      padding: 80px 0 100px;
-      background: var(--cream-section);
+    /* ── ORDERS SECTION ───────────────────────────────────────────── */
+    .orders-section {
+      padding: 60px 0 100px;
+      background: var(--cream);
+      min-height: 60vh;
     }
-    
-    /* ── SINGLE PRODUCT STOREFRONT ────────────────────────────────── */
-    .shop-product-detail-layout {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 56px;
-      align-items: start;
-      margin-bottom: 90px;
+    .orders-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
     }
-    .shop-product-gallery {
-      position: sticky;
-      top: 110px;
+
+    /* Loading */
+    .orders-loading {
+      text-align: center;
+      padding: 80px 0;
+      color: var(--muted-text);
+      font-family: 'DM Sans', sans-serif;
     }
-    .shop-product-main-image-wrap {
+    .loading-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--blush);
+      border-top-color: var(--rose-dark);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Auth required + Empty */
+    .orders-auth-card,
+    .orders-empty {
+      text-align: center;
+      padding: 80px 24px;
       background: #fff;
+      border-radius: 20px;
       border: 1px solid var(--border);
-      border-radius: var(--r-xl);
-      overflow: hidden;
-      aspect-ratio: 4/3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      box-shadow: var(--shadow-sm);
-      transition: border-color var(--t-med), box-shadow var(--t-med);
-    }
-    .shop-product-main-image-wrap:hover {
-      border-color: var(--border-strong);
-      box-shadow: var(--shadow-md);
-    }
-    .shop-product-main-image-wrap img {
-      width: 78%;
-      height: 78%;
-      object-fit: contain;
-      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.08));
-      transition: transform 0.6s var(--ease);
-    }
-    .shop-product-main-image-wrap:hover img {
-      transform: scale(1.04);
-    }
-    .shop-badge {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      z-index: 5;
-      background: var(--gold);
-      color: #fff;
-      font-family: var(--font-label);
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 5px 11px;
-      border-radius: var(--r-full);
-    }
-    .shop-product-gallery-pills {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
       margin-top: 20px;
     }
-    .gallery-pill {
-      font-family: var(--font-label);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--rose-dark);
-      background: var(--blush);
-      padding: 5px 12px;
-      border-radius: var(--r-full);
-      border: 1px solid rgba(230,162,164,0.2);
+    .auth-icon, .empty-icon {
+      font-size: 52px;
+      margin-bottom: 20px;
+      display: block;
     }
-
-    /* Product Info Column */
-    .shop-product-info {
-      padding: 5px 0;
-    }
-    .shop-info-eyebrow {
-      display: inline-block;
-      font-family: var(--font-label);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--rose-dark);
+    .orders-auth-card h2,
+    .orders-empty h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--dark);
       margin-bottom: 12px;
     }
-    .shop-product-title {
-      font-family: var(--font-serif);
-      font-size: 46px;
-      font-weight: 700;
-      line-height: 1.1;
-      color: var(--dark);
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
-    }
-    .shop-product-tagline {
-      font-size: 14px;
-      line-height: 1.5;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-    }
-    .shop-price-box {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: rgba(200, 169, 110, 0.05);
-      border: 1.5px dashed var(--gold);
-      padding: 16px 24px;
-      border-radius: var(--r-lg);
-      margin-bottom: 28px;
-      width: fit-content;
-    }
-    .shop-price-current {
-      font-family: var(--font-label);
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--dark);
-    }
-    .shop-price-original {
-      font-family: var(--font-label);
-      font-size: 18px;
-      font-weight: 500;
+    .orders-auth-card p,
+    .orders-empty p {
+      font-family: 'DM Sans', sans-serif;
       color: var(--muted-text);
-      text-decoration: line-through;
-    }
-    .shop-price-discount {
-      font-family: var(--font-label);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #3a8f3a;
-      background: rgba(58,143,58,0.1);
-      padding: 4px 10px;
-      border-radius: var(--r-full);
-    }
-    .shop-product-description {
       font-size: 15px;
       line-height: 1.6;
-      color: var(--dark);
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
-    .shop-add-to-cart-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      background: var(--gold);
+    .orders-cta-btn {
+      display: inline-block;
+      background: var(--rose-dark);
       color: #fff;
-      font-family: var(--font-label);
-      font-size: 12px;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
       font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 18px 32px;
-      border-radius: var(--r-full);
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(200,169,110,0.15);
-      transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
-      margin-bottom: 12px;
-      white-space: nowrap;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
     }
-    .shop-add-to-cart-btn:hover {
-      background: var(--gold-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(200,169,110,0.3);
-    }
-    .shop-add-to-cart-btn svg {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
-    .shop-shipping-note {
-      font-size: 11px;
-      color: var(--muted-text);
-      text-align: center;
-      margin-bottom: 36px;
-    }
-    .shop-features-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      border-top: 1px solid var(--border);
-      padding-top: 32px;
-    }
-    .shop-feature-item {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-    .feat-icon {
-      font-size: 20px;
-      line-height: 1;
-    }
-    .shop-feature-item strong {
-      display: block;
-      font-family: var(--font-sans);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 4px;
-    }
-    .shop-feature-item p {
-      font-size: 13px;
-      line-height: 1.5;
-      color: var(--muted-text);
-    }
-    
-    /* Inside Breakdown Section */
-    .shop-inside-breakdown {
-      margin-top: 100px;
-      border-top: 1px solid var(--border);
-      padding-top: 80px;
-    }
-    .breakdown-title {
-      font-family: var(--font-serif);
-      font-size: 36px;
-      font-weight: 700;
-      text-align: center;
-      color: var(--dark);
-      margin-bottom: 8px;
-    }
-    .breakdown-subtitle {
-      font-size: 14px;
-      text-align: center;
-      color: var(--muted-text);
-      margin-bottom: 48px;
-    }
-    .breakdown-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    .breakdown-card {
+    .orders-cta-btn:hover { background: #b86668; transform: translateY(-1px); }
+
+    /* Order Card */
+    .order-card {
       background: #fff;
       border: 1px solid var(--border);
-      border-radius: var(--r-lg);
-      padding: 36px 24px;
-      text-align: center;
-      transition: transform var(--t-med), box-shadow var(--t-med), border-color var(--t-med);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s;
     }
-    .breakdown-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--border-strong);
-    }
-    .breakdown-card img {
-      height: 120px;
-      object-fit: contain;
-      margin-bottom: 24px;
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
-      transition: transform 0.4s var(--ease);
-    }
-    .breakdown-card:hover img {
-      transform: scale(1.05);
-    }
-    .breakdown-card h3 {
-      font-family: var(--font-serif);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 10px;
-    }
-    .breakdown-badge {
-      display: inline-block;
-      font-family: var(--font-label);
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--rose-dark);
-      background: var(--blush);
-      padding: 3px 10px;
-      border-radius: var(--r-full);
-      margin-bottom: 14px;
-      border: 1px solid rgba(230,162,164,0.15);
-    }
-    .breakdown-desc {
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--muted-text);
-    }
-
-    /* ── TRUST STRIP (shop-specific white bg) ─────────────────────── */
-    .shop-trust-section {
-      background: #fff;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 32px 0;
-    }
-    .shop-trust-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 40px;
+    .order-card:hover { box-shadow: var(--shadow-md); }
+    .order-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0;
-    }
-    .shop-trust-item {
-      display: flex;
-      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      user-select: none;
       gap: 12px;
-      padding: 10px 36px;
-      font-family: var(--font-label);
+    }
+    .order-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .order-id {
+      font-family: 'Montserrat', sans-serif;
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: var(--muted-text);
+    }
+    .order-date {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--dark);
+      font-weight: 500;
+    }
+    .order-total-display {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
       color: var(--dark);
     }
-    .shop-trust-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--blush);
+    .order-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .status-pending    { background: #FEF3C7; color: #92400E; }
+    .status-processing { background: #DBEAFE; color: #1E40AF; }
+    .status-shipped    { background: #D1FAE5; color: #065F46; }
+    .status-delivered  { background: #D1FAE5; color: #065F46; }
+    .status-cancelled  { background: #FEE2E2; color: #991B1B; }
+    .status-paid       { background: #ECFDF5; color: #047857; }
+    .order-toggle {
+      color: var(--muted-text);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .order-card.expanded .order-toggle { transform: rotate(180deg); }
+
+    /* Order Detail Body */
+    .order-body {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding: 20px 24px;
+      background: var(--cream);
+    }
+    .order-card.expanded .order-body { display: block; }
+    .order-items-list { margin-bottom: 20px; }
+    .order-item {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(230,162,164,0.15);
+    }
+    .order-item:last-child { border-bottom: none; }
+    .order-item-img {
+      width: 56px; height: 56px;
+      border-radius: 10px;
+      background: var(--blush);
+      object-fit: cover;
       flex-shrink: 0;
     }
-    .shop-trust-icon svg {
-      width: 18px;
-      height: 18px;
+    .order-item-info { flex: 1; }
+    .order-item-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 2px;
+    }
+    .order-item-qty {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--muted-text);
+    }
+    .order-item-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .order-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .order-meta-block {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+    .order-meta-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted-text);
+      margin-bottom: 6px;
+    }
+    .order-meta-value {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--dark);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .order-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .order-total-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .order-total-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
       color: var(--rose-dark);
-    }
-    .shop-trust-divider {
-      width: 1px;
-      height: 44px;
-      background: var(--border);
-      flex-shrink: 0;
     }
 
     /* ── RESPONSIVE ───────────────────────────────────────────────── */
-    @media (max-width: 960px) {
-      .shop-product-detail-layout {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-      .shop-product-gallery {
-        position: static;
-      }
-      .breakdown-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (max-width: 640px) {
-      .breakdown-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      .shop-product-title {
-        font-size: 36px;
-      }
-      .shop-trust-inner  { flex-direction: column; align-items: flex-start; padding: 0 20px; }
-      .shop-trust-item   { padding: 10px 16px; }
-      .shop-trust-divider { width: 100%; height: 1px; }
-      .shop-page-hero    { padding: 130px 0 60px; }
-    }
-
-    /* ═══════════════════════════════════════
-       SHOP — MOBILE DOMINATION
-       All inside @media. Desktop = untouched.
-    ═══════════════════════════════════════ */
     @media (max-width: 768px) {
-      /* Page hero */
-      .shop-page-hero {
-        padding: 80px 0 44px;
-      }
-      .shop-page-hero-inner { padding: 0 20px; }
-      .shop-page-h1 {
-        font-size: clamp(36px, 9vw, 56px);
-        margin-bottom: 14px;
-      }
-      .shop-hero-eyebrow { margin-bottom: 14px; }
+      .orders-page-hero { padding: 80px 0 44px; }
+      .orders-page-hero-inner { padding: 0 20px; }
+      .orders-page-h1 { font-size: clamp(36px, 9vw, 56px); margin-bottom: 14px; }
+      .orders-hero-eyebrow { margin-bottom: 14px; }
+    }
 
-      /* Products section */
-      .shop-products-section { padding: 48px 0 64px; }
-      .container { padding: 0 20px; }
-
-      /* Product layout → single column */
-      .shop-product-detail-layout {
-        grid-template-columns: 1fr;
-        gap: 28px;
-        margin-bottom: 56px;
-      }
-      /* Gallery */
-      .shop-product-gallery { position: static; }
-      .shop-product-main-image-wrap {
-        aspect-ratio: 3/2;
-        border-radius: 16px;
-      }
-      .shop-product-main-image-wrap:hover { transform: none; }
-      .shop-product-gallery-pills { gap: 8px; flex-wrap: wrap; }
-
-      /* Info */
-      .shop-product-title { font-size: clamp(28px, 7vw, 40px); margin-bottom: 6px; }
-      .shop-product-tagline { font-size: 13px; margin-bottom: 18px; }
-
-      /* Price box — full width */
-      .shop-price-box {
-        width: 100%;
-        padding: 14px 18px;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      .shop-price-current { font-size: 28px; }
-      .shop-price-original { font-size: 16px; }
-
-      /* Description */
-      .shop-product-description { font-size: 14px; margin-bottom: 24px; }
-
-      /* Add to cart — 56px minimum touch target */
-      .shop-add-to-cart-btn {
-        padding: 18px 24px;
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        min-height: 56px;
-        border-radius: 100px;
-        /* Active state feedback on touch */
-      }
-      .shop-add-to-cart-btn:hover { transform: none; box-shadow: 0 4px 16px rgba(200,169,110,0.15); }
-      .shop-add-to-cart-btn:active { transform: scale(0.99); }
-
-      .shop-shipping-note { margin-bottom: 24px; }
-
-      /* Features list */
-      .shop-features-list { gap: 16px; padding-top: 24px; }
-      .shop-feature-item strong { font-size: 13px; }
-      .shop-feature-item p { font-size: 12px; }
-
-      /* Inside Breakdown */
-      .shop-inside-breakdown { margin-top: 64px; padding-top: 52px; }
-      .breakdown-title { font-size: clamp(22px, 5.5vw, 30px); }
-      .breakdown-grid { grid-template-columns: 1fr; gap: 16px; }
-      .breakdown-card { padding: 28px 20px; border-radius: 16px; }
-      .breakdown-card:hover { transform: none; box-shadow: none; }
-      .breakdown-card:active { transform: scale(0.99); }
-      .breakdown-card img { height: 100px; }
-
-      /* Trust strip — horizontal scroll on mobile */
-      .shop-trust-section { padding: 24px 0; }
-      .shop-trust-inner {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        justify-content: flex-start;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        padding: 0 20px;
-        gap: 0;
-      }
-      .shop-trust-inner::-webkit-scrollbar { display: none; }
-      .shop-trust-item {
-        flex-shrink: 0;
-        padding: 8px 20px;
-        font-size: 10px;
-      }
-      .shop-trust-icon { width: 32px; height: 32px; }
-      .shop-trust-icon svg { width: 15px; height: 15px; }
-      .shop-trust-divider { flex-shrink: 0; width: 1px; height: 36px; }
-
-      /* Newsletter */
-      .newsletter-section { padding: 48px 0; }
-      .newsletter-inner { padding: 0 20px; }
-      .newsletter-form {
-        flex-direction: column;
-        border-radius: 16px;
-        overflow: hidden;
-      }
-      .newsletter-input {
-        border-radius: 16px 16px 0 0;
-        border-bottom: 1px solid var(--border);
-        padding: 16px 18px;
-        font-size: 16px; /* iOS no zoom */
-      }
-      .newsletter-btn {
-        border-radius: 0 0 16px 16px;
-        padding: 16px;
-      }
+    @media (max-width: 600px) {
+      .order-header { flex-wrap: wrap; }
+      .order-meta { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
-      .shop-page-h1 { font-size: clamp(30px, 9vw, 44px); }
-      .shop-product-title { font-size: clamp(24px, 7vw, 34px); }
-      .breakdown-card img { height: 80px; }
-      .gallery-pill { font-size: 8px; padding: 4px 10px; }
+      .orders-page-h1 { font-size: clamp(30px, 9vw, 44px); }
     }
 
     @media (max-width: 375px) {
-      .shop-page-hero { padding: 70px 0 36px; }
-      input, select, textarea { font-size: 16px !important; }
+      .orders-page-hero { padding: 70px 0 36px; }
     }
   </style>
-<link rel="stylesheet" href="assets/tri-auth-ui.css">
 </head>
 <body>
 
@@ -630,7 +384,7 @@
       <div class="mn-divider"></div>
       <div class="mn-links">
         <a href="index.html">Home</a>
-        <a href="shop.html" class="active">Shop</a>
+        <a href="shop.html">Shop</a>
         <a href="inside.html">Inside</a>
         <a href="lab-reports.html">Lab Reports</a>
         <a href="about.html">About</a>
@@ -739,7 +493,7 @@
       <!-- Links -->
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html" class="active">Shop</a></li>
+        <li><a href="shop.html">Shop</a></li>
         <li><a href="inside.html">Inside</a></li>
         <li><a href="lab-reports.html">Lab Reports</a></li>
         <li><a href="about.html">About</a></li>
@@ -758,11 +512,6 @@
           <span class="cart-count" id="cart-count-badge">0</span>
         </button>
 
-        <!-- Account button -->
-        <button class="nav-account" id="account-btn" aria-label="My Account">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </button>
-
         <!-- Hamburger -->
         <button class="nav-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
           <span></span><span></span><span></span>
@@ -773,13 +522,13 @@
   </nav>
 
   <!-- ═══════════════════════════════════════════════════════════
-       1. PAGE HEADER
+       1. PAGE HERO
   ════════════════════════════════════════════════════════════ -->
-  <section class="shop-page-hero">
-    <div class="shop-page-hero-inner">
-      <div class="shop-hero-eyebrow hero-animate">All Products</div>
-      <h1 class="shop-page-h1 hero-animate">All <em>Products</em></h1>
-      <p class="shop-page-subtitle hero-animate">Clean. Transparent. Effective.</p>
+  <section class="orders-page-hero">
+    <div class="orders-page-hero-inner">
+      <div class="orders-hero-eyebrow hero-animate">Order History</div>
+      <h1 class="orders-page-h1 hero-animate">My <em>Orders</em></h1>
+      <p class="orders-page-subtitle hero-animate">Your TRI Performance Journey</p>
     </div>
   </section>
 
@@ -805,190 +554,41 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
-       2. PRODUCT GRID
+       2. ORDERS MAIN SECTION
   ════════════════════════════════════════════════════════════ -->
-  <!-- ═══════════════════════════════════════════════════════════
-       2. PRODUCT DETAIL VIEW
-  ═══════════════════════════════════════════════════════════ -->
-  <section class="shop-products-section">
-    <div class="container">
-      
-      <!-- Single Product Detail Grid -->
-      <div class="shop-product-detail-layout">
-        
-        <!-- Left: Image Gallery Showcase -->
-        <div class="shop-product-gallery">
-          <div class="shop-product-main-image-wrap">
-            <div class="shop-badge">🔥 Try Pack</div>
-            <img
-              src="assets/tri_fusion_pack_ad.webp"
-              alt="TRI Fusion Pack — Protein + BCAA + Pre-Workout Try Pack"
-              loading="eager"
-            />
-          </div>
-          <div class="shop-product-gallery-pills">
-            <div class="gallery-pill">9 Sachets</div>
-            <div class="gallery-pill">3 Systems</div>
-            <div class="gallery-pill">Eurofins Verified</div>
-          </div>
-        </div>
-        
-        <!-- Right: Purchase Details & Benefits -->
-        <div class="shop-product-info">
-          <span class="shop-info-eyebrow">Try Pack</span>
-          <h1 class="shop-product-title">TRI Fusion Pack</h1>
-          <p class="shop-product-tagline">Protein + BCAA + Pre-Workout — 9 Sachets</p>
-          
-          <div class="shop-price-box">
-            <span class="shop-price-current">₹599</span>
-            <span class="shop-price-original">₹899</span>
-            <span class="shop-price-discount">Save ₹300</span>
-          </div>
-          
-          <p class="shop-product-description">
-            Experience the complete 3-day performance protocol before committing to larger sizes. The TRI Fusion Pack delivers Pump Drake Pre-Workout for explosive drive, Power BCAA for intra-workout recovery, and True Whey Protein for post-workout muscle synthesis. All cold-processed, lab-verified, and 100% gut-friendly with proteolytic enzymes.
-          </p>
-          
-          <button
-            class="shop-add-to-cart-btn"
-            data-add-cart
-            data-name="TRI Fusion Pack (Try Pack)"
-            data-price="599"
-            data-image="assets/tri_fusion_pack_ad.webp"
-            data-variant="Complete System"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <path d="M16 10a4 4 0 01-8 0"/>
-            </svg>
-            Add to Cart — ₹599
-          </button>
-          
-          <p class="shop-shipping-note">Free shipping on all orders · Safe Checkout · Made in India</p>
-          
-          <div class="shop-features-list">
-            <div class="shop-feature-item">
-              <span class="feat-icon">⚡</span>
-              <div>
-                <strong>3 Synchronized Formulations</strong>
-                <p>Engineered to cover your entire workout cycle: Pre, Intra, and Post-workout nutrition.</p>
-              </div>
-            </div>
-            <div class="shop-feature-item">
-              <span class="feat-icon">🌿</span>
-              <div>
-                <strong>Zero Gastric Bloating</strong>
-                <p>Pre-embedded digestive plant enzymes Papain and Bromelain guarantee easy digestion.</p>
-              </div>
-            </div>
-            <div class="shop-feature-item">
-              <span class="feat-icon">🔬</span>
-              <div>
-                <strong>4-Level Lab Integrity</strong>
-                <p>Tested by Eurofins for absolute label accuracy, purity, and zero heavy metal contaminants.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
+  <section class="orders-section">
+    <div class="orders-container">
+
+      <!-- Loading state -->
+      <div id="orders-loading" class="orders-loading">
+        <div class="loading-spinner"></div>
+        <p>Loading your orders...</p>
       </div>
-      
-      <!-- Detailed Inside Breakdown -->
-      <div class="shop-inside-breakdown">
-        <h2 class="breakdown-title">What's Inside the Box</h2>
-        <p class="breakdown-subtitle">Nine high-performance sachets containing three clinically dosed systems.</p>
-        
-        <div class="breakdown-grid">
-          
-          <!-- System 1: Pre-Workout -->
-          <div class="breakdown-card">
-            <img src="assets/drake_pineapple_photoshoot.webp" alt="Pump Drake Pre-Workout" loading="lazy" />
-            <h3>1. Pump Drake Pre-Workout</h3>
-            <span class="breakdown-badge">3 Sachets</span>
-            <p class="breakdown-desc">6g Citrulline Malate, 3.2g Beta-Alanine, and 200mg natural caffeine. Delivers explosive energy, maximum pumps, and zero crash.</p>
-          </div>
-          
-          <!-- System 2: BCAA Intra-Workout -->
-          <div class="breakdown-card">
-            <img src="assets/bcaa_kiwi_strawberry_photoshoot.webp" alt="Power BCAA Intra-Workout" loading="lazy" />
-            <h3>2. Power BCAA Intra-Workout</h3>
-            <span class="breakdown-badge">3 Sachets</span>
-            <p class="breakdown-desc">7g BCAAs at the gold-standard 2:1:1 ratio, plus 3g hydration electrolytes. Buffers fatigue and prevents muscle breakdown.</p>
-          </div>
-          
-          <!-- System 3: True Whey Post-Workout -->
-          <div class="breakdown-card">
-            <img src="assets/whey_coffee_delight_photoshoot.webp" alt="True Whey Post-Workout" loading="lazy" />
-            <h3>3. True Whey Protein</h3>
-            <span class="breakdown-badge">3 Sachets</span>
-            <p class="breakdown-desc">24.5g cold-processed grass-fed whey concentrate, powered by 200mg digestive enzymes for maximum post-workout repair without bloat.</p>
-          </div>
-          
-        </div>
+
+      <!-- Not logged in state -->
+      <div id="orders-auth-required" class="orders-auth-card" style="display:none">
+        <div class="auth-icon">🔐</div>
+        <h2>Sign In to View Orders</h2>
+        <p>Create an account or sign in to track your TRI orders and view purchase history.</p>
+        <a href="/" class="orders-cta-btn">Sign In →</a>
       </div>
+
+      <!-- Empty state -->
+      <div id="orders-empty" class="orders-empty" style="display:none">
+        <div class="empty-icon">📦</div>
+        <h2>No Orders Yet</h2>
+        <p>You haven't placed any orders yet. Start your TRI performance journey today.</p>
+        <a href="/shop" class="orders-cta-btn">Shop Now →</a>
+      </div>
+
+      <!-- Orders list -->
+      <div id="orders-list"></div>
 
     </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
-       3. TRUST STRIP
-  ════════════════════════════════════════════════════════════ -->
-  <section class="shop-trust-section">
-    <div class="shop-trust-inner">
-
-      <!-- Free Shipping -->
-      <div class="shop-trust-item">
-        <div class="shop-trust-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/>
-            <rect x="9" y="11" width="14" height="10" rx="2"/>
-            <circle cx="12" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-          </svg>
-        </div>
-        Free shipping on all orders
-      </div>
-      <div class="shop-trust-divider" aria-hidden="true"></div>
-
-      <!-- Secure Payment -->
-      <div class="shop-trust-item">
-        <div class="shop-trust-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0110 0v4"/>
-          </svg>
-        </div>
-        Secure Payment
-      </div>
-      <div class="shop-trust-divider" aria-hidden="true"></div>
-
-      <!-- Genuine Products -->
-      <div class="shop-trust-item">
-        <div class="shop-trust-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-        </div>
-        100% Genuine Products
-      </div>
-      <div class="shop-trust-divider" aria-hidden="true"></div>
-
-      <!-- Easy Returns -->
-      <div class="shop-trust-item">
-        <div class="shop-trust-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="1 4 1 10 7 10"/>
-            <path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
-          </svg>
-        </div>
-        Easy Returns
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       4. NEWSLETTER
+       3. NEWSLETTER
   ════════════════════════════════════════════════════════════ -->
   <section class="newsletter-section">
     <div class="newsletter-inner">
@@ -1010,7 +610,7 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
-       5. FOOTER
+       4. FOOTER
   ════════════════════════════════════════════════════════════ -->
   <footer id="tri-footer" aria-label="Site footer">
   <div class="tri-footer-inner">
@@ -1128,42 +728,41 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
-       SHARED JS (handles loader, cursor, nav, cart, chatbot,
-       scroll reveal, toast, newsletter forms)
+       SHARED JS
   ════════════════════════════════════════════════════════════ -->
   <script src="assets/tri.js"></script>
   <script src="assets/tri-motion.js?v=4.0"></script>
 
   <script>
-    /* ── Mobile Menu (supplement tri.js which looks for .nav-hamburger) ── */
+    /* ── Mobile Menu ── */
     (function() {
       var btn = document.getElementById('mobile-menu-btn');
       var mobileNav = document.getElementById('mobile-nav');
       if (btn && mobileNav && !btn._wired) {
         btn._wired = true;
-        function openShopNav() {
+        function openNav() {
           btn.classList.add('open');
           mobileNav.classList.add('open');
           document.body.style.overflow = 'hidden';
         }
-        function closeShopNav() {
+        function closeNav() {
           btn.classList.remove('open');
           mobileNav.classList.remove('open');
           document.body.style.overflow = '';
         }
         btn.addEventListener('click', function() {
-          mobileNav.classList.contains('open') ? closeShopNav() : openShopNav();
+          mobileNav.classList.contains('open') ? closeNav() : openNav();
         });
         var closeBtn = mobileNav.querySelector('.mn-close-btn');
-        if (closeBtn) closeBtn.addEventListener('click', closeShopNav);
+        if (closeBtn) closeBtn.addEventListener('click', closeNav);
         mobileNav.querySelectorAll('a').forEach(function(a) {
-          a.addEventListener('click', closeShopNav);
+          a.addEventListener('click', closeNav);
         });
-        mobileNav.addEventListener('click', function(e) { if (e.target === mobileNav) closeShopNav(); });
+        mobileNav.addEventListener('click', function(e) { if (e.target === mobileNav) closeNav(); });
       }
     })();
 
-    /* ── Cart supplemental wiring ── */
+    /* ── Cart wiring ── */
     (function() {
       var cartBtn = document.getElementById('cart-icon-btn');
       var overlay = document.getElementById('cart-overlay');
@@ -1189,11 +788,8 @@
     })();
   </script>
 
-  <!-- Newsletter form wiring (supplement tri.js which handles .newsletter-form) -->
+  <!-- Newsletter wiring -->
   <script>
-    // tri.js already wires .newsletter-form submit via class selector;
-    // nothing extra needed. Below is a tiny guard in case the form
-    // uses the legacy id-based submit pattern.
     const nlForm = document.getElementById('newsletter-form');
     if (nlForm && !nlForm._triWired) {
       nlForm.addEventListener('submit', function(e) {
@@ -1226,9 +822,162 @@
     }
   </script>
 
-<script src="assets/tri-auth.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
-<script src="assets/tri-auth-ui.js"></script>
+  <!-- ═══════════════════════════════════════════════════════════
+       ORDERS PAGE LOGIC
+  ════════════════════════════════════════════════════════════ -->
+  <script src="assets/tri-auth.js"></script>
+  <script src="assets/tri-auth-ui.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', async function() {
+    const loading = document.getElementById('orders-loading');
+    const authRequired = document.getElementById('orders-auth-required');
+    const emptyState = document.getElementById('orders-empty');
+    const ordersList = document.getElementById('orders-list');
+
+    // Check auth — graceful if tri-auth.js hasn't loaded
+    if (!window.TriAuth || !TriAuth.isLoggedIn()) {
+      loading.style.display = 'none';
+      authRequired.style.display = 'block';
+      // Update CTA to trigger login modal on homepage
+      const ctaBtn = document.querySelector('#orders-auth-required .orders-cta-btn');
+      if (ctaBtn) ctaBtn.href = '/?login=true';
+      return;
+    }
+
+    // Fetch orders
+    try {
+      const data = await TriAuth.getMyOrders();
+      loading.style.display = 'none';
+
+      if (!data.success || !data.orders || data.orders.length === 0) {
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      data.orders.forEach(order => {
+        ordersList.appendChild(createOrderCard(order));
+      });
+    } catch (err) {
+      loading.style.display = 'none';
+      ordersList.innerHTML = `<div style="text-align:center;padding:60px 0;color:#8A7A7A;font-family:'DM Sans',sans-serif;">Error loading orders. Please try again later.</div>`;
+    }
+
+    function getStatusClass(status) {
+      const map = {
+        'pending': 'status-pending',
+        'processing': 'status-processing',
+        'shipped': 'status-shipped',
+        'delivered': 'status-delivered',
+        'cancelled': 'status-cancelled',
+        'paid': 'status-paid'
+      };
+      return map[(status || 'pending').toLowerCase()] || 'status-pending';
+    }
+
+    function getStatusEmoji(status) {
+      const map = {
+        'pending': '⏳',
+        'processing': '🔄',
+        'shipped': '🚚',
+        'delivered': '✅',
+        'cancelled': '❌',
+        'paid': '✅'
+      };
+      return map[(status || 'pending').toLowerCase()] || '⏳';
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function formatPrice(amount) {
+      return '₹' + Number(amount).toLocaleString('en-IN');
+    }
+
+    function createOrderCard(order) {
+      const card = document.createElement('div');
+      card.className = 'order-card';
+
+      const shortId = order.id ? order.id.slice(-8).toUpperCase() : 'N/A';
+      const status = order.status || 'pending';
+      const statusClass = getStatusClass(status);
+      const statusEmoji = getStatusEmoji(status);
+
+      // Build items HTML
+      const items = order.items || order.orderItems || [];
+      let itemsHtml = items.map(item => {
+        const name = item.productName || item.name || 'TRI Product';
+        const qty = item.quantity || 1;
+        const price = item.price || item.unitPrice || 0;
+        const img = item.productImage || item.image || 'assets/hero_product.png';
+        return `
+          <div class="order-item">
+            <img class="order-item-img" src="${img}" alt="${name}" onerror="this.src='assets/hero_product.png'">
+            <div class="order-item-info">
+              <div class="order-item-name">${name}</div>
+              <div class="order-item-qty">Qty: ${qty}</div>
+            </div>
+            <div class="order-item-price">${formatPrice(price * qty)}</div>
+          </div>
+        `;
+      }).join('');
+
+      if (!itemsHtml) {
+        itemsHtml = '<div class="order-item"><div class="order-item-info"><div class="order-item-name">TRI Fusion Pack</div></div></div>';
+      }
+
+      // Shipping address
+      const addr = order.shippingAddress || {};
+      const addrText = addr.addressLine1
+        ? `${addr.addressLine1}${addr.addressLine2 ? ', ' + addr.addressLine2 : ''}, ${addr.city || ''}, ${addr.state || ''} - ${addr.pincode || ''}`.trim()
+        : 'Address on file';
+
+      const payMethod = order.paymentMethod || 'Razorpay';
+
+      card.innerHTML = `
+        <div class="order-header">
+          <div class="order-header-left">
+            <div class="order-id">#TRI-${shortId}</div>
+            <div class="order-date">${formatDate(order.createdAt)}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="order-status ${statusClass}">${statusEmoji} ${status}</span>
+            <div class="order-total-display">${formatPrice(order.totalAmount || order.total || 0)}</div>
+          </div>
+          <svg class="order-toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="order-body">
+          <div class="order-items-list">${itemsHtml}</div>
+          <div class="order-meta">
+            <div class="order-meta-block">
+              <div class="order-meta-label">Shipping Address</div>
+              <div class="order-meta-value">${addrText}</div>
+            </div>
+            <div class="order-meta-block">
+              <div class="order-meta-label">Payment</div>
+              <div class="order-meta-value">${payMethod}</div>
+            </div>
+          </div>
+          <div class="order-total-row">
+            <span class="order-total-label">Order Total</span>
+            <span class="order-total-amount">${formatPrice(order.totalAmount || order.total || 0)}</span>
+          </div>
+        </div>
+      `;
+
+      // Toggle expand
+      card.querySelector('.order-header').addEventListener('click', function() {
+        card.classList.toggle('expanded');
+      });
+
+      return card;
+    }
+
+    // Update account nav state if auth-ui is loaded
+    if (window.triUpdateNavAuth) triUpdateNavAuth();
+  });
+  </script>
 
 </body>
 </html>

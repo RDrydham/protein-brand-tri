@@ -76,6 +76,7 @@ RewriteRule ^api/contact/?$ contact-handler.php [L,QSA]
 # ── Route: Clean URLs for static HTML pages ───────────────────
 RewriteRule ^about/?$        about.html        [L,NC]
 RewriteRule ^inside/?$       inside.html       [L,NC]
+RewriteRule ^lab/?$          lab-reports.html  [L,NC]
 RewriteRule ^lab-reports/?$  lab-reports.html  [L,NC]
 RewriteRule ^shop/?$         shop.html         [L,NC]
 RewriteRule ^contact/?$      contact.html      [L,NC]

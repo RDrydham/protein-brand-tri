@@ -1371,6 +1371,7 @@
       .eco-sachet-wrap { width: clamp(68px, 17vw, 96px); }
     }
   </style>
+<link rel="stylesheet" href="assets/tri-auth-ui.css">
 </head>
 <body>
 
@@ -1394,6 +1395,9 @@
         <a href="lab-reports.html">Lab Reports</a>
         <a href="about.html">About Us</a>
         <a href="contact.html">Contact</a>
+        <a href="/my-orders" id="mm-orders-link" style="display:none;">My Orders</a>
+        <a href="#" id="mm-login-link">Sign In / Register</a>
+        <a href="#" id="mm-logout-link" style="display:none; color:#C8787A;">Sign Out</a>
       </div>
       <a href="shop.html" class="mobile-nav-cta" style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">Shop Now — <span style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">₹</span>599</a>
     </div>
@@ -1472,6 +1476,9 @@
             <path d="M16 10a4 4 0 01-8 0"/>
           </svg>
           <span class="cart-count" id="cart-count">0</span>
+        </button>
+        <button class="nav-account" id="account-btn" aria-label="My Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </button>
         <a href="shop.html" class="nav-cta">Shop Now</a>
         <button class="nav-hamburger" aria-label="Open menu">
@@ -2135,6 +2142,9 @@
   <!-- Shared TRI script -->
   <script src="assets/tri.js"></script>
   <script src="assets/tri-motion.js?v=4.0"></script>
+  <script src="assets/tri-auth.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+  <script src="assets/tri-auth-ui.js"></script>
 
 </body>
 </html>
