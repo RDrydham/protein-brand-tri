@@ -96,5 +96,5 @@ ON CONFLICT (slug) DO NOTHING;
 
 -- Insert default admin user (password: admin123)
 INSERT INTO users (name, email, password, role, is_verified) VALUES
-('TRI Admin', 'admin@therealinside.com', '$2b$10$rBnQKXxDnF5Q5Q5Q5Q5Q5OzKXxDnF5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5u', 'admin', true)
+('TRI Admin', 'admin@therealinside.com', '$2b$10$ozLFN/CMRTx9lNggi8gjleb7WOmhKirdsjv81UpW24oiEw3I4s.6i', 'admin', true)
 ON CONFLICT (email) DO NOTHING;

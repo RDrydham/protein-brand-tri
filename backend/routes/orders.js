@@ -18,7 +18,7 @@ router.post('/place', auth, async (req, res) => {
   try {
     await client.query('BEGIN')
 
-    const { address, notes } = req.body
+    const { address, address_id, notes } = req.body
 
     // Get cart items
     const cartResult = await client.query(
@@ -29,8 +29,39 @@ router.post('/place', auth, async (req, res) => {
       [req.user.id]
     )
 
+    // ── FIX: ROLLBACK before early return ──────────────────────────────
     if (cartResult.rows.length === 0) {
+      await client.query('ROLLBACK')
       return res.status(400).json({ message: 'Cart is empty!' })
+    }
+
+    // Resolve delivery address
+    let resolvedAddress
+    if (address_id) {
+      // Pull address from addresses table (backward-compatible)
+      const addrResult = await client.query(
+        'SELECT * FROM addresses WHERE id = $1 AND user_id = $2',
+        [address_id, req.user.id]
+      )
+      if (addrResult.rows.length === 0) {
+        await client.query('ROLLBACK')
+        return res.status(400).json({ message: 'Address not found!' })
+      }
+      const a = addrResult.rows[0]
+      resolvedAddress = {
+        name: a.name,
+        phone: a.phone,
+        line1: a.line1,
+        line2: a.line2,
+        city: a.city,
+        state: a.state,
+        pincode: a.pincode
+      }
+    } else if (address) {
+      resolvedAddress = address
+    } else {
+      await client.query('ROLLBACK')
+      return res.status(400).json({ message: 'Delivery address is required!' })
     }
 
     // Calculate total
@@ -53,7 +84,7 @@ router.post('/place', auth, async (req, res) => {
     const orderResult = await client.query(
       `INSERT INTO orders (order_number, user_id, total, address, notes)
        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [orderNumber, req.user.id, total, JSON.stringify(address), notes]
+      [orderNumber, req.user.id, total, JSON.stringify(resolvedAddress), notes]
     )
 
     const order = orderResult.rows[0]
@@ -77,7 +108,7 @@ router.post('/place', auth, async (req, res) => {
 
     await client.query('COMMIT')
 
-    // Send confirmation email
+    // Send confirmation email (non-blocking)
     try {
       const userResult = await pool.query(
         'SELECT email FROM users WHERE id = $1', [req.user.id]

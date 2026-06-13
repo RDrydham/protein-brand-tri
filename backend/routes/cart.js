@@ -2,10 +2,20 @@ const express = require('express')
 const router = express.Router()
 const pool = require('../db')
 const auth = require('../middleware/auth')
+const cache = require('../utils/cache')
 
-// Get cart
+const cartCacheKey = (userId) => `cart:${userId}`
+const CART_TTL = 30 // seconds
+
+// Get cart (cached 30s per user)
 router.get('/', auth, async (req, res) => {
   try {
+    const key = cartCacheKey(req.user.id)
+    const cached = await cache.get(key)
+    if (cached) {
+      return res.json(cached)
+    }
+
     const result = await pool.query(
       `SELECT c.id, c.quantity, c.product_id,
               p.name, p.price, p.image, p.stock
@@ -19,13 +29,15 @@ router.get('/', auth, async (req, res) => {
       (sum, item) => sum + (item.price * item.quantity), 0
     )
 
-    res.json({ items: result.rows, total })
+    const payload = { items: result.rows, total }
+    await cache.set(key, payload, CART_TTL)
+    res.json(payload)
   } catch (error) {
     res.status(500).json({ message: 'Server error!' })
   }
 })
 
-// Add to cart
+// Add to cart (invalidates cache)
 router.post('/add', auth, async (req, res) => {
   try {
     const { product_id, quantity = 1 } = req.body
@@ -53,13 +65,14 @@ router.post('/add', auth, async (req, res) => {
       [req.user.id, product_id, quantity]
     )
 
+    await cache.del(cartCacheKey(req.user.id))
     res.json({ message: 'Added to cart!' })
   } catch (error) {
     res.status(500).json({ message: 'Server error!' })
   }
 })
 
-// Update quantity
+// Update quantity (invalidates cache)
 router.put('/:id', auth, async (req, res) => {
   try {
     const { quantity } = req.body
@@ -69,6 +82,7 @@ router.put('/:id', auth, async (req, res) => {
         'DELETE FROM cart WHERE id = $1 AND user_id = $2',
         [req.params.id, req.user.id]
       )
+      await cache.del(cartCacheKey(req.user.id))
       return res.json({ message: 'Item removed!' })
     }
 
@@ -77,29 +91,32 @@ router.put('/:id', auth, async (req, res) => {
       [quantity, req.params.id, req.user.id]
     )
 
+    await cache.del(cartCacheKey(req.user.id))
     res.json({ message: 'Cart updated!' })
   } catch (error) {
     res.status(500).json({ message: 'Server error!' })
   }
 })
 
-// Remove from cart
+// Remove from cart (invalidates cache)
 router.delete('/:id', auth, async (req, res) => {
   try {
     await pool.query(
       'DELETE FROM cart WHERE id = $1 AND user_id = $2',
       [req.params.id, req.user.id]
     )
+    await cache.del(cartCacheKey(req.user.id))
     res.json({ message: 'Removed from cart!' })
   } catch (error) {
     res.status(500).json({ message: 'Server error!' })
   }
 })
 
-// Clear cart
+// Clear cart (invalidates cache)
 router.delete('/', auth, async (req, res) => {
   try {
     await pool.query('DELETE FROM cart WHERE user_id = $1', [req.user.id])
+    await cache.del(cartCacheKey(req.user.id))
     res.json({ message: 'Cart cleared!' })
   } catch (error) {
     res.status(500).json({ message: 'Server error!' })
