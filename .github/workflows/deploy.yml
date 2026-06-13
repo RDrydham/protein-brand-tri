@@ -1,0 +1,56 @@
+name: 🚀 TRI Auto Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy to GCP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Copy Files to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "."
+          target: "/home/ubuntu/tri-project"
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/ubuntu/tri-project
+
+            # Create .env file
+            cat > .env << EOF
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            RAZORPAY_KEY_ID=${{ secrets.RAZORPAY_KEY_ID }}
+            RAZORPAY_KEY_SECRET=${{ secrets.RAZORPAY_KEY_SECRET }}
+            EMAIL=${{ secrets.EMAIL }}
+            EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
+            GRAFANA_PASSWORD=${{ secrets.GRAFANA_PASSWORD }}
+            EOF
+
+            # Deploy
+            docker compose down
+            docker compose up -d --build
+
+            # Health check
+            sleep 15
+            curl -f http://localhost/health || exit 1
+
+            # Cleanup
+            docker image prune -f
+
+            echo "✅ TRI Deploy successful!"

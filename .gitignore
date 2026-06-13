@@ -31,4 +31,10 @@ scratch/
 # Local environment credentials
 .env
 
+# Keys & Logs
+*.pem
+*.key
+*.log
+
+
 
