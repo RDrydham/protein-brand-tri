@@ -36,7 +36,7 @@ chk("Product 42vw", "width:42vw" in content)
 chk("Trust chips .hm-chip", 'class="hm-chip"' in content)
 chk("product_brand.webp used", "product_brand.webp" in content)
 chk("loading=eager on mobile hero img", 'loading="eager"' in content)
-chk("data-add-cart on mobile CTA", 'data-add-cart' in content and 'hm-btn-primary' in content)
+chk("href to shop.html on mobile CTA", 'href="shop.html"' in content and 'hm-btn-primary' in content)
 
 # ── DESKTOP PROTECTION ──────────────────────────────────────
 print("\n[DESKTOP PROTECTION]")

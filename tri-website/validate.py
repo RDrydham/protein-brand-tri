@@ -9,7 +9,7 @@ checks = [
     ('hm-trust class', 'hm-trust' in content),
     ('hm-btn-primary', 'hm-btn-primary' in content),
     ('product_brand.webp in hero-m', 'product_brand.webp' in content),
-    ('data-add-cart in hero-m btn', 'hm-btn-primary' in content and 'data-add-cart' in content),
+    ('href="shop.html" in hero-m btn', 'hm-btn-primary' in content and 'href="shop.html"' in content),
     ('desktop hero hidden on mobile', 'display:none!important' in content),
     ('hero-trust-bar hidden on mobile', 'hero-trust-bar' in content),
     ('nav-cta hidden mobile', 'nav-cta' in content and 'display:none' in content),
