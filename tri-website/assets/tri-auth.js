@@ -74,19 +74,29 @@ const TriAuth = {
       body: JSON.stringify({ email, password }),
       credentials: 'include'
     });
-    const data = await res.json();
-    // DEBUG — remove after testing
-    console.log('[TRI Auth] Login response status:', res.status);
-    console.log('[TRI Auth] Login response data:', JSON.stringify(data));
-    // Backend returns { message, token, user } on 200
+    console.log('[TRI Auth] Login HTTP status:', res.status);
+    // If backend is down (503/502/500), return friendly error immediately
+    if (res.status === 503 || res.status === 502) {
+      return { success: false, message: 'Server unavailable (503). Backend is not running — please contact support.' };
+    }
+    if (res.status === 429) {
+      return { success: false, message: 'Too many attempts. Please wait 1 minute and try again.' };
+    }
+    let data;
+    try {
+      data = await res.json();
+    } catch (e) {
+      console.warn('[TRI Auth] Response is not JSON (status:', res.status, ')');
+      return { success: false, message: 'Server error. Please try again.' };
+    }
+    console.log('[TRI Auth] Login response:', JSON.stringify(data));
     if (data.token && data.user) {
       data.success = true;
       this._saveSession(data.token, data.user);
       try { await this._syncCartAfterLogin(); } catch(e) {}
     } else {
       data.success = false;
-      // Extra debug: show exactly what's missing
-      console.warn('[TRI Auth] Login failed — token:', !!data.token, '| user:', !!data.user, '| message:', data.message);
+      console.warn('[TRI Auth] Missing token/user — token:', !!data.token, 'user:', !!data.user);
     }
     return data;
   },
