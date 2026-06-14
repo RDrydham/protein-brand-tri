@@ -56,7 +56,27 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Check deploy secrets
+        id: deploy-secrets
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          missing=()
+          [ -z "$SERVER_IP" ] && missing+=("SERVER_IP")
+          [ -z "$SERVER_USER" ] && missing+=("SERVER_USER")
+          [ -z "$SSH_KEY" ] && missing+=("SSH_KEY")
+
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Skipping deployment. Missing required secrets: ${missing[*]}"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Copy Files to Server
+        if: steps.deploy-secrets.outputs.enabled == 'true'
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -66,6 +86,7 @@ jobs:
           target: "/home/ubuntu/tri-project"
 
       - name: Deploy
+        if: steps.deploy-secrets.outputs.enabled == 'true'
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
