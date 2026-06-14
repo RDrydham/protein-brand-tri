@@ -13,8 +13,12 @@ app.use(helmet())
 app.use(cors({
   origin: [
     'https://therealinside.com',
+    'https://www.therealinside.com',
+    'https://therealaside.com',
+    'https://www.therealaside.com',
     'http://localhost',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'http://127.0.0.1:5500'
   ],
   credentials: true
 }))

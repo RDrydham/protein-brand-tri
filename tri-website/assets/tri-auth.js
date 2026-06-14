@@ -1,5 +1,5 @@
 // TRI Auth Client — shared across all pages
-// API Base (same server)
+// API Base — empty string = same domain (Nginx proxies /api/ → backend:3000)
 const TRI_API = '';
 
 const TriAuth = {
