@@ -1,4 +1,4 @@
-// TRI Auth Client — shared across all pages
+// TRI Auth Client — shared across all pages — v2.1
 // API Base — empty string = same domain (Nginx proxies /api/ → backend:3000)
 const TRI_API = '';
 
@@ -51,14 +51,17 @@ const TriAuth = {
       credentials: 'include'
     });
     const data = await res.json();
-    // Backend returns { message, token, user } on 201 — no explicit `success` field
-    // Treat token presence as success
+    // DEBUG — remove after testing
+    console.log('[TRI Auth] Register response status:', res.status);
+    console.log('[TRI Auth] Register response data:', JSON.stringify(data));
+    // Backend returns { message, token, user } on 201
     if (data.token && data.user) {
       data.success = true;
       this._saveSession(data.token, data.user);
-      await this._syncCartAfterLogin();
+      try { await this._syncCartAfterLogin(); } catch(e) {}
     } else {
       data.success = false;
+      console.warn('[TRI Auth] Register failed — token:', !!data.token, '| user:', !!data.user, '| message:', data.message);
     }
     return data;
   },
@@ -72,13 +75,18 @@ const TriAuth = {
       credentials: 'include'
     });
     const data = await res.json();
-    // Backend returns { message, token, user } on 200 — no explicit `success` field
+    // DEBUG — remove after testing
+    console.log('[TRI Auth] Login response status:', res.status);
+    console.log('[TRI Auth] Login response data:', JSON.stringify(data));
+    // Backend returns { message, token, user } on 200
     if (data.token && data.user) {
       data.success = true;
       this._saveSession(data.token, data.user);
-      await this._syncCartAfterLogin();
+      try { await this._syncCartAfterLogin(); } catch(e) {}
     } else {
       data.success = false;
+      // Extra debug: show exactly what's missing
+      console.warn('[TRI Auth] Login failed — token:', !!data.token, '| user:', !!data.user, '| message:', data.message);
     }
     return data;
   },
