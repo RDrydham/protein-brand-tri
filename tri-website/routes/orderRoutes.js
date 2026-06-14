@@ -37,7 +37,10 @@ const optionalAuth = async (req, res, next) => {
 };
 
 router.post('/create', optionalAuth, orderController.createOrder);
+// /place is called by checkout.html — maps address+notes format to createOrder
+router.post('/place', optionalAuth, orderController.placeOrder);
 router.get('/my-orders', auth, orderController.getMyOrders);
 router.get('/:orderId', optionalAuth, orderController.getOrderById);
 
 module.exports = router;
+

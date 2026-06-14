@@ -358,3 +358,82 @@ exports.sendOrderConfirmationEmail = async (order) => {
     return false;
   }
 };
+
+// 4. PLACE ORDER — called by checkout.html with {address, notes}
+// Accepts: { address: {name, phone, line1, line2, city, state, pincode}, notes }
+// Returns: { order_id, order_number, total }
+exports.placeOrder = async (req, res) => {
+  try {
+    const { address, notes } = req.body;
+    const userId = req.user ? req.user.id : null;
+
+    if (!address || !address.name || !address.phone || !address.line1 || !address.city || !address.state || !address.pincode) {
+      return res.status(400).json({ message: 'Shipping address is incomplete.' });
+    }
+
+    // Must be logged in — cart is in DB
+    if (!userId) {
+      return res.status(401).json({ message: 'Please sign in to place an order.' });
+    }
+
+    // Load cart from DB
+    const dbCartItems = await prisma.cartItem.findMany({ where: { userId } });
+
+    if (!dbCartItems || dbCartItems.length === 0) {
+      return res.status(400).json({ message: 'Your cart is empty. Cannot place an order.' });
+    }
+
+    let calculatedTotal = 0;
+    const orderItemsData = dbCartItems.map(item => {
+      calculatedTotal += item.price * item.quantity;
+      return {
+        productName: item.productName,
+        variant: item.variant,
+        price: item.price,
+        quantity: item.quantity
+      };
+    });
+
+    const shippingStr = `${address.name}, ${address.phone}, ${address.line1}${address.line2 ? ', ' + address.line2 : ''}, ${address.city}, ${address.state} - ${address.pincode}`;
+
+    const order = await prisma.$transaction(async (tx) => {
+      const newOrder = await tx.order.create({
+        data: {
+          userId,
+          customerName: req.user.name,
+          customerEmail: req.user.email,
+          shippingAddress: shippingStr,
+          totalAmount: calculatedTotal,
+          status: 'pending',
+          paymentStatus: 'unpaid'
+        }
+      });
+
+      await Promise.all(
+        orderItemsData.map(item =>
+          tx.orderItem.create({
+            data: {
+              orderId: newOrder.id,
+              productName: item.productName,
+              variant: item.variant,
+              price: item.price,
+              quantity: item.quantity
+            }
+          })
+        )
+      );
+
+      return newOrder;
+    });
+
+    // Return shape expected by checkout.html
+    return res.status(201).json({
+      order_id: order.id,
+      order_number: `TRI-ORD-${order.id}`,
+      total: order.totalAmount
+    });
+  } catch (error) {
+    console.error('[Place Order Error]:', error.message);
+    return res.status(500).json({ message: 'Internal server error placing order.' });
+  }
+};

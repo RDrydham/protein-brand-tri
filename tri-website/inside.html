@@ -1220,6 +1220,35 @@
       letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--muted-text, #888); margin-top: -5px; text-align: center;
     }
+    /* ── New Lifestyle Image for Stage 3 ── */
+    .eco-lifestyle-wrap {
+      height: clamp(350px, 60vh, 700px);
+      aspect-ratio: 9 / 16;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 
+        0 20px 50px rgba(0,0,0,0.22),
+        0 4px 12px rgba(200,120,122,0.08);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: transform 0.45s cubic-bezier(0.16,1,.3,1), box-shadow 0.45s;
+    }
+    .eco-lifestyle-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.16,1,.3,1);
+    }
+    .eco-lifestyle-wrap:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 
+        0 30px 70px rgba(0,0,0,0.3),
+        0 0 30px rgba(200,120,122,0.15);
+    }
+    .eco-lifestyle-wrap:hover img {
+      transform: scale(1.03);
+    }
     .eco-right {
       position: relative; display: flex; align-items: center;
       padding: clamp(36px, 5vw, 72px) clamp(28px, 5vw, 64px);
@@ -1356,7 +1385,7 @@
       transition: background 0.3s, transform 0.3s;
     }
     .eco-dot.on { background: var(--rose-dark); transform: scale(1.6); }
-    @media (max-width: 900px) {
+     @media (max-width: 900px) {
       #tri-ecosystem { height: auto; }
       .eco-content { grid-template-columns: 1fr; grid-template-rows: 55vh 45vh; }
       .eco-right { align-items: flex-start; padding: 22px 22px 14px; }
@@ -1365,6 +1394,7 @@
       .eco-stage.active { transform: translateY(0); }
       .eco-dot, .eco-progress { display: none; }
       .eco-right::before { display: none; }
+      .eco-lifestyle-wrap { height: clamp(240px, 40vh, 320px); }
     }
     @media (max-width: 520px) {
       .eco-card-name, .eco-card-sub { display: none; }
@@ -1864,25 +1894,9 @@
         <!-- Product Sachets (stage 3) -->
         <div id="eco-sachets">
           <div class="eco-card" id="ecoCard0">
-            <div class="eco-sachet-wrap">
-              <img src="assets/whey_russian_chocolate.webp" alt="TRI True Whey" loading="eager" />
+            <div class="eco-lifestyle-wrap">
+              <img src="assets/tri_fusion_pack_lifestyle.jpg" alt="TRI Fusion Pack" loading="eager" />
             </div>
-            <span class="eco-card-name">True Whey</span>
-            <span class="eco-card-sub">Protein</span>
-          </div>
-          <div class="eco-card" id="ecoCard1">
-            <div class="eco-sachet-wrap">
-              <img src="assets/bcaa_mojito.webp" alt="TRI Power BCAA" loading="eager" />
-            </div>
-            <span class="eco-card-name">TRI Power BCAA</span>
-            <span class="eco-card-sub">Recovery</span>
-          </div>
-          <div class="eco-card" id="ecoCard2">
-            <div class="eco-sachet-wrap">
-              <img src="assets/drake_lemon_lime.webp" alt="TRI Pump Drake" loading="eager" />
-            </div>
-            <span class="eco-card-name">TRI Pump Drake</span>
-            <span class="eco-card-sub">Pre-Workout</span>
           </div>
         </div>
       </div>

@@ -20,7 +20,8 @@ try {
 // 1. CREATE PAYMENT ORDER
 exports.createPaymentOrder = async (req, res) => {
   try {
-    const { orderId } = req.body;
+    // checkout.html sends { order_id }, legacy path uses { orderId }
+    const orderId = req.body.order_id || req.body.orderId;
 
     if (!orderId) {
       return res.status(400).json({
@@ -67,15 +68,12 @@ exports.createPaymentOrder = async (req, res) => {
         data: { razorpayOrderId: mockOrderId }
       });
 
+      // Return mock response in shape checkout.html expects
       return res.status(200).json({
-        success: true,
-        mock: true,
-        keyId: 'mock_key_id',
-        order: {
-          id: mockOrderId,
-          amount: amountInPaise,
-          currency: 'INR'
-        }
+        razorpay_order_id: mockOrderId,
+        amount: amountInPaise,
+        currency: 'INR',
+        key_id: 'mock_key_id'
       });
     }
 
@@ -95,14 +93,12 @@ exports.createPaymentOrder = async (req, res) => {
       data: { razorpayOrderId: razorpayOrder.id }
     });
 
+    // Return in shape checkout.html destructures: {razorpay_order_id, amount, currency, key_id}
     return res.status(200).json({
-      success: true,
-      keyId: process.env.RAZORPAY_KEY_ID,
-      order: {
-        id: razorpayOrder.id,
-        amount: razorpayOrder.amount,
-        currency: razorpayOrder.currency
-      }
+      razorpay_order_id: razorpayOrder.id,
+      amount: razorpayOrder.amount,
+      currency: razorpayOrder.currency,
+      key_id: process.env.RAZORPAY_KEY_ID
     });
   } catch (error) {
     console.error('[Create Payment Order Error]:', error.message);

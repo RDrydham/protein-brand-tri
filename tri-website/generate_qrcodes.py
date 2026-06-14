@@ -89,12 +89,21 @@ def generate_qrs(url, file_prefix, output_dir):
 if __name__ == "__main__":
     output_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), "assets", "qr"))
     
-    # QR 1: Short redirect URL (Highly Recommended)
-    print("Generating QR codes for short URL (https://therealinside.com/lab)...")
-    generate_qrs("https://therealinside.com/lab", "qr_lab_short", output_directory)
-    
-    # QR 2: Full URL (https://therealinside.com/lab-reports)
-    print("\nGenerating QR codes for full URL (https://therealinside.com/lab-reports)...")
-    generate_qrs("https://therealinside.com/lab-reports", "qr_lab_full", output_directory)
+    # Clean up old generated files
+    old_files = [
+        "qr_lab_short_standard.svg", "qr_lab_short_standard.png",
+        "qr_lab_short_clay.png", "qr_lab_short_clay.svg",
+        "qr_lab_full_standard.svg", "qr_lab_full_standard.png",
+        "qr_lab_full_clay.png", "qr_lab_full_clay.svg"
+    ]
+    for old_file in old_files:
+        path = os.path.join(output_directory, old_file)
+        if os.path.exists(path):
+            os.remove(path)
+            print(f"Deleted old QR file: {path}")
+
+    # Generate new QR code pointing directly to HTML page
+    print("Generating new QR codes pointing to https://therealinside.com/lab-reports.html...")
+    generate_qrs("https://therealinside.com/lab-reports.html", "qr_lab_reports", output_directory)
     
     print("\nAll QR code generation completed successfully!")
