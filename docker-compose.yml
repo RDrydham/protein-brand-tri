@@ -116,15 +116,6 @@ services:
     networks:
       - trinet
 
-  # ── Watchtower (Auto Update) ────────────────
-  watchtower:
-    image: containrrr/watchtower
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --interval 30 --cleanup
-    networks:
-      - trinet
 
 volumes:
   pgdata:
