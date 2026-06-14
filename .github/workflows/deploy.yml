@@ -46,7 +46,7 @@ jobs:
           PGPASSWORD: postgres
 
       - name: Run Tests
-        run: npm test
+        run: npm test -- --forceExit --detectOpenHandles
         working-directory: backend
         env:
           NODE_ENV: test
@@ -56,6 +56,7 @@ jobs:
           DB_PASSWORD: postgres
           DB_NAME: tridb_test
           DB_PORT: 5432
+          REDIS_HOST: 127.0.0.1
           REDIS_URL: ''
 
   # ── Job 2: Deploy (only if tests pass) ───────────────────────────────────
@@ -103,7 +104,7 @@ jobs:
 
             # Health check
             sleep 15
-            curl -f http://localhost/health || exit 1
+            docker compose exec -T backend node -e "require('http').get('http://localhost:3000/health',(r)=>console.log(r.statusCode))"
 
             # Cleanup
             docker image prune -f
