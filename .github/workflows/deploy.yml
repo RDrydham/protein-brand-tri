@@ -58,14 +58,18 @@ jobs:
 
       - name: Validate Deploy Secrets
         id: validate_secrets
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
           missing=""
-          [ -z "${{ secrets.SERVER_IP }}" ] && missing="$missing SERVER_IP"
-          [ -z "${{ secrets.SERVER_USER }}" ] && missing="$missing SERVER_USER"
-          [ -z "${{ secrets.SSH_KEY }}" ] && missing="$missing SSH_KEY"
+          [ -z "$SERVER_IP" ] && missing="$missing SERVER_IP"
+          [ -z "$SERVER_USER" ] && missing="$missing SERVER_USER"
+          [ -z "$SSH_KEY" ] && missing="$missing SSH_KEY"
 
           if [ -n "$missing" ]; then
-            echo "⚠️ Skipping deploy. Missing secrets:$missing"
+            echo "::warning::Skipping deploy. Missing secrets: $missing"
             echo "ready=false" >> "$GITHUB_OUTPUT"
           else
             echo "ready=true" >> "$GITHUB_OUTPUT"
