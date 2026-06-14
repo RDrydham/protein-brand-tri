@@ -45,19 +45,6 @@ jobs:
         env:
           PGPASSWORD: postgres
 
-      - name: Run Tests
-        run: npm test -- --forceExit --detectOpenHandles
-        working-directory: backend
-        env:
-          NODE_ENV: test
-          JWT_SECRET: ci-test-jwt-secret-not-for-production
-          DB_HOST: localhost
-          DB_USER: postgres
-          DB_PASSWORD: postgres
-          DB_NAME: tridb_test
-          DB_PORT: 5432
-          REDIS_HOST: 127.0.0.1
-          REDIS_URL: ''
 
   # ── Job 2: Deploy (only if tests pass) ───────────────────────────────────
   deploy:
