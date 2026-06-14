@@ -92,7 +92,7 @@
     }
     if (mmLinks) {
       const authLinksHTML = `
-      <a href="/my-orders" id="mm-orders-link" style="display:none; font-family:'DM Sans',sans-serif;">📦 My Orders</a>
+      <a href="account.html" id="mm-orders-link" style="display:none; font-family:'DM Sans',sans-serif;">📦 My Account</a>
       <a href="#" id="mm-login-link" style="font-family:'DM Sans',sans-serif;">Sign In / Register</a>
       <a href="#" id="mm-logout-link" style="display:none; color:#C8787A; font-family:'DM Sans',sans-serif;">Sign Out</a>`;
       mmLinks.insertAdjacentHTML('beforeend', authLinksHTML);
@@ -170,7 +170,7 @@
           <div class="acct-dropdown" id="acct-dropdown">
             <div class="dd-name">${displayName}</div>
             <div class="dd-divider"></div>
-            <a href="/my-orders">📦 My Orders</a>
+            <a href="account.html">📦 My Account</a>
             <div class="dd-divider"></div>
             <button class="dd-logout" id="nav-logout-btn">Sign Out</button>
           </div>`;

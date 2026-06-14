@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Your TRI order has been placed successfully. Thank you for fueling with science.">
+  <title>Order Confirmed — TRI The Real Inside</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0b0b0c;
+      color: #f5f5f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    :root {
+      --rose: #E6A2A4;
+      --rose-dark: #C8787A;
+      --panel: #121214;
+      --border: #2c2c2e;
+      --muted: #a1a1a6;
+      --gold: #C8A96E;
+      --green: #22c55e;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-label: 'Montserrat', sans-serif;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ── BACKGROUND ORBS ── */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-orb-1 {
+      width: 600px; height: 600px;
+      top: -200px; right: -200px;
+      background: radial-gradient(circle, rgba(34,197,94,0.06) 0%, transparent 60%);
+      animation: float1 12s ease-in-out infinite;
+    }
+    .bg-orb-2 {
+      width: 500px; height: 500px;
+      bottom: -150px; left: -150px;
+      background: radial-gradient(circle, rgba(200,120,122,0.08) 0%, transparent 60%);
+      animation: float2 15s ease-in-out infinite;
+    }
+    @keyframes float1 {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(-30px, 30px) scale(1.05); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(20px, -25px) scale(0.98); }
+    }
+
+    /* ── SUCCESS CARD ── */
+    .success-card {
+      position: relative; z-index: 1;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      width: 100%; max-width: 520px;
+      text-align: center;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6),
+                  0 0 0 1px rgba(34,197,94,0.1);
+      animation: cardIn 0.6s var(--ease-out) forwards;
+      opacity: 0;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(32px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── CHECKMARK ANIMATION ── */
+    .checkmark-wrap {
+      width: 80px; height: 80px;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+    .checkmark-circle {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,197,94,0.2), rgba(34,197,94,0.05));
+      border: 2px solid rgba(34,197,94,0.3);
+      display: flex; align-items: center; justify-content: center;
+      animation: checkCircle 0.5s 0.3s var(--ease-out) both;
+    }
+    @keyframes checkCircle {
+      from { transform: scale(0.6); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .checkmark-svg {
+      width: 36px; height: 36px;
+    }
+    .checkmark-svg path {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: checkDraw 0.4s 0.7s ease forwards;
+    }
+    @keyframes checkDraw {
+      to { stroke-dashoffset: 0; }
+    }
+    .confetti-burst {
+      position: absolute; top: 50%; left: 50%;
+      width: 0; height: 0;
+      pointer-events: none;
+    }
+    .confetti-dot {
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: confetti 0.8s 0.8s ease-out forwards;
+    }
+    @keyframes confetti {
+      from { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+      to   { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0; }
+    }
+
+    /* ── SUCCESS TEXT ── */
+    .success-eyebrow {
+      font-family: var(--font-label);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 8px;
+      display: flex; align-items: center;
+      justify-content: center; gap: 6px;
+    }
+    .success-eyebrow::before, .success-eyebrow::after {
+      content: ''; display: block; width: 20px;
+      height: 1px; background: rgba(34,197,94,0.4);
+    }
+
+    .success-title {
+      font-family: var(--font-serif);
+      font-size: 38px; font-weight: 800;
+      color: #fff; letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+    .success-desc {
+      font-size: 15px; color: var(--muted);
+      line-height: 1.7; margin-bottom: 28px;
+    }
+    .success-desc a { color: var(--rose); font-weight: 600; }
+
+    /* ── ORDER NUMBER BOX ── */
+    .order-box {
+      background: rgba(34,197,94,0.06);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      animation: fadeInUp 0.5s 0.9s var(--ease-out) both;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .order-box-label {
+      font-family: var(--font-label);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .order-box-number {
+      font-family: var(--font-label);
+      font-size: 22px; font-weight: 800;
+      letter-spacing: 0.05em; color: var(--green);
+    }
+
+    /* ── DELIVERY ESTIMATE ── */
+    .delivery-banner {
+      background: rgba(200,169,110,0.08);
+      border: 1px solid rgba(200,169,110,0.2);
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex; align-items: center;
+      gap: 12px; margin-bottom: 28px;
+      text-align: left;
+      animation: fadeInUp 0.5s 1.1s var(--ease-out) both;
+    }
+    .delivery-icon { font-size: 24px; flex-shrink: 0; }
+    .delivery-text { flex: 1; }
+    .delivery-title {
+      font-size: 13px; font-weight: 600;
+      color: var(--gold); margin-bottom: 2px;
+    }
+    .delivery-subtitle { font-size: 12px; color: var(--muted); }
+
+    /* ── CTA BUTTONS ── */
+    .cta-group {
+      display: flex; gap: 12px;
+      animation: fadeInUp 0.5s 1.3s var(--ease-out) both;
+    }
+    .btn-primary-cta {
+      flex: 1; padding: 14px 20px;
+      background: linear-gradient(135deg, var(--rose-dark), #b86668);
+      color: #fff; border: none; border-radius: 12px;
+      font-family: var(--font-label);
+      font-size: 12px; font-weight: 800;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex; align-items: center;
+      justify-content: center; gap: 8px;
+    }
+    .btn-primary-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200,120,122,0.35);
+    }
+    .btn-ghost-cta {
+      flex: 1; padding: 14px 20px;
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 12px;
+      font-family: var(--font-label);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost-cta:hover { border-color: var(--rose); color: var(--rose); }
+
+    /* ── SOCIAL PROOF STRIP ── */
+    .social-strip {
+      margin-top: 28px; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: center; gap: 24px;
+      animation: fadeInUp 0.5s 1.4s var(--ease-out) both;
+    }
+    .social-item {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+      font-family: var(--font-label);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .social-icon { font-size: 20px; }
+
+    /* ── LOGO ── */
+    .nav-logo-wrap {
+      position: fixed; top: 28px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      text-align: center;
+    }
+    .nav-logo-mark {
+      font-family: var(--font-serif);
+      font-size: 20px; font-weight: 800;
+      color: var(--gold); letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 540px) {
+      .success-card { padding: 36px 24px; }
+      .success-title { font-size: 30px; }
+      .cta-group { flex-direction: column; }
+      .btn-primary-cta, .btn-ghost-cta { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+
+<div class="nav-logo-wrap">
+  <a href="index.html" class="nav-logo-mark">△ TRI</a>
+</div>
+
+<div class="success-card">
+
+  <!-- Checkmark with confetti -->
+  <div class="checkmark-wrap">
+    <div class="checkmark-circle">
+      <svg class="checkmark-svg" viewBox="0 0 52 52" fill="none">
+        <path d="M14 27L22 35L38 17" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="confetti-burst" id="confetti"></div>
+  </div>
+
+  <!-- Eyebrow -->
+  <div class="success-eyebrow">Payment Confirmed</div>
+
+  <!-- Title -->
+  <h1 class="success-title">Order Placed!</h1>
+
+  <!-- Description -->
+  <p class="success-desc">
+    Thank you for fueling with <strong style="color:#fff">TRI</strong>. Your order has been confirmed and you'll receive an email receipt shortly.
+  </p>
+
+  <!-- Order number box -->
+  <div class="order-box">
+    <div class="order-box-label">Your Order Number</div>
+    <div class="order-box-number" id="order-number">TRI-XXXX-XXXX</div>
+  </div>
+
+  <!-- Delivery estimate -->
+  <div class="delivery-banner">
+    <div class="delivery-icon">🚚</div>
+    <div class="delivery-text">
+      <div class="delivery-title">Estimated Delivery</div>
+      <div class="delivery-subtitle" id="delivery-date">5–7 business days · Free shipping included</div>
+    </div>
+  </div>
+
+  <!-- CTA buttons -->
+  <div class="cta-group">
+    <a href="account.html" class="btn-primary-cta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+      </svg>
+      Track Order
+    </a>
+    <a href="shop.html" class="btn-ghost-cta">
+      Continue Shopping
+    </a>
+  </div>
+
+  <!-- Social proof -->
+  <div class="social-strip">
+    <div class="social-item">
+      <div class="social-icon">🧪</div>
+      Lab Verified
+    </div>
+    <div class="social-item">
+      <div class="social-icon">✅</div>
+      100% Authentic
+    </div>
+    <div class="social-item">
+      <div class="social-icon">🌿</div>
+      Grass-Fed
+    </div>
+    <div class="social-item">
+      <div class="social-icon">🔒</div>
+      Secure Payment
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Read order number from URL ── */
+  const params = new URLSearchParams(window.location.search);
+  const orderNum = params.get('order') || '';
+
+  if (orderNum) {
+    document.getElementById('order-number').textContent = decodeURIComponent(orderNum);
+    document.title = `Order ${decodeURIComponent(orderNum)} Confirmed — TRI The Real Inside`;
+  }
+
+  /* ── Calculate delivery date ── */
+  const deliveryEl = document.getElementById('delivery-date');
+  const today = new Date();
+  const startDays = 5;
+  const endDays = 7;
+  // Add business days only
+  function addBusinessDays(date, days) {
+    let d = new Date(date);
+    let added = 0;
+    while (added < days) {
+      d.setDate(d.getDate() + 1);
+      if (d.getDay() !== 0 && d.getDay() !== 6) added++;
+    }
+    return d;
+  }
+  const startDate = addBusinessDays(today, startDays);
+  const endDate   = addBusinessDays(today, endDays);
+  const opts = { day: 'numeric', month: 'short' };
+  deliveryEl.textContent = `${startDate.toLocaleDateString('en-IN', opts)} – ${endDate.toLocaleDateString('en-IN', opts)} · Free shipping included`;
+
+  /* ── Confetti burst ── */
+  const confettiEl = document.getElementById('confetti');
+  const colors = ['#C8787A', '#22c55e', '#C8A96E', '#E6A2A4', '#60a5fa'];
+  const count = 18;
+  for (let i = 0; i < count; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    const angle = (i / count) * 360;
+    const radius = 50 + Math.random() * 30;
+    const tx = Math.cos(angle * Math.PI / 180) * radius + 'px';
+    const ty = Math.sin(angle * Math.PI / 180) * radius + 'px';
+    dot.style.setProperty('--tx', tx);
+    dot.style.setProperty('--ty', ty);
+    dot.style.background = colors[i % colors.length];
+    dot.style.animationDelay = (0.8 + Math.random() * 0.3) + 's';
+    confettiEl.appendChild(dot);
+  }
+
+  /* ── Clear cart on success page ── */
+  localStorage.removeItem('tri_cart');
+
+})();
+</script>
+
+</body>
+</html>

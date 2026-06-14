@@ -43,17 +43,22 @@ const TriAuth = {
   },
 
   // Register
-  async register(name, email, password) {
+  async register(name, email, password, phone) {
     const res = await fetch(`${TRI_API}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email, password, phone }),
       credentials: 'include'
     });
     const data = await res.json();
-    if (data.success && data.token) {
+    // Backend returns { message, token, user } on 201 — no explicit `success` field
+    // Treat token presence as success
+    if (data.token && data.user) {
+      data.success = true;
       this._saveSession(data.token, data.user);
       await this._syncCartAfterLogin();
+    } else {
+      data.success = false;
     }
     return data;
   },
@@ -67,9 +72,13 @@ const TriAuth = {
       credentials: 'include'
     });
     const data = await res.json();
-    if (data.success && data.token) {
+    // Backend returns { message, token, user } on 200 — no explicit `success` field
+    if (data.token && data.user) {
+      data.success = true;
       this._saveSession(data.token, data.user);
       await this._syncCartAfterLogin();
+    } else {
+      data.success = false;
     }
     return data;
   },
@@ -109,18 +118,20 @@ const TriAuth = {
     } catch (e) {}
   },
 
-  // Get orders
+  // Get order history — FIXED: was /api/orders/my-orders, correct is /api/orders/history
   async getMyOrders() {
-    const res = await fetch(`${TRI_API}/api/orders/my-orders`, {
+    const res = await fetch(`${TRI_API}/api/orders/history`, {
       headers: this._headers(),
       credentials: 'include'
     });
     return res.json();
   },
 
-  // Create order
-  async createOrder(orderData) {
-    const res = await fetch(`${TRI_API}/api/orders/create`, {
+  // Place order — FIXED: was /api/orders/create, correct is /api/orders/place
+  // Backend expects: { address: { name, phone, line1, city, state, pincode }, notes }
+  // and reads cart from DB server-side (must be logged in and have cart items in DB)
+  async placeOrder(orderData) {
+    const res = await fetch(`${TRI_API}/api/orders/place`, {
       method: 'POST',
       headers: this._headers(),
       body: JSON.stringify(orderData),
@@ -129,20 +140,22 @@ const TriAuth = {
     return res.json();
   },
 
-  // Create Razorpay payment order
-  async createPaymentOrder(amount, orderId) {
-    const res = await fetch(`${TRI_API}/api/payments/create`, {
+  // Create Razorpay payment order — FIXED: was /api/payments/create, correct is /api/payment/create-order
+  // Backend expects: { order_id: INT }
+  // Backend returns: { razorpay_order_id, amount, currency, key_id }
+  async createPaymentOrder(order_id) {
+    const res = await fetch(`${TRI_API}/api/payment/create-order`, {
       method: 'POST',
       headers: this._headers(),
-      body: JSON.stringify({ amount, orderId }),
+      body: JSON.stringify({ order_id }),
       credentials: 'include'
     });
     return res.json();
   },
 
-  // Verify payment
+  // Verify payment — FIXED: was /api/payments/verify, correct is /api/payment/verify
   async verifyPayment(paymentData) {
-    const res = await fetch(`${TRI_API}/api/payments/verify`, {
+    const res = await fetch(`${TRI_API}/api/payment/verify`, {
       method: 'POST',
       headers: this._headers(),
       body: JSON.stringify(paymentData),

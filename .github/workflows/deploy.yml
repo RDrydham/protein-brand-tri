@@ -40,10 +40,61 @@ jobs:
         run: npm install
         working-directory: backend
 
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          echo "Waiting for PostgreSQL to accept connections..."
+          for i in $(seq 1 30); do
+            if pg_isready -h localhost -p 5432 -U postgres; then
+              echo "✅ PostgreSQL is ready!"
+              exit 0
+            fi
+            echo "Attempt $i/30 — not ready yet, sleeping 1s..."
+            sleep 1
+          done
+          echo "❌ PostgreSQL did not become ready in time."
+          exit 1
+
       - name: Initialize Test Database
-        run: psql -h localhost -U postgres -d tridb_test -f backend/db/schema.sql
+        run: |
+          node -e "
+            const { Pool } = require('pg');
+            const fs = require('fs');
+            const path = require('path');
+
+            const pool = new Pool({
+              host: 'localhost',
+              user: 'postgres',
+              password: 'postgres',
+              database: 'tridb_test',
+              port: 5432,
+            });
+
+            const schemaPath = path.join(process.env.GITHUB_WORKSPACE, 'backend', 'db', 'schema.sql');
+            const sql = fs.readFileSync(schemaPath, 'utf8');
+
+            pool.query(sql)
+              .then(() => {
+                console.log('✅ Test database schema initialized successfully.');
+                return pool.end();
+              })
+              .then(() => process.exit(0))
+              .catch((err) => {
+                console.error('❌ Schema initialization failed:', err.message);
+                pool.end().finally(() => process.exit(1));
+              });
+          "
+        working-directory: backend
+
+      - name: Run Tests
+        run: npm test
+        working-directory: backend
         env:
-          PGPASSWORD: postgres
+          DB_HOST: localhost
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_NAME: tridb_test
+          JWT_SECRET: test-secret
+          REDIS_URL: ''
 
 
   # ── Job 2: Deploy (only if tests pass) ───────────────────────────────────

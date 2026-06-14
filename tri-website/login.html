@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in to your TRI account to track orders, manage your cart, and access exclusive offers.">
+  <title>Sign In — TRI The Real Inside</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FFF8F8;
+      color: #1A1A1A;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --rose: #E6A2A4;
+      --rose-dark: #C8787A;
+      --cream: #FFF8F8;
+      --cream-warm: #FDF3F3;
+      --dark: #1A1A1A;
+      --dark-bg: #0b0b0c;
+      --panel: #121214;
+      --muted: #8A7A7A;
+      --border: rgba(230,162,164,0.3);
+      --gold: #C8A96E;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', sans-serif;
+      --font-label: 'Montserrat', sans-serif;
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .page-wrap {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* ── LEFT PANEL (Brand) ── */
+    .brand-panel {
+      background: linear-gradient(145deg, #0f0a06 0%, #1a1008 40%, #12080a 70%, #0d0c12 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .brand-panel::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px; border-radius: 50%;
+      top: -150px; right: -200px;
+      background: radial-gradient(circle, rgba(200,120,122,.15) 0%, rgba(200,169,110,.06) 50%, transparent 70%);
+      pointer-events: none;
+    }
+    .brand-panel::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px; border-radius: 50%;
+      bottom: -80px; left: -100px;
+      background: radial-gradient(circle, rgba(200,169,110,.12) 0%, rgba(200,120,122,.05) 50%, transparent 70%);
+      pointer-events: none;
+    }
+    .brand-logo {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+    }
+    .brand-logo-mark {
+      font-family: var(--font-serif);
+      font-size: 32px; font-weight: 800;
+      color: #C8A96E; letter-spacing: 0.06em;
+    }
+    .brand-logo-sub {
+      font-family: var(--font-label);
+      font-size: 8px; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(255,248,240,0.35);
+      margin-top: 3px;
+    }
+    .brand-hero {
+      position: relative; z-index: 2;
+      flex: 1;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 40px 0;
+    }
+    .brand-eyebrow {
+      font-family: var(--font-label);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .brand-eyebrow::before {
+      content: '';
+      display: block; width: 24px; height: 1.5px;
+      background: var(--rose);
+    }
+    .brand-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 800; line-height: 1.1;
+      color: rgba(255,248,240,0.92);
+      margin-bottom: 20px;
+    }
+    .brand-headline em { color: var(--gold); font-style: normal; }
+    .brand-desc {
+      font-size: 15px; line-height: 1.7;
+      color: rgba(255,248,240,0.5);
+      max-width: 380px;
+    }
+    .brand-stats {
+      position: relative; z-index: 2;
+      display: flex; gap: 32px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,248,240,0.08);
+    }
+    .brand-stat-num {
+      font-family: var(--font-serif);
+      font-size: 28px; font-weight: 800;
+      color: var(--gold);
+    }
+    .brand-stat-label {
+      font-family: var(--font-label);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,248,240,0.35);
+      margin-top: 2px;
+    }
+
+    /* ── RIGHT PANEL (Form) ── */
+    .form-panel {
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 40px;
+      position: relative;
+    }
+    .form-container {
+      width: 100%;
+      max-width: 420px;
+    }
+    .form-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-label);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 40px;
+      transition: color 0.2s, gap 0.2s;
+    }
+    .form-back:hover { color: var(--rose-dark); gap: 8px; }
+    .form-back svg { width: 14px; height: 14px; }
+    .form-title {
+      font-family: var(--font-serif);
+      font-size: 36px; font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .form-subtitle {
+      font-size: 14px; color: var(--muted);
+      margin-bottom: 36px;
+      line-height: 1.5;
+    }
+    .form-subtitle a { color: var(--rose-dark); font-weight: 600; }
+    .form-subtitle a:hover { text-decoration: underline; }
+
+    /* Fields */
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-family: var(--font-label);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+    .field input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid rgba(230,162,164,0.3);
+      border-radius: 12px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--dark);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input:focus {
+      border-color: var(--rose-dark);
+      box-shadow: 0 0 0 3px rgba(200,120,122,0.12);
+    }
+    .field input.error { border-color: #e05555; }
+    .field input::placeholder { color: #B8A8A8; }
+
+    .field-row { display: flex; gap: 12px; }
+    .field-row .field { flex: 1; }
+
+    .forgot-link {
+      display: block; text-align: right;
+      font-size: 12px; color: var(--muted);
+      margin-top: -10px; margin-bottom: 18px;
+    }
+    .forgot-link:hover { color: var(--rose-dark); }
+
+    /* Error message */
+    .error-msg {
+      background: rgba(224,85,85,0.08);
+      border: 1px solid rgba(224,85,85,0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #c0392b;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: var(--rose-dark);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-label);
+      font-size: 13px; font-weight: 800;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      margin-top: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    }
+    .btn-submit:hover {
+      background: #b86668;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200,120,122,0.35);
+    }
+    .btn-submit:disabled {
+      opacity: 0.65; cursor: not-allowed; transform: none;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 24px 0;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(200,120,122,0.15);
+    }
+    .divider span {
+      font-size: 12px; color: var(--muted);
+      font-family: var(--font-label);
+    }
+
+    /* Social hint */
+    .form-footer-text {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+    .form-footer-text a { color: var(--rose-dark); font-weight: 600; }
+    .form-footer-text a:hover { text-decoration: underline; }
+
+    /* Terms text */
+    .terms-text {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+    .terms-text a { color: var(--rose-dark); }
+
+    /* Success state */
+    .success-banner {
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .success-banner.show { display: flex; }
+    .success-banner span { font-size: 13px; color: #16a34a; }
+
+    /* ── MOBILE RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .brand-panel { display: none; }
+      .form-panel { padding: 32px 24px; min-height: 100vh; }
+      .form-container { max-width: 100%; }
+      .form-title { font-size: 30px; }
+    }
+
+    /* ── LOADING SPINNER ── */
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── FLOATING MOBILE NAV LOGO ── */
+    .mobile-logo-bar {
+      display: none;
+      padding: 20px 24px 0;
+    }
+    .mobile-logo-bar a {
+      font-family: var(--font-serif);
+      font-size: 22px; font-weight: 800;
+      color: var(--gold);
+    }
+    @media (max-width: 768px) {
+      .mobile-logo-bar { display: block; }
+      .form-back { margin-top: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ═══ LEFT BRAND PANEL ═══ -->
+  <div class="brand-panel">
+    <div class="brand-logo">
+      <a href="index.html" style="text-decoration:none;">
+        <div class="brand-logo-mark">△ TRI</div>
+        <div class="brand-logo-sub">The Real Inside</div>
+      </a>
+    </div>
+
+    <div class="brand-hero">
+      <div class="brand-eyebrow">Member Portal</div>
+      <h1 class="brand-headline">
+        Fuel with<br>
+        <em>science,</em><br>
+        not hype.
+      </h1>
+      <p class="brand-desc">
+        Sign in to track your orders, manage your cart, and access your complete TRI performance dashboard.
+      </p>
+    </div>
+
+    <div class="brand-stats">
+      <div>
+        <div class="brand-stat-num">24.5g</div>
+        <div class="brand-stat-label">Protein/Serving</div>
+      </div>
+      <div>
+        <div class="brand-stat-num">0</div>
+        <div class="brand-stat-label">Hidden Blends</div>
+      </div>
+      <div>
+        <div class="brand-stat-num">100%</div>
+        <div class="brand-stat-label">Lab Verified</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RIGHT FORM PANEL ═══ -->
+  <div class="form-panel">
+    <div class="form-container">
+
+      <a href="index.html" class="form-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        Back to Home
+      </a>
+
+      <div class="success-banner" id="success-banner">
+        <span>✓ Welcome back! Redirecting you now...</span>
+      </div>
+
+      <h1 class="form-title">Welcome back.</h1>
+      <p class="form-subtitle">
+        New to TRI? <a href="register.html">Create your account →</a>
+      </p>
+
+      <div class="error-msg" id="error-msg"></div>
+
+      <form id="login-form" autocomplete="on" novalidate>
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+            autocomplete="email"
+          >
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Your password"
+            required
+            autocomplete="current-password"
+          >
+        </div>
+
+        <a href="#" class="forgot-link">Forgot password?</a>
+
+        <button type="submit" class="btn-submit" id="submit-btn">
+          Sign In →
+        </button>
+      </form>
+
+      <div class="divider"><span>or</span></div>
+
+      <p class="form-footer-text">
+        Don't have an account? <a href="register.html">Create one free →</a>
+      </p>
+
+      <p class="terms-text">
+        By signing in, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+      </p>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="assets/tri-auth.js"></script>
+<script>
+  (function () {
+    'use strict';
+
+    // Redirect if already logged in
+    if (localStorage.getItem('tri_token') && localStorage.getItem('tri_user')) {
+      window.location.href = 'account.html';
+      return;
+    }
+
+    const form      = document.getElementById('login-form');
+    const emailEl   = document.getElementById('email');
+    const passwordEl= document.getElementById('password');
+    const submitBtn = document.getElementById('submit-btn');
+    const errorMsg  = document.getElementById('error-msg');
+    const successBanner = document.getElementById('success-banner');
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.classList.add('show');
+      // Shake animation
+      errorMsg.style.animation = 'none';
+      requestAnimationFrame(() => {
+        errorMsg.style.animation = '';
+      });
+    }
+
+    function clearError() {
+      errorMsg.classList.remove('show');
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      clearError();
+
+      const email    = emailEl.value.trim();
+      const password = passwordEl.value;
+
+      // Basic validation
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError('Please enter a valid email address.');
+        emailEl.focus();
+        return;
+      }
+      if (!password || password.length < 6) {
+        showError('Password must be at least 6 characters.');
+        passwordEl.focus();
+        return;
+      }
+
+      // Loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner"></span>Signing in...';
+
+      try {
+        const result = await TriAuth.login(email, password);
+
+        if (result.success) {
+          successBanner.classList.add('show');
+          submitBtn.innerHTML = '✓ Signed In!';
+
+          // Sync cart after login
+          if (window.triSyncCartAfterLogin) {
+            await window.triSyncCartAfterLogin();
+          }
+
+          // Redirect to account or intended page
+          const redirect = new URLSearchParams(window.location.search).get('redirect') || 'account.html';
+          setTimeout(() => {
+            window.location.href = redirect;
+          }, 800);
+        } else {
+          showError(result.message || 'Invalid email or password. Please try again.');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Sign In →';
+          passwordEl.value = '';
+          passwordEl.focus();
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        showError('Connection error. Please check your internet and try again.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Sign In →';
+      }
+    });
+
+    // Clear error on input
+    [emailEl, passwordEl].forEach(el => {
+      el.addEventListener('input', clearError);
+    });
+
+    // Focus email on load
+    emailEl.focus();
+  })();
+</script>
+
+</body>
+</html>

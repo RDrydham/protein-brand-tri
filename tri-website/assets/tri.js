@@ -137,24 +137,57 @@
   let isLoggedIn = false;
   let currentUser = null;
 
+  // Product name → backend product_id mapping
+  // (matches backend/db/schema.sql seed data)
+  const PRODUCT_ID_MAP = {
+    'TRI Fusion Pack': 1,
+    'TRI True Whey Protein': 2,
+    'TRI Power BCAA': 3,
+    'TRI Pump Drake Pre-Workout': 4,
+    // Partial name matches (fallback)
+    'Fusion Pack': 1,
+    'True Whey': 2,
+    'BCAA': 3,
+    'Pre-Workout': 4,
+    'Drake': 4
+  };
+
+  function getProductId(name) {
+    if (!name) return null;
+    // Exact match first
+    if (PRODUCT_ID_MAP[name]) return PRODUCT_ID_MAP[name];
+    // Partial match
+    const lower = name.toLowerCase();
+    for (const [key, id] of Object.entries(PRODUCT_ID_MAP)) {
+      if (lower.includes(key.toLowerCase())) return id;
+    }
+    return 1; // Default to Fusion Pack
+  }
+
   try {
     currentUser = JSON.parse(localStorage.getItem('tri_user') || 'null');
-    isLoggedIn = !!currentUser;
+    isLoggedIn = !!(currentUser && localStorage.getItem('tri_token'));
   } catch(e) {}
 
   const loadCart = async () => {
     if (isLoggedIn) {
       try {
-        const res = await fetch('/api/cart');
+        const token = localStorage.getItem('tri_token');
+        const res = await fetch('/api/cart', {
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
         if (res.status === 200) {
           const data = await res.json();
-          cartItems = data.cart.map(item => ({
+          // Backend returns { items, total } — NOT data.cart
+          const rawItems = data.items || [];
+          cartItems = rawItems.map(item => ({
             id: item.id,
-            name: item.productName,
-            price: item.price,
-            image: item.imageUrl || 'assets/hero_product.png',
-            variant: item.variant,
-            qty: item.quantity
+            product_id: item.product_id,
+            name: item.name,
+            price: parseFloat(item.price) || 0,
+            image: item.image || 'assets/hero_product.png',
+            variant: item.variant || '',
+            qty: item.quantity || 1
           }));
           syncCartUI();
           return;
@@ -162,6 +195,7 @@
           isLoggedIn = false;
           currentUser = null;
           localStorage.removeItem('tri_user');
+          localStorage.removeItem('tri_token');
         }
       } catch (err) {
         console.warn('Failed to load database cart, using offline copy.', err);
@@ -219,16 +253,30 @@
   window.triAddToCart = async (name, price, image, variant) => {
     if (isLoggedIn) {
       try {
-        const res = await fetch('/api/cart/add', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ productName: name, price: parseInt(price), imageUrl: image, variant, quantity: 1 })
-        });
-        if (res.status === 200) {
-          await loadCart();
-          showToast('Added to cart ✓');
-          openCart();
-          return;
+        const token = localStorage.getItem('tri_token');
+        const product_id = getProductId(name);
+        if (!product_id) {
+          console.warn('Unknown product name, falling back to local cart:', name);
+        } else {
+          const res = await fetch('/api/cart/add', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
+            // Backend expects { product_id, quantity } — NOT productName/price/imageUrl
+            body: JSON.stringify({ product_id, quantity: 1 })
+          });
+          if (res.ok) {
+            await loadCart();
+            showToast('Added to cart ✓');
+            openCart();
+            return;
+          } else if (res.status === 401) {
+            isLoggedIn = false;
+            localStorage.removeItem('tri_token');
+            localStorage.removeItem('tri_user');
+          }
         }
       } catch (err) {
         console.error('Failed to add to database cart:', err);
@@ -246,8 +294,13 @@
   window.triRemoveFromCart = async (idx, dbId) => {
     if (isLoggedIn && dbId) {
       try {
-        const res = await fetch(`/api/cart/remove/${dbId}`, { method: 'DELETE' });
-        if (res.status === 200) {
+        const token = localStorage.getItem('tri_token');
+        // FIXED: was /api/cart/remove/:id, correct is /api/cart/:id
+        const res = await fetch(`/api/cart/${dbId}`, {
+          method: 'DELETE',
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
+        if (res.ok) {
           await loadCart();
           return;
         }
@@ -302,7 +355,12 @@
       return;
     }
 
-    closeCart(); // Close sidebar cart
+    // Redirect to dedicated checkout page instead of inline modal
+    closeCart();
+    window.location.href = 'checkout.html';
+    return;
+
+    closeCart(); // Close sidebar cart (unreachable — kept for reference)
 
     // Check if modal container already exists
     let modalWrap = document.getElementById('tri-checkout-modal-wrap');
@@ -796,7 +854,8 @@
       const orig = btn?.textContent;
       if (btn) { btn.textContent = '...'; btn.disabled = true; }
       try {
-        await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+        // FIXED: was /api/subscribe, correct is /api/newsletter/subscribe
+        await fetch('/api/newsletter/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
       } catch (_) {}
       if (input) input.value = '';
       if (btn) {
