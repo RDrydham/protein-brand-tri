@@ -56,7 +56,22 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Check deploy SSH secrets
+        id: deploy_secrets
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          if [ -n "$SERVER_IP" ] && [ -n "$SERVER_USER" ] && [ -n "$SSH_KEY" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Skipping deploy: missing one or more required secrets (SERVER_IP, SERVER_USER, SSH_KEY)."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Copy Files to Server
+        if: steps.deploy_secrets.outputs.ready == 'true'
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -66,6 +81,7 @@ jobs:
           target: "/home/ubuntu/tri-project"
 
       - name: Deploy
+        if: steps.deploy_secrets.outputs.ready == 'true'
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
@@ -97,3 +113,7 @@ jobs:
             docker image prune -f
 
             echo "✅ TRI Deploy successful!"
+
+      - name: Deployment skipped
+        if: steps.deploy_secrets.outputs.ready != 'true'
+        run: echo "ℹ️ Deployment skipped because required SSH secrets are not configured."
