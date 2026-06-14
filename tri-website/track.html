@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track your TRI performance nutrition order status. Real-time shipping updates.">
+  <title>Track Your Order — TRI The Real Inside</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0b0b0c;
+      color: #f5f5f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --rose: #E6A2A4;
+      --rose-dark: #C8787A;
+      --dark: #0b0b0c;
+      --panel: #121214;
+      --panel-2: #1c1c1e;
+      --border: rgba(230,162,164,0.15);
+      --border-glow: rgba(230,162,164,0.35);
+      --gold: #C8A96E;
+      --muted: #8A7A7A;
+      --green: #22c55e;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'DM Sans', sans-serif;
+      --font-label: 'Montserrat', sans-serif;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ── NAV ── */
+    .track-nav {
+      background: rgba(11,11,12,0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      display: flex; align-items: center;
+      padding: 0 40px;
+    }
+    .track-nav-inner {
+      width: 100%; max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo-mark {
+      font-family: var(--font-serif);
+      font-size: 24px; font-weight: 800;
+      color: var(--gold); letter-spacing: 0.05em;
+    }
+    .nav-logo-sub {
+      font-family: var(--font-label);
+      font-size: 7px; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--muted); display: block; margin-top: 1px;
+    }
+
+    /* ── CONTAINER ── */
+    .track-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px 100px;
+    }
+    .track-card {
+      width: 100%;
+      max-width: 640px;
+      background: rgba(18, 18, 20, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+    
+    .track-title {
+      font-family: var(--font-serif);
+      font-size: 32px; font-weight: 800;
+      color: #fff; text-align: center;
+      margin-bottom: 8px;
+    }
+    .track-subtitle {
+      font-size: 14px; color: var(--muted);
+      text-align: center; margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    /* Fields */
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block;
+      font-family: var(--font-label);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .field input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: #fff;
+      background: var(--panel-2);
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .field input:focus {
+      border-color: var(--rose-dark);
+      box-shadow: 0 0 12px var(--border-glow);
+    }
+    .field input::placeholder { color: #555; }
+
+    .btn-track {
+      width: 100%;
+      padding: 16px;
+      background: var(--rose-dark);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-label);
+      font-size: 13px; font-weight: 800;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      margin-top: 8px;
+    }
+    .btn-track:hover {
+      background: #b86668;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200, 120, 122, 0.35);
+    }
+    .btn-track:disabled {
+      opacity: 0.6; cursor: not-allowed; transform: none;
+    }
+
+    /* Error Message */
+    .error-msg {
+      background: rgba(224,85,85,0.08);
+      border: 1px solid rgba(224,85,85,0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #f87171;
+      margin-bottom: 20px;
+      display: none;
+      text-align: center;
+    }
+    .error-msg.show { display: block; }
+
+    /* ── RESULTS LAYOUT ── */
+    .results-view { display: none; }
+    .results-view.show { display: block; }
+    
+    .order-summary-strip {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 24px;
+      margin-bottom: 28px;
+      display: flex; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .summary-item { display: flex; flex-direction: column; gap: 4px; }
+    .summary-label {
+      font-family: var(--font-label);
+      font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .summary-val { font-size: 14px; font-weight: 600; color: #fff; }
+
+    /* Visual Timeline */
+    .timeline-container {
+      position: relative;
+      margin-top: 36px;
+      padding-bottom: 20px;
+    }
+    .timeline-line-bg {
+      position: absolute;
+      top: 10px; left: 8.3%; right: 8.3%;
+      height: 3px; background: #222;
+      z-index: 1;
+    }
+    .timeline-line-active {
+      position: absolute;
+      top: 10px; left: 8.3%;
+      height: 3px; background: var(--rose-dark);
+      z-index: 2;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+    .timeline-steps {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      z-index: 3;
+    }
+    .timeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 16.6%;
+      text-align: center;
+    }
+    .timeline-dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #121214;
+      border: 3px solid #222;
+      transition: all 0.3s ease;
+    }
+    .timeline-step.active .timeline-dot {
+      background: var(--rose-dark);
+      border-color: #121214;
+      box-shadow: 0 0 10px var(--border-glow);
+    }
+    .timeline-label {
+      font-family: var(--font-label);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.3;
+      transition: color 0.3s;
+    }
+    .timeline-step.active .timeline-label {
+      color: #fff;
+    }
+
+    .shipment-box {
+      background: rgba(200, 169, 110, 0.05);
+      border: 1.5px dashed var(--gold);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-top: 36px;
+    }
+    .shipment-title {
+      font-family: var(--font-serif);
+      font-size: 18px; font-weight: 700;
+      color: var(--gold); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .shipment-details {
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .copy-btn {
+      color: var(--rose); font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: color 0.2s;
+    }
+    .copy-btn:hover { color: var(--rose-dark); }
+
+    /* Back action */
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-label);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+    .btn-back:hover { color: var(--rose); }
+
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .track-card { padding: 30px 20px; }
+      .timeline-label { font-size: 8px; letter-spacing: 0; }
+      .timeline-dot { width: 16px; height: 16px; border-width: 2px; }
+      .timeline-line-bg, .timeline-line-active { top: 7px; }
+      .order-summary-strip { flex-direction: column; gap: 12px; }
+      .track-title { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="track-nav">
+  <div class="track-nav-inner">
+    <a href="index.html" style="text-decoration:none;">
+      <div class="nav-logo-mark">△ TRI</div>
+      <div class="nav-logo-sub">The Real Inside</div>
+    </a>
+  </div>
+</nav>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<main class="track-main">
+  <div class="track-card">
+    
+    <!-- ══ LOOKUP VIEW ══ -->
+    <div id="lookup-view">
+      <h1 class="track-title">Track Order</h1>
+      <p class="track-subtitle">Enter your Order Reference number and registered Email address to view live delivery progress.</p>
+      
+      <div class="error-msg" id="lookup-error"></div>
+      
+      <form id="track-form" novalidate>
+        <div class="field">
+          <label for="order-ref">Order Reference</label>
+          <input type="text" id="order-ref" placeholder="e.g. TRI-ORD-5 or 5" required>
+        </div>
+        <div class="field">
+          <label for="customer-email">Email Address</label>
+          <input type="email" id="customer-email" placeholder="your@email.com" required>
+        </div>
+        <button type="submit" class="btn-track" id="btn-submit-track">
+          Track Live Progress →
+        </button>
+      </form>
+    </div>
+
+    <!-- ══ RESULTS VIEW ══ -->
+    <div id="results-view" class="results-view">
+      <button class="btn-back" id="btn-back-lookup">
+        ← Look up another order
+      </button>
+
+      <h1 class="track-title" style="text-align:left; font-size:26px; margin-bottom:16px;">Delivery Protocol</h1>
+      
+      <div class="order-summary-strip">
+        <div class="summary-item">
+          <span class="summary-label">Order Ref</span>
+          <span class="summary-val" id="res-order-num">#TRI-ORD-0</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Placed On</span>
+          <span class="summary-val" id="res-order-date">Date</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Order Status</span>
+          <span class="summary-val" id="res-order-status" style="text-transform:uppercase;">Status</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Total Amount</span>
+          <span class="summary-val" id="res-order-total" style="color:var(--rose);">₹0</span>
+        </div>
+      </div>
+
+      <!-- Step-by-Step Progress Timeline -->
+      <h3 style="font-family:var(--font-serif); font-size:18px; margin-bottom:12px;">Shipment Progress</h3>
+      <div class="timeline-container">
+        <!-- Connecting Line Background -->
+        <div class="timeline-line-bg"></div>
+        <!-- Connecting Line Active (width updated dynamically) -->
+        <div class="timeline-line-active" id="timeline-line-bar"></div>
+        
+        <!-- Steps -->
+        <div class="timeline-steps">
+          
+          <div class="timeline-step" id="step-placed" data-progress="0">
+            <div class="timeline-dot"></div>
+            <span class="timeline-label">Placed</span>
+          </div>
+
+          <div class="timeline-step" id="step-paid" data-progress="20">
+            <div class="timeline-dot"></div>
+            <span class="timeline-label">Paid</span>
+          </div>
+
+          <div class="timeline-step" id="step-preparing" data-progress="40">
+            <div class="timeline-dot"></div>
+            <span class="timeline-label">Preparing</span>
+          </div>
+
+          <div class="timeline-step" id="step-shipped" data-progress="60">
+            <div class="timeline-dot"></div>
+            <span class="timeline-label">Shipped</span>
+          </div>
+
+          <div class="timeline-step" id="step-transit" data-progress="80">
+            <div class="timeline-dot"></div>
+            <span class="timeline-label">In Transit</span>
+          </div>
+
+          <div class="timeline-step" id="step-delivered" data-progress="100">
+            <div class="timeline-dot"></div>
+            <span class="timeline-label">Delivered</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Courier Details (shows only if shipped) -->
+      <div class="shipment-box" id="courier-box" style="display:none">
+        <h3 class="shipment-title">📦 Dispatch Carrier Details</h3>
+        <div class="shipment-details">
+          <div>
+            <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Courier Service</div>
+            <div style="font-size:15px; font-weight:700; color:#fff" id="res-courier-name">Delhivery</div>
+          </div>
+          <div>
+            <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Tracking Number</div>
+            <div style="font-size:15px; font-weight:700; color:#fff; font-family:monospace" id="res-tracking-code">1234567890</div>
+          </div>
+          <div>
+            <span class="copy-btn" id="btn-copy-code">Copy Code</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<script>
+(function() {
+  'use strict';
+  
+  const $ = id => document.getElementById(id);
+
+  const form = $('track-form');
+  const orderRefInput = $('order-ref');
+  const emailInput = $('customer-email');
+  const submitBtn = $('btn-submit-track');
+  const lookupError = $('lookup-error');
+
+  const lookupView = $('lookup-view');
+  const resultsView = $('results-view');
+  const btnBackLookup = $('btn-back-lookup');
+
+  function showError(msg) {
+    lookupError.textContent = msg;
+    lookupError.classList.add('show');
+  }
+
+  function clearError() {
+    lookupError.classList.remove('show');
+  }
+
+  function formatDate(str) {
+    if (!str) return '';
+    return new Date(str).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // Map database status + tracking status to one of the 6 visual milestones
+  // Milestones: Placed -> Paid -> Preparing -> Shipped -> In Transit -> Delivered
+  function getMilestoneIndex(orderStatus, trackingStatus) {
+    const oStatus = (orderStatus || '').toLowerCase().trim();
+    const tStatus = (trackingStatus || '').toLowerCase().trim();
+
+    // Delivered is absolute peak
+    if (oStatus === 'delivered' || tStatus === 'delivered') return 5;
+    
+    // In Transit
+    if (tStatus === 'in transit' || tStatus === 'in_transit') return 4;
+
+    // Shipped
+    if (oStatus === 'shipped' || tStatus === 'shipped') return 3;
+
+    // Preparing
+    if (tStatus === 'preparing') return 2;
+
+    // Paid status
+    if (oStatus === 'paid') return 1;
+
+    // Default Placed
+    return 0;
+  }
+
+  function updateTimeline(orderStatus, trackingStatus) {
+    const milestones = ['step-placed', 'step-paid', 'step-preparing', 'step-shipped', 'step-transit', 'step-delivered'];
+    const activeIndex = getMilestoneIndex(orderStatus, trackingStatus);
+
+    milestones.forEach((id, index) => {
+      const stepEl = $(id);
+      if (index <= activeIndex) {
+        stepEl.classList.add('active');
+      } else {
+        stepEl.classList.remove('active');
+      }
+    });
+
+    // Connecting active line width
+    const lineBar = $('timeline-line-bar');
+    const widthPercentage = activeIndex * 20; // 5 segments = 20% each
+    lineBar.style.width = `${widthPercentage}%`;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearError();
+
+    const orderRef = orderRefInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!orderRef) {
+      showError('Please enter an Order Reference.');
+      orderRefInput.focus();
+      return;
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showError('Please enter a valid email address.');
+      emailInput.focus();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span>Locating package...';
+
+    try {
+      const res = await fetch(`/api/orders/track?orderNumber=${encodeURIComponent(orderRef)}&email=${encodeURIComponent(email)}`);
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        const order = data.order || data; // handle both wrapped and flat structures
+        const tracking = order.tracking || {};
+
+        $('res-order-num').textContent = order.orderNumber || `#TRI-ORD-${order.orderId}`;
+        $('res-order-date').textContent = formatDate(order.createdAt);
+        $('res-order-status').textContent = order.status;
+        $('res-order-total').textContent = `₹${order.totalAmount.toLocaleString('en-IN')}`;
+
+        // Update timeline progress
+        updateTimeline(order.status, tracking.status);
+
+        // Display courier details if shipped/in_transit/delivered
+        const isShipped = tracking.carrier && tracking.trackingNumber;
+        if (isShipped) {
+          $('res-courier-name').textContent = tracking.carrier;
+          $('res-tracking-code').textContent = tracking.trackingNumber;
+          $('courier-box').style.display = 'block';
+
+          // Copy button click listener
+          $('btn-copy-code').onclick = function() {
+            navigator.clipboard.writeText(tracking.trackingNumber).then(() => {
+              const orig = this.textContent;
+              this.textContent = 'Copied! ✓';
+              setTimeout(() => this.textContent = orig, 2000);
+            });
+          };
+        } else {
+          $('courier-box').style.display = 'none';
+        }
+
+        // Transition views
+        lookupView.style.display = 'none';
+        resultsView.classList.add('show');
+      } else {
+        showError(data.message || 'Order reference and email combination not found.');
+      }
+    } catch (err) {
+      console.error(err);
+      showError('Network error. Check connection and try again.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Track Live Progress →';
+    }
+  });
+
+  btnBackLookup.addEventListener('click', () => {
+    resultsView.classList.remove('show');
+    lookupView.style.display = 'block';
+    form.reset();
+  });
+
+})();
+</script>
+
+</body>
+</html>

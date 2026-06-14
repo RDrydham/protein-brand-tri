@@ -35,7 +35,7 @@ const getTransporter = async () => {
 // 1. PLACE A NEW ORDER
 exports.createOrder = async (req, res) => {
   try {
-    const { customerName, customerEmail, shippingAddress, items } = req.body;
+    const { customerName, customerEmail, shippingAddress, items, couponCode } = req.body;
 
     const userId = req.user ? req.user.id : null;
     let orderItemsData = [];
@@ -75,14 +75,17 @@ exports.createOrder = async (req, res) => {
       }
 
       for (const item of items) {
-        if (!item.name || !item.price || !item.qty) continue;
+        const name = item.productName || item.name;
+        if (!name) continue;
+        const priceVal = parseInt(item.price) || 0;
+        const qtyVal = parseInt(item.quantity || item.qty) || 1;
         orderItemsData.push({
-          productName: item.name.trim(),
+          productName: name.trim(),
           variant: item.variant ? item.variant.trim() : null,
-          price: parseInt(item.price) || 0,
-          quantity: parseInt(item.qty) || 1
+          price: priceVal,
+          quantity: qtyVal
         });
-        calculatedTotal += (parseInt(item.price) || 0) * (parseInt(item.qty) || 1);
+        calculatedTotal += priceVal * qtyVal;
       }
     }
 
@@ -93,6 +96,38 @@ exports.createOrder = async (req, res) => {
       });
     }
 
+    // Coupon Validation Logic
+    let discountAmount = 0;
+    let couponRecord = null;
+    if (couponCode) {
+      const codeStr = couponCode.trim().toUpperCase();
+      couponRecord = await prisma.coupon.findUnique({
+        where: { code: codeStr }
+      });
+
+      if (!couponRecord) {
+        return res.status(400).json({ success: false, message: 'Invalid coupon code.' });
+      }
+      if (!couponRecord.isActive) {
+        return res.status(400).json({ success: false, message: 'This coupon is no longer active.' });
+      }
+      if (couponRecord.expiryDate && new Date(couponRecord.expiryDate) < new Date()) {
+        return res.status(400).json({ success: false, message: 'This coupon has expired.' });
+      }
+      if (couponRecord.maxUses !== null && couponRecord.usedCount >= couponRecord.maxUses) {
+        return res.status(400).json({ success: false, message: 'This coupon has reached its usage limit.' });
+      }
+
+      if (couponRecord.discountType === 'percentage') {
+        discountAmount = Math.round((calculatedTotal * couponRecord.value) / 100);
+      } else if (couponRecord.discountType === 'flat') {
+        discountAmount = couponRecord.value;
+      }
+      discountAmount = Math.min(discountAmount, calculatedTotal);
+    }
+
+    const finalTotal = calculatedTotal - discountAmount;
+
     // Create the order using a prisma transaction
     const order = await prisma.$transaction(async (tx) => {
       // 1. Create order
@@ -102,9 +137,11 @@ exports.createOrder = async (req, res) => {
           customerName: req.user ? req.user.name : customerName.trim(),
           customerEmail: req.user ? req.user.email : customerEmail.toLowerCase().trim(),
           shippingAddress: shippingAddress ? shippingAddress.trim() : 'Digital Delivery / Gym Pickup',
-          totalAmount: calculatedTotal,
+          totalAmount: finalTotal,
           status: 'pending',
-          paymentStatus: 'unpaid'
+          paymentStatus: 'unpaid',
+          couponCode: couponRecord ? couponRecord.code : null,
+          discountAmount: discountAmount > 0 ? discountAmount : null
         }
       });
 
@@ -122,6 +159,14 @@ exports.createOrder = async (req, res) => {
           })
         )
       );
+
+      // 3. Update coupon used count
+      if (couponRecord) {
+        await tx.coupon.update({
+          where: { id: couponRecord.id },
+          data: { usedCount: { increment: 1 } }
+        });
+      }
 
       return newOrder;
     });
@@ -364,48 +409,118 @@ exports.sendOrderConfirmationEmail = async (order) => {
 // Returns: { order_id, order_number, total }
 exports.placeOrder = async (req, res) => {
   try {
-    const { address, notes } = req.body;
+    const { address, notes, couponCode } = req.body;
     const userId = req.user ? req.user.id : null;
 
-    if (!address || !address.name || !address.phone || !address.line1 || !address.city || !address.state || !address.pincode) {
-      return res.status(400).json({ message: 'Shipping address is incomplete.' });
-    }
-
-    // Must be logged in — cart is in DB
-    if (!userId) {
-      return res.status(401).json({ message: 'Please sign in to place an order.' });
-    }
-
-    // Load cart from DB
-    const dbCartItems = await prisma.cartItem.findMany({ where: { userId } });
-
-    if (!dbCartItems || dbCartItems.length === 0) {
-      return res.status(400).json({ message: 'Your cart is empty. Cannot place an order.' });
-    }
-
+    let orderItemsData = [];
     let calculatedTotal = 0;
-    const orderItemsData = dbCartItems.map(item => {
-      calculatedTotal += item.price * item.quantity;
-      return {
-        productName: item.productName,
-        variant: item.variant,
-        price: item.price,
-        quantity: item.quantity
-      };
-    });
+    let customerName = '';
+    let customerEmail = '';
 
-    const shippingStr = `${address.name}, ${address.phone}, ${address.line1}${address.line2 ? ', ' + address.line2 : ''}, ${address.city}, ${address.state} - ${address.pincode}`;
+    // A. Authenticated User Checkout
+    if (userId) {
+      customerName = req.user.name;
+      customerEmail = req.user.email;
+
+      const dbCartItems = await prisma.cartItem.findMany({ where: { userId } });
+      if (!dbCartItems || dbCartItems.length === 0) {
+        return res.status(400).json({ message: 'Your cart is empty. Cannot place an order.' });
+      }
+
+      orderItemsData = dbCartItems.map(item => {
+        calculatedTotal += item.price * item.quantity;
+        return {
+          productName: item.productName,
+          variant: item.variant,
+          price: item.price,
+          quantity: item.quantity
+        };
+      });
+    } 
+    // B. Guest User Checkout
+    else {
+      const { customerName: gName, customerEmail: gEmail, items } = req.body;
+      if (!gName || !gEmail || !items || !Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({ message: 'Name, email, and items are required for guest checkout.' });
+      }
+
+      customerName = gName.trim();
+      customerEmail = gEmail.toLowerCase().trim();
+
+      for (const item of items) {
+        const name = item.productName || item.name;
+        if (!name) continue;
+        const priceVal = parseInt(item.price) || 0;
+        const qtyVal = parseInt(item.quantity || item.qty) || 1;
+        orderItemsData.push({
+          productName: name.trim(),
+          variant: item.variant ? item.variant.trim() : null,
+          price: priceVal,
+          quantity: qtyVal
+        });
+        calculatedTotal += priceVal * qtyVal;
+      }
+
+      if (orderItemsData.length === 0) {
+        return res.status(400).json({ message: 'No valid items found to create order.' });
+      }
+    }
+
+    let shippingStr = '';
+    if (address) {
+      if (typeof address === 'string') {
+        shippingStr = address;
+      } else if (typeof address === 'object') {
+        shippingStr = `${address.name || ''}, ${address.phone || ''}, ${address.line1 || ''}${address.line2 ? ', ' + address.line2 : ''}, ${address.city || ''}, ${address.state || ''} - ${address.pincode || ''}`;
+      }
+    } else {
+      shippingStr = 'Digital Delivery / Gym Pickup';
+    }
+
+    // Coupon logic
+    let discountAmount = 0;
+    let couponRecord = null;
+    if (couponCode) {
+      const codeStr = couponCode.trim().toUpperCase();
+      couponRecord = await prisma.coupon.findUnique({
+        where: { code: codeStr }
+      });
+
+      if (!couponRecord) {
+        return res.status(400).json({ message: 'Invalid coupon code.' });
+      }
+      if (!couponRecord.isActive) {
+        return res.status(400).json({ message: 'This coupon is no longer active.' });
+      }
+      if (couponRecord.expiryDate && new Date(couponRecord.expiryDate) < new Date()) {
+        return res.status(400).json({ message: 'This coupon has expired.' });
+      }
+      if (couponRecord.maxUses !== null && couponRecord.usedCount >= couponRecord.maxUses) {
+        return res.status(400).json({ message: 'This coupon has reached its usage limit.' });
+      }
+
+      if (couponRecord.discountType === 'percentage') {
+        discountAmount = Math.round((calculatedTotal * couponRecord.value) / 100);
+      } else if (couponRecord.discountType === 'flat') {
+        discountAmount = couponRecord.value;
+      }
+      discountAmount = Math.min(discountAmount, calculatedTotal);
+    }
+
+    const finalTotal = calculatedTotal - discountAmount;
 
     const order = await prisma.$transaction(async (tx) => {
       const newOrder = await tx.order.create({
         data: {
           userId,
-          customerName: req.user.name,
-          customerEmail: req.user.email,
+          customerName,
+          customerEmail,
           shippingAddress: shippingStr,
-          totalAmount: calculatedTotal,
+          totalAmount: finalTotal,
           status: 'pending',
-          paymentStatus: 'unpaid'
+          paymentStatus: 'unpaid',
+          couponCode: couponRecord ? couponRecord.code : null,
+          discountAmount: discountAmount > 0 ? discountAmount : null
         }
       });
 
@@ -423,6 +538,13 @@ exports.placeOrder = async (req, res) => {
         )
       );
 
+      if (couponRecord) {
+        await tx.coupon.update({
+          where: { id: couponRecord.id },
+          data: { usedCount: { increment: 1 } }
+        });
+      }
+
       return newOrder;
     });
 
@@ -435,5 +557,74 @@ exports.placeOrder = async (req, res) => {
   } catch (error) {
     console.error('[Place Order Error]:', error.message);
     return res.status(500).json({ message: 'Internal server error placing order.' });
+  }
+};
+
+// 5. PUBLIC SHIPMENT TRACKING
+exports.trackOrder = async (req, res) => {
+  try {
+    const orderNumber = req.params.orderNumber || req.query.orderNumber || req.query.orderId || req.query.id;
+    const email = req.query.email || req.query.customerEmail;
+
+    if (!orderNumber || !email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Order number (or ID) and customer email are required for tracking.'
+      });
+    }
+
+    // Extract digits from the order reference, in case it is like "TRI-ORD-5"
+    let numericId = orderNumber;
+    if (typeof orderNumber === 'string') {
+      const match = orderNumber.match(/\d+/);
+      if (match) {
+        numericId = match[0];
+      }
+    }
+
+    const orderIdInt = parseInt(numericId);
+    if (isNaN(orderIdInt)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid Order Reference number.'
+      });
+    }
+
+    const order = await prisma.order.findUnique({
+      where: { id: orderIdInt },
+      include: { items: true }
+    });
+
+    if (!order || order.customerEmail.toLowerCase().trim() !== email.toLowerCase().trim()) {
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found or email mismatch.'
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      orderId: order.id,
+      orderNumber: `TRI-ORD-${order.id}`,
+      status: order.status,
+      paymentStatus: order.paymentStatus,
+      totalAmount: order.totalAmount,
+      couponCode: order.couponCode,
+      discountAmount: order.discountAmount,
+      shippingAddress: order.shippingAddress,
+      createdAt: order.createdAt,
+      items: order.items,
+      tracking: {
+        carrier: order.trackingCarrier,
+        trackingNumber: order.trackingNumber,
+        status: order.trackingStatus || 'preparing'
+      }
+    });
+  } catch (error) {
+    console.error('[Track Order Error]:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error during order tracking.'
+    });
   }
 };

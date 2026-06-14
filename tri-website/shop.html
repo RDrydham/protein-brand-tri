@@ -849,21 +849,38 @@
             Experience the complete 3-day performance protocol before committing to larger sizes. The TRI Fusion Pack delivers Pump Drake Pre-Workout for explosive drive, Power BCAA for intra-workout recovery, and True Whey Protein for post-workout muscle synthesis. All cold-processed, lab-verified, and 100% gut-friendly with proteolytic enzymes.
           </p>
           
-          <button
-            class="shop-add-to-cart-btn"
-            data-add-cart
-            data-name="TRI Fusion Pack (Try Pack)"
-            data-price="599"
-            data-image="assets/tri_fusion_pack_ad.webp"
-            data-variant="Complete System"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <path d="M16 10a4 4 0 01-8 0"/>
-            </svg>
-            Add to Cart — ₹599
-          </button>
+          <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px;">
+            <button
+              class="shop-add-to-cart-btn"
+              data-add-cart
+              data-name="TRI Fusion Pack (Try Pack)"
+              data-price="599"
+              data-image="assets/tri_fusion_pack_ad.webp"
+              data-variant="Complete System"
+              style="margin-bottom: 0; flex: 1;"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 01-8 0"/>
+              </svg>
+              Add to Cart — ₹599
+            </button>
+            <button
+              type="button"
+              class="shop-wishlist-btn"
+              id="wishlist-heart-btn"
+              data-name="TRI Fusion Pack (Try Pack)"
+              data-price="599"
+              data-image="assets/tri_fusion_pack_ad.webp"
+              style="width: 56px; height: 56px; border: 1.5px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #fff; cursor: pointer; transition: all 0.25s var(--ease); flex-shrink: 0;"
+              aria-label="Add to Wishlist"
+            >
+              <svg id="wishlist-heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 22px; height: 22px; color: var(--rose-dark); transition: all 0.2s;">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+          </div>
           
           <p class="shop-shipping-note">Free shipping on all orders · Safe Checkout · Made in India</p>
           
@@ -925,6 +942,64 @@
             <p class="breakdown-desc">24.5g cold-processed grass-fed whey concentrate, powered by 200mg digestive enzymes for maximum post-workout repair without bloat.</p>
           </div>
           
+        </div>
+      </div>
+
+      <!-- Customer Reviews Section [NEW] -->
+      <div class="shop-reviews-section" style="margin-top: 80px; border-top: 1px solid var(--border); padding-top: 60px;">
+        <div style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: start;">
+          
+          <!-- Left Column: Summary and Write Form -->
+          <div>
+            <h2 class="breakdown-title" style="text-align: left; font-size: 28px; margin-bottom: 16px;">Customer Reviews</h2>
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+              <div style="font-size: 48px; font-weight: 800; color: var(--gold);" id="avg-rating-value">0.0</div>
+              <div>
+                <div style="display: flex; gap: 4px; color: var(--gold); font-size: 20px;" id="avg-rating-stars">
+                  ★★★★★
+                </div>
+                <div style="font-size: 13px; color: var(--muted-text); margin-top: 4px;" id="total-reviews-count">Based on 0 reviews</div>
+              </div>
+            </div>
+
+            <!-- Write Review Form (for logged in users) -->
+            <div id="write-review-container" style="display: none; background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm);">
+              <h3 style="font-family: var(--font-serif); font-size: 18px; margin-bottom: 16px; color: var(--dark);">Write a Review</h3>
+              <form id="add-review-form">
+                <div class="field" style="margin-bottom:16px;">
+                  <label style="font-size: 9px; font-weight: 700; color: var(--muted-text); display:block; margin-bottom:6px;">Your Rating</label>
+                  <div style="display: flex; gap: 8px; font-size: 28px; color: #ddd; cursor: pointer;" id="star-rating-select">
+                    <span data-val="1">★</span>
+                    <span data-val="2">★</span>
+                    <span data-val="3">★</span>
+                    <span data-val="4">★</span>
+                    <span data-val="5">★</span>
+                  </div>
+                  <input type="hidden" id="review-rating-input" value="0">
+                </div>
+                <div class="field" style="margin-bottom:16px;">
+                  <label for="review-comment" style="font-size: 9px; font-weight: 700; color: var(--muted-text); display:block; margin-bottom:6px;">Review Comment *</label>
+                  <textarea id="review-comment" placeholder="Tell us about your experience..." required style="width: 100%; padding: 12px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--cream); font-size: 14px; min-height: 80px; font-family:inherit; outline:none; resize:none;"></textarea>
+                </div>
+                <button type="submit" class="shop-add-to-cart-btn" id="submit-review-btn" style="min-height: 44px; padding: 12px; font-size: 11px; margin-bottom:0;">Submit Review</button>
+              </form>
+            </div>
+            
+            <!-- Prompt to log in if not logged in -->
+            <div id="login-to-review-prompt" style="background: rgba(200, 169, 110, 0.05); border: 1.5px dashed var(--gold); border-radius: 16px; padding: 24px; text-align: center;">
+              <p style="font-size: 13px; color: var(--muted-text); margin-bottom: 16px;">Only verified members can write reviews.</p>
+              <a href="login.html?redirect=shop.html" class="btn-auth btn-auth-primary" style="padding: 12px 24px; font-size: 11px; display: inline-block; border-radius:8px; background:var(--rose-dark); color:#fff; font-family:var(--font-label); font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">Sign In to Review</a>
+            </div>
+          </div>
+
+          <!-- Right Column: Reviews List -->
+          <div>
+            <h3 style="font-family: var(--font-serif); font-size: 22px; margin-bottom: 24px; color: var(--dark);">Review List</h3>
+            <div id="reviews-list-container" style="display: flex; flex-direction: column; gap: 20px;">
+              <p style="color:var(--muted-text); font-size:14px;" id="no-reviews-msg">No reviews yet. Be the first to review this product!</p>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -1222,8 +1297,247 @@
           btn.style.background = '';
           btn.disabled = false;
         }, 3000);
+  </script>
+
+  <!-- Wishlist and Reviews Syncing [NEW] -->
+  <script>
+    (function() {
+      'use strict';
+      const $ = id => document.getElementById(id);
+      
+      const productName = 'TRI Fusion Pack (Try Pack)';
+      const productPrice = 599;
+      const productImage = 'assets/tri_fusion_pack_ad.webp';
+
+      const token = localStorage.getItem('tri_token');
+      const user = (() => {
+        try { return JSON.parse(localStorage.getItem('tri_user') || 'null'); } catch { return null; }
+      })();
+      const isLoggedIn = !!(token && user);
+
+      // ── WISHLIST CLIENT SIDE SYNC ──
+      const heartBtn = $('wishlist-heart-btn');
+      const heartIcon = $('wishlist-heart-icon');
+      let isWishlisted = false;
+
+      function updateHeartUI(active) {
+        isWishlisted = active;
+        if (active) {
+          heartIcon.setAttribute('fill', 'var(--rose-dark)');
+          heartIcon.style.color = 'var(--rose-dark)';
+        } else {
+          heartIcon.setAttribute('fill', 'none');
+          heartIcon.style.color = 'var(--rose-dark)';
+        }
+      }
+
+      // Check if product is wishlisted
+      async function checkWishlist() {
+        if (isLoggedIn) {
+          try {
+            const res = await fetch('/api/wishlist', {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+              const data = await res.json();
+              const found = (data.items || []).some(item => item.productName === productName);
+              updateHeartUI(found);
+            }
+          } catch (e) {
+            console.error('Check wishlist error:', e);
+          }
+        } else {
+          // Guest check in localStorage
+          const localWish = JSON.parse(localStorage.getItem('tri_wishlist') || '[]');
+          updateHeartUI(localWish.includes(productName));
+        }
+      }
+
+      // Handle heart click
+      heartBtn.addEventListener('click', async () => {
+        if (isWishlisted) {
+          // Remove
+          if (isLoggedIn) {
+            try {
+              const res = await fetch('/api/wishlist/remove', {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ productName })
+              });
+              if (res.ok) {
+                updateHeartUI(false);
+                window.showToast && showToast('Removed from wishlist');
+              }
+            } catch (e) {
+              console.error(e);
+            }
+          } else {
+            let localWish = JSON.parse(localStorage.getItem('tri_wishlist') || '[]');
+            localWish = localWish.filter(name => name !== productName);
+            localStorage.setItem('tri_wishlist', JSON.stringify(localWish));
+            updateHeartUI(false);
+            window.showToast && showToast('Removed from wishlist');
+          }
+        } else {
+          // Add
+          if (isLoggedIn) {
+            try {
+              const res = await fetch('/api/wishlist/add', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ productName, imageUrl: productImage, price: productPrice })
+              });
+              if (res.ok) {
+                updateHeartUI(true);
+                window.showToast && showToast('Added to wishlist');
+              }
+            } catch (e) {
+              console.error(e);
+            }
+          } else {
+            let localWish = JSON.parse(localStorage.getItem('tri_wishlist') || '[]');
+            if (!localWish.includes(productName)) {
+              localWish.push(productName);
+              localStorage.setItem('tri_wishlist', JSON.stringify(localWish));
+            }
+            updateHeartUI(true);
+            window.showToast && showToast('Added to wishlist (saved locally)');
+          }
+        }
       });
-    }
+
+      // ── REVIEWS CLIENT SIDE SYNC ──
+      const reviewsListContainer = $('reviews-list-container');
+      const avgRatingVal = $('avg-rating-value');
+      const avgRatingStars = $('avg-rating-stars');
+      const totalReviewsCount = $('total-reviews-count');
+
+      const writeReviewContainer = $('write-review-container');
+      const loginPrompt = $('login-to-review-prompt');
+      const reviewForm = $('add-review-form');
+      const ratingInput = $('review-rating-input');
+      const starSelect = $('star-rating-select');
+      const commentInput = $('review-comment');
+
+      // Toggle review form visibility based on auth
+      if (isLoggedIn) {
+        writeReviewContainer.style.display = 'block';
+        loginPrompt.style.display = 'none';
+      } else {
+        writeReviewContainer.style.display = 'none';
+        loginPrompt.style.display = 'block';
+      }
+
+      // Star rating selection inside form
+      starSelect.addEventListener('click', (e) => {
+        const span = e.target;
+        if (span.tagName === 'SPAN') {
+          const val = parseInt(span.getAttribute('data-val'));
+          ratingInput.value = val;
+          // Color stars
+          Array.from(starSelect.children).forEach(child => {
+            const childVal = parseInt(child.getAttribute('data-val'));
+            if (childVal <= val) {
+              child.style.color = 'var(--gold)';
+            } else {
+              child.style.color = '#ddd';
+            }
+          });
+        }
+      });
+
+      // Fetch reviews
+      async function fetchReviews() {
+        try {
+          const res = await fetch(`/api/reviews/${encodeURIComponent(productName)}`);
+          if (res.ok) {
+            const data = await res.json();
+            
+            // Set average rating values
+            avgRatingVal.textContent = data.averageRating.toFixed(1);
+            
+            const roundedAvg = Math.round(data.averageRating);
+            avgRatingStars.textContent = '★'.repeat(roundedAvg) + '☆'.repeat(5 - roundedAvg);
+            totalReviewsCount.textContent = `Based on ${data.reviewCount} review${data.reviewCount !== 1 ? 's' : ''}`;
+
+            if (data.reviews && data.reviews.length > 0) {
+              const noMsg = $('no-reviews-msg');
+              if (noMsg) noMsg.style.display = 'none';
+              
+              reviewsListContainer.innerHTML = data.reviews.map(review => `
+                <div style="border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <strong style="font-size: 14px; color: var(--dark);">${review.user ? review.user.name : 'Verified Customer'}</strong>
+                    <span style="color: var(--gold);">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+                  </div>
+                  <p style="font-size: 13px; color: var(--muted-text); line-height: 1.5;">${review.comment}</p>
+                  <span style="font-size: 10px; color: var(--muted-text); display: block; margin-top: 6px;">${new Date(review.createdAt).toLocaleDateString()}</span>
+                </div>
+              `).join('');
+            } else {
+              reviewsListContainer.innerHTML = `<p style="color:var(--muted-text); font-size:14px;" id="no-reviews-msg">No reviews yet. Be the first to review this product!</p>`;
+            }
+          }
+        } catch (e) {
+          console.error('Fetch reviews error:', e);
+        }
+      }
+
+      // Submit review form
+      reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const rating = parseInt(ratingInput.value);
+        const comment = commentInput.value.trim();
+
+        if (rating === 0) {
+          alert('Please select a star rating.');
+          return;
+        }
+
+        const btn = $('submit-review-btn');
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+
+        try {
+          const res = await fetch('/api/reviews/add', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ productName, rating, comment })
+          });
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            window.showToast && showToast('Review submitted successfully! Thank you.');
+            reviewForm.reset();
+            ratingInput.value = 0;
+            Array.from(starSelect.children).forEach(child => child.style.color = '#ddd');
+            fetchReviews();
+          } else {
+            alert(data.message || 'Failed to submit review.');
+          }
+        } catch (err) {
+          console.error(err);
+          alert('Failed to submit review due to connection error.');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Submit Review';
+        }
+      });
+
+      // Init on load
+      checkWishlist();
+      fetchReviews();
+
+    })();
   </script>
 
 <script src="assets/tri-auth.js?v=2.1"></script>

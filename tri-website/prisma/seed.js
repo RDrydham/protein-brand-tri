@@ -42,6 +42,33 @@ async function main() {
     console.log(`Created product with id: ${product.id} (SKU: ${product.sku})`);
   }
 
+  // 3. Seed Default Coupons
+  const coupons = [
+    {
+      code: 'WELCOME100',
+      discountType: 'flat',
+      value: 100,
+      isActive: true,
+      usedCount: 0,
+    },
+    {
+      code: 'TRI10',
+      discountType: 'percentage',
+      value: 10,
+      isActive: true,
+      usedCount: 0,
+    }
+  ];
+
+  for (const c of coupons) {
+    const coupon = await prisma.coupon.upsert({
+      where: { code: c.code },
+      update: {},
+      create: c,
+    });
+    console.log(`Created coupon: ${coupon.code}`);
+  }
+
   console.log('Seeding finished.');
 }
 

@@ -81,19 +81,11 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
-// 3. UPDATE ORDER STATUS
+// 3. UPDATE ORDER STATUS & SHIPMENT DETAILS
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
-    const { status } = req.body; // pending, paid, shipped, delivered, cancelled
-
-    const validStatuses = ['pending', 'paid', 'shipped', 'delivered', 'cancelled'];
-    if (!validStatuses.includes(status)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid status value.'
-      });
-    }
+    const { status, trackingCarrier, trackingNumber, trackingStatus } = req.body;
 
     const order = await prisma.order.findUnique({
       where: { id: parseInt(orderId) }
@@ -106,22 +98,33 @@ exports.updateOrderStatus = async (req, res) => {
       });
     }
 
+    const updateData = {};
+    if (status !== undefined) {
+      const validStatuses = ['pending', 'paid', 'shipped', 'delivered', 'cancelled'];
+      if (validStatuses.includes(status)) {
+        updateData.status = status;
+      }
+    }
+    if (trackingCarrier !== undefined) updateData.trackingCarrier = trackingCarrier;
+    if (trackingNumber !== undefined) updateData.trackingNumber = trackingNumber;
+    if (trackingStatus !== undefined) updateData.trackingStatus = trackingStatus;
+
     const updatedOrder = await prisma.order.update({
       where: { id: order.id },
-      data: { status },
+      data: updateData,
       include: { items: true }
     });
 
     return res.status(200).json({
       success: true,
-      message: `Order status updated to ${status}.`,
+      message: 'Order details updated successfully.',
       order: updatedOrder
     });
   } catch (error) {
-    console.error('[Admin Update Status Error]:', error.message);
+    console.error('[Admin Update Order Error]:', error.message);
     return res.status(500).json({
       success: false,
-      message: 'Failed to update order status.'
+      message: 'Failed to update order details.'
     });
   }
 };
@@ -181,6 +184,236 @@ exports.updateProductDetails = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Failed to update product details.'
+    });
+  }
+};
+
+// 6. UPDATE ORDER SHIPMENT TRACKING DETAILS
+exports.updateOrderTracking = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { trackingCarrier, trackingNumber, trackingStatus } = req.body;
+
+    const order = await prisma.order.findUnique({
+      where: { id: parseInt(orderId) }
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found.'
+      });
+    }
+
+    const updatedOrder = await prisma.order.update({
+      where: { id: order.id },
+      data: {
+        trackingCarrier: trackingCarrier !== undefined ? trackingCarrier.trim() : order.trackingCarrier,
+        trackingNumber: trackingNumber !== undefined ? trackingNumber.trim() : order.trackingNumber,
+        trackingStatus: trackingStatus !== undefined ? trackingStatus.trim() : order.trackingStatus
+      },
+      include: { items: true }
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Order shipment tracking details updated successfully.',
+      order: updatedOrder
+    });
+  } catch (error) {
+    console.error('[Admin Update Tracking Error]:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to update order tracking details.'
+    });
+  }
+};
+
+// 7. GET ALL COUPONS
+exports.getAllCoupons = async (req, res) => {
+  try {
+    const coupons = await prisma.coupon.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+    return res.status(200).json({
+      success: true,
+      coupons
+    });
+  } catch (error) {
+    console.error('[Admin Get Coupons Error]:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve coupons.'
+    });
+  }
+};
+
+// 8. CREATE COUPON
+exports.createCoupon = async (req, res) => {
+  try {
+    const { code, discountType, value, isActive, maxUses, expiryDate } = req.body;
+
+    if (!code || !discountType || value === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: 'code, discountType, and value are required.'
+      });
+    }
+
+    const typeStr = discountType.toLowerCase().trim();
+    if (typeStr !== 'percentage' && typeStr !== 'flat') {
+      return res.status(400).json({
+        success: false,
+        message: 'discountType must be "percentage" or "flat".'
+      });
+    }
+
+    const valueInt = parseInt(value);
+    if (isNaN(valueInt) || valueInt <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'value must be a valid positive integer.'
+      });
+    }
+
+    const couponCode = code.trim().toUpperCase();
+
+    const existing = await prisma.coupon.findUnique({
+      where: { code: couponCode }
+    });
+
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: `Coupon with code "${couponCode}" already exists.`
+      });
+    }
+
+    const newCoupon = await prisma.coupon.create({
+      data: {
+        code: couponCode,
+        discountType: typeStr,
+        value: valueInt,
+        isActive: isActive !== undefined ? Boolean(isActive) : true,
+        maxUses: maxUses !== undefined && maxUses !== null ? parseInt(maxUses) : null,
+        expiryDate: expiryDate ? new Date(expiryDate) : null
+      }
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Coupon created successfully.',
+      coupon: newCoupon
+    });
+  } catch (error) {
+    console.error('[Admin Create Coupon Error]:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to create coupon.'
+    });
+  }
+};
+
+// 9. DELETE COUPON
+exports.deleteCoupon = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const coupon = await prisma.coupon.findUnique({
+      where: { id: parseInt(id) }
+    });
+
+    if (!coupon) {
+      return res.status(404).json({
+        success: false,
+        message: 'Coupon not found.'
+      });
+    }
+
+    await prisma.coupon.delete({
+      where: { id: coupon.id }
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Coupon deleted successfully.'
+    });
+  } catch (error) {
+    console.error('[Admin Delete Coupon Error]:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to delete coupon.'
+    });
+  }
+};
+
+// 10. GET ALL REVIEWS (FOR MODERATION)
+exports.getAllReviews = async (req, res) => {
+  try {
+    const reviews = await prisma.review.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    const formattedReviews = reviews.map(r => ({
+      id: r.id,
+      productName: r.productName,
+      rating: r.rating,
+      comment: r.comment,
+      createdAt: r.createdAt,
+      userName: r.user ? r.user.name : 'Anonymous',
+      userEmail: r.user ? r.user.email : 'N/A'
+    }));
+
+    return res.status(200).json({
+      success: true,
+      reviews: formattedReviews
+    });
+  } catch (error) {
+    console.error('[Admin Get Reviews Error]:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve reviews for moderation.'
+    });
+  }
+};
+
+// 11. DELETE REVIEW (MODERATION)
+exports.deleteReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const review = await prisma.review.findUnique({
+      where: { id: parseInt(id) }
+    });
+
+    if (!review) {
+      return res.status(404).json({
+        success: false,
+        message: 'Review not found.'
+      });
+    }
+
+    await prisma.review.delete({
+      where: { id: review.id }
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Review moderated/deleted successfully.'
+    });
+  } catch (error) {
+    console.error('[Admin Delete Review Error]:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to delete/moderate review.'
     });
   }
 };

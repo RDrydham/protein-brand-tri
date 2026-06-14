@@ -43,7 +43,7 @@ exports.createPaymentOrder = async (req, res) => {
     }
 
     // Verify ownership of the order if authenticated
-    if (order.userId && order.userId !== req.user.id) {
+    if (order.userId && (!req.user || order.userId !== req.user.id)) {
       return res.status(403).json({
         success: false,
         message: 'Unauthorized access to this order.'

@@ -467,6 +467,13 @@
         Delivery Address
       </div>
 
+      <!-- Guest Email field (shows only if guest) -->
+      <div class="field" id="guest-email-container" style="display: none; margin-bottom: 18px;">
+        <label for="guest-email">Email Address *</label>
+        <input type="email" id="guest-email" placeholder="your@email.com">
+        <p class="field-hint">We will send your order confirmation and tracking link here.</p>
+      </div>
+
       <div class="field-row">
         <div class="field">
           <label for="addr-name">Full Name *</label>
@@ -556,11 +563,25 @@
         </div>
       </div>
 
+      <!-- Coupon Code Input -->
+      <div style="padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-end;">
+        <div class="field" style="margin-bottom: 0; flex: 1;">
+          <label for="coupon-code" style="font-size: 9px; margin-bottom: 4px;">Discount Coupon</label>
+          <input type="text" id="coupon-code" placeholder="WELCOME100" style="padding: 10px 12px; font-size: 13px; text-transform: uppercase; border: 1.5px solid var(--border); border-radius: 8px; background: var(--panel-2); color: #fff; outline: none;">
+        </div>
+        <button type="button" class="btn-auth btn-auth-ghost" id="apply-coupon-btn" style="padding: 10px 14px; border-radius: 8px; height: 41px; font-size: 11px; border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.2s;">Apply</button>
+      </div>
+      <div id="coupon-feedback" style="padding: 0 24px 12px; font-size: 12px; display: none;"></div>
+
       <!-- Totals -->
       <div class="sidebar-totals">
         <div class="total-row">
           <span>Subtotal</span>
           <span id="subtotal-val">₹0</span>
+        </div>
+        <div class="total-row" id="discount-row" style="display: none; color: var(--green);">
+          <span>Discount (<span id="applied-coupon-code"></span>)</span>
+          <span id="discount-val">-₹0</span>
         </div>
         <div class="total-row">
           <span>Shipping</span>
@@ -631,9 +652,10 @@
   })();
   const isLoggedIn = !!(token && user);
 
-  // Show auth gate if not logged in
+  // Show auth gate if not logged in, otherwise show guest email input container if guest
   if (!isLoggedIn) {
     $('auth-gate').style.display = 'flex';
+    $('guest-email-container').style.display = 'block';
   }
 
   /* ── Load cart from localStorage ── */
@@ -641,6 +663,9 @@
   try {
     cartItems = JSON.parse(localStorage.getItem('tri_cart') || '[]');
   } catch (e) { cartItems = []; }
+
+  // Coupon state
+  let appliedCoupon = null;
 
   // If logged in, try to get cart from backend too (fresher data)
   async function loadCartFromBackend() {
@@ -683,7 +708,24 @@
       return;
     }
 
-    const total = cartItems.reduce((s, i) => s + (i.price * i.qty), 0);
+    const subtotal = cartItems.reduce((s, i) => s + (i.price * i.qty), 0);
+    let discount = 0;
+
+    if (appliedCoupon) {
+      if (appliedCoupon.discountType === 'percentage') {
+        discount = Math.round((subtotal * appliedCoupon.value) / 100);
+      } else if (appliedCoupon.discountType === 'flat') {
+        discount = appliedCoupon.value;
+      }
+      discount = Math.min(discount, subtotal);
+      $('applied-coupon-code').textContent = appliedCoupon.code;
+      $('discount-val').textContent = `-₹${discount.toLocaleString('en-IN')}`;
+      $('discount-row').style.display = 'flex';
+    } else {
+      $('discount-row').style.display = 'none';
+    }
+
+    const finalTotal = subtotal - discount;
 
     list.innerHTML = cartItems.map(item => `
       <div class="order-item">
@@ -697,8 +739,8 @@
       </div>
     `).join('');
 
-    $('subtotal-val').textContent = '₹' + total.toLocaleString('en-IN');
-    $('total-val').textContent = '₹' + total.toLocaleString('en-IN');
+    $('subtotal-val').textContent = '₹' + subtotal.toLocaleString('en-IN');
+    $('total-val').textContent = '₹' + finalTotal.toLocaleString('en-IN');
     placeBtn.disabled = false;
   }
 
@@ -731,6 +773,51 @@
     return { name, phone, line1, line2, city, state, pincode };
   }
 
+  /* ── Coupon validation ── */
+  async function applyCoupon() {
+    const codeInput = $('coupon-code');
+    const feedback = $('coupon-feedback');
+    const code = codeInput.value.trim();
+
+    if (!code) {
+      feedback.textContent = 'Please enter a coupon code.';
+      feedback.style.color = '#f87171';
+      feedback.style.display = 'block';
+      return;
+    }
+
+    feedback.textContent = 'Validating coupon...';
+    feedback.style.color = 'var(--muted)';
+    feedback.style.display = 'block';
+
+    const subtotal = cartItems.reduce((s, i) => s + (i.price * i.qty), 0);
+
+    try {
+      const res = await fetch('/api/coupons/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, totalAmount: subtotal })
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        appliedCoupon = data.coupon;
+        feedback.textContent = `Coupon "${appliedCoupon.code}" applied!`;
+        feedback.style.color = 'var(--green)';
+        renderCart();
+      } else {
+        appliedCoupon = null;
+        feedback.textContent = data.message || 'Invalid coupon code.';
+        feedback.style.color = '#f87171';
+        renderCart();
+      }
+    } catch (e) {
+      console.error(e);
+      feedback.textContent = 'Could not validate coupon. Check connection.';
+      feedback.style.color = '#f87171';
+    }
+  }
+
   /* ── Razorpay flow ── */
   async function initiateCheckout() {
     clearError();
@@ -740,33 +827,50 @@
       return;
     }
 
-    // Require login for backend checkout
-    if (!isLoggedIn) {
-      showToast('Please sign in to complete your purchase 🔐');
-      setTimeout(() => {
-        window.location.href = 'login.html?redirect=checkout.html';
-      }, 1200);
-      return;
-    }
-
     const address = getAddress();
     if (!address) return;
+
+    let guestEmail = null;
+    if (!isLoggedIn) {
+      guestEmail = $('guest-email').value.trim();
+      if (!guestEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail)) {
+        showError('Please enter a valid email address for guest checkout.');
+        $('guest-email').focus();
+        return;
+      }
+    }
 
     const notes = $('order-notes').value.trim();
     const btn   = $('place-order-btn');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Processing...';
 
+    // Build headers
+    const reqHeaders = { 'Content-Type': 'application/json' };
+    if (isLoggedIn) {
+      reqHeaders['Authorization'] = `Bearer ${token}`;
+    }
+
     try {
-      // Step 1: Place order on backend (reads cart from DB server-side)
+      // Step 1: Place order on backend
       showToast('Creating your order...');
+      
+      const payload = {
+        address,
+        notes,
+        couponCode: appliedCoupon ? appliedCoupon.code : null
+      };
+
+      if (!isLoggedIn) {
+        payload.customerName = address.name;
+        payload.customerEmail = guestEmail;
+        payload.items = cartItems;
+      }
+
       const orderRes = await fetch('/api/orders/place', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ address, notes })
+        headers: reqHeaders,
+        body: JSON.stringify(payload)
       });
       const orderData = await orderRes.json();
 
@@ -783,10 +887,7 @@
       showToast('Initializing payment gateway...');
       const payRes = await fetch('/api/payment/create-order', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers: reqHeaders,
         body: JSON.stringify({ order_id })
       });
       const payData = await payRes.json();
@@ -818,7 +919,7 @@
         prefill: {
           name: address.name,
           contact: address.phone,
-          email: user.email || ''
+          email: isLoggedIn ? (user.email || '') : guestEmail
         },
         notes: {
           order_number: order_number,
@@ -833,10 +934,7 @@
           try {
             const verifyRes = await fetch('/api/payment/verify', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              },
+              headers: reqHeaders,
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -890,6 +988,7 @@
 
   /* ── Wire up ── */
   $('place-order-btn').addEventListener('click', initiateCheckout);
+  $('apply-coupon-btn').addEventListener('click', applyCoupon);
 
   // PIN code — digits only
   $('addr-pincode').addEventListener('input', function () {

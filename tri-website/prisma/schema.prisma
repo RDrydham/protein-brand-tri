@@ -8,14 +8,18 @@ generator client {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
+  id        Int            @id @default(autoincrement())
   name      String
-  email     String     @unique
-  password  String
-  role      String     @default("user") // "user" or "admin"
-  createdAt DateTime   @default(now())
+  email     String         @unique
+  password  String?
+  googleId  String?        @unique
+  appleId   String?        @unique
+  role      String         @default("user") // "user" or "admin"
+  createdAt DateTime       @default(now())
   cartItems CartItem[]
   orders    Order[]
+  wishlist  WishlistItem[]
+  reviews   Review[]
 }
 
 model Product {
@@ -55,6 +59,11 @@ model Order {
   shippingAddress   String?
   createdAt         DateTime    @default(now())
   items             OrderItem[]
+  trackingCarrier   String?
+  trackingNumber    String?
+  trackingStatus    String?     @default("preparing")
+  couponCode        String?
+  discountAmount    Int?
 }
 
 model OrderItem {
@@ -65,4 +74,48 @@ model OrderItem {
   variant     String?
   price       Int
   quantity    Int
+}
+
+model WishlistItem {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productName String
+  imageUrl    String
+  price       Int
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, productName])
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  productName String
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating      Int
+  comment     String
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, productName])
+}
+
+model Coupon {
+  id           Int       @id @default(autoincrement())
+  code         String    @unique
+  discountType String    // "percentage" | "flat"
+  value        Int
+  isActive     Boolean   @default(true)
+  usedCount    Int       @default(0)
+  maxUses      Int?
+  expiryDate   DateTime?
+  createdAt    DateTime  @default(now())
+}
+
+model PasswordResetCode {
+  id        Int      @id @default(autoincrement())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 }
