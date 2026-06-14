@@ -25,6 +25,17 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+          
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -86,7 +97,7 @@ jobs:
         working-directory: backend
 
       - name: Run Tests
-        run: npm test
+        run: npm test -- --forceExit --detectOpenHandles
         working-directory: backend
         env:
           DB_HOST: localhost
@@ -94,7 +105,7 @@ jobs:
           DB_PASSWORD: postgres
           DB_NAME: tridb_test
           JWT_SECRET: test-secret
-          REDIS_URL: ''
+          REDIS_URL: redis://localhost:6379
 
 
   # ── Job 2: Deploy (only if tests pass) ───────────────────────────────────
