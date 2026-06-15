@@ -21,13 +21,15 @@ router.post('/place', auth, async (req, res) => {
     const { address, address_id, notes } = req.body
 
     // Get cart items
-    const cartResult = await client.query(
-      `SELECT c.*, p.name, p.price, p.stock
-       FROM cart c
-       JOIN products p ON c.product_id = p.id
-       WHERE c.user_id = $1`,
-      [req.user.id]
-    )
+    const cartItems = await prisma.cartItem.findMany({
+      where: { userId: req.user.id }
+    });
+
+    if (cartItems.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(400).json({ message: 'Cart is empty!' });
+      }
+
 
     // ── FIX: ROLLBACK before early return ──────────────────────────────
     if (cartResult.rows.length === 0) {
