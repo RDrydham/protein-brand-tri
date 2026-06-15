@@ -565,7 +565,7 @@
         const orderPayload = {
           customerName: name,
           customerEmail: email,
-          address: address,
+          deliveryAddress: address,
           items: cartItems
         };
 
