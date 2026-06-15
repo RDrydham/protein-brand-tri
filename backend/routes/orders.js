@@ -1,5 +1,10 @@
 const express = require('express')
 const router = express.Router()
+// Alias: /create same as /place
+router.use((req, res, next) => {
+  if (req.path === '/create') req.url = '/place'
+  next()
+})
 const pool = require('../db')
 const auth = require('../middleware/auth')
 const { sendOrderConfirmation } = require('../utils/email')
