@@ -5,6 +5,21 @@
 
 (function () {
   'use strict';
+  // safeStorage helper — prevents DOMExceptions on devices with blocked storage
+  if (!window.safeStorage) {
+    try {
+      window.localStorage.getItem('__test__');
+      window.safeStorage = window.localStorage;
+    } catch (e) {
+      window.safeStorage = {
+        _data: {},
+        getItem: function(k) { return this._data[k] || null; },
+        setItem: function(k, v) { this._data[k] = String(v); },
+        removeItem: function(k) { delete this._data[k]; },
+        clear: function() { this._data = {}; }
+      };
+    }
+  }
 
   /* ════════════════════════════════════════
      LOADER (Bypassed)
@@ -229,7 +244,7 @@
     const count = cartItems.reduce((s, i) => s + i.qty, 0);
     const total = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
 
-    document.querySelectorAll('.cart-count, #cart-count, #cart-count-badge').forEach(el => {
+    document.querySelectorAll('.cart-count, #cart-count, .cart-badge, #cart-count-badge').forEach(el => {
       el.textContent = count;
       el.classList.toggle('show', count > 0);
       el.classList.toggle('visible', count > 0);
@@ -250,20 +265,20 @@
       } else {
         bodyEl.innerHTML = cartItems.map((item, i) => `
           <div class="cart-item" style="display:flex;gap:14px;padding:18px 0;border-bottom:1px solid rgba(230,162,164,0.2);">
-            <img src="${item.image}" style="width:64px;height:64px;object-fit:contain;border-radius:10px;background:var(--cream-warm);">
-            <div style="flex:1;">
-              <div style="font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--dark);margin-bottom:2px;">${item.name}</div>
-              <div style="font-size:11px;color:var(--muted-text);margin-bottom:6px;">${item.variant || ''}</div>
-              <div style="display:flex;align-items:center;justify-content:space-between;">
-                <div style="display:flex;align-items:center;gap:8px;background:rgba(230,162,164,0.15);border-radius:20px;padding:4px 8px;">
-                  <button onclick="triChangeQty(${i}, -1, ${item.id || 'null'})" style="background:none;border:none;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--dark);cursor:pointer;font-weight:700;">−</button>
-                  <span style="font-family:var(--font-label);font-size:12px;font-weight:700;color:var(--dark);min-width:14px;text-align:center;">${item.qty}</span>
-                  <button onclick="triChangeQty(${i}, 1, ${item.id || 'null'})" style="background:none;border:none;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--dark);cursor:pointer;font-weight:700;">+</button>
-                </div>
+            <img src="${item.image}" style="width:64px;height:64px;object-fit:contain;border-radius:10px;background:var(--cream-warm);" alt="${item.name}">
+            <div style="flex:1;min-width:0;">
+              <div style="font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--dark);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
+              <div style="font-size:11px;color:var(--muted-text);margin-bottom:8px;">${item.variant || ''}</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
                 <span style="font-family:var(--font-label);font-size:15px;font-weight:700;color:var(--dark);">₹${(item.price * item.qty).toLocaleString('en-IN')}</span>
-              </div>
-              <div style="margin-top:6px;text-align:right;">
-                <button onclick="triRemoveFromCart(${i}, ${item.id || 'null'})" style="background:none;border:none;font-size:10px;color:var(--rose-dark);cursor:pointer;font-family:var(--font-label);letter-spacing:0.05em;text-transform:uppercase;font-weight:600;">Remove</button>
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <div style="display:flex;align-items:center;border:1px solid rgba(230,162,164,0.45);border-radius:999px;overflow:hidden;">
+                    <button onclick="triUpdateQty(${i},-1,${item.id||'null'})" style="width:28px;height:28px;background:none;border:none;font-size:17px;line-height:1;color:var(--dark);cursor:pointer;display:flex;align-items:center;justify-content:center;" aria-label="Decrease quantity">−</button>
+                    <span style="min-width:22px;text-align:center;font-family:var(--font-label);font-size:13px;font-weight:700;color:var(--dark);">${item.qty}</span>
+                    <button onclick="triUpdateQty(${i},1,${item.id||'null'})" style="width:28px;height:28px;background:none;border:none;font-size:17px;line-height:1;color:var(--dark);cursor:pointer;display:flex;align-items:center;justify-content:center;" aria-label="Increase quantity">+</button>
+                  </div>
+                  <button onclick="triRemoveFromCart(${i},${item.id||'null'})" style="background:none;border:none;font-size:12px;color:var(--muted-text);cursor:pointer;padding:4px;" aria-label="Remove item">✕</button>
+                </div>
               </div>
             </div>
           </div>`).join('');
@@ -332,7 +347,7 @@
     if (isLoggedIn && dbId) {
       try {
         const token = window.safeStorage.getItem('tri_token');
-        const res = await fetch(`/api/cart/update/${dbId}`, {
+        const res = await fetch(`/api/cart/${dbId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -374,6 +389,33 @@
     syncCartUI();
   };
 
+  window.triUpdateQty = async (idx, delta, dbId) => {
+    if (idx < 0 || idx >= cartItems.length) return;
+    cartItems[idx].qty = Math.max(1, cartItems[idx].qty + delta);
+    // If delta is -1 and resulting qty would have been 0, remove it
+    if (cartItems[idx].qty <= 0) {
+      return window.triRemoveFromCart(idx, dbId);
+    }
+    syncCartUI();
+    // Sync with backend if logged in
+    if (isLoggedIn && dbId && dbId !== 'null') {
+      try {
+        const token = window.safeStorage.getItem('tri_token');
+        await fetch(`/api/cart/${dbId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify({ quantity: cartItems[idx].qty })
+        });
+      } catch (err) {
+        console.warn('Failed to update quantity in database cart:', err);
+      }
+    }
+  };
+
+>>>>>>> 8fa6baa (fix: unify checkout cart panel, add interactive quantity controls, and implement global safeStorage fallback)
   window.triSyncCartAfterLogin = async () => {
     try {
       const localCart = JSON.parse(window.safeStorage.getItem('tri_cart') || '[]');
@@ -626,7 +668,7 @@
             const verifyData = await verifyRes.json();
             if (verifyData.success) {
               closeCheckout();
-              localStorage.removeItem('tri_cart');
+              window.safeStorage.removeItem('tri_cart');
               cartItems = [];
               syncCartUI();
               showSuccessScreen(orderId);
@@ -662,7 +704,7 @@
                 const verifyData = await verifyRes.json();
                 if (verifyData.success) {
                   closeCheckout();
-                  localStorage.removeItem('tri_cart');
+                  window.safeStorage.removeItem('tri_cart');
                   cartItems = [];
                   syncCartUI();
                   showSuccessScreen(orderId);
@@ -769,9 +811,15 @@
   window.openCart  = openCart;
   window.closeCart = closeCart;
 
-  document.querySelector('#cart-icon-btn, .nav-cart-btn')?.addEventListener('click', openCart);
+  // Wire ALL possible cart open buttons (shop.html uses nav-cart-btn, index.html uses #cart-open)
+  document.querySelectorAll('#cart-icon-btn, .nav-cart-btn, #cart-open, .nav-cart').forEach(btn => {
+    btn.addEventListener('click', openCart);
+  });
   document.getElementById('cart-overlay')?.addEventListener('click', closeCart);
-  document.getElementById('cart-close-btn')?.addEventListener('click', closeCart);
+  // Support both id names for close button
+  ['cart-close-btn', 'cp-close'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', closeCart);
+  });
 
   document.addEventListener('click', e => {
     const btn = e.target.closest('[data-add-cart]');

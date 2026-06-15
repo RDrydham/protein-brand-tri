@@ -1309,9 +1309,9 @@
       const productPrice = 599;
       const productImage = 'assets/tri_fusion_pack_ad.webp';
 
-      const token = localStorage.getItem('tri_token');
+      const token = window.safeStorage.getItem('tri_token');
       const user = (() => {
-        try { return JSON.parse(localStorage.getItem('tri_user') || 'null'); } catch { return null; }
+        try { return JSON.parse(window.safeStorage.getItem('tri_user') || 'null'); } catch { return null; }
       })();
       const isLoggedIn = !!(token && user);
 
@@ -1348,7 +1348,7 @@
           }
         } else {
           // Guest check in localStorage
-          const localWish = JSON.parse(localStorage.getItem('tri_wishlist') || '[]');
+          const localWish = JSON.parse(window.safeStorage.getItem('tri_wishlist') || '[]');
           updateHeartUI(localWish.includes(productName));
         }
       }
@@ -1375,9 +1375,9 @@
               console.error(e);
             }
           } else {
-            let localWish = JSON.parse(localStorage.getItem('tri_wishlist') || '[]');
+            let localWish = JSON.parse(window.safeStorage.getItem('tri_wishlist') || '[]');
             localWish = localWish.filter(name => name !== productName);
-            localStorage.setItem('tri_wishlist', JSON.stringify(localWish));
+            window.safeStorage.setItem('tri_wishlist', JSON.stringify(localWish));
             updateHeartUI(false);
             window.showToast && showToast('Removed from wishlist');
           }
@@ -1401,10 +1401,10 @@
               console.error(e);
             }
           } else {
-            let localWish = JSON.parse(localStorage.getItem('tri_wishlist') || '[]');
+            let localWish = JSON.parse(window.safeStorage.getItem('tri_wishlist') || '[]');
             if (!localWish.includes(productName)) {
               localWish.push(productName);
-              localStorage.setItem('tri_wishlist', JSON.stringify(localWish));
+              window.safeStorage.setItem('tri_wishlist', JSON.stringify(localWish));
             }
             updateHeartUI(true);
             window.showToast && showToast('Added to wishlist (saved locally)');

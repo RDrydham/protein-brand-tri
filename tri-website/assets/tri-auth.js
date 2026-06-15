@@ -1,3 +1,19 @@
+  // safeStorage helper — prevents DOMExceptions on devices with blocked storage
+  if (!window.safeStorage) {
+    try {
+      window.localStorage.getItem('__test__');
+      window.safeStorage = window.localStorage;
+    } catch (e) {
+      window.safeStorage = {
+        _data: {},
+        getItem: function(k) { return this._data[k] || null; },
+        setItem: function(k, v) { this._data[k] = String(v); },
+        removeItem: function(k) { delete this._data[k]; },
+        clear: function() { this._data = {}; }
+      };
+    }
+  }
+
 // TRI Auth Client — shared across all pages — v2.1
 // API Base — empty string = same domain (Nginx proxies /api/ → backend:3000)
 const TRI_API = '';
@@ -141,7 +157,7 @@ const TriAuth = {
     return res.json();
   },
 
-  // Sync localStorage cart to server after login
+  // Sync window.safeStorage cart to server after login
   async _syncCartAfterLogin() {
     try {
       const localCart = JSON.parse(window.safeStorage.getItem('tri_cart') || '[]');

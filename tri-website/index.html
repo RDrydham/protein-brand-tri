@@ -1,19 +1,20 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>TRI — The Real Inside | Premium Sports Nutrition</title>
-<meta name="description" content="4-level tested. Zero hidden blends. Lab verified. Try the TRI Fusion Pack — India's most transparent sports nutrition brand. Now ₹599."/>
+<title>TRI â€” The Real Inside | Premium Sports Nutrition</title>
+<meta name="description" content="4-level tested. Zero hidden blends. Lab verified. Try the TRI Fusion Pack â€” India's most transparent sports nutrition brand. Now â‚¹599."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="assets/tri-motion.css"/>
 <link rel="stylesheet" href="assets/footer.css">
+<link rel="stylesheet" href="assets/tri.css">
 <style>
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RESET
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;overflow-x:hidden}
 body{
@@ -31,9 +32,9 @@ img{max-width:100%;display:block}
 ul,ol{list-style:none}
 button{border:none;background:none;font-family:inherit;cursor:pointer}
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DESIGN TOKENS
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 :root{
   --blush:#F8D7D9;
   --blush-deep:#F2C2C5;
@@ -69,9 +70,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     linear-gradient(135deg, #FFF9F6 0%, #FADCD7 25%, #F5BEB4 60%, #EAA294 100%);
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CORE ANIMATIONS
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(36px)}
   to{opacity:1;transform:translateY(0)}
@@ -94,7 +95,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   50%{border-color:rgba(200,120,122,.5)}
 }
 
-/* ─── CONCEPT 1: Living Rose-Gold Energy ─── */
+/* â”€â”€â”€ CONCEPT 1: Living Rose-Gold Energy â”€â”€â”€ */
 @keyframes liquidFlow{
   0%{transform:translate(-50%,-50%) rotate(0deg) scale(1);opacity:.18}
   25%{transform:translate(-50%,-50%) rotate(90deg) scale(1.15);opacity:.26}
@@ -118,7 +119,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   50%{opacity:.14;transform:translate(-50%,-50%) scale(1.08)}
 }
 
-/* ─── CONCEPT 2: Logo Breathing ─── */
+/* â”€â”€â”€ CONCEPT 2: Logo Breathing â”€â”€â”€ */
 @keyframes logoBreath{
   0%,88%,100%{transform:scaleY(1)}
   92%{transform:scaleY(1.12)}
@@ -130,7 +131,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   94%{opacity:.6;filter:blur(0)}
 }
 
-/* ─── CONCEPT 3: Product Levitation ─── */
+/* â”€â”€â”€ CONCEPT 3: Product Levitation â”€â”€â”€ */
 @keyframes levitate{
   0%,100%{transform:translateY(0) rotate(0deg)}
   30%{transform:translateY(-18px) rotate(.4deg)}
@@ -148,7 +149,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   100%{background-position:350% 0;opacity:0}
 }
 
-/* ─── CONCEPT 4: TRI Fusion Ring ─── */
+/* â”€â”€â”€ CONCEPT 4: TRI Fusion Ring â”€â”€â”€ */
 @keyframes ringRotate{
   from{transform:translate(-50%,-50%) rotate(0deg)}
   to{transform:translate(-50%,-50%) rotate(360deg)}
@@ -186,7 +187,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}
 }
 
-/* ─── CONCEPT 5: Ingredient Reveal ─── */
+/* â”€â”€â”€ CONCEPT 5: Ingredient Reveal â”€â”€â”€ */
 @keyframes ingredientGlow{
   0%,100%{opacity:.5;transform:scale(1)}
   50%{opacity:.9;transform:scale(1.08)}
@@ -197,7 +198,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   100%{transform:translateY(0) scale(1);opacity:.6}
 }
 
-/* ─── CONCEPT 6: Lab Dashboard ─── */
+/* â”€â”€â”€ CONCEPT 6: Lab Dashboard â”€â”€â”€ */
 @keyframes dashScan{
   0%{transform:translateY(-100%);opacity:0}
   10%,90%{opacity:1}
@@ -212,7 +213,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   to{opacity:1;transform:translateY(0)}
 }
 
-/* ─── CONCEPT 7: Purchase Animation ─── */
+/* â”€â”€â”€ CONCEPT 7: Purchase Animation â”€â”€â”€ */
 @keyframes boxRotate{
   0%{transform:rotateY(0deg)}
   40%{transform:rotateY(180deg)}
@@ -234,7 +235,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   to{transform:translateY(0);opacity:1}
 }
 
-/* ─── CONCEPT 8: Flavour Particles ─── */
+/* â”€â”€â”€ CONCEPT 8: Flavour Particles â”€â”€â”€ */
 @keyframes particleFloat{
   0%{transform:translateY(0) rotate(0deg);opacity:0}
   10%{opacity:1}
@@ -253,7 +254,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   100%{transform:translateX(200%) rotate(5deg);opacity:0}
 }
 
-/* ─── CONCEPT 9: Scroll Physics / Parallax ─── */
+/* â”€â”€â”€ CONCEPT 9: Scroll Physics / Parallax â”€â”€â”€ */
 @keyframes microFloat{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-6px)}
@@ -265,15 +266,15 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
 
 
-/* ─── Scroll reveal (physics-based) ─── */
+/* â”€â”€â”€ Scroll reveal (physics-based) â”€â”€â”€ */
 @keyframes revealDepth{
   from{opacity:0;transform:perspective(1000px) translateY(40px) rotateX(6deg)}
   to{opacity:1;transform:perspective(1000px) translateY(0) rotateX(0)}
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    LIVING ROSE-GOLD ENERGY LAYER (Concept 1)
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #liquid-energy{
   position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
 }
@@ -311,9 +312,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 .le-streak:nth-child(4){width:60%;top:30%;animation-delay:-6s}
 .le-streak:nth-child(5){width:40%;top:65%;animation-delay:-12s;animation-duration:22s}
 
-/* ═══════════════════════════════════════════════
-   NAV — EXACT REFERENCE REPLICA
-═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   NAV â€” EXACT REFERENCE REPLICA
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #nav{
   position:fixed;top:0;left:0;right:0;z-index:9000;
   height:86px;
@@ -413,7 +414,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
 /* Right side */
 .nav-right{display:flex;align-items:center;gap:20px;flex-shrink:0}
-/* Gold pill CTA — matches reference */
+/* Gold pill CTA â€” matches reference */
 .nav-cta{
   display:inline-flex;align-items:center;justify-content:center;
   width:170px;height:46px;
@@ -447,9 +448,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   transition:transform .3s,opacity .2s;
 }
 
-/* ═══════════════════════════════════════════════
-   MOBILE NAV — UNIFIED LUXURY DESIGN
-═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   MOBILE NAV â€” UNIFIED LUXURY DESIGN
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @keyframes mmOrbFloat1{
   0%,100%{transform:translate(0,0) scale(1);opacity:.18}
   50%{transform:translate(-30px,20px) scale(1.1);opacity:.28}
@@ -557,7 +558,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   opacity:0;
 }
 #mobile-menu a.mm-link::after{
-  content:'→';
+  content:'â†’';
   font-family:'Montserrat',sans-serif;
   font-size:14px;font-weight:400;
   opacity:0;
@@ -650,9 +651,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 .mm-grid-line:nth-child(3){left:33%;}
 .mm-grid-line:nth-child(4){left:66%;}
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CART PANEL
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #cart-overlay{position:fixed;inset:0;background:rgba(26,26,26,.5);z-index:9500;opacity:0;pointer-events:none;backdrop-filter:blur(4px);transition:opacity .3s}
 #cart-overlay.open{opacity:1;pointer-events:all}
 #cart-panel{
@@ -691,9 +692,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 }
 .cp-checkout:hover{background:#2d2d2d;transform:translateY(-1px)}
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TOAST
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #toast{
   position:fixed;bottom:32px;left:50%;z-index:9999;
   transform:translateX(-50%) translateY(20px);
@@ -707,9 +708,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 }
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ═══════════════════════════════════════════════
-   HERO — CSS-BUILT LUXURY SCENE
-═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   HERO â€” CSS-BUILT LUXURY SCENE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #hero{
   position:relative;
   height:calc(100vh - 86px);
@@ -802,7 +803,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   to{transform:translate(var(--dx,10px),var(--dy,-15px)) scale(var(--sc,1.1));opacity:var(--op-end,.8)}
 }
 
-/* ── CSS PRODUCT SCENE ── */
+/* â”€â”€ CSS PRODUCT SCENE â”€â”€ */
 .hero-product-scene{
   position:relative;
   display:flex;
@@ -828,7 +829,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 }
 
 
-/* ─── HERO MAIN LAYOUT ─── */
+/* â”€â”€â”€ HERO MAIN LAYOUT â”€â”€â”€ */
 .hero-inner{
   position:relative;z-index:5;
   flex:1;
@@ -839,7 +840,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   align-items:center;
 }
 
-/* ─── LEFT TEXT ─── */
+/* â”€â”€â”€ LEFT TEXT â”€â”€â”€ */
 .hero-text{
   display:flex;flex-direction:column;
   width:50%;
@@ -849,7 +850,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 }
 
 
-/* HEADING — matches reference warm gold serif */
+/* HEADING â€” matches reference warm gold serif */
 .hero-heading{
   font-family:'Playfair Display',serif;
   font-size:clamp(40px,4.2vw,62px);
@@ -953,7 +954,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 }
 .btn-outline:hover{color:var(--rose-dark);border-color:var(--rose);transform:translateY(-1px)}
 
-/* Trust pills — legacy */
+/* Trust pills â€” legacy */
 .hero-pills{
   display:flex;flex-wrap:wrap;gap:8px;
   opacity:0;animation:fadeUp .6s var(--ease-out) .9s both;
@@ -1031,9 +1032,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   flex-shrink:0;
 }
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TICKER
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #ticker{
   background:var(--dark);padding:13px 0;overflow:hidden;position:relative;z-index:6;
 }
@@ -1044,11 +1045,11 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   color:var(--blush);padding:0 28px;
   display:flex;align-items:center;gap:28px;white-space:nowrap;
 }
-.ticker-item::after{content:'✦';font-size:7px;opacity:.4}
+.ticker-item::after{content:'âœ¦';font-size:7px;opacity:.4}
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TRUST STRIP
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #trust{
   background:#fff;
   border-top:1px solid var(--border);
@@ -1088,9 +1089,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 .t-name{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:var(--dark);display:block;margin-bottom:3px;letter-spacing:.01em}
 .t-desc{font-size:11.5px;color:var(--muted-text);line-height:1.4}
 
-/* ═══════════════════════════════════════════════
-   FUSION SYSTEM — CONCEPT 4: TRI FUSION ANIMATION
-═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FUSION SYSTEM â€” CONCEPT 4: TRI FUSION ANIMATION
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #fusion{
   background:var(--cream-section);
   padding:120px 0;
@@ -1258,9 +1259,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 .f-note{font-size:12px;color:var(--muted-text)}
 .f-actions{display:flex;gap:12px;flex-wrap:wrap}
 
-/* ═══════════════════════════════════════════════
-   PRODUCTS — CONCEPT 3 LEVITATION + CONCEPT 8 FLAVOUR
-═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PRODUCTS â€” CONCEPT 3 LEVITATION + CONCEPT 8 FLAVOUR
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #products{
   background:var(--cream);
   padding:120px 0;
@@ -1455,9 +1456,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 .prod-card:hover .prod-cta svg{transform:translateX(3px)}
 .prod-cta:hover{background:var(--dark);color:var(--cream);border-color:var(--dark)}
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TWO-COL INFO
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #info{
   display:grid;grid-template-columns:1fr 1fr;
 }
@@ -1500,7 +1501,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 .info-right .i-tag{background:rgba(248,215,217,.08);border-color:rgba(248,215,217,.15);color:rgba(248,215,217,.7)}
 .info-right .i-tag:hover{background:rgba(248,215,217,.2);color:var(--cream)}
 
-/* ─── CONCEPT 6: Lab Verification Dashboard ─── */
+/* â”€â”€â”€ CONCEPT 6: Lab Verification Dashboard â”€â”€â”€ */
 .verify-card{
   background:rgba(255,255,255,.04);
   border:1px solid rgba(248,215,217,.1);
@@ -1641,9 +1642,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   box-shadow:0 0 10px #22c55e;
 }
 
-/* ═══════════════════════════════════════════════
-   PURCHASE ANIMATION OVERLAY — CONCEPT 7
-═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PURCHASE ANIMATION OVERLAY â€” CONCEPT 7
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #purchase-overlay{
   position:fixed;inset:0;z-index:9800;
   display:flex;align-items:center;justify-content:center;
@@ -1701,9 +1702,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 .po-dismiss:hover{color:var(--dark)}
 
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NEWSLETTER
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #newsletter{
   background:var(--dark);
   padding:100px 24px;
@@ -1751,9 +1752,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 .nl-form button:hover{background:var(--cream)}
 .nl-note{font-size:12px;color:rgba(248,215,217,.3);margin-top:12px}
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FOOTER
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #footer{
   background:#111;padding:80px 0 0;
   border-top:1px solid rgba(255,255,255,.04);
@@ -1822,9 +1823,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 }
 .footer-copy{font-size:12px;color:rgba(248,215,217,.2);line-height:1.5}
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CHATBOT
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #chat-btn{
   position:fixed;bottom:28px;right:28px;z-index:8800;
   width:54px;height:54px;border-radius:50%;
@@ -1881,9 +1882,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 #cb-send:hover{background:var(--rose-dark);transform:scale(1.05)}
 #cb-send svg{width:14px;height:14px}
 
-/* ═══════════════════════════════════════════════
-   SCROLL REVEAL — CONCEPT 9: DEPTH PHYSICS
-═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   SCROLL REVEAL â€” CONCEPT 9: DEPTH PHYSICS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .sr{
   opacity:0;
   transform:perspective(1000px) translateY(40px) rotateX(4deg);
@@ -1907,9 +1908,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 /* Cursor parallax layer */
 [data-parallax]{will-change:transform;transition:transform .1s linear}
 
-/* ═══════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RESPONSIVE
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:1100px){
   #nav{padding:0 24px;height:70px;justify-content:space-between}
   .nav-links,.nav-cta,.nav-search{display:none}
@@ -1954,9 +1955,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
 }
 
-/* ═══════════════════════════════════════════════
-   CSS PRODUCT SCENE — 3D LUXURY BOX
-═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CSS PRODUCT SCENE â€” 3D LUXURY BOX
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 /* Pearl orbs floating in scene */
 .hero-pearl{
@@ -2036,7 +2037,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   background:linear-gradient(180deg,rgba(240,200,205,.8) 0%,rgba(220,185,190,.6) 100%);
 }
 
-/* ── FUSION BOX — isometric 3D CSS box ── */
+/* â”€â”€ FUSION BOX â€” isometric 3D CSS box â”€â”€ */
 .fusion-box{
   position:absolute;
   bottom:12%;
@@ -2241,7 +2242,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   line-height:1.4;
 }
 .box-feature::before{
-  content:'✓';
+  content:'âœ“';
   position:absolute;left:0;top:0;
   font-size:5px;color:var(--rose-dark);
 }
@@ -2278,13 +2279,13 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   50%{transform:translateX(-50%) scale(1.15);opacity:1}
 }
 
-/* ═══════════════════════════════════════════════
-   MOBILE RECOVERY — TRI INDEX.HTML
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   MOBILE RECOVERY â€” TRI INDEX.HTML
    All rules strictly inside @media blocks.
    Desktop is 100% untouched.
-═══════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* ── GPU-ONLY SCROLL REVEAL OVERRIDE ── */
+/* â”€â”€ GPU-ONLY SCROLL REVEAL OVERRIDE â”€â”€ */
 @media(max-width:767px){
   .sr,.sr-left,.sr-right{
     opacity:0;
@@ -2304,11 +2305,11 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   #hero::after{animation:none!important}
 }
 
-/* ══════════════════════════════════════════════════════
-   MOBILE HERO — Dedicated section (zero desktop impact)
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   MOBILE HERO â€” Dedicated section (zero desktop impact)
    #hero-m is display:none on desktop.
    #hero is display:none on mobile.
-══════════════════════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 #hero-m{display:none}
 
 @media(max-width:767px){
@@ -2329,7 +2330,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     padding-bottom:0;
   }
 
-  /* Ambient radial glow — single paint pass, no GPU blur */
+  /* Ambient radial glow â€” single paint pass, no GPU blur */
   #hero-m::before{
     content:'';
     position:absolute;inset:0;
@@ -2340,7 +2341,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     pointer-events:none;z-index:0;
   }
 
-  /* ─── Text block ─── */
+  /* â”€â”€â”€ Text block â”€â”€â”€ */
   .hm-text{
     position:relative;z-index:2;
     display:flex;flex-direction:column;align-items:center;
@@ -2354,7 +2355,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     display:none;
   }
 
-  /* Headline — 38px (prevents wrap), line-height 1.1, serif font */
+  /* Headline â€” 38px (prevents wrap), line-height 1.1, serif font */
   /* validator compatibility: font-size:52px line-height:0.95 */
   .hm-headline{
     font-family:'Playfair Display',Georgia,serif;
@@ -2422,7 +2423,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   }
   .hm-btn-secondary:active{transform:scale(0.97);background:rgba(188,129,51,0.08)}
 
-  /* ─── Product image — below CTAs ─── */
+  /* â”€â”€â”€ Product image â€” below CTAs â”€â”€â”€ */
   /* validator compatibility: width:42vw max-width:220px */
   .hm-product{
     position:relative;z-index:2;
@@ -2441,7 +2442,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     mask-image:linear-gradient(to bottom,transparent 0%,black 10%,black 100%);
   }
 
-  /* ─── Trust Card Grid ─── */
+  /* â”€â”€â”€ Trust Card Grid â”€â”€â”€ */
   .hm-trust-card {
     width: 90%;
     max-width: 360px;
@@ -2507,9 +2508,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   .hm-cta-wrap{width:90%}
 }
 
-/* ══════════════════════════════════════════════════════
-   NAV — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   NAV â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   #nav{
     height:60px;
@@ -2584,17 +2585,17 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   .mm-cta{font-size:11px!important;padding:14px 28px!important}
 }
 
-/* ══════════════════════════════════════════════════════
-   TICKER — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   TICKER â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   #ticker{padding:10px 0}
   .ticker-item{font-size:9px;padding:0 16px;gap:16px}
 }
 
-/* ══════════════════════════════════════════════════════
-   TRUST SECTION — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   TRUST SECTION â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   #trust{padding:32px 0}
   .trust-wrap{
@@ -2620,9 +2621,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   .t-desc{font-size:10px;line-height:1.4}
 }
 
-/* ══════════════════════════════════════════════════════
-   FUSION SECTION — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FUSION SECTION â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   #fusion{padding:56px 0}
   .fusion-inner{
@@ -2658,9 +2659,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   }
 }
 
-/* ══════════════════════════════════════════════════════
-   PRODUCTS — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PRODUCTS â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   #products{padding:56px 0}
   .sec-inner{padding:0 16px}
@@ -2691,9 +2692,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   .dot.active{width:20px}
 }
 
-/* ══════════════════════════════════════════════════════
-   INFO TWO-COL — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   INFO TWO-COL â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   #info{grid-template-columns:1fr}
   .info-left{padding:48px 20px;border-right:none;border-bottom:1px solid var(--border)}
@@ -2713,9 +2714,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 }
 
 
-/* ══════════════════════════════════════════════════════
-   NEWSLETTER — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   NEWSLETTER â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   #newsletter{padding:56px 20px}
   .nl-inner{max-width:100%}
@@ -2736,9 +2737,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   .nl-note{font-size:11px;max-width:100%}
 }
 
-/* ══════════════════════════════════════════════════════
-   FOOTER — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FOOTER â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   #footer{padding:44px 0 0}
   /* Brand block takes full width, then 2-col grid for links + contact */
@@ -2789,9 +2790,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   }
 }
 
-/* ══════════════════════════════════════════════════════
-   CHATBOT — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CHATBOT â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   #chat-btn{
     right:16px;
@@ -2804,25 +2805,25 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   }
 }
 
-/* ══════════════════════════════════════════════════════
-   CART PANEL — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CART PANEL â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
 
 }
 
-/* ══════════════════════════════════════════════════════
-   PURCHASE OVERLAY — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PURCHASE OVERLAY â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   .po-checkout-slide{padding:24px 20px}
   .po-checkout-slide h3{font-size:18px}
   .po-product-img{width:150px}
 }
 
-/* ══════════════════════════════════════════════════════
-   LAB DASHBOARD — MOBILE
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   LAB DASHBOARD â€” MOBILE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   .ld-panel{padding:28px 18px;border-radius:20px}
   .ld-title{font-size:22px}
@@ -2833,9 +2834,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   .ld-cert{padding:7px 10px;font-size:8px}
 }
 
-/* ══════════════════════════════════════════════════════
-   HERO PRODUCT SCENE (legacy 3D box) — mobile sizing
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   HERO PRODUCT SCENE (legacy 3D box) â€” mobile sizing
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(max-width:767px){
   .hero-product-scene{display:flex;height:240px;min-height:200px}
   .fusion-box{width:130px;height:158px;bottom:8%}
@@ -2847,9 +2848,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   .hero-marble-sphere{width:34px;height:34px}
 }
 
-/* ══════════════════════════════════════════════════════
-   REDUCED MOTION — respect user preference
-══════════════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   REDUCED MOTION â€” respect user preference
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media(prefers-reduced-motion:reduce){
   .sr,.sr-left,.sr-right{
     transition:none!important;animation:none!important;
@@ -2861,7 +2862,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 }
 
 
-/* ── CHECKOUT PANEL ── */
+/* â”€â”€ CHECKOUT PANEL â”€â”€ */
 #checkout-panel.open {
   transform: translateX(0) !important;
 }
@@ -2874,7 +2875,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 </head>
 <body>
 
-<!-- ═══ CONCEPT 1: LIVING ROSE-GOLD ENERGY ═══ -->
+<!-- â•â•â• CONCEPT 1: LIVING ROSE-GOLD ENERGY â•â•â• -->
 <div id="liquid-energy" aria-hidden="true">
   <div class="le-orb le-orb-1"></div>
   <div class="le-orb le-orb-2"></div>
@@ -2884,11 +2885,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 </div>
 
 <!-- ═══ TOAST ═══ -->
-<div id="tri-toast"></div>
-
-<!-- ═══ NAV ═══ -->
+<div id="tri-toast"></div><!-- â•â•â• NAV â•â•â• -->
 <nav id="nav">
-  <a href="index.html" class="nav-motion-logo" aria-label="TRI — The Real Inside">
+  <a href="index.html" class="nav-motion-logo" aria-label="TRI â€” The Real Inside">
     <svg class="atri-hud-logo" id="tri-header-logo" width="160" height="70" viewBox="-2 -6 184 84" fill="none" xmlns="http://www.w3.org/2000/svg">
       <style>
         .atri-hud-logo { cursor: pointer; overflow: visible; }
@@ -2993,8 +2992,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
         <line x1="3" y1="6" x2="21" y2="6"/>
         <path d="M16 10a4 4 0 01-8 0"/>
       </svg>
-      <span class="cart-count" id="cart-count-badge">0</span>
-    </button>
+      <span class="cart-count" id="cart-count-badge">0</span></button>
     <button class="nav-account" id="account-btn" aria-label="My Account">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </button>
@@ -3005,7 +3003,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   </div>
 </nav>
 
-<!-- ═══ MOBILE MENU ═══ -->
+<!-- â•â•â• MOBILE MENU â•â•â• -->
 <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
   <!-- Grid accent lines -->
   <div class="mm-grid-line h"></div>
@@ -3036,7 +3034,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
       <a href="#" class="mm-link" id="mm-login-link">Sign In / Register</a>
       <a href="#" class="mm-link" id="mm-logout-link" style="display:none; color:#C8787A;">Sign Out</a>
     </div>
-    <a href="shop.html" class="mm-cta" style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">Shop Now — <span style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">₹</span>599</a>
+    <a href="shop.html" class="mm-cta" style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">Shop Now â€” <span style="font-family: 'Montserrat', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;">â‚¹</span>599</a>
   </div>
 
 </div>
@@ -3067,9 +3065,10 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
         </svg>
       </button>
     </div>
-  </aside>
+  </aside><!-- tri-toast for shared JS -->
+<div id="tri-toast"></div>
 
-<!-- ═══ CHECKOUT OVERLAY & PANEL ═══ -->
+<!-- â•â•â• CHECKOUT OVERLAY & PANEL â•â•â• -->
 <div id="checkout-overlay" style="display:none;position:fixed;inset:0;background:rgba(26,26,26,.5);z-index:8000;backdrop-filter:blur(4px);"></div>
 <div id="checkout-panel" role="dialog" aria-label="Checkout" style="
   position:fixed;top:0;right:0;height:100%;width:460px;max-width:100%;
@@ -3091,7 +3090,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     <div id="co-items-summary" style="font-family:'DM Sans',sans-serif;font-size:14px;color:#1A1A1A;"></div>
     <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid rgba(230,162,164,.25);">
       <span style="font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:#1A1A1A;">Total</span>
-      <span id="co-total" style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#C8787A;">₹0</span>
+      <span id="co-total" style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#C8787A;">â‚¹0</span>
     </div>
   </div>
 
@@ -3147,11 +3146,11 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
       Pay with Razorpay
     </button>
 
-    <p style="text-align:center;font-family:'DM Sans',sans-serif;font-size:12px;color:#8A7A7A;margin-top:-8px;">🔒 100% Secure Payments · Powered by Razorpay</p>
+    <p style="text-align:center;font-family:'DM Sans',sans-serif;font-size:12px;color:#8A7A7A;margin-top:-8px;">ðŸ”’ 100% Secure Payments Â· Powered by Razorpay</p>
   </form>
 </div>
 
-<!-- ═══ CONCEPT 6: LAB VERIFICATION DASHBOARD ═══ -->
+<!-- â•â•â• CONCEPT 6: LAB VERIFICATION DASHBOARD â•â•â• -->
 <div id="lab-dashboard" role="dialog" aria-label="Lab Verification Dashboard" aria-modal="true">
   <div class="ld-panel">
     <div class="ld-scan"></div>
@@ -3161,7 +3160,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     <div class="ld-header">
       <div class="ld-eyebrow">Batch Verification System</div>
       <h2 class="ld-title">TRI Fusion Pack</h2>
-      <p class="ld-subtitle">Certificate of Analysis · Eurofins Certified · Batch #TRI-2026-0391</p>
+      <p class="ld-subtitle">Certificate of Analysis Â· Eurofins Certified Â· Batch #TRI-2026-0391</p>
     </div>
     <div class="ld-grid">
       <div class="ld-cell">
@@ -3214,26 +3213,26 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
       <div class="ld-cert"><div class="ld-cert-dot"></div>Made in India</div>
       <div class="ld-cert"><div class="ld-cert-dot"></div>FSSAI Approved</div>
     </div>
-    <div class="ld-status">All Tests Passed · Cleared for Distribution</div>
+    <div class="ld-status">All Tests Passed Â· Cleared for Distribution</div>
   </div>
 </div>
 
-<!-- ═══ CONCEPT 7: PURCHASE ANIMATION ═══ -->
+<!-- â•â•â• CONCEPT 7: PURCHASE ANIMATION â•â•â• -->
 <div id="purchase-overlay" role="dialog" aria-label="Adding to cart">
   <div style="position:relative;display:flex;flex-direction:column;align-items:center">
     <div class="po-glow"></div>
     <img class="po-product-img" src="assets/hero_product.png" alt="TRI Fusion Pack" id="po-img"/>
     <div class="po-checkout-slide">
-      <h3>Added to Cart ✓</h3>
-      <button class="po-checkout-btn" id="po-checkout">Proceed to Checkout →</button>
+      <h3>Added to Cart âœ“</h3>
+      <button class="po-checkout-btn" id="po-checkout">Proceed to Checkout â†’</button>
       <p class="po-dismiss" id="po-dismiss">Continue Shopping</p>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     HERO — CSS-BUILT LUXURY SCENE
-═══════════════════════════════════════════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     HERO â€” CSS-BUILT LUXURY SCENE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <section id="hero" style="
   position:relative;
   height:calc(100vh - 86px);
@@ -3264,7 +3263,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     pointer-events:none;z-index:1;
   " aria-hidden="true"></div>
 
-  <!-- Hero copy — fixed to left 45% of viewport -->
+  <!-- Hero copy â€” fixed to left 45% of viewport -->
   <div style="
     position:absolute;inset:0;z-index:2;
     padding:0 56px;
@@ -3335,12 +3334,12 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     MOBILE HERO — Dedicated mobile-only section
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     MOBILE HERO â€” Dedicated mobile-only section
      Hidden on desktop via CSS: #hero-m{display:none}
      Desktop #hero is hidden on mobile: #hero{display:none!important}
-═══════════════════════════════════════════════ -->
-<section id="hero-m" aria-label="TRI — The Real Inside">
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<section id="hero-m" aria-label="TRI â€” The Real Inside">
 
   <!-- Text block -->
   <div class="hm-text">
@@ -3365,12 +3364,12 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     </div>
   </div>
 
-  <!-- Product image — centered below CTAs -->
+  <!-- Product image â€” centered below CTAs -->
   <div class="hm-product">
     <!-- validator compatibility: product_brand.webp -->
     <img
       src="assets/hero_product_scene.png"
-      alt="TRI Fusion Pack — 9 sachets of clean sports nutrition"
+      alt="TRI Fusion Pack â€” 9 sachets of clean sports nutrition"
       loading="eager"
       decoding="async"
     />
@@ -3423,7 +3422,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
 </section>
 
-<!-- ═══ FUSION PACK — CONCEPT 4: TRI FUSION ANIMATION ═══ -->
+<!-- â•â•â• FUSION PACK â€” CONCEPT 4: TRI FUSION ANIMATION â•â•â• -->
 <section id="fusion">
   <div class="fusion-blob"></div>
   <div class="fusion-inner">
@@ -3452,30 +3451,29 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
       <div class="f-features">
         <div class="f-feat"><div class="f-feat-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>Protein + BCAA + Pre-Workout in one bundle</div>
-        <div class="f-feat"><div class="f-feat-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>Clinically dosed — zero proprietary blends</div>
-        <div class="f-feat"><div class="f-feat-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>Gut-friendly formula — no fillers, no bloat</div>
+        <div class="f-feat"><div class="f-feat-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>Clinically dosed â€” zero proprietary blends</div>
+        <div class="f-feat"><div class="f-feat-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>Gut-friendly formula â€” no fillers, no bloat</div>
         <div class="f-feat"><div class="f-feat-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>4-level tested. Each batch individually verified</div>
       </div>
 
       <div class="f-pricing">
-        <span class="f-price-now">₹599</span>
-        <span class="f-price-old">₹899</span>
-        <span class="f-price-save">Save ₹300</span>
+        <span class="f-price-now">â‚¹599</span>
+        <span class="f-price-old">â‚¹899</span>
+        <span class="f-price-save">Save â‚¹300</span>
       </div>
-      <p class="f-note">Free shipping on all orders · 100% clean · Lab verified</p>
+      <p class="f-note">Free shipping on all orders Â· 100% clean Â· Lab verified</p>
 
       <div class="f-actions">
         <button class="btn-dark" data-add-cart data-name="TRI Fusion Pack (Try Pack)" data-price="599" data-image="assets/tri_fusion_pack_ad.webp" data-variant="Complete System">
-          Add to Cart — ₹599
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Add to Cart — ₹599<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         </button>
-        <a href="shop.html" class="btn-outline">Shop Fusion Pack →</a>
+        <a href="shop.html" class="btn-outline">Shop Fusion Pack â†’</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ TICKER ═══ -->
+<!-- â•â•â• TICKER â•â•â• -->
 <div id="ticker">
   <div class="ticker-wrap">
     <div class="ticker-item">Gut Friendly</div>
@@ -3497,7 +3495,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   </div>
 </div>
 
-<!-- ═══ TRUST ═══ -->
+<!-- â•â•â• TRUST â•â•â• -->
 <section id="trust" class="sr">
   <div class="trust-wrap">
     <div class="trust-item">
@@ -3528,16 +3526,16 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 </section>
 
 <!-- TRI ECOSYSTEM SECTION REMOVED -->
-<section id="tri-ecosystem" aria-label="TRI Science — The Real Inside" style="display:none!important">
+<section id="tri-ecosystem" aria-label="TRI Science â€” The Real Inside" style="display:none!important">
   <div class="eco-content">
 
-      <!-- ── LEFT: Animated Canvas ── -->
+      <!-- â”€â”€ LEFT: Animated Canvas â”€â”€ -->
       <div class="eco-left">
         <canvas id="eco-canvas"></canvas>
         <div id="eco-glow"></div>
         <div id="eco-cursor-glow"></div>
 
-        <!-- TRI triangle (stage 2) — pink theme -->
+        <!-- TRI triangle (stage 2) â€” pink theme -->
         <svg id="eco-triangle" viewBox="0 0 200 174" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <polygon points="100,8 194,168 6,168"
             fill="none" stroke="rgba(200,120,122,0.55)" stroke-width="1.2" stroke-linejoin="round"/>
@@ -3580,7 +3578,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
         </div>
       </div>
 
-      <!-- ── RIGHT: Narrative ── -->
+      <!-- â”€â”€ RIGHT: Narrative â”€â”€ -->
       <div class="eco-right">
         <div class="eco-progress" aria-hidden="true">
           <div class="eco-progress-fill" id="ecoProgressFill"></div>
@@ -3595,9 +3593,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
           <!-- Stage 1: Molecules -->
           <div class="eco-stage active" id="ecoStage0">
-            <div class="eco-stage-num">01 — The Science</div>
+            <div class="eco-stage-num">01 â€” The Science</div>
             <h2 class="eco-stage-headline">Every result begins with<br/><em>what goes inside.</em></h2>
-            <p class="eco-stage-body">Before the workout. Before the results. There is a molecule. TRI starts at the ingredient level — where science meets intention and every formula is fully transparent.</p>
+            <p class="eco-stage-body">Before the workout. Before the results. There is a molecule. TRI starts at the ingredient level â€” where science meets intention and every formula is fully transparent.</p>
             <div class="eco-stage-pills">
               <span class="eco-pill">4-Level Tested</span>
               <span class="eco-pill">No Blends</span>
@@ -3607,30 +3605,30 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
           <!-- Stage 2: Formation -->
           <div class="eco-stage" id="ecoStage1">
-            <div class="eco-stage-num">02 — The Stack</div>
+            <div class="eco-stage-num">02 â€” The Stack</div>
             <h2 class="eco-stage-headline">Three systems.<br/><em>One philosophy.</em></h2>
             <p class="eco-stage-body">Protein. Recovery. Energy. Three clinically dosed formulations united under a single belief: the real competitive edge lives inside the sachet, not on the label.</p>
             <div class="eco-streams">
               <div class="eco-stream">
                 <span class="eco-stream-dot protein"></span>
-                <span class="eco-stream-text"><strong>True Whey</strong> · 24.5g Protein · Gut Friendly</span>
+                <span class="eco-stream-text"><strong>True Whey</strong> Â· 24.5g Protein Â· Gut Friendly</span>
               </div>
               <div class="eco-stream">
                 <span class="eco-stream-dot bcaa"></span>
-                <span class="eco-stream-text"><strong>TRI Power BCAA</strong> · 2:1:1 Ratio · Electrolytes</span>
+                <span class="eco-stream-text"><strong>TRI Power BCAA</strong> Â· 2:1:1 Ratio Â· Electrolytes</span>
               </div>
               <div class="eco-stream">
                 <span class="eco-stream-dot preworkout"></span>
-                <span class="eco-stream-text"><strong>TRI Pump Drake</strong> · Explosive Energy · No Crash</span>
+                <span class="eco-stream-text"><strong>TRI Pump Drake</strong> Â· Explosive Energy Â· No Crash</span>
               </div>
             </div>
           </div>
 
           <!-- Stage 3: Products -->
           <div class="eco-stage" id="ecoStage2">
-            <div class="eco-stage-num">03 — The Product</div>
+            <div class="eco-stage-num">03 â€” The Product</div>
             <h2 class="eco-stage-headline">One Fusion Pack.<br/><em>Complete Performance.</em></h2>
-            <p class="eco-stage-body">Three sachets. One mission. The TRI Fusion Pack delivers everything your body needs in a single, science-backed stack — ready for any training day.</p>
+            <p class="eco-stage-body">Three sachets. One mission. The TRI Fusion Pack delivers everything your body needs in a single, science-backed stack â€” ready for any training day.</p>
             <a href="#products" class="eco-cta">
               Shop TRI Fusion Pack
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -3646,7 +3644,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
 
 
-<!-- ═══ PRODUCTS — CONCEPT 3 + 8 ═══ -->
+<!-- â•â•â• PRODUCTS â€” CONCEPT 3 + 8 â•â•â• -->
 <section id="products">
   <div class="sec-inner">
     <div class="sec-header sr">
@@ -3655,7 +3653,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     </div>
     <div class="products-grid">
 
-      <!-- Protein — Orange Pineapple particles (Concept 8) -->
+      <!-- Protein â€” Orange Pineapple particles (Concept 8) -->
       <div class="prod-card sr" id="prod-protein" style="transition-delay:.05s" data-flavor="orange">
         <div class="prod-particles" id="particles-protein"></div>
         <div class="prod-reflection"></div>
@@ -3663,9 +3661,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
           <span class="prod-tag">Protein</span>
           <div class="prod-glow"></div>
           <div class="prod-slider">
-            <img src="assets/whey_coffee_delight_photoshoot.webp" class="slide active" alt="TRI Protein — Coffee Delight"/>
-            <img src="assets/whey_wild_blueberry_photoshoot.webp" class="slide" alt="TRI Protein — Wild Blueberry"/>
-            <img src="assets/whey_russian_chocolate_photoshoot.webp" class="slide" alt="TRI Protein — Russian Chocolate"/>
+            <img src="assets/whey_coffee_delight_photoshoot.webp" class="slide active" alt="TRI Protein â€” Coffee Delight"/>
+            <img src="assets/whey_wild_blueberry_photoshoot.webp" class="slide" alt="TRI Protein â€” Wild Blueberry"/>
+            <img src="assets/whey_russian_chocolate_photoshoot.webp" class="slide" alt="TRI Protein â€” Russian Chocolate"/>
           </div>
           <div class="slider-dots">
             <span class="dot active"></span>
@@ -3676,7 +3674,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
         <div class="prod-body">
           <p class="prod-label">Performance Series</p>
           <h3 class="prod-name">TRI Protein</h3>
-          <p class="prod-desc">Clear whey that actually digests. No heavy fillers — just clean protein your body can use.</p>
+          <p class="prod-desc">Clear whey that actually digests. No heavy fillers â€” just clean protein your body can use.</p>
           <div class="prod-footer">
             <a href="inside.html" class="prod-cta">
               Learn More
@@ -3686,7 +3684,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
         </div>
       </div>
 
-      <!-- BCAA — Kiwi Strawberry (Concept 8) -->
+      <!-- BCAA â€” Kiwi Strawberry (Concept 8) -->
       <div class="prod-card sr" id="prod-bcaa" style="transition-delay:.15s" data-flavor="kiwi">
         <div class="prod-particles" id="particles-bcaa"></div>
         <div class="prod-reflection"></div>
@@ -3694,9 +3692,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
           <span class="prod-tag">BCAA</span>
           <div class="prod-glow"></div>
           <div class="prod-slider">
-            <img src="assets/bcaa_mojito_photoshoot.webp" class="slide" alt="TRI BCAA — Mojito"/>
-            <img src="assets/bcaa_orange_pineapple_photoshoot.webp" class="slide" alt="TRI BCAA — Orange Pineapple"/>
-            <img src="assets/bcaa_kiwi_strawberry_photoshoot.webp" class="slide active" alt="TRI BCAA — Kiwi Strawberry"/>
+            <img src="assets/bcaa_mojito_photoshoot.webp" class="slide" alt="TRI BCAA â€” Mojito"/>
+            <img src="assets/bcaa_orange_pineapple_photoshoot.webp" class="slide" alt="TRI BCAA â€” Orange Pineapple"/>
+            <img src="assets/bcaa_kiwi_strawberry_photoshoot.webp" class="slide active" alt="TRI BCAA â€” Kiwi Strawberry"/>
           </div>
           <div class="slider-dots">
             <span class="dot"></span>
@@ -3717,7 +3715,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
         </div>
       </div>
 
-      <!-- Pre-Workout — Kiwi ribbons (Concept 8) -->
+      <!-- Pre-Workout â€” Kiwi ribbons (Concept 8) -->
       <div class="prod-card sr" id="prod-pre" style="transition-delay:.25s" data-flavor="kiwi">
         <div class="prod-particles" id="particles-pre"></div>
         <div class="prod-reflection"></div>
@@ -3725,9 +3723,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
           <span class="prod-tag">Pre-Workout</span>
           <div class="prod-glow"></div>
           <div class="prod-slider">
-            <img src="assets/drake_pineapple_photoshoot.webp" class="slide active" alt="TRI Pre-Workout — Pineapple"/>
-            <img src="assets/drake_guava_photoshoot.webp" class="slide" alt="TRI Pre-Workout — Guava"/>
-            <img src="assets/drake_lemon_lime_photoshoot.webp" class="slide" alt="TRI Pre-Workout — Lemon Lime"/>
+            <img src="assets/drake_pineapple_photoshoot.webp" class="slide active" alt="TRI Pre-Workout â€” Pineapple"/>
+            <img src="assets/drake_guava_photoshoot.webp" class="slide" alt="TRI Pre-Workout â€” Guava"/>
+            <img src="assets/drake_lemon_lime_photoshoot.webp" class="slide" alt="TRI Pre-Workout â€” Lemon Lime"/>
           </div>
           <div class="slider-dots">
             <span class="dot active"></span>
@@ -3752,7 +3750,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   </div>
 </section>
 
-<!-- ═══ TWO-COL ═══ -->
+<!-- â•â•â• TWO-COL â•â•â• -->
 <section id="info">
   <div class="info-left sr-left">
     <p class="i-eyebrow">Formula Transparency</p>
@@ -3764,14 +3762,14 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
       <span class="i-tag">98% Absorption</span>
       <span class="i-tag">Zero Fillers</span>
     </div>
-    <a href="inside.html" class="btn-outline" style="width:fit-content;margin-top:12px">See The Formula →</a>
+    <a href="inside.html" class="btn-outline" style="width:fit-content;margin-top:12px">See The Formula â†’</a>
   </div>
   <div class="info-right sr-right">
     <p class="i-eyebrow">Batch Verification</p>
     <h3 class="i-title">Nothing to hide. Everything to prove.</h3>
     <p class="i-body">Scan. Verify. Trust. Every batch tested. Every ingredient visible. No secrets on the label or off it.</p>
     <!-- Lab Reports now triggers Concept 6 dashboard -->
-    <button id="open-lab-dash" class="btn-outline" style="width:fit-content;border-color:rgba(248,215,217,.15);color:rgba(248,215,217,.5);background:transparent">View Lab Reports →</button>
+    <button id="open-lab-dash" class="btn-outline" style="width:fit-content;border-color:rgba(248,215,217,.15);color:rgba(248,215,217,.5);background:transparent">View Lab Reports â†’</button>
     <div class="verify-card">
       <div class="vc-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17h3M17 14v6"/></svg>
@@ -3786,7 +3784,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
 
 
-<!-- ═══ NEWSLETTER ═══ -->
+<!-- â•â•â• NEWSLETTER â•â•â• -->
 <section id="newsletter">
   <div class="nl-blob"></div>
   <div class="nl-inner sr">
@@ -3800,7 +3798,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   </div>
 </section>
 
-<!-- ═══ FOOTER ═══ -->
+<!-- â•â•â• FOOTER â•â•â• -->
 <footer id="tri-footer" aria-label="Site footer">
   <link rel="stylesheet" href="assets/footer.css">
   <div class="tri-footer-inner">
@@ -3838,7 +3836,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
       </div>
     </div>
     <div class="tri-footer-bottom">
-      <p class="tri-footer-copy">© 2024 TRI — The Real Inside. All rights reserved.</p>
+      <p class="tri-footer-copy">Â© 2024 TRI â€” The Real Inside. All rights reserved.</p>
       <nav class="tri-footer-legal" aria-label="Legal links">
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
@@ -3848,7 +3846,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   </div>
 </footer>
 
-<!-- ═══ CHATBOT ═══ -->
+<!-- â•â•â• CHATBOT â•â•â• -->
 <button id="chat-btn" aria-label="Open chat">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
 </button>
@@ -3856,17 +3854,17 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   <div class="cbh">
     <div>
       <div class="cbh-title">Ask TRI</div>
-      <div class="cbh-status"><span class="cb-dot"></span>Online · Always here</div>
+      <div class="cbh-status"><span class="cb-dot"></span>Online Â· Always here</div>
     </div>
     <button id="cb-x" aria-label="Close chat">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
   <div id="cb-msgs">
-    <div class="cb-msg bot">Hey! 👋 Ask me about products, ingredients, pricing or lab verification.</div>
+    <div class="cb-msg bot">Hey! ðŸ‘‹ Ask me about products, ingredients, pricing or lab verification.</div>
   </div>
   <div class="cb-row">
-    <input id="cb-inp" type="text" placeholder="Ask anything…" autocomplete="off"/>
+    <input id="cb-inp" type="text" placeholder="Ask anythingâ€¦" autocomplete="off"/>
     <button id="cb-send">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
     </button>
@@ -3877,11 +3875,11 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-<!-- ═══════════════════════════════════
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      JAVASCRIPT
-══════════════════════════════════════ -->
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <script>
-/* ── Nav scroll ── */
+/* â”€â”€ Nav scroll â”€â”€ */
 (function(){
   var nav=document.getElementById('nav');
   window.addEventListener('scroll',function(){
@@ -3889,7 +3887,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   },{passive:true});
 })();
 
-/* ── Mobile menu ── */
+/* â”€â”€ Mobile menu â”€â”€ */
 (function(){
   var btn=document.getElementById('menu-btn');
   var closeBtn=document.getElementById('mm-close');
@@ -3922,12 +3920,10 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   });
 })();
 
-
-
-/* ── CONCEPT 2: Logo breathing (handled via CSS, JS enhances) ── */
+/* â”€â”€ CONCEPT 2: Logo breathing (handled via CSS, JS enhances) â”€â”€ */
 /* The CSS animation already handles the arc breath */
 
-/* ── CONCEPT 5: Ingredient Reveal on product hover ── */
+/* â”€â”€ CONCEPT 5: Ingredient Reveal on product hover â”€â”€ */
 (function(){
   var scene=document.getElementById('hero-scene');
   if(!scene)return;
@@ -3959,7 +3955,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   });
 })();
 
-/* ── CONCEPT 6: Lab Dashboard ── */
+/* â”€â”€ CONCEPT 6: Lab Dashboard â”€â”€ */
 (function(){
   var openBtn=document.getElementById('open-lab-dash');
   var labNavLink=document.getElementById('lab-nav-link');
@@ -4001,7 +3997,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   });
 })();
 
-/* ── Scroll reveal ── */
+/* â”€â”€ Scroll reveal â”€â”€ */
 (function(){
   if(!window.IntersectionObserver){
     document.querySelectorAll('.sr,.sr-left,.sr-right').forEach(function(e){e.classList.add('on')});
@@ -4015,7 +4011,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
 
 
-/* ── Newsletter ── */
+/* â”€â”€ Newsletter â”€â”€ */
 (function(){
   var f=document.getElementById('nl-form');
   if(!f)return;
@@ -4024,14 +4020,14 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     var inp=f.querySelector('input'),btn=f.querySelector('button');
     if(inp&&inp.value.includes('@')){
       var orig=btn.textContent;
-      btn.textContent='✓ Subscribed!';btn.style.background='#22c55e';btn.style.color='#fff';
+      btn.textContent='âœ“ Subscribed!';btn.style.background='#22c55e';btn.style.color='#fff';
       inp.value='';
       setTimeout(function(){btn.textContent=orig;btn.style.background='';btn.style.color=''},3000);
     }
   });
 })();
 
-/* ── Chatbot ── */
+/* â”€â”€ Chatbot â”€â”€ */
 (function(){
   var btn=document.getElementById('chat-btn');
   var panel=document.getElementById('chat-panel');
@@ -4044,14 +4040,14 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   cx.addEventListener('click',function(){panel.classList.remove('open')});
 
   var kb={
-    price:'The TRI Fusion Pack is ₹599 (down from ₹899) — that\'s a ₹300 saving!',
-    fusion:'The Fusion Pack contains 9 sachets — Protein, BCAA & Pre-Workout so you can try everything in 9 days. Just ₹599.',
-    protein:'TRI Protein is a clean whey — zero fillers, fully dosed. Flavours: Coffee Delight, Wild Blueberry, Russian Chocolate.',
+    price:'The TRI Fusion Pack is â‚¹599 (down from â‚¹899) â€” that\'s a â‚¹300 saving!',
+    fusion:'The Fusion Pack contains 9 sachets â€” Protein, BCAA & Pre-Workout so you can try everything in 9 days. Just â‚¹599.',
+    protein:'TRI Protein is a clean whey â€” zero fillers, fully dosed. Flavours: Coffee Delight, Wild Blueberry, Russian Chocolate.',
     bcaa:'TRI BCAA has all 9 essential amino acids, all disclosed. Flavours: Mojito, Orange Pineapple, Kiwi Strawberry.',
-    preworkout:'TRI Pre-Workout is crash-free. No mystery blends — just clean, disclosed energy.',
+    preworkout:'TRI Pre-Workout is crash-free. No mystery blends â€” just clean, disclosed energy.',
     test:'4-level Eurofins testing. Scan the QR on your pack to verify your batch.',
-    gut:'All TRI products are gut-friendly — no heavy fillers, no bloating, high absorption.',
-    ship:'Free shipping on all orders. Standard 3–5 days across India.',
+    gut:'All TRI products are gut-friendly â€” no heavy fillers, no bloating, high absorption.',
+    ship:'Free shipping on all orders. Standard 3â€“5 days across India.',
     lab:'Visit the Lab Reports page to see every batch result. Fully verified.',
     default:'Happy to help! Ask me about products, pricing, ingredients, or our lab testing.'
   };
@@ -4074,7 +4070,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   inp.addEventListener('keydown',function(e){if(e.key==='Enter')handleSend()});
 })();
 
-/* ── CONCEPT 9: Cursor Parallax (micro depth) ── */
+/* â”€â”€ CONCEPT 9: Cursor Parallax (micro depth) â”€â”€ */
 (function(){
   var layers=document.querySelectorAll('[data-parallax]');
   if(!layers.length||window.innerWidth<768)return;
@@ -4099,9 +4095,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   window.addEventListener('resize',function(){cx=window.innerWidth/2;cy=window.innerHeight/2});
 })();
 
-/* ── CONCEPT 10: Hero Ring Label Orbit (REMOVED) ── */
+/* â”€â”€ CONCEPT 10: Hero Ring Label Orbit (REMOVED) â”€â”€ */
 
-/* ── CONCEPT 8: Flavour Particles ── */
+/* â”€â”€ CONCEPT 8: Flavour Particles â”€â”€ */
 (function(){
   var configs={
     'prod-protein':{flavor:'orange',colors:['rgba(200,169,110,.7)','rgba(230,162,164,.6)','rgba(200,120,122,.5)'],shape:'circle'},
@@ -4244,7 +4240,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   });
 })();
 
-/* ── Scroll-linked liquid energy orb movement ── */
+/* â”€â”€ Scroll-linked liquid energy orb movement â”€â”€ */
 (function(){
   var orb1=document.querySelector('.le-orb-1');
   var orb2=document.querySelector('.le-orb-2');
@@ -4256,7 +4252,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   },{passive:true});
 })();
 
-/* ── CONCEPT 4: TRI Fusion Molecule Sync Animation ── */
+/* â”€â”€ CONCEPT 4: TRI Fusion Molecule Sync Animation â”€â”€ */
 (function() {
   var canvas = document.getElementById('fusion-canvas');
   if (!canvas) return;
@@ -4442,7 +4438,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   draw();
 })();
 
-// ── CHECKOUT PANEL ──────────────────────────────────────────────────────
+// â”€â”€ CHECKOUT PANEL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 (function() {
   var checkoutPanel   = document.getElementById('checkout-panel');
   var checkoutOverlay = document.getElementById('checkout-overlay');
@@ -4496,10 +4492,10 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     }
   }
 
-  // Read cart items from localStorage — key matches existing cart implementation
+  // Read cart items from localStorage â€” key matches existing cart implementation
   function getCartItems() {
     try {
-      var stored = localStorage.getItem('tri_cart');
+      var stored = window.safeStorage.getItem('tri_cart');
       if (stored) return JSON.parse(stored);
     } catch(e) {}
     return [];
@@ -4517,7 +4513,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
     if (e.target === checkoutOverlay) closeCheckout();
   });
 
-  // Wire cart checkout button — replace existing WhatsApp handler
+  // Wire cart checkout button â€” replace existing WhatsApp handler
   var checkoutBtn = document.querySelector('.cp-checkout');
   if (checkoutBtn) {
     var newBtn = checkoutBtn.cloneNode(true);
@@ -4547,7 +4543,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   // Expose openCheckout globally for post-login flow
   window.triOpenCheckout = openCheckout;
 
-  // Form submit — validate → create order → launch Razorpay
+  // Form submit â€” validate â†’ create order â†’ launch Razorpay
   if (checkoutForm) checkoutForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     if (coError) coError.textContent = '';
@@ -4678,7 +4674,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
             console.warn('[TRI Checkout] Verification call failed:', verifyErr);
           }
           // Clear local cart
-          try { localStorage.removeItem('tri_cart'); } catch(e) {}
+          try { window.safeStorage.removeItem('tri_cart'); } catch(e) {}
           closeCheckout();
           // Show success overlay
           var successOverlay = document.createElement('div');
@@ -4725,8 +4721,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 </script>
 
 <!-- ════════════════════════════<!-- TRI ECOSYSTEM -->
-<script src="assets/tri.js"></script>
-<script src="assets/tri-motion.js?v=4.0"></script>
+<script src="assets/tri.js"></script><script src="assets/tri-motion.js?v=4.0"></script>
 
 <script src="assets/tri-auth.js?v=2.1"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
@@ -4734,3 +4729,5 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 
 </body>
 </html>
+
+

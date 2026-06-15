@@ -573,7 +573,7 @@
     'use strict';
 
     // Redirect if already logged in
-    if (localStorage.getItem('tri_token') && localStorage.getItem('tri_user')) {
+    if (window.safeStorage.getItem('tri_token') && window.safeStorage.getItem('tri_user')) {
       window.location.href = 'account.html';
       return;
     }
@@ -674,8 +674,8 @@
         const data = await response.json();
 
         if (response.ok && data.success && data.token) {
-          localStorage.setItem('tri_token', data.token);
-          localStorage.setItem('tri_user', JSON.stringify(data.user));
+          window.safeStorage.setItem('tri_token', data.token);
+          window.safeStorage.setItem('tri_user', JSON.stringify(data.user));
           
           if (TriAuth._syncCartAfterLogin) {
             await TriAuth._syncCartAfterLogin();

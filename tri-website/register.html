@@ -423,7 +423,7 @@
     'use strict';
 
     // Redirect if already logged in
-    if (localStorage.getItem('tri_token') && localStorage.getItem('tri_user')) {
+    if (window.safeStorage.getItem('tri_token') && window.safeStorage.getItem('tri_user')) {
       window.location.href = 'account.html';
       return;
     }

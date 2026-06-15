@@ -703,9 +703,25 @@
   </div>
 
   <script>
+  // safeStorage helper — prevents DOMExceptions on devices with blocked storage
+  if (!window.safeStorage) {
+    try {
+      window.localStorage.getItem('__test__');
+      window.safeStorage = window.localStorage;
+    } catch (e) {
+      window.safeStorage = {
+        _data: {},
+        getItem: function(k) { return this._data[k] || null; },
+        setItem: function(k, v) { this._data[k] = String(v); },
+        removeItem: function(k) { delete this._data[k]; },
+        clear: function() { this._data = {}; }
+      };
+    }
+  }
+
     // Check if user is already authenticated as admin
     document.addEventListener('DOMContentLoaded', () => {
-      const user = JSON.parse(localStorage.getItem('tri_user') || 'null');
+      const user = JSON.parse(window.safeStorage.getItem('tri_user') || 'null');
       if (user && user.role === 'admin') {
         showDashboard(user);
       }
@@ -714,7 +730,7 @@
 
     // Helper to generate JWT auth headers
     function getAuthHeaders(extraHeaders = {}) {
-      const token = localStorage.getItem('tri_token');
+      const token = window.safeStorage.getItem('tri_token');
       const headers = { ...extraHeaders };
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
@@ -756,9 +772,9 @@
             alert('Access denied. Administrator privileges required.');
             return;
           }
-          localStorage.setItem('tri_user', JSON.stringify(data.user));
+          window.safeStorage.setItem('tri_user', JSON.stringify(data.user));
           if (data.token) {
-            localStorage.setItem('tri_token', data.token);
+            window.safeStorage.setItem('tri_token', data.token);
           }
           showDashboard(data.user);
         } else {
@@ -775,8 +791,8 @@
       try {
         await fetch('/api/auth/logout', { method: 'POST' });
       } catch (err) {}
-      localStorage.removeItem('tri_user');
-      localStorage.removeItem('tri_token');
+      window.safeStorage.removeItem('tri_user');
+      window.safeStorage.removeItem('tri_token');
       window.location.reload();
     });
 
@@ -802,8 +818,8 @@
           headers: getAuthHeaders()
         });
         if (statsRes.status === 403 || statsRes.status === 401) {
-          localStorage.removeItem('tri_user');
-          localStorage.removeItem('tri_token');
+          window.safeStorage.removeItem('tri_user');
+          window.safeStorage.removeItem('tri_token');
           window.location.reload();
           return;
         }

@@ -550,9 +550,9 @@
   'use strict';
 
   /* ── Auth Guard ── */
-  const token = localStorage.getItem('tri_token');
+  const token = window.safeStorage.getItem('tri_token');
   const storedUser = (() => {
-    try { return JSON.parse(localStorage.getItem('tri_user') || 'null'); } catch { return null; }
+    try { return JSON.parse(window.safeStorage.getItem('tri_user') || 'null'); } catch { return null; }
   })();
 
   if (!token || !storedUser) {
@@ -767,7 +767,7 @@
     try {
       const items = JSON.parse(itemsJson);
       let localCart = [];
-      try { localCart = JSON.parse(localStorage.getItem('tri_cart') || '[]'); } catch (e) {}
+      try { localCart = JSON.parse(window.safeStorage.getItem('tri_cart') || '[]'); } catch (e) {}
       items.forEach(item => {
         const name = item.productName || item.name;
         if (!name) return;
@@ -780,7 +780,7 @@
           qty: item.quantity || 1
         });
       });
-      localStorage.setItem('tri_cart', JSON.stringify(localCart));
+      window.safeStorage.setItem('tri_cart', JSON.stringify(localCart));
       showToast('Items added to cart! 🛒');
       setTimeout(() => { window.location.href = 'shop.html'; }, 1200);
     } catch (e) {
@@ -835,7 +835,7 @@
 
   window.addWishlistItemToCart = function (name, price, image) {
     let localCart = [];
-    try { localCart = JSON.parse(localStorage.getItem('tri_cart') || '[]'); } catch (e) {}
+    try { localCart = JSON.parse(window.safeStorage.getItem('tri_cart') || '[]'); } catch (e) {}
 
     const existing = localCart.find(c => c.name === name);
     if (existing) {
@@ -849,7 +849,7 @@
       });
     }
 
-    localStorage.setItem('tri_cart', JSON.stringify(localCart));
+    window.safeStorage.setItem('tri_cart', JSON.stringify(localCart));
     showToast('Product added to cart! 🛒');
   };
 
@@ -899,8 +899,8 @@
         renderOrders(orders);
       } else if (ordersRes.status === 401) {
         // Token expired
-        localStorage.removeItem('tri_token');
-        localStorage.removeItem('tri_user');
+        window.safeStorage.removeItem('tri_token');
+        window.safeStorage.removeItem('tri_user');
         window.location.href = 'login.html';
         return;
       } else {
@@ -930,9 +930,9 @@
         headers: { 'Authorization': `Bearer ${token}` }
       });
     } catch (e) {}
-    localStorage.removeItem('tri_token');
-    localStorage.removeItem('tri_user');
-    localStorage.removeItem('tri_cart');
+    window.safeStorage.removeItem('tri_token');
+    window.safeStorage.removeItem('tri_user');
+    window.safeStorage.removeItem('tri_cart');
     showToast('Signed out successfully 👋');
     setTimeout(() => { window.location.href = 'index.html'; }, 800);
   });

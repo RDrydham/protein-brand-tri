@@ -1808,7 +1808,24 @@
       document.getElementById('newsletter-email').value = '';
     }
 
-        /* ================================================================
+
+    let toastTimer;
+    function showToast(msg) {
+      let t = document.getElementById('cart-toast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'cart-toast';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+    }
+
+
+
+    /* ================================================================
        ALPHA CHAT BOT
     ================================================================ */
     function toggleAlpha() { document.getElementById('alpha-panel').classList.toggle('open'); }

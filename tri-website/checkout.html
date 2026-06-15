@@ -397,13 +397,55 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .checkout-body {
-        grid-template-columns: 1fr;
-        padding: 24px 20px 60px;
+        display: flex;
+        flex-direction: column;
+        padding: 16px 16px 90px;
         gap: 20px;
       }
-      .order-sidebar { position: static; }
+      .order-sidebar {
+        order: -1;
+        position: static;
+        width: 100%;
+      }
       .checkout-nav { padding: 0 20px; }
       .nav-steps { display: none; }
+
+      /* Collapsible order summary on mobile */
+      .mobile-summary-toggle {
+        display: inline !important;
+      }
+      .sidebar-card.collapsed .sidebar-items,
+      .sidebar-card.collapsed .coupon-section,
+      .sidebar-card.collapsed .total-row:not(.final),
+      .sidebar-card.collapsed .security-note,
+      .sidebar-card.collapsed .trust-row {
+        display: none !important;
+      }
+      .sidebar-card.collapsed .total-row.final {
+        border-top: none;
+        margin-top: 0;
+        padding-top: 0;
+      }
+      .sidebar-header {
+        cursor: pointer;
+      }
+
+      /* Sticky bottom place order button */
+      .btn-place-order {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        padding: 18px;
+        z-index: 2000;
+        box-shadow: 0 -8px 24px rgba(0,0,0,0.5);
+        background: linear-gradient(135deg, var(--rose-dark), #b86668);
+      }
+      body {
+        padding-bottom: 80px;
+      }
     }
     @media (max-width: 480px) {
       .field-row { flex-direction: column; gap: 0; }
@@ -549,9 +591,9 @@
   <!-- ═══ RIGHT: ORDER SUMMARY ═══ -->
   <div class="order-sidebar">
     <div class="sidebar-card">
-      <div class="sidebar-header">
-        <div class="sidebar-title">Order Summary</div>
-        <a href="shop.html" class="sidebar-edit">Edit Cart</a>
+      <div class="sidebar-header" onclick="window.triToggleMobileSummary()">
+        <div class="sidebar-title">Order Summary <span class="mobile-summary-toggle" style="font-size:12px;color:var(--rose);margin-left:6px;display:none;">(Show Items ▾)</span></div>
+        <a href="shop.html" class="sidebar-edit" onclick="event.stopPropagation()">Edit Cart</a>
       </div>
 
       <!-- Cart items list -->
@@ -564,7 +606,7 @@
       </div>
 
       <!-- Coupon Code Input -->
-      <div style="padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-end;">
+      <div class="coupon-section" style="padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-end;">
         <div class="field" style="margin-bottom: 0; flex: 1;">
           <label for="coupon-code" style="font-size: 9px; margin-bottom: 4px;">Discount Coupon</label>
           <input type="text" id="coupon-code" placeholder="WELCOME100" style="padding: 10px 12px; font-size: 13px; text-transform: uppercase; border: 1.5px solid var(--border); border-radius: 8px; background: var(--panel-2); color: #fff; outline: none;">
@@ -626,6 +668,22 @@
 <script>
 (function () {
   'use strict';
+
+  // safeStorage helper — prevents DOMExceptions on devices with blocked storage
+  if (!window.safeStorage) {
+    try {
+      window.localStorage.getItem('__test__');
+      window.safeStorage = window.localStorage;
+    } catch (e) {
+      window.safeStorage = {
+        _data: {},
+        getItem: function(k) { return this._data[k] || null; },
+        setItem: function(k, v) { this._data[k] = String(v); },
+        removeItem: function(k) { delete this._data[k]; },
+        clear: function() { this._data = {}; }
+      };
+    }
+  }
 
   /* ── Helpers ── */
   const $ = id => document.getElementById(id);
@@ -727,21 +785,105 @@
 
     const finalTotal = subtotal - discount;
 
-    list.innerHTML = cartItems.map(item => `
-      <div class="order-item">
+    list.innerHTML = cartItems.map((item, idx) => `
+      <div class="order-item" style="display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
         <img class="order-item-img" src="${item.image || 'assets/hero_product.png'}" alt="${item.name}" onerror="this.src='assets/hero_product.png'">
         <div style="flex:1;min-width:0;">
-          <div class="order-item-name">${item.name}</div>
+          <div class="order-item-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
           ${item.variant ? `<div class="order-item-variant">${item.variant}</div>` : ''}
-          <div class="order-item-qty">Qty: ${item.qty}</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
+            <div style="display:flex;align-items:center;border:1px solid var(--border);border-radius:999px;overflow:hidden;background:var(--panel-2);">
+              <button type="button" onclick="window.triUpdateCheckoutQty(${idx}, -1)" style="width:24px;height:24px;background:none;border:none;font-size:14px;line-height:1;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;" aria-label="Decrease quantity">−</button>
+              <span style="min-width:18px;text-align:center;font-family:var(--font-label);font-size:12px;font-weight:700;color:var(--text);">${item.qty}</span>
+              <button type="button" onclick="window.triUpdateCheckoutQty(${idx}, 1)" style="width:24px;height:24px;background:none;border:none;font-size:14px;line-height:1;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;" aria-label="Increase quantity">+</button>
+            </div>
+            <button type="button" onclick="window.triRemoveCheckoutItem(${idx})" style="background:none;border:none;font-size:11px;color:var(--muted);cursor:pointer;padding:2px 4px;margin-left:4px;" aria-label="Remove item">✕ Remove</button>
+          </div>
         </div>
-        <div class="order-item-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
+        <div class="order-item-price" style="margin-left:auto;font-family:var(--font-label);font-size:14px;font-weight:700;color:var(--rose);flex-shrink:0;">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
       </div>
     `).join('');
 
     $('subtotal-val').textContent = '₹' + subtotal.toLocaleString('en-IN');
     $('total-val').textContent = '₹' + finalTotal.toLocaleString('en-IN');
     placeBtn.disabled = false;
+  }
+
+  // Update quantity handler inside checkout
+  window.triUpdateCheckoutQty = async (idx, delta) => {
+    if (idx < 0 || idx >= cartItems.length) return;
+    const item = cartItems[idx];
+    const newQty = item.qty + delta;
+    if (newQty <= 0) {
+      return window.triRemoveCheckoutItem(idx);
+    }
+    item.qty = newQty;
+
+    try {
+      window.safeStorage.setItem('tri_cart', JSON.stringify(cartItems));
+    } catch (e) {}
+
+    renderCart();
+
+    if (isLoggedIn && item.id) {
+      try {
+        await fetch(`/api/cart/${item.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ quantity: item.qty })
+        });
+      } catch (err) {
+        console.warn('[Checkout Qty Sync] Failed to update backend quantity:', err);
+      }
+    }
+  };
+
+  // Remove item handler inside checkout
+  window.triRemoveCheckoutItem = async (idx) => {
+    if (idx < 0 || idx >= cartItems.length) return;
+    const item = cartItems[idx];
+    
+    cartItems.splice(idx, 1);
+
+    try {
+      window.safeStorage.setItem('tri_cart', JSON.stringify(cartItems));
+    } catch (e) {}
+
+    renderCart();
+
+    if (isLoggedIn && item.id) {
+      try {
+        await fetch(`/api/cart/${item.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.warn('[Checkout Remove Sync] Failed to delete backend item:', err);
+      }
+    }
+  };
+
+  // Mobile order summary accordion toggler
+  window.triToggleMobileSummary = () => {
+    if (window.innerWidth > 900) return;
+    const card = document.querySelector('.sidebar-card');
+    const toggleLabel = document.querySelector('.mobile-summary-toggle');
+    if (card) {
+      const isCollapsed = card.classList.toggle('collapsed');
+      if (toggleLabel) {
+        toggleLabel.textContent = isCollapsed ? '(Show Items ▾)' : '(Hide Items ▴)';
+      }
+    }
+  };
+
+  // Auto-collapse order summary card on load for mobile
+  if (window.innerWidth <= 900) {
+    document.querySelector('.sidebar-card')?.classList.add('collapsed');
   }
 
   // Prefill address if logged in

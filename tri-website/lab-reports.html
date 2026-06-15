@@ -1951,7 +1951,15 @@
     mmClose.addEventListener('click', () => toggleMenu(false));
     mMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
 
-    
+    const toastEl = document.getElementById('tri-toast') || document.getElementById('toast');
+    let toastTimer;
+    function showToast(msg) {
+      if (!toastEl) return;
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
+    }
 
     /* ── Scroll reveal (IntersectionObserver) ── */
     const revealIO = new IntersectionObserver((entries) => {

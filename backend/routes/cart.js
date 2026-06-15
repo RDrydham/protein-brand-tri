@@ -73,7 +73,7 @@ router.post('/add', auth, async (req, res) => {
 })
 
 // Update quantity (invalidates cache)
-router.put('/:id', auth, async (req, res) => {
+const updateQtyHandler = async (req, res) => {
   try {
     const { quantity } = req.body
 
@@ -96,7 +96,10 @@ router.put('/:id', auth, async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Server error!' })
   }
-})
+}
+
+router.put('/:id', auth, updateQtyHandler)
+router.patch('/:id', auth, updateQtyHandler)
 
 // Remove from cart (invalidates cache)
 router.delete('/:id', auth, async (req, res) => {
@@ -107,6 +110,20 @@ router.delete('/:id', auth, async (req, res) => {
     )
     await cache.del(cartCacheKey(req.user.id))
     res.json({ message: 'Removed from cart!' })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error!' })
+  }
+})
+
+// Clear cart (invalidates cache)
+router.delete('/', auth, async (req, res) => {
+  try {
+    await pool.query(
+      'DELETE FROM cart WHERE user_id = $1',
+      [req.user.id]
+    )
+    await cache.del(cartCacheKey(req.user.id))
+    res.json({ message: 'Cart cleared!' })
   } catch (error) {
     res.status(500).json({ message: 'Server error!' })
   }
