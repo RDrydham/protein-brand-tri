@@ -145,6 +145,27 @@ const TriAuth = {
     return res.json();
   },
 
+  // Legacy / Index Page support
+  async createOrder(orderData) {
+    // If it's the old payload format, transform it to the format required by /api/orders/place
+    let payload = orderData;
+    if (orderData && orderData.shippingAddress && !orderData.address) {
+      payload = {
+        address: {
+          name: orderData.customerName || 'Customer',
+          phone: orderData.phoneNumber || '',
+          line1: orderData.shippingAddress,
+          line2: '',
+          city: '',
+          state: '',
+          pincode: ''
+        },
+        notes: ''
+      };
+    }
+    return this.placeOrder(payload);
+  },
+
   // Place order — FIXED: was /api/orders/create, correct is /api/orders/place
   // Backend expects: { address: { name, phone, line1, city, state, pincode }, notes }
   // and reads cart from DB server-side (must be logged in and have cart items in DB)

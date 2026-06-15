@@ -4802,16 +4802,19 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
       if (window.TriAuth && TriAuth.isLoggedIn && TriAuth.isLoggedIn()) {
         try {
           var orderPayload = {
-            items: cart.map(function(i) {
-              return { productId: i.productId || null, productName: i.name, quantity: i.qty, price: i.price };
-            }),
-            shippingAddress: addr1 + (addr2 ? ', ' + addr2 : '') + ', ' + city + ', ' + state + ' - ' + pin,
-            phoneNumber: phone,
-            totalAmount: total
+            address: {
+              name: name,
+              phone: phone,
+              line1: addr1,
+              line2: addr2 || '',
+              city: city,
+              state: state,
+              pincode: pin
+            }
           };
-          var orderRes = await TriAuth.createOrder(orderPayload);
-          if (orderRes && orderRes.success && orderRes.order) {
-            orderId = orderRes.order.id;
+          var orderRes = await TriAuth.placeOrder(orderPayload);
+          if (orderRes) {
+            orderId = orderRes.order_id || (orderRes.order && orderRes.order.id) || orderRes.id;
           }
         } catch(err) {
           console.warn('[TRI Checkout] Order creation failed, continuing with payment:', err);
@@ -4825,9 +4828,9 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
       if (orderId) {
         try {
           var payRes = await TriAuth.createPaymentOrder(orderId);
-          if (payRes && payRes.success && payRes.order) {
-            razorpayOrderId = payRes.order.id;
-            razorpayKey = payRes.keyId || payRes.key;
+          if (payRes) {
+            razorpayOrderId = payRes.razorpay_order_id || (payRes.order && payRes.order.id) || payRes.orderId;
+            razorpayKey = payRes.key_id || payRes.keyId || payRes.key;
           }
         } catch(err) {
           console.warn('[TRI Checkout] Payment order creation failed:', err);
