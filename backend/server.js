@@ -74,8 +74,11 @@ app.use((err, req, res, next) => {
 })
 
 // ── Start Server ─────────────────────────────
-app.listen(PORT, () => {
-  console.log(`🚀 TRI Backend running on port ${PORT}`)
-})
+// Change this block at the bottom of server.js:
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(🚀 TRI Backend running on port ${PORT});
+  });
+}
 
 module.exports = app
