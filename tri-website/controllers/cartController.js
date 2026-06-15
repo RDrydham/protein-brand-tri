@@ -1,4 +1,5 @@
 const prisma = require('../config/db');
+const pool = require('../db');
 
 // 1. GET USER CART
 exports.getCart = async (req, res) => {
@@ -190,7 +191,9 @@ exports.removeFromCart = async (req, res) => {
 };
 
 // 5. SYNC LOCAL GUEST CART TO DB ON LOGIN
+// 5. SYNC LOCAL GUEST CART TO DB ON LOGIN
 exports.syncCart = async (req, res) => {
+  const client = await pool.connect();
   try {
     const cart = req.body.cart || req.body.items;
 
@@ -198,45 +201,36 @@ exports.syncCart = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Valid cart array is required.' });
     }
 
-    // Delete existing items in Prisma cart
-    await prisma.cartItem.deleteMany({
-      where: { userId: req.user.id }
-    });
+    await client.query('BEGIN');
 
-    // Insert new items
+    // Clear existing cart items from the SQL table used by orders.js
+    await client.query('DELETE FROM cart WHERE user_id = $1', [req.user.id]);
+
     for (const item of cart) {
-      const name = item.name || item.productName;
-      if (!name) continue;
+      if (!item.name) continue;
+
+      // Find the correct product_id from the products table
+      const productResult = await client.query('SELECT id FROM products WHERE name = $1', [item.name.trim()]);
       
-      const qty = parseInt(item.qty || item.quantity) || 1;
-      let price = parseInt(item.price) || 0;
+      if (productResult.rows.length > 0) {
+        const productId = productResult.rows[0].id;
+        const qty = parseInt(item.qty) || 1;
 
-      // Fallback if price is not set
-      if (!price) {
-        const product = await prisma.product.findFirst({
-          where: { name: name.trim() }
-        });
-        if (product) price = product.price;
+        // Insert into the SQL 'cart' table (same one orders.js reads from)
+        await client.query(
+          'INSERT INTO cart (user_id, product_id, quantity) VALUES ($1, $2, $3)',
+          [req.user.id, productId, qty]
+        );
       }
-
-      await prisma.cartItem.create({
-        data: {
-          userId: req.user.id,
-          productName: name.trim(),
-          variant: item.variant ? item.variant.trim() : null,
-          price: price,
-          quantity: qty,
-          imageUrl: item.image || item.imageUrl || null
-        }
-      });
     }
 
-    return res.status(200).json({
-      success: true,
-      message: 'Cart synchronized successfully.'
-    });
+    await client.query('COMMIT');
+    return res.status(200).json({ success: true, message: 'Cart synced to database.' });
   } catch (error) {
+    await client.query('ROLLBACK');
     console.error('[Sync Cart Error]:', error.message);
-    return res.status(500).json({ success: false, message: 'Internal server error syncing cart.' });
+    return res.status(500).json({ success: false, message: 'Internal server error.' });
+  } finally {
+    client.release();
   }
 };
