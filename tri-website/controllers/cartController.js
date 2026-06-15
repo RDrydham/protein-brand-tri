@@ -1,4 +1,3 @@
-const prisma = require('../config/db');
 const pool = require('../db');
 
 // 1. GET USER CART
