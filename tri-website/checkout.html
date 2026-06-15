@@ -858,13 +858,13 @@
       const payload = {
         address,
         notes,
-        couponCode: appliedCoupon ? appliedCoupon.code : null
+        couponCode: appliedCoupon ? appliedCoupon.code : null,
+        items: cartItems
       };
 
       if (!isLoggedIn) {
         payload.customerName = address.name;
         payload.customerEmail = guestEmail;
-        payload.items = cartItems;
       }
 
       const orderRes = await fetch('/api/orders/place', {

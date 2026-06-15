@@ -93,10 +93,6 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   0%,100%{border-color:rgba(200,120,122,.2)}
   50%{border-color:rgba(200,120,122,.5)}
 }
-@keyframes count-up{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
-}
 
 /* ─── CONCEPT 1: Living Rose-Gold Energy ─── */
 @keyframes liquidFlow{
@@ -1724,32 +1720,6 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
 }
 .po-dismiss:hover{color:var(--dark)}
 
-/* ═══════════════════════════════════════════════
-   STATS
-═══════════════════════════════════════════════ */
-#stats{
-  background:var(--cream-warm);
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-  padding:72px 0;
-}
-.stats-grid{max-width:1200px;margin:0 auto;padding:0 60px;display:grid;grid-template-columns:repeat(4,1fr)}
-.stat-cell{
-  padding:16px 40px;border-right:1px solid var(--border);text-align:center;
-  transition:transform .3s var(--ease-out);
-}
-.stat-cell:last-child{border-right:none}
-.stat-cell:hover{transform:translateY(-4px)}
-.stat-num{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(40px,5vw,64px);
-  font-weight:800;letter-spacing:-.03em;color:var(--dark);
-  line-height:1;margin-bottom:8px;
-}
-.stat-num em{color:var(--rose-dark);font-style:normal}
-.stat-label{
-  font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--muted-text);
-}
 
 /* ═══════════════════════════════════════════════
    NEWSLETTER
@@ -1976,7 +1946,6 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   .products-grid{grid-template-columns:1fr;gap:16px}
   .prod-card{max-width:100%}
   #info{grid-template-columns:1fr}
-  .stats-grid{grid-template-columns:repeat(2,1fr)}
   .footer-inner{grid-template-columns:1.4fr 1fr 1fr 1fr}
   .trust-wrap{grid-template-columns:repeat(2,1fr)}
   .trust-item{border-right:none;border-bottom:1px solid var(--border);padding:18px 20px}
@@ -1989,10 +1958,6 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   .hero-text{width:100%}
   .info-left,.info-right{padding:64px 28px}
   .sec-inner,.fusion-inner{padding:0 20px}
-  .stats-grid{padding:0 20px}
-  .stat-cell{padding:16px 12px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
-  .stat-cell:nth-child(2n){border-right:none}
-  .stat-cell:nth-child(3),.stat-cell:nth-child(4){border-bottom:none}
   .trust-wrap{grid-template-columns:1fr;padding:0 24px}
   .trust-item{padding:16px 8px;border-bottom:1px solid var(--border)}
   .trust-item:last-child{border-bottom:none}
@@ -2768,23 +2733,6 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   }
 }
 
-/* ══════════════════════════════════════════════════════
-   STATS — MOBILE
-══════════════════════════════════════════════════════ */
-@media(max-width:767px){
-  #stats{padding:44px 0}
-  .stats-grid{grid-template-columns:repeat(2,1fr);padding:0 16px;gap:0}
-  .stat-cell{
-    padding:20px 10px;
-    border-right:1px solid var(--border);
-    border-bottom:1px solid var(--border);
-  }
-  .stat-cell:nth-child(2n){border-right:none}
-  .stat-cell:nth-child(3),.stat-cell:nth-child(4){border-bottom:none}
-  .stat-cell:hover{transform:none}
-  .stat-num{font-size:clamp(28px,7.5vw,40px)}
-  .stat-label{font-size:9px;letter-spacing:.08em}
-}
 
 /* ══════════════════════════════════════════════════════
    NEWSLETTER — MOBILE
@@ -3848,27 +3796,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   </div>
 </section>
 
-<!-- ═══ STATS ═══ -->
-<section id="stats">
-  <div class="stats-grid">
-    <div class="stat-cell sr" style="transition-delay:.0s">
-      <div class="stat-num"><em data-count="4" data-suf="-Level">4-Level</em></div>
-      <div class="stat-label">Testing Standard</div>
-    </div>
-    <div class="stat-cell sr" style="transition-delay:.1s">
-      <div class="stat-num"><em data-count="100" data-suf="%">100%</em></div>
-      <div class="stat-label">Label Accuracy</div>
-    </div>
-    <div class="stat-cell sr" style="transition-delay:.2s">
-      <div class="stat-num">0<em style="color:var(--rose-dark);font-size:.7em"> blends</em></div>
-      <div class="stat-label">Proprietary Blends</div>
-    </div>
-    <div class="stat-cell sr" style="transition-delay:.3s">
-      <div class="stat-num"><em data-count="98" data-suf="%">98%</em></div>
-      <div class="stat-label">Absorption Rate</div>
-    </div>
-  </div>
-</section>
+
 
 <!-- ═══ NEWSLETTER ═══ -->
 <section id="newsletter">
@@ -4207,25 +4135,7 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
   document.querySelectorAll('.sr,.sr-left,.sr-right').forEach(function(e){obs.observe(e)});
 })();
 
-/* ── Count-up ── */
-(function(){
-  var done=new Set();
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(!e.isIntersecting||done.has(e.target))return;
-      done.add(e.target);
-      var el=e.target,to=parseInt(el.dataset.count),suf=el.dataset.suf||'';
-      if(!to)return;
-      var t0=Date.now(),dur=1600;
-      (function run(){
-        var p=Math.min((Date.now()-t0)/dur,1),ease=1-Math.pow(1-p,3);
-        el.textContent=Math.floor(ease*to)+suf;
-        if(p<1)requestAnimationFrame(run);
-      })();
-    });
-  },{threshold:.5});
-  document.querySelectorAll('[data-count]').forEach(function(el){obs.observe(el)});
-})();
+
 
 /* ── Newsletter ── */
 (function(){

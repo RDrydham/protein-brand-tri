@@ -16,7 +16,7 @@ const optionalAuth = (req, res, next) => {
     req.user = decoded
     next()
   } catch (error) {
-    next()
+    return res.status(401).json({ message: 'Session expired. Please log in again.' })
   }
 }
 
@@ -65,6 +65,7 @@ router.post('/place', optionalAuth, async (req, res) => {
     // B. Guest User Checkout
     else {
       const rawItems = req.body.items
+      console.log('[Order/Guest] Items received:', JSON.stringify(rawItems))
       if (!rawItems || !Array.isArray(rawItems) || rawItems.length === 0) {
         await client.query('ROLLBACK')
         return res.status(400).json({ message: 'Cart is empty!' })
@@ -84,7 +85,10 @@ router.post('/place', optionalAuth, async (req, res) => {
           [name.trim()]
         )
 
+        console.log(`[Order/Guest] Product lookup "${name}": ${productResult.rows.length} result(s)`)
         if (productResult.rows.length === 0) {
+          const allProds = await client.query('SELECT name FROM products WHERE is_active = true')
+          console.error('[Order/Guest] Available products:', allProds.rows.map(r => r.name))
           await client.query('ROLLBACK')
           return res.status(404).json({ message: `Product not found: ${name}` })
         }
@@ -146,6 +150,7 @@ router.post('/place', optionalAuth, async (req, res) => {
 
     // Create order
     const orderNumber = generateOrderNumber()
+    console.log(`[Order] Creating order ${orderNumber} — total: ${total} — items: ${cartItems.length}`)
     const orderResult = await client.query(
       `INSERT INTO orders (order_number, user_id, total, address, notes)
        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
@@ -174,6 +179,7 @@ router.post('/place', optionalAuth, async (req, res) => {
     }
 
     await client.query('COMMIT')
+    console.log(`[Order] ✅ COMMITTED — order_number: ${orderNumber} order_id: ${orderResult.rows[0].id}`)
 
     // Send confirmation email (non-blocking)
     try {

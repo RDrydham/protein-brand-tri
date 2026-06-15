@@ -1,4 +1,14 @@
 require('dotenv').config()
+
+// ── Startup Guard — Fail loudly if critical env vars are missing ──
+const REQUIRED_ENV = ['JWT_SECRET', 'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET']
+if (process.env.NODE_ENV === 'production') {
+  const missing = REQUIRED_ENV.filter(k => !process.env[k])
+  if (missing.length > 0) {
+    console.error('❌ FATAL: Missing required env vars:', missing.join(', '))
+    process.exit(1)
+  }
+}
 const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')

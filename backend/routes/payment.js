@@ -17,7 +17,7 @@ const optionalAuth = (req, res, next) => {
     req.user = decoded
     next()
   } catch (error) {
-    next()
+    return res.status(401).json({ message: 'Session expired. Please log in again.' })
   }
 }
 
