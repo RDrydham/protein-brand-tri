@@ -97,6 +97,8 @@ const delPattern = async (pattern) => {
 }
 
 // Initialize on module load
-connect()
+if (process.env.NODE_ENV !== 'test') {
+  connect()
+}
 
 module.exports = { get, set, del, delPattern }

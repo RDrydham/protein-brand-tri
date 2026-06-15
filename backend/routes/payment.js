@@ -5,21 +5,45 @@ const crypto = require('crypto')
 const pool = require('../db')
 const auth = require('../middleware/auth')
 
+// Middleware to optionally authenticate a request if a JWT is present
+const optionalAuth = (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1]
+    if (!token) {
+      return next()
+    }
+    const jwt = require('jsonwebtoken')
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    req.user = decoded
+    next()
+  } catch (error) {
+    next()
+  }
+}
+
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_dummy_key_id',
   key_secret: process.env.RAZORPAY_KEY_SECRET || 'dummy_secret'
 })
 
 // Create Razorpay order
-router.post('/create-order', auth, async (req, res) => {
+router.post('/create-order', optionalAuth, async (req, res) => {
   try {
     const { order_id } = req.body
 
     // Get order from DB
-    const orderResult = await pool.query(
-      'SELECT * FROM orders WHERE id = $1 AND user_id = $2',
-      [order_id, req.user.id]
-    )
+    let orderResult
+    if (req.user) {
+      orderResult = await pool.query(
+        'SELECT * FROM orders WHERE id = $1 AND user_id = $2',
+        [order_id, req.user.id]
+      )
+    } else {
+      orderResult = await pool.query(
+        'SELECT * FROM orders WHERE id = $1 AND user_id IS NULL',
+        [order_id]
+      )
+    }
 
     if (orderResult.rows.length === 0) {
       return res.status(404).json({ message: 'Order not found!' })
@@ -35,7 +59,7 @@ router.post('/create-order', auth, async (req, res) => {
       receipt: order.order_number,
       notes: {
         order_id: order.id,
-        user_id: req.user.id
+        user_id: req.user ? req.user.id : null
       }
     })
 
@@ -58,7 +82,7 @@ router.post('/create-order', auth, async (req, res) => {
 })
 
 // Verify payment
-router.post('/verify', auth, async (req, res) => {
+router.post('/verify', optionalAuth, async (req, res) => {
   try {
     const {
       razorpay_order_id,

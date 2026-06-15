@@ -312,14 +312,18 @@
     cartItems.splice(idx, 1);
     syncCartUI();
   };
-
   window.triSyncCartAfterLogin = async () => {
     try {
       const localCart = JSON.parse(localStorage.getItem('tri_cart') || '[]');
       if (localCart.length > 0) {
+        const token = localStorage.getItem('tri_token');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
         const res = await fetch('/api/cart/sync', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: headers,
           body: JSON.stringify({ cart: localCart })
         });
         if (res.status === 200) {
@@ -333,6 +337,7 @@
       console.error('Error syncing cart after login:', err);
     }
   };
+
 
   // Dynamic Checkout Modal Injection
   const loadRazorpaySDK = () => {
