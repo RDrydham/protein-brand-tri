@@ -4,32 +4,29 @@ let client = null
 let isReady = false
 
 // Connect to Redis — gracefully degrades if Redis is unavailable
+// Connect to Redis - gracefully degrades if Redis is unavailable
 const connect = async () => {
   try {
     client = redis.createClient({
       url: process.env.REDIS_URL || 'redis://redis:6379'
-    })
+    });
 
     client.on('error', (err) => {
-      console.warn('⚠️  Redis client error (cache disabled):', err.message)
-      isReady = false
-    })
+      console.warn('⚠️ Redis client error (cache disabled):', err.message);
+      isReady = false;
+    });
 
     client.on('ready', () => {
-      console.log('✅ Redis connected!')
-      isReady = true
-    })
+      console.log('✅ Redis connected!');
+      isReady = true;
+    });
 
-    client.on('end', () => {
-      isReady = false
-    })
-
-    await client.connect()
+    await client.connect();
   } catch (err) {
-    console.warn('⚠️  Redis unavailable — running without cache:', err.message)
-    isReady = false
+    console.warn('⚠️ Redis unavailable - running without cache');
+    isReady = false;
   }
-}
+};
 
 // Get cached value (returns null on miss or Redis unavailable)
 const get = async (key) => {
