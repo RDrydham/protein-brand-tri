@@ -4801,6 +4801,13 @@ button{border:none;background:none;font-family:inherit;cursor:pointer}
       var orderId = null;
       if (window.TriAuth && TriAuth.isLoggedIn && TriAuth.isLoggedIn()) {
         try {
+          // Sync localStorage cart with database cart before placing order
+          try {
+            await TriAuth._syncCartAfterLogin();
+          } catch(syncErr) {
+            console.warn('[TRI Checkout] Cart sync failed, proceeding anyway:', syncErr);
+          }
+
           var orderPayload = {
             address: {
               name: name,

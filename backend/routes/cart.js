@@ -112,14 +112,57 @@ router.delete('/:id', auth, async (req, res) => {
   }
 })
 
-// Clear cart (invalidates cache)
-router.delete('/', auth, async (req, res) => {
+// Sync local guest cart to database (overwrite to match client state)
+router.post('/sync', auth, async (req, res) => {
+  const client = await pool.connect()
   try {
-    await pool.query('DELETE FROM cart WHERE user_id = $1', [req.user.id])
+    const items = req.body.cart || req.body.items
+
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({ message: 'Valid cart array is required.' })
+    }
+
+    await client.query('BEGIN')
+    
+    // Clear existing database cart to make it match local cart exactly
+    await client.query('DELETE FROM cart WHERE user_id = $1', [req.user.id])
+
+    for (const item of items) {
+      if (!item.name) continue
+      const qty = parseInt(item.qty || item.quantity) || 1
+
+      // Find product by name (using exact match, or partial name containment)
+      const productResult = await client.query(
+        `SELECT id FROM products 
+         WHERE name = $1 
+            OR $1 ILIKE '%' || name || '%'
+            OR name ILIKE '%' || $1 || '%'`,
+        [item.name.trim()]
+      )
+
+      if (productResult.rows.length > 0) {
+        const product_id = productResult.rows[0].id
+        await client.query(
+          `INSERT INTO cart (user_id, product_id, quantity)
+           VALUES ($1, $2, $3)
+           ON CONFLICT (user_id, product_id)
+           DO UPDATE SET quantity = $3`,
+          [req.user.id, product_id, qty]
+        )
+      } else {
+        console.warn(`[Cart Sync] Product not found by name: ${item.name}`)
+      }
+    }
+
+    await client.query('COMMIT')
     await cache.del(cartCacheKey(req.user.id))
-    res.json({ message: 'Cart cleared!' })
+    res.json({ message: 'Cart synced successfully!' })
   } catch (error) {
+    await client.query('ROLLBACK')
+    console.error('Cart sync error:', error)
     res.status(500).json({ message: 'Server error!' })
+  } finally {
+    client.release()
   }
 })
 
