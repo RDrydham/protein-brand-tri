@@ -40,7 +40,7 @@ router.post('/place', optionalAuth, async (req, res) => {
     await client.query('BEGIN')
 
     const { address, address_id, notes } = req.body
-
+    console.log("BODY:",req.body)
     let cartItems = []
 
     // A. Authenticated User Checkout
