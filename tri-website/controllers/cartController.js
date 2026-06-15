@@ -1,4 +1,5 @@
 const prisma = require('../config/db');
+const pool = require('../db');
 
 // 1. GET USER CART
 exports.getCart = async (req, res) => {
@@ -156,65 +157,52 @@ exports.removeFromCart = async (req, res) => {
 
 // 5. SYNC LOCAL GUEST CART TO DB ON LOGIN
 exports.syncCart = async (req, res) => {
+  const client = await pool.connect();
   try {
-    const cart = req.body.cart || req.body.items; // Array of guest cart items: [{ name, price, variant, image, qty }]
+    const cart = req.body.cart || req.body.items;
 
     if (!cart || !Array.isArray(cart)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Valid cart array is required for synchronization.'
-      });
+      return res.status(400).json({ success: false, message: 'Valid cart array is required.' });
     }
+
+    await client.query('BEGIN');
+
+    // Clear existing raw SQL cart to prevent duplicates during sync
+    await client.query('DELETE FROM cart WHERE user_id = $1', [req.user.id]);
 
     for (const item of cart) {
       if (!item.name || !item.price) continue;
       
       const qty = parseInt(item.qty) || 1;
-      const price = parseInt(item.price) || 0;
 
-      const existingItem = await prisma.cartItem.findFirst({
-        where: {
-          userId: req.user.id,
-          productName: item.name.trim(),
-          variant: item.variant ? item.variant.trim() : null
-        }
-      });
+      // Find the actual product_id based on the name sent from the frontend
+      const productResult = await client.query(
+        'SELECT id FROM products WHERE name = $1', 
+        [item.name.trim()]
+      );
 
-      if (existingItem) {
-        await prisma.cartItem.update({
-          where: { id: existingItem.id },
-          data: { quantity: existingItem.quantity + qty }
-        });
-      } else {
-        await prisma.cartItem.create({
-          data: {
-            userId: req.user.id,
-            productName: item.name.trim(),
-            variant: item.variant ? item.variant.trim() : null,
-            price: price,
-            quantity: qty,
-            imageUrl: item.image || null
-          }
-        });
+      // If the product exists in the DB, insert it into the raw SQL cart table
+      if (productResult.rows.length > 0) {
+        const productId = productResult.rows[0].id;
+        
+        await client.query(
+          'INSERT INTO cart (user_id, product_id, quantity) VALUES ($1, $2, $3)',
+          [req.user.id, productId, qty]
+        );
       }
     }
 
-    // Fetch final merged cart
-    const finalCart = await prisma.cartItem.findMany({
-      where: { userId: req.user.id },
-      orderBy: { id: 'asc' }
-    });
+    await client.query('COMMIT');
 
     return res.status(200).json({
       success: true,
-      message: 'Cart synchronized and merged successfully.',
-      cart: finalCart
+      message: 'Cart synchronized with SQL database successfully.'
     });
   } catch (error) {
+    await client.query('ROLLBACK');
     console.error('[Sync Cart Error]:', error.message);
-    return res.status(500).json({
-      success: false,
-      message: 'Internal server error syncing cart.'
-    });
+    return res.status(500).json({ success: false, message: 'Internal server error syncing cart.' });
+  } finally {
+    client.release();
   }
 };
