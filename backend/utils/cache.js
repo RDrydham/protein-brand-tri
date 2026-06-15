@@ -5,10 +5,26 @@ let isReady = false
 
 // Connect to Redis — gracefully degrades if Redis is unavailable
 // Connect to Redis - gracefully degrades if Redis is unavailable
+// Connect to Redis - gracefully degrades if Redis is unavailable
 const connect = async () => {
+  // 1. SAFETLY BYPASS IN CI/CD TESTS: Prevents TCPWRAP hanging handles
+  if (process.env.NODE_ENV === 'test') {
+    console.log('⏭️ Test environment detected: Skipping Redis initialization.');
+    isReady = false;
+    return;
+  }
+
   try {
     client = redis.createClient({
-      url: process.env.REDIS_URL || 'redis://redis:6379'
+      url: process.env.REDIS_URL || 'redis://redis:6379',
+      socket: {
+        // 2. STOP INFINITE RETRIES: Tell Redis to give up after 2 failures 
+        // so it doesn't leave background sockets open
+        reconnectStrategy: (retries) => {
+          if (retries > 2) return false; 
+          return 1000; // retry once after 1 second
+        }
+      }
     });
 
     client.on('error', (err) => {
@@ -19,6 +35,10 @@ const connect = async () => {
     client.on('ready', () => {
       console.log('✅ Redis connected!');
       isReady = true;
+    });
+
+    client.on('end', () => {
+      isReady = false;
     });
 
     await client.connect();
