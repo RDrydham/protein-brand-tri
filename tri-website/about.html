@@ -1832,6 +1832,10 @@
       const badge = document.getElementById('cart-badge');
       badge.classList.add('show');
       gsap.fromTo(badge, { scale: 1.5 }, { scale: 1, duration: .4, ease: 'back.out(2)' });
+
+      if (window.triAddToCart) {
+        window.triAddToCart(prod.name, prod.name, prod.image, prod.varient);
+      }
     }
 
     function removeFromCart(idx) {
