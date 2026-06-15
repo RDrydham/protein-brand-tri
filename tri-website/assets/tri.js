@@ -265,7 +265,7 @@
               ...(token ? { 'Authorization': `Bearer ${token}` } : {})
             },
             // Backend expects { product_id, quantity } — NOT productName/price/imageUrl
-            body: JSON.stringify({ product_id, quantity: 1 })
+            body: JSON.stringify({ productName: name, variant: variant, price: price, quantity: 1, imageUrl: image })
           });
           if (res.ok) {
             await loadCart();
