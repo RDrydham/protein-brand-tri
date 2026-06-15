@@ -391,11 +391,12 @@
 
   window.triUpdateQty = async (idx, delta, dbId) => {
     if (idx < 0 || idx >= cartItems.length) return;
-    cartItems[idx].qty = Math.max(1, cartItems[idx].qty + delta);
-    // If delta is -1 and resulting qty would have been 0, remove it
-    if (cartItems[idx].qty <= 0) {
+    const newQty = cartItems[idx].qty + delta;
+    // If subtracting would bring qty to 0 or below, remove the item instead
+    if (newQty <= 0) {
       return window.triRemoveFromCart(idx, dbId);
     }
+    cartItems[idx].qty = newQty;
     syncCartUI();
     // Sync with backend if logged in
     if (isLoggedIn && dbId && dbId !== 'null') {
@@ -415,7 +416,7 @@
     }
   };
 
->>>>>>> 8fa6baa (fix: unify checkout cart panel, add interactive quantity controls, and implement global safeStorage fallback)
+
   window.triSyncCartAfterLogin = async () => {
     try {
       const localCart = JSON.parse(window.safeStorage.getItem('tri_cart') || '[]');
