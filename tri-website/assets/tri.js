@@ -133,18 +133,36 @@
   /* ════════════════════════════════════════
      CART SYSTEM
   ════════════════════════════════════════ */
+  // Safe LocalStorage wrapper to prevent exceptions on restricted devices
+  if (!window.safeStorage) {
+    window.safeStorage = {
+      getItem(key) {
+        try { return localStorage.getItem(key); } catch (e) { return this._store[key] || null; }
+      },
+      setItem(key, val) {
+        try { localStorage.setItem(key, val); } catch (e) { this._store[key] = String(val); }
+      },
+      removeItem(key) {
+        try { localStorage.removeItem(key); } catch (e) { delete this._store[key]; }
+      },
+      clear() {
+        try { localStorage.clear(); } catch (e) { this._store = {}; }
+      },
+      _store: {}
+    };
+  }
+
   let cartItems = [];
   let isLoggedIn = false;
   let currentUser = null;
 
   // Product name → backend product_id mapping
-  // (matches backend/db/schema.sql seed data)
   const PRODUCT_ID_MAP = {
+    'TRI Fusion Pack (Try Pack)': 1,
     'TRI Fusion Pack': 1,
     'TRI True Whey Protein': 2,
     'TRI Power BCAA': 3,
     'TRI Pump Drake Pre-Workout': 4,
-    // Partial name matches (fallback)
     'Fusion Pack': 1,
     'True Whey': 2,
     'BCAA': 3,
@@ -154,9 +172,7 @@
 
   function getProductId(name) {
     if (!name) return null;
-    // Exact match first
     if (PRODUCT_ID_MAP[name]) return PRODUCT_ID_MAP[name];
-    // Partial match
     const lower = name.toLowerCase();
     for (const [key, id] of Object.entries(PRODUCT_ID_MAP)) {
       if (lower.includes(key.toLowerCase())) return id;
@@ -165,24 +181,23 @@
   }
 
   try {
-    currentUser = JSON.parse(localStorage.getItem('tri_user') || 'null');
-    isLoggedIn = !!(currentUser && localStorage.getItem('tri_token'));
+    currentUser = JSON.parse(window.safeStorage.getItem('tri_user') || 'null');
+    isLoggedIn = !!(currentUser && window.safeStorage.getItem('tri_token'));
   } catch(e) {}
 
   const loadCart = async () => {
     if (isLoggedIn) {
       try {
-        const token = localStorage.getItem('tri_token');
+        const token = window.safeStorage.getItem('tri_token');
         const res = await fetch('/api/cart', {
           headers: token ? { 'Authorization': `Bearer ${token}` } : {}
         });
         if (res.status === 200) {
           const data = await res.json();
-          // Backend returns { items, total } — NOT data.cart
           const rawItems = data.items || [];
           cartItems = rawItems.map(item => ({
             id: item.id,
-            product_id: item.product_id,
+            product_id: getProductId(item.name),
             name: item.name,
             price: parseFloat(item.price) || 0,
             image: item.image || 'assets/hero_product.png',
@@ -194,8 +209,8 @@
         } else if (res.status === 401) {
           isLoggedIn = false;
           currentUser = null;
-          localStorage.removeItem('tri_user');
-          localStorage.removeItem('tri_token');
+          window.safeStorage.removeItem('tri_user');
+          window.safeStorage.removeItem('tri_token');
         }
       } catch (err) {
         console.warn('Failed to load database cart, using offline copy.', err);
@@ -203,7 +218,7 @@
     }
 
     try {
-      cartItems = JSON.parse(localStorage.getItem('tri_cart') || '[]');
+      cartItems = JSON.parse(window.safeStorage.getItem('tri_cart') || '[]');
     } catch(e) {
       cartItems = [];
     }
@@ -214,7 +229,7 @@
     const count = cartItems.reduce((s, i) => s + i.qty, 0);
     const total = cartItems.reduce((s, i) => s + i.price * i.qty, 0);
 
-    document.querySelectorAll('.cart-count, #cart-count').forEach(el => {
+    document.querySelectorAll('.cart-count, #cart-count, #cart-count-badge').forEach(el => {
       el.textContent = count;
       el.classList.toggle('show', count > 0);
       el.classList.toggle('visible', count > 0);
@@ -240,20 +255,34 @@
               <div style="font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--dark);margin-bottom:2px;">${item.name}</div>
               <div style="font-size:11px;color:var(--muted-text);margin-bottom:6px;">${item.variant || ''}</div>
               <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:8px;background:rgba(230,162,164,0.15);border-radius:20px;padding:4px 8px;">
+                  <button onclick="triChangeQty(${i}, -1, ${item.id || 'null'})" style="background:none;border:none;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--dark);cursor:pointer;font-weight:700;">−</button>
+                  <span style="font-family:var(--font-label);font-size:12px;font-weight:700;color:var(--dark);min-width:14px;text-align:center;">${item.qty}</span>
+                  <button onclick="triChangeQty(${i}, 1, ${item.id || 'null'})" style="background:none;border:none;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--dark);cursor:pointer;font-weight:700;">+</button>
+                </div>
                 <span style="font-family:var(--font-label);font-size:15px;font-weight:700;color:var(--dark);">₹${(item.price * item.qty).toLocaleString('en-IN')}</span>
-                <button onclick="triRemoveFromCart(${i}, ${item.id || 'null'})" style="background:none;border:none;font-size:11px;color:var(--muted-text);cursor:pointer;font-family:var(--font-label);letter-spacing:0.05em;">REMOVE</button>
+              </div>
+              <div style="margin-top:6px;text-align:right;">
+                <button onclick="triRemoveFromCart(${i}, ${item.id || 'null'})" style="background:none;border:none;font-size:10px;color:var(--rose-dark);cursor:pointer;font-family:var(--font-label);letter-spacing:0.05em;text-transform:uppercase;font-weight:600;">Remove</button>
               </div>
             </div>
           </div>`).join('');
       }
     }
-    try { localStorage.setItem('tri_cart', JSON.stringify(cartItems)); } catch(e) {}
+
+    // Toggle footer visibility based on whether the cart has items
+    const footerEl = document.querySelector('#cart-panel .cart-footer');
+    if (footerEl) {
+      footerEl.style.display = cartItems.length ? 'block' : 'none';
+    }
+
+    try { window.safeStorage.setItem('tri_cart', JSON.stringify(cartItems)); } catch(e) {}
   };
 
   window.triAddToCart = async (name, price, image, variant) => {
     if (isLoggedIn) {
       try {
-        const token = localStorage.getItem('tri_token');
+        const token = window.safeStorage.getItem('tri_token');
         const product_id = getProductId(name);
         if (!product_id) {
           console.warn('Unknown product name, falling back to local cart:', name);
@@ -264,8 +293,7 @@
               'Content-Type': 'application/json',
               ...(token ? { 'Authorization': `Bearer ${token}` } : {})
             },
-            // Backend expects { product_id, quantity } — NOT productName/price/imageUrl
-            body: JSON.stringify({ product_id, quantity:1 })
+            body: JSON.stringify({ product_id, quantity: 1 })
           });
           if (res.ok) {
             await loadCart();
@@ -274,8 +302,8 @@
             return;
           } else if (res.status === 401) {
             isLoggedIn = false;
-            localStorage.removeItem('tri_token');
-            localStorage.removeItem('tri_user');
+            window.safeStorage.removeItem('tri_token');
+            window.safeStorage.removeItem('tri_user');
           }
         }
       } catch (err) {
@@ -291,11 +319,44 @@
     openCart();
   };
 
+  window.triChangeQty = async (idx, delta, dbId) => {
+    const item = cartItems[idx];
+    if (!item) return;
+
+    const newQty = item.qty + delta;
+    if (newQty <= 0) {
+      await triRemoveFromCart(idx, dbId);
+      return;
+    }
+
+    if (isLoggedIn && dbId) {
+      try {
+        const token = window.safeStorage.getItem('tri_token');
+        const res = await fetch(`/api/cart/update/${dbId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          },
+          body: JSON.stringify({ quantity: newQty })
+        });
+        if (res.ok) {
+          await loadCart();
+          return;
+        }
+      } catch (err) {
+        console.error('Failed to update quantity on database cart:', err);
+      }
+    }
+
+    item.qty = newQty;
+    syncCartUI();
+  };
+
   window.triRemoveFromCart = async (idx, dbId) => {
     if (isLoggedIn && dbId) {
       try {
-        const token = localStorage.getItem('tri_token');
-        // FIXED: was /api/cart/remove/:id, correct is /api/cart/:id
+        const token = window.safeStorage.getItem('tri_token');
         const res = await fetch(`/api/cart/${dbId}`, {
           method: 'DELETE',
           headers: token ? { 'Authorization': `Bearer ${token}` } : {}
@@ -312,11 +373,12 @@
     cartItems.splice(idx, 1);
     syncCartUI();
   };
+
   window.triSyncCartAfterLogin = async () => {
     try {
-      const localCart = JSON.parse(localStorage.getItem('tri_cart') || '[]');
+      const localCart = JSON.parse(window.safeStorage.getItem('tri_cart') || '[]');
       if (localCart.length > 0) {
-        const token = localStorage.getItem('tri_token');
+        const token = window.safeStorage.getItem('tri_token');
         const headers = { 'Content-Type': 'application/json' };
         if (token) {
           headers['Authorization'] = `Bearer ${token}`;
@@ -327,10 +389,10 @@
           body: JSON.stringify({ cart: localCart })
         });
         if (res.status === 200) {
-          localStorage.removeItem('tri_cart');
+          window.safeStorage.removeItem('tri_cart');
         }
       }
-      currentUser = JSON.parse(localStorage.getItem('tri_user') || 'null');
+      currentUser = JSON.parse(window.safeStorage.getItem('tri_user') || 'null');
       isLoggedIn = !!currentUser;
       await loadCart();
     } catch (err) {

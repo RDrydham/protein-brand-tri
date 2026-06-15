@@ -1372,13 +1372,13 @@
     </div>
 
     <div class="nav-right">
-      <button class="nav-icon-btn" id="nav-cart-btn" aria-label="Open cart">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke-linecap="round" stroke-linejoin="round"/>
-          <line x1="3" y1="6" x2="21" y2="6" stroke-linecap="round"/>
-          <path d="M16 10a4 4 0 0 1-8 0" stroke-linecap="round" stroke-linejoin="round"/>
+      <button class="nav-cart-btn" id="cart-icon-btn" aria-label="Open cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
         </svg>
-        <span class="cart-badge-dot" id="cart-count">0</span>
+        <span class="cart-count" id="cart-count-badge">0</span>
       </button>
       <button class="nav-account" id="account-btn" aria-label="My Account">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -1420,26 +1420,36 @@
   </div>
 
   <!-- Cart -->
-  <div id="cart-overlay" aria-hidden="true"></div>
-  <aside id="cart-panel" role="complementary" aria-label="Shopping cart">
-    <div class="cp-hdr">
-      <h3>Your Cart</h3>
-      <button id="cp-close" aria-label="Close cart">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+    <!-- ═══════════════════════════════════════════════════════════
+       CART SIDEBAR
+  ════════════════════════════════════════════════════════════ -->
+  <div id="cart-overlay"></div>
+  <aside id="cart-panel" role="dialog" aria-label="Shopping cart">
+    <div class="cart-panel-header">
+      <span class="cart-panel-title">Your Cart</span>
+      <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </button>
     </div>
-    <div id="cp-body">
-      <div class="cp-empty">Your cart is empty</div>
-    </div>
-    <div id="cp-ftr">
-      <button class="cp-checkout">Checkout</button>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cart-total-amount">₹0</span>
+      </div>
+      <button class="cart-checkout-btn">
+        Checkout
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
     </div>
   </aside>
 
   <!-- Toast -->
-  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="tri-toast"></div>
 
   <!-- ============================================================
        HERO SECTION
@@ -1941,99 +1951,7 @@
     mmClose.addEventListener('click', () => toggleMenu(false));
     mMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
 
-    /* ── Cart panel ── */
-    let cart = [];
-    try {
-      cart = JSON.parse(localStorage.getItem('tri_cart') || '[]');
-    } catch(e) {
-      cart = [];
-    }
-    const cartBtn     = document.getElementById('nav-cart-btn');
-    const cartOverlay = document.getElementById('cart-overlay');
-    const cartPanel   = document.getElementById('cart-panel');
-    const cpClose     = document.getElementById('cp-close');
-    const cpBody      = document.getElementById('cp-body');
-    const cartCountBadge = document.getElementById('cart-count');
-
-    function saveCart() {
-      try {
-        localStorage.setItem('tri_cart', JSON.stringify(cart));
-      } catch(e) {}
-    }
-
-    function renderCart() {
-      var total = 0;
-      if (!cart || !cart.length) {
-        if (cpBody) cpBody.innerHTML = '<div class="cp-empty">Your cart is empty</div>';
-      } else {
-        if (cpBody) {
-          cpBody.innerHTML = '';
-          cart.forEach(function(it, i) {
-            total += it.price * it.qty;
-            var d = document.createElement('div');
-            d.style.cssText = 'display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(230,162,164,.2);align-items:center';
-            d.innerHTML = '<img src="' + it.image + '" style="width:52px;height:52px;object-fit:contain;background:rgba(248,215,217,.3);border-radius:10px;padding:4px" alt="' + it.name + '"/>' +
-              '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:3px">' + it.name + '</div>' +
-              '<div style="font-size:12px;color:#8A7A7A">₹' + it.price + ' × ' + it.qty + '</div></div>' +
-              '<div style="display:flex;gap:6px;align-items:center">' +
-              '<button onclick="chQ(' + i + ',-1)" style="width:24px;height:24px;border-radius:50%;border:1px solid rgba(230,162,164,.4);background:none;color:#1A1A1A;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px">−</button>' +
-              '<button onclick="chQ(' + i + ',1)" style="width:24px;height:24px;border-radius:50%;border:1px solid rgba(230,162,164,.4);background:none;color:#1A1A1A;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px">+</button></div>';
-            cpBody.appendChild(d);
-          });
-        }
-      }
-      var qty = cart.reduce(function(a, b) { return a + b.qty; }, 0);
-      if (cartCountBadge) {
-        cartCountBadge.textContent = qty;
-        cartCountBadge.classList.toggle('show', qty > 0);
-      }
-    }
-
-    window.chQ = function(i, d) {
-      cart[i].qty += d;
-      if (cart[i].qty <= 0) cart.splice(i, 1);
-      saveCart();
-      renderCart();
-    };
-
-    const openCart  = () => {
-      try {
-        cart = JSON.parse(localStorage.getItem('tri_cart') || '[]');
-      } catch(e) {
-        cart = [];
-      }
-      renderCart();
-      cartPanel.classList.add('open');
-      cartOverlay.classList.add('open');
-      cartOverlay.removeAttribute('aria-hidden');
-      document.body.style.overflow='hidden';
-    };
-    const closeCart = () => { cartPanel.classList.remove('open'); cartOverlay.classList.remove('open'); cartOverlay.setAttribute('aria-hidden','true'); document.body.style.overflow=''; };
-    cartBtn.addEventListener('click', openCart);
-    cpClose.addEventListener('click', closeCart);
-    cartOverlay.addEventListener('click', closeCart);
-
-    document.querySelector('.cp-checkout')?.addEventListener('click', function() {
-      if (!cart.length) return;
-      var items = cart.map(function(i) {
-        return i.name + ' x' + i.qty + ' = %E2%82%B9' + (i.price * i.qty).toLocaleString('en-IN');
-      }).join('%0A');
-      var total = cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0);
-      var msg = 'Hello! I would like to order:%0A%0A' + items + '%0A%0ATotal: %E2%82%B9' + total.toLocaleString('en-IN') + '%0A%0APlease confirm my order and share payment details.';
-      window.open('https://wa.me/919999999999?text=' + msg, '_blank');
-    });
-
-    renderCart();
-
-    /* ── Toast ── */
-    const toastEl = document.getElementById('toast');
-    let toastTimer;
-    function showToast(msg) {
-      toastEl.textContent = msg;
-      toastEl.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
-    }
+    
 
     /* ── Scroll reveal (IntersectionObserver) ── */
     const revealIO = new IntersectionObserver((entries) => {
@@ -2191,6 +2109,7 @@
       cbInput?.addEventListener('keydown', e => { if (e.key === 'Enter') doSend(); });
     })();
   </script>
+  <script src="assets/tri.js"></script>
   <script src="assets/tri-motion.js?v=4.0"></script>
   <script src="assets/tri-auth.js?v=2.1"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>

@@ -1127,7 +1127,7 @@
 <body>
 
   <!-- Toast notification -->
-  <div id="cart-toast">✓ Added to Cart</div>
+  <div id="tri-toast"></div>
 
 
 
@@ -1256,13 +1256,13 @@
     </ul>
 
     <div class="nav-right-group">
-      <button class="nav-cart-btn" id="nav-cart-btn" onclick="openCart()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <button class="nav-cart-btn" id="cart-icon-btn" aria-label="Open cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 01-8 0"/>
         </svg>
-        <span class="cart-badge" id="cart-badge">0</span>
+        <span class="cart-count" id="cart-count-badge">0</span>
       </button>
       <button class="nav-account" id="account-btn" aria-label="My Account">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -1642,35 +1642,33 @@
     </div>
   </div>
 
-  <!-- ================================================================
+  <!-- ═══════════════════════════════════════════════════════════
        CART SIDEBAR
-  ================================================================ -->
-  <div id="cart-overlay" onclick="closeCart()"></div>
-  <div id="cart-panel">
-    <div class="cart-header">
-      <div>
-        <div class="cart-header-title">Your Cart</div>
-        <div class="cart-header-count" id="cart-count-label">0 items</div>
-      </div>
-      <button class="cart-close-btn" onclick="closeCart()">✕</button>
+  ════════════════════════════════════════════════════════════ -->
+  <div id="cart-overlay"></div>
+  <aside id="cart-panel" role="dialog" aria-label="Shopping cart">
+    <div class="cart-panel-header">
+      <span class="cart-panel-title">Your Cart</span>
+      <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
     </div>
-    <div class="cart-items" id="cart-items-list">
-      <div class="cart-empty">
-        <div class="cart-empty-icon">🛍️</div>
-        <h3>Your cart is empty</h3>
-        <p>Add a TRI system to begin</p>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cart-total-amount">₹0</span>
       </div>
+      <button class="cart-checkout-btn">
+        Checkout
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
     </div>
-    <div class="cart-footer" id="cart-footer" style="display:none;">
-      <div class="cart-subtotal">
-        <div class="cart-subtotal-lbl">Subtotal</div>
-        <div class="cart-subtotal-val" id="cart-total">₹0</div>
-      </div>
-      <div class="cart-shipping" id="cart-shipping"></div>
-      <button class="cart-checkout-btn" onclick="checkout()">Checkout via WhatsApp →</button>
-      <button class="cart-continue" onclick="closeCart()">Continue Shopping</button>
-    </div>
-  </div>
+  </aside>
 
   <!-- GSAP Core + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -1810,135 +1808,7 @@
       document.getElementById('newsletter-email').value = '';
     }
 
-    /* ================================================================
-       SHOPPING CART — localStorage persisted (linked to shared tri_cart)
-    ================================================================ */
-    let cart = [];
-    try {
-      cart = JSON.parse(localStorage.getItem('tri_cart') || '[]');
-    } catch(e) {
-      cart = [];
-    }
-
-    function saveCart() { localStorage.setItem('tri_cart', JSON.stringify(cart)); }
-
-    function addToCart(prod) {
-      const existing = cart.find(i => i.name === prod.name && i.variant === prod.variant);
-      if (existing) { existing.qty++; }
-      else { cart.push({ name: prod.name, price: prod.price, image: prod.image, variant: prod.variant, qty: 1 }); }
-      saveCart();
-      updateCartUI();
-      showToast(`✓ ${prod.name} added to cart`);
-      const badge = document.getElementById('cart-badge');
-      badge.classList.add('show');
-      gsap.fromTo(badge, { scale: 1.5 }, { scale: 1, duration: .4, ease: 'back.out(2)' });
-
-      if (window.triAddToCart) {
-        window.triAddToCart(prod.name, prod.name, prod.image, prod.varient);
-      }
-    }
-
-    function removeFromCart(idx) {
-      cart.splice(idx, 1);
-      saveCart(); updateCartUI();
-    }
-
-    function changeQty(idx, delta) {
-      if (idx < 0 || idx >= cart.length) return;
-      cart[idx].qty += delta;
-      if (cart[idx].qty <= 0) removeFromCart(idx);
-      else { saveCart(); updateCartUI(); }
-    }
-
-    function updateCartUI() {
-      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-      const count = cart.reduce((s, i) => s + i.qty, 0);
-
-      const badge = document.getElementById('cart-badge');
-      if (badge) {
-        badge.textContent = count;
-        badge.classList.toggle('show', count > 0);
-      }
-
-      const countLabel = document.getElementById('cart-count-label');
-      if (countLabel) {
-        countLabel.textContent = count + (count === 1 ? ' item' : ' items');
-      }
-
-      const list   = document.getElementById('cart-items-list');
-      const footer = document.getElementById('cart-footer');
-
-      if (!list) return;
-
-      if (cart.length === 0) {
-        list.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛍️</div><h3>Your cart is empty</h3><p>Add a TRI system to begin</p></div>';
-        if (footer) footer.style.display = 'none';
-      } else {
-        list.innerHTML = cart.map((item, idx) => `
-          <div class="cart-item">
-            <div class="cart-item-img"><img src="${item.image || 'assets/hero_product.png'}" alt="${item.name}" /></div>
-            <div class="cart-item-info">
-              <div class="cart-item-sys">${item.variant || ''}</div>
-              <div class="cart-item-name">${item.name}</div>
-              <div class="cart-item-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
-              <div class="cart-qty-row">
-                <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
-                <span class="qty-num">${item.qty}</span>
-                <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
-              </div>
-            </div>
-            <button class="cart-remove" onclick="removeFromCart(${idx})">✕</button>
-          </div>
-        `).join('');
-        if (footer) {
-          footer.style.display = 'block';
-          document.getElementById('cart-total').textContent = '₹' + total.toLocaleString('en-IN');
-          document.getElementById('cart-shipping').textContent =
-            '✓ Free Standard Shipping Unlocked';
-        }
-      }
-    }
-
-    function openCart() {
-      try {
-        cart = JSON.parse(localStorage.getItem('tri_cart') || '[]');
-      } catch(e) {
-        cart = [];
-      }
-      updateCartUI();
-      document.getElementById('cart-overlay').classList.add('open');
-      document.getElementById('cart-panel').classList.add('open');
-    }
-    function closeCart() {
-      document.getElementById('cart-overlay').classList.remove('open');
-      document.getElementById('cart-panel').classList.remove('open');
-    }
-
-    function checkout() {
-      if (cart.length === 0) return;
-      const items = cart.map(i => `${i.name} x${i.qty} = %E2%82%B9${(i.price*i.qty).toLocaleString('en-IN')}`).join('%0A');
-      const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
-      const msg = `Hello! I would like to order:%0A%0A${items}%0A%0ATotal: %E2%82%B9${total.toLocaleString('en-IN')}%0A%0APlease confirm my order and share payment details.`;
-      window.open(`https://wa.me/919999999999?text=${msg}`, '_blank');
-    }
-
-    let toastTimer;
-    function showToast(msg) {
-      let t = document.getElementById('cart-toast');
-      if (!t) {
-        t = document.createElement('div');
-        t.id = 'cart-toast';
-        document.body.appendChild(t);
-      }
-      t.textContent = msg;
-      t.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
-    }
-
-    updateCartUI();
-
-    /* ================================================================
+        /* ================================================================
        ALPHA CHAT BOT
     ================================================================ */
     function toggleAlpha() { document.getElementById('alpha-panel').classList.toggle('open'); }

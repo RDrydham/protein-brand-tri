@@ -530,13 +530,13 @@
       </ul>
 
       <div class="nav-right">
-        <button class="nav-cart-btn" aria-label="Open cart">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <button class="nav-cart-btn" id="cart-icon-btn" aria-label="Open cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
             <line x1="3" y1="6" x2="21" y2="6"/>
             <path d="M16 10a4 4 0 01-8 0"/>
           </svg>
-          <span class="cart-count" id="cart-count">0</span>
+          <span class="cart-count" id="cart-count-badge">0</span>
         </button>
         <a href="shop.html" class="nav-cta">Shop Now</a>
         <button class="nav-hamburger" aria-label="Open menu">
@@ -688,33 +688,33 @@
   <!-- =====================================================
        CART SIDEBAR
   ===================================================== -->
+    <!-- ═══════════════════════════════════════════════════════════
+       CART SIDEBAR
+  ════════════════════════════════════════════════════════════ -->
   <div id="cart-overlay"></div>
-  <div id="cart-panel">
+  <aside id="cart-panel" role="dialog" aria-label="Shopping cart">
     <div class="cart-panel-header">
-      <div class="cart-panel-title">Your Cart</div>
+      <span class="cart-panel-title">Your Cart</span>
       <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </button>
     </div>
-    <div class="cart-body" id="cart-body">
-      <div class="cart-empty">
-        <div class="cart-empty-icon">🛒</div>
-        <p style="font-family:var(--font-serif);font-size:18px;font-weight:600;color:var(--dark);margin-bottom:6px">Your cart is empty</p>
-        <p style="font-size:13px;color:var(--text-muted)">Add some TRI products to begin.</p>
-      </div>
-    </div>
-    <div class="cart-footer" id="cart-footer" style="display:none;">
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-footer">
       <div class="cart-total">
         <span>Total</span>
         <span id="cart-total-amount">₹0</span>
       </div>
-      <button class="cart-checkout-btn" onclick="window.open('https://wa.me/919999999999','_blank')">
-        Checkout via WhatsApp →
+      <button class="cart-checkout-btn">
+        Checkout
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
       </button>
     </div>
-  </div>
+  </aside>
 
   <!-- =====================================================
        SCRIPTS
