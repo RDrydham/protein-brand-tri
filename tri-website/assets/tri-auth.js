@@ -2,16 +2,35 @@
 // API Base — empty string = same domain (Nginx proxies /api/ → backend:3000)
 const TRI_API = '';
 
+// Safe LocalStorage wrapper to prevent exceptions on restricted devices
+if (!window.safeStorage) {
+  window.safeStorage = {
+    getItem(key) {
+      try { return localStorage.getItem(key); } catch (e) { return this._store[key] || null; }
+    },
+    setItem(key, val) {
+      try { localStorage.setItem(key, val); } catch (e) { this._store[key] = String(val); }
+    },
+    removeItem(key) {
+      try { localStorage.removeItem(key); } catch (e) { delete this._store[key]; }
+    },
+    clear() {
+      try { localStorage.clear(); } catch (e) { this._store = {}; }
+    },
+    _store: {}
+  };
+}
+
 const TriAuth = {
   // Get stored token
   getToken() {
-    return localStorage.getItem('tri_token');
+    return window.safeStorage.getItem('tri_token');
   },
 
   // Get stored user
   getUser() {
     try {
-      const u = localStorage.getItem('tri_user');
+      const u = window.safeStorage.getItem('tri_user');
       return u ? JSON.parse(u) : null;
     } catch { return null; }
   },
@@ -23,14 +42,14 @@ const TriAuth = {
 
   // Save session
   _saveSession(token, user) {
-    localStorage.setItem('tri_token', token);
-    localStorage.setItem('tri_user', JSON.stringify(user));
+    window.safeStorage.setItem('tri_token', token);
+    window.safeStorage.setItem('tri_user', JSON.stringify(user));
   },
 
   // Clear session
   _clearSession() {
-    localStorage.removeItem('tri_token');
-    localStorage.removeItem('tri_user');
+    window.safeStorage.removeItem('tri_token');
+    window.safeStorage.removeItem('tri_user');
   },
 
   // Auth headers
@@ -125,7 +144,7 @@ const TriAuth = {
   // Sync localStorage cart to server after login
   async _syncCartAfterLogin() {
     try {
-      const localCart = JSON.parse(localStorage.getItem('tri_cart') || '[]');
+      const localCart = JSON.parse(window.safeStorage.getItem('tri_cart') || '[]');
       if (localCart.length === 0) return;
       await fetch(`${TRI_API}/api/cart/sync`, {
         method: 'POST',

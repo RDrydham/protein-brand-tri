@@ -646,9 +646,9 @@
   function clearError() { $('form-error').classList.remove('show'); }
 
   /* ── Auth state ── */
-  const token = localStorage.getItem('tri_token');
+  const token = window.safeStorage.getItem('tri_token');
   const user  = (() => {
-    try { return JSON.parse(localStorage.getItem('tri_user') || 'null'); } catch { return null; }
+    try { return JSON.parse(window.safeStorage.getItem('tri_user') || 'null'); } catch { return null; }
   })();
   const isLoggedIn = !!(token && user);
 
@@ -658,10 +658,10 @@
     $('guest-email-container').style.display = 'block';
   }
 
-  /* ── Load cart from localStorage ── */
+  /* ── Load cart from window.safeStorage ── */
   let cartItems = [];
   try {
-    cartItems = JSON.parse(localStorage.getItem('tri_cart') || '[]');
+    cartItems = JSON.parse(window.safeStorage.getItem('tri_cart') || '[]');
   } catch (e) { cartItems = []; }
 
   // Coupon state
@@ -945,7 +945,7 @@
 
             if (verifyRes.ok || verifyData.message === 'Payment verified successfully!') {
               // Clear cart
-              localStorage.removeItem('tri_cart');
+              window.safeStorage.removeItem('tri_cart');
               showToast('🎉 Payment confirmed! Redirecting...');
               setTimeout(() => {
                 window.location.href = `order-success.html?order=${encodeURIComponent(order_number)}`;
