@@ -77,6 +77,12 @@
       letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--muted); padding: 4px 12px;
       border-radius: 999px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+    a.nav-step:hover {
+      color: var(--rose);
+      background: var(--panel-2);
     }
     .nav-step.active {
       background: var(--panel-2);
@@ -453,6 +459,13 @@
       .auth-gate-btns { width: 100%; }
       .btn-auth { flex: 1; text-align: center; }
     }
+    .payment-method-card:hover {
+      border-color: var(--rose) !important;
+    }
+    .payment-method-card.active {
+      border-color: var(--rose-dark) !important;
+      background: rgba(200,120,122,0.03) !important;
+    }
   </style>
 </head>
 <body>
@@ -465,7 +478,7 @@
       <div class="nav-logo-sub">The Real Inside</div>
     </a>
     <div class="nav-steps">
-      <span class="nav-step">Cart</span>
+      <a href="shop.html?cart=open" class="nav-step" style="cursor: pointer;">Cart</a>
       <span style="color:#333">→</span>
       <span class="nav-step active">Checkout</span>
       <span style="color:#333">→</span>
@@ -570,20 +583,38 @@
     <div class="form-card">
       <div class="section-title">
         <div class="section-num">3</div>
-        Payment
+        Payment Method
       </div>
-      <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        </svg>
-        <div>
-          <div style="font-size:14px;color:var(--text);font-weight:600">Razorpay Secure Payment</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">UPI, Cards, Net Banking, Wallets — all accepted</div>
+      
+      <!-- Option 1: Razorpay -->
+      <label class="payment-method-card active" id="pay-card-razorpay" style="display:flex;align-items:center;gap:14px;padding:16px;border:1.5px solid var(--rose-dark);border-radius:12px;margin-bottom:12px;cursor:pointer;background:rgba(200,120,122,0.03);transition:all 0.2s;">
+        <input type="radio" name="payment-method" value="razorpay" checked style="display:none;">
+        <div class="pm-radio-circle" style="width:18px;height:18px;border-radius:50%;border:2px solid var(--rose-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--rose-dark);"></div>
         </div>
-      </div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.6;">
-        You'll be redirected to Razorpay's secure payment window after confirming your address. Your card details are never stored on our servers.
-      </div>
+        <div style="flex:1;">
+          <div style="font-size:14px;color:var(--text);font-weight:600;display:flex;align-items:center;gap:8px;">
+            Razorpay Secure Payment 
+            <span style="font-size:10px;background:rgba(34,197,94,0.1);color:var(--green);padding:2px 6px;border-radius:4px;font-family:var(--font-label);font-weight:700;">SECURE</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">UPI, Cards, Net Banking, Wallets (Recommended)</div>
+        </div>
+      </label>
+
+      <!-- Option 2: Cash on Delivery -->
+      <label class="payment-method-card" id="pay-card-cod" style="display:flex;align-items:center;gap:14px;padding:16px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;background:var(--panel-2);transition:all 0.2s;">
+        <input type="radio" name="payment-method" value="cod" style="display:none;">
+        <div class="pm-radio-circle" style="width:18px;height:18px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <div style="width:10px;height:10px;border-radius:50%;background:transparent;"></div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:14px;color:var(--text);font-weight:600;display:flex;align-items:center;gap:8px;">
+            Cash on Delivery (COD) 
+            <span style="font-size:10px;background:rgba(230,162,164,0.1);color:var(--rose);padding:2px 6px;border-radius:4px;font-family:var(--font-label);font-weight:700;">+₹50 FEE</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Pay in cash when your order is delivered to your door.</div>
+        </div>
+      </label>
     </div>
 
   </div>
@@ -593,7 +624,7 @@
     <div class="sidebar-card">
       <div class="sidebar-header" onclick="window.triToggleMobileSummary()">
         <div class="sidebar-title">Order Summary <span class="mobile-summary-toggle" style="font-size:12px;color:var(--rose);margin-left:6px;display:none;">(Show Items ▾)</span></div>
-        <a href="shop.html" class="sidebar-edit" onclick="event.stopPropagation()">Edit Cart</a>
+        <a href="shop.html?cart=open" class="sidebar-edit" onclick="event.stopPropagation()">Edit Cart</a>
       </div>
 
       <!-- Cart items list -->
@@ -622,12 +653,16 @@
           <span id="subtotal-val">₹0</span>
         </div>
         <div class="total-row" id="discount-row" style="display: none; color: var(--green);">
-          <span>Discount (<span id="applied-coupon-code"></span>)</span>
+          <span>Discount (<span id="applied-coupon-code"></span>) <button type="button" onclick="window.triRemoveCoupon()" style="background:none;border:none;color:var(--rose);cursor:pointer;margin-left:4px;padding:0 2px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;" title="Remove coupon">✕</button></span>
           <span id="discount-val">-₹0</span>
         </div>
         <div class="total-row">
           <span>Shipping</span>
           <span class="free-badge">FREE</span>
+        </div>
+        <div class="total-row" id="cod-fee-row" style="display: none;">
+          <span>COD Charges</span>
+          <span id="cod-fee-val">₹50</span>
         </div>
         <div class="total-row">
           <span>Tax (incl.)</span>
@@ -703,6 +738,44 @@
   }
   function clearError() { $('form-error').classList.remove('show'); }
 
+  // Get selected payment method
+  function getSelectedPaymentMethod() {
+    const radios = document.getElementsByName('payment-method');
+    for (const r of radios) {
+      if (r.checked) return r.value;
+    }
+    return 'razorpay';
+  }
+
+  // Wire up payment method clicks
+  function initPaymentMethods() {
+    const cards = document.querySelectorAll('.payment-method-card');
+    cards.forEach(card => {
+      card.addEventListener('click', function(e) {
+        cards.forEach(c => {
+          c.classList.remove('active');
+          c.style.borderColor = 'var(--border)';
+          c.style.background = 'var(--panel-2)';
+          const dot = c.querySelector('.pm-radio-circle div');
+          if (dot) dot.style.background = 'transparent';
+          c.querySelector('.pm-radio-circle').style.borderColor = 'var(--border)';
+        });
+        
+        this.classList.add('active');
+        this.style.borderColor = 'var(--rose-dark)';
+        this.style.background = 'rgba(200,120,122,0.03)';
+        const dot = this.querySelector('.pm-radio-circle div');
+        if (dot) dot.style.background = 'var(--rose-dark)';
+        this.querySelector('.pm-radio-circle').style.borderColor = 'var(--rose-dark)';
+        
+        const radio = this.querySelector('input[type="radio"]');
+        if (radio) radio.checked = true;
+        
+        renderCart();
+      });
+    });
+  }
+
   /* ── Auth state ── */
   const token = window.safeStorage.getItem('tri_token');
   const user  = (() => {
@@ -753,15 +826,19 @@
 
   function renderCart() {
     const list = $('cart-items-list');
-    const emptyMsg = $('empty-msg');
     const placeBtn = $('place-order-btn');
 
     if (!cartItems.length) {
-      list.innerHTML = '';
-      list.appendChild(emptyMsg);
-      emptyMsg.style.display = 'block';
+      list.innerHTML = `
+        <div class="empty-cart-msg" id="empty-msg" style="display:block;">
+          <div style="font-size:32px;margin-bottom:8px">🛒</div>
+          <p>Your cart is empty.</p>
+          <a href="shop.html" style="color:var(--rose);font-size:13px;font-weight:600;display:inline-block;margin-top:8px;">Browse Products →</a>
+        </div>
+      `;
       $('subtotal-val').textContent = '₹0';
       $('total-val').textContent = '₹0';
+      $('discount-row').style.display = 'none';
       placeBtn.disabled = true;
       return;
     }
@@ -783,7 +860,19 @@
       $('discount-row').style.display = 'none';
     }
 
-    const finalTotal = subtotal - discount;
+    const payMethod = getSelectedPaymentMethod();
+    const isCod = payMethod === 'cod';
+    const codFee = isCod ? 50 : 0;
+
+    if (isCod) {
+      $('cod-fee-row').style.display = 'flex';
+      $('place-order-btn').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Confirm COD Order';
+    } else {
+      $('cod-fee-row').style.display = 'none';
+      $('place-order-btn').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
+    }
+
+    const finalTotal = subtotal - discount + codFee;
 
     list.innerHTML = cartItems.map((item, idx) => `
       <div class="order-item" style="display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
@@ -868,6 +957,16 @@
     }
   };
 
+  // Remove coupon handler
+  window.triRemoveCoupon = () => {
+    appliedCoupon = null;
+    $('coupon-code').value = '';
+    const feedback = $('coupon-feedback');
+    feedback.textContent = '';
+    feedback.style.display = 'none';
+    renderCart();
+  };
+
   // Mobile order summary accordion toggler
   window.triToggleMobileSummary = () => {
     if (window.innerWidth > 900) return;
@@ -944,7 +1043,7 @@
 
       if (res.ok && data.success) {
         appliedCoupon = data.coupon;
-        feedback.textContent = `Coupon "${appliedCoupon.code}" applied!`;
+        feedback.innerHTML = `Coupon "${appliedCoupon.code}" applied! <button type="button" onclick="window.triRemoveCoupon()" style="background:none;border:none;color:var(--rose);font-weight:600;margin-left:8px;cursor:pointer;text-decoration:underline;padding:0;font-size:12px;">Remove</button>`;
         feedback.style.color = 'var(--green)';
         renderCart();
       } else {
@@ -987,6 +1086,16 @@
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Processing...';
 
+    const payMethod = getSelectedPaymentMethod();
+
+    function resetButtonText() {
+      btn.disabled = false;
+      const currentPayMethod = getSelectedPaymentMethod();
+      btn.innerHTML = currentPayMethod === 'cod'
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Confirm COD Order'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
+    }
+
     // Build headers
     const reqHeaders = { 'Content-Type': 'application/json' };
     if (isLoggedIn) {
@@ -1001,7 +1110,8 @@
         address,
         notes,
         couponCode: appliedCoupon ? appliedCoupon.code : null,
-        items: cartItems
+        items: cartItems,
+        paymentMethod: payMethod
       };
 
       if (!isLoggedIn) {
@@ -1018,12 +1128,21 @@
 
       if (!orderRes.ok) {
         showError(orderData.message || 'Failed to place order. Please try again.');
-        btn.disabled = false;
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
+        resetButtonText();
         return;
       }
 
-      const { order_id, order_number, total } = orderData;
+      const { order_id, order_number, total, paymentMethod: returnedPaymentMethod } = orderData;
+
+      // If COD, success immediately
+      if (returnedPaymentMethod === 'cod') {
+        window.safeStorage.removeItem('tri_cart');
+        showToast('🎉 Order confirmed! Redirecting...');
+        setTimeout(() => {
+          window.location.href = `order-success.html?order=${encodeURIComponent(order_number)}`;
+        }, 1000);
+        return;
+      }
 
       // Step 2: Create Razorpay payment order
       showToast('Initializing payment gateway...');
@@ -1036,8 +1155,7 @@
 
       if (!payRes.ok) {
         showError(payData.message || 'Failed to initialize payment. Your order is saved — please try again.');
-        btn.disabled = false;
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
+        resetButtonText();
         return;
       }
 
@@ -1046,8 +1164,7 @@
       // Step 3: Launch Razorpay
       if (!window.Razorpay) {
         showError('Payment gateway failed to load. Please refresh and try again.');
-        btn.disabled = false;
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
+        resetButtonText();
         return;
       }
 
@@ -1094,20 +1211,17 @@
               }, 1000);
             } else {
               showError('Payment verification failed. Please contact support with your payment ID: ' + response.razorpay_payment_id);
-              btn.disabled = false;
-              btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
+              resetButtonText();
             }
           } catch (err) {
             showError('Failed to verify payment with server. Please contact support.');
-            btn.disabled = false;
-            btn.innerHTML = 'Place Order & Pay';
+            resetButtonText();
           }
         },
         modal: {
           ondismiss: function () {
             showToast('Payment cancelled. Your order is saved.');
-            btn.disabled = false;
-            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
+            resetButtonText();
           }
         }
       };
@@ -1115,16 +1229,14 @@
       const rzp = new window.Razorpay(options);
       rzp.on('payment.failed', function (response) {
         showError('Payment failed: ' + (response.error.description || 'Unknown error. Please try again.'));
-        btn.disabled = false;
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
+        resetButtonText();
       });
       rzp.open();
 
     } catch (err) {
       console.error('Checkout error:', err);
       showError('Server error. Please try again or contact support.');
-      btn.disabled = false;
-      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
+      resetButtonText();
     }
   }
 
@@ -1140,6 +1252,7 @@
   // Initialize
   renderCart();
   loadCartFromBackend();
+  initPaymentMethods();
 
 })();
 </script>

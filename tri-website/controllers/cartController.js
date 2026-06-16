@@ -35,47 +35,38 @@ exports.getCart = async (req, res) => {
 // 2. ADD TO CART
 exports.addToCart = async (req, res) => {
   try {
-    let { productName, variant, price, quantity, imageUrl, product_id } = req.body;
+    let { productName, variant, quantity, product_id } = req.body;
 
     const qty = parseInt(quantity) || 1;
+    let dbProduct = null;
 
-    // If product_id was sent (Postgres backend style), look up product details in DB
+    // Look up product in DB to ensure correct price and details
     if (product_id) {
-      const product = await prisma.product.findUnique({
+      dbProduct = await prisma.product.findUnique({
         where: { id: parseInt(product_id) }
       });
-      if (product) {
-        productName = product.name;
-        price = product.price;
-        imageUrl = product.imageUrl;
-      }
-    }
-
-    // Fallback if name is provided but price is not
-    if (productName && !price) {
-      const product = await prisma.product.findFirst({
+    } else if (productName) {
+      dbProduct = await prisma.product.findFirst({
         where: { name: productName.trim() }
       });
-      if (product) {
-        price = product.price;
-        if (!imageUrl) imageUrl = product.imageUrl;
-      }
     }
 
-    if (!productName || price === undefined) {
+    if (!dbProduct) {
       return res.status(400).json({
         success: false,
-        message: 'Product name and price are required.'
+        message: 'Product not found in system.'
       });
     }
 
-    const itemPrice = parseInt(price) || 0;
+    const itemPrice = dbProduct.price;
+    const finalProductName = dbProduct.name;
+    const finalImageUrl = dbProduct.imageUrl;
 
     // Check if item already exists in cart with same variant
     const existingItem = await prisma.cartItem.findFirst({
       where: {
         userId: req.user.id,
-        productName: productName.trim(),
+        productName: finalProductName.trim(),
         variant: variant ? variant.trim() : null
       }
     });
@@ -90,11 +81,11 @@ exports.addToCart = async (req, res) => {
       cartItem = await prisma.cartItem.create({
         data: {
           userId: req.user.id,
-          productName: productName.trim(),
+          productName: finalProductName.trim(),
           variant: variant ? variant.trim() : null,
           price: itemPrice,
           quantity: qty,
-          imageUrl: imageUrl || null
+          imageUrl: finalImageUrl || null
         }
       });
     }
@@ -190,9 +181,7 @@ exports.removeFromCart = async (req, res) => {
 };
 
 // 5. SYNC LOCAL GUEST CART TO DB ON LOGIN
-// 5. SYNC LOCAL GUEST CART TO DB ON LOGIN
 exports.syncCart = async (req, res) => {
-  const client = await pool.connect();
   try {
     const cart = req.body.cart || req.body.items;
 
@@ -200,36 +189,39 @@ exports.syncCart = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Valid cart array is required.' });
     }
 
-    await client.query('BEGIN');
-
-    // Clear existing cart items from the SQL table used by orders.js
-    await client.query('DELETE FROM cart WHERE user_id = $1', [req.user.id]);
+    // Clear existing Prisma cart items for this user
+    await prisma.cartItem.deleteMany({ where: { userId: req.user.id } });
 
     for (const item of cart) {
-      if (!item.name) continue;
+      const name = item.name || item.productName;
+      if (!name) continue;
 
-      // Find the correct product_id from the products table
-      const productResult = await client.query('SELECT id FROM products WHERE name = $1', [item.name.trim()]);
-      
-      if (productResult.rows.length > 0) {
-        const productId = productResult.rows[0].id;
-        const qty = parseInt(item.qty) || 1;
+      const qty = parseInt(item.qty || item.quantity) || 1;
 
-        // Insert into the SQL 'cart' table (same one orders.js reads from)
-        await client.query(
-          'INSERT INTO cart (user_id, product_id, quantity) VALUES ($1, $2, $3)',
-          [req.user.id, productId, qty]
-        );
-      }
+      // Strictly look up product price in DB
+      const product = await prisma.product.findFirst({
+        where: { name: name.trim() }
+      });
+
+      // Default to 599 if product not found, preventing client-side price setting
+      const price = product ? product.price : 599;
+      const imageUrl = product ? product.imageUrl : (item.image || item.imageUrl || null);
+
+      await prisma.cartItem.create({
+        data: {
+          userId: req.user.id,
+          productName: name.trim(),
+          variant: item.variant ? item.variant.trim() : null,
+          price: price,
+          quantity: qty,
+          imageUrl: imageUrl
+        }
+      });
     }
 
-    await client.query('COMMIT');
     return res.status(200).json({ success: true, message: 'Cart synced to database.' });
   } catch (error) {
-    await client.query('ROLLBACK');
     console.error('[Sync Cart Error]:', error.message);
     return res.status(500).json({ success: false, message: 'Internal server error.' });
-  } finally {
-    client.release();
   }
 };

@@ -52,6 +52,8 @@ model Order {
   status            String      @default("pending") // pending, paid, shipped, delivered, cancelled
   totalAmount       Int
   paymentStatus     String      @default("unpaid") // unpaid, paid, failed
+  paymentMethod     String      @default("razorpay") // razorpay, cod
+  codFee            Int         @default(0)
   razorpayOrderId   String?     @unique
   razorpayPaymentId String?
   customerName      String

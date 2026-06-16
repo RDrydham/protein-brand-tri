@@ -29,7 +29,15 @@ module.exports = async (req, res, next) => {
     }
 
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'tri_perf_auth_secret_key_2026_dev_only_change_me');
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret && process.env.NODE_ENV === 'production') {
+      console.error('❌ FATAL: JWT_SECRET environment variable is missing.');
+      return res.status(500).json({
+        success: false,
+        message: 'Internal server authentication configuration error.'
+      });
+    }
+    const decoded = jwt.verify(token, jwtSecret || 'tri_perf_auth_secret_key_2026_dev_only_change_me');
 
     // Fetch user from DB
     const user = await prisma.user.findUnique({

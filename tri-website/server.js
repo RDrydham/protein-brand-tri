@@ -5,6 +5,7 @@ const fs = require('fs');
 const cors = require('cors');
 const XLSX = require('xlsx');
 const nodemailer = require('nodemailer');
+const rateLimit = require('express-rate-limit');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -16,8 +17,41 @@ const wishlistRoutes = require('./routes/wishlistRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const couponRoutes = require('./routes/couponRoutes');
 
+// Startup Guard — Fail loudly if critical env vars are missing in production
+const REQUIRED_ENV = ['JWT_SECRET', 'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET'];
+if (process.env.NODE_ENV === 'production') {
+  const missing = REQUIRED_ENV.filter(k => !process.env[k]);
+  if (missing.length > 0) {
+    console.error('❌ FATAL: Missing required env vars in production:', missing.join(', '));
+    process.exit(1);
+  }
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Rate limiting security
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { success: false, message: 'Too many authentication attempts. Please try again after 15 minutes.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Register rate limiters before routes
+app.use('/api/', limiter);
+app.use('/api/auth/login', authLimiter);
+app.use('/api/auth/register', authLimiter);
+app.use('/api/auth/forgot-password', authLimiter);
+app.use('/api/auth/reset-password', authLimiter);
 
 // Enable CORS and JSON parsing
 app.use(cors());

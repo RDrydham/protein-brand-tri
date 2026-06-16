@@ -134,9 +134,25 @@ exports.verifyPayment = async (req, res) => {
     }
 
     let isVerified = false;
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    if (isProduction) {
+      if (!razorpay) {
+        return res.status(500).json({
+          success: false,
+          message: 'Payment gateway configuration error.'
+        });
+      }
+      if (mock) {
+        return res.status(400).json({
+          success: false,
+          message: 'Mock verification not permitted in production.'
+        });
+      }
+    }
 
     // Handle Mock Verification
-    if (mock || !razorpay) {
+    if (!isProduction && (mock || !razorpay)) {
       isVerified = razorpay_order_id.startsWith('order_mock_');
     } else {
       // Standard Cryptographic HMAC-SHA256 validation

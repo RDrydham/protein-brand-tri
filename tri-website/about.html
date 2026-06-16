@@ -254,7 +254,7 @@
     }
     .nav-cart-btn:hover { background: var(--blush); color: var(--gold); }
     .nav-cart-btn svg { width: 18px; height: 18px; }
-    .cart-badge {
+    .cart-count {
       position: absolute; top: 2px; right: 2px;
       background: var(--rose-dark); color: #fff;
       font-size: 9px; font-weight: 700;
@@ -263,7 +263,8 @@
       align-items: center; justify-content: center;
       opacity: 0; transition: opacity .2s;
     }
-    .cart-badge.show { opacity: 1; }
+    .cart-count.show,
+    .cart-count.visible { opacity: 1; }
     .nav-shop-btn {
       display: inline-flex; align-items: center;
       background: var(--gold); color: #fff;
@@ -1521,7 +1522,7 @@
 
       <div class="founder-img-wrap" id="fn-img">
         <img
-          src="assets/founder.webp"
+          src="assets/founder.webp?v=2"
           alt="Vedansh Vijay — Founder, THE REAL INSIDE (TRI)"
           loading="lazy"
         />

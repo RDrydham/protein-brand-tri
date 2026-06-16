@@ -35,7 +35,7 @@ const getTransporter = async () => {
 // 1. PLACE A NEW ORDER
 exports.createOrder = async (req, res) => {
   try {
-    const { customerName, customerEmail, shippingAddress, items, couponCode } = req.body;
+    const { customerName, customerEmail, shippingAddress, items, couponCode, paymentMethod } = req.body;
 
     const userId = req.user ? req.user.id : null;
     let orderItemsData = [];
@@ -56,13 +56,19 @@ exports.createOrder = async (req, res) => {
       }
 
       for (const item of dbCartItems) {
+        // Look up product in DB to guarantee correct price
+        const dbProduct = await prisma.product.findFirst({
+          where: { name: item.productName.trim() }
+        });
+        const priceVal = dbProduct ? dbProduct.price : item.price;
+
         orderItemsData.push({
           productName: item.productName,
           variant: item.variant,
-          price: item.price,
+          price: priceVal,
           quantity: item.quantity
         });
-        calculatedTotal += item.price * item.quantity;
+        calculatedTotal += priceVal * item.quantity;
       }
     } 
     // B. Guest User Order
@@ -77,10 +83,23 @@ exports.createOrder = async (req, res) => {
       for (const item of items) {
         const name = item.productName || item.name;
         if (!name) continue;
-        const priceVal = parseInt(item.price) || 0;
+        
+        // Look up product in DB to guarantee correct price
+        const dbProduct = await prisma.product.findFirst({
+          where: { name: name.trim() }
+        });
+
+        if (!dbProduct) {
+          return res.status(400).json({
+            success: false,
+            message: `Product "${name}" not found in database.`
+          });
+        }
+
+        const priceVal = dbProduct.price;
         const qtyVal = parseInt(item.quantity || item.qty) || 1;
         orderItemsData.push({
-          productName: name.trim(),
+          productName: dbProduct.name,
           variant: item.variant ? item.variant.trim() : null,
           price: priceVal,
           quantity: qtyVal
@@ -126,7 +145,9 @@ exports.createOrder = async (req, res) => {
       discountAmount = Math.min(discountAmount, calculatedTotal);
     }
 
-    const finalTotal = calculatedTotal - discountAmount;
+    const isCod = paymentMethod && paymentMethod.toLowerCase() === 'cod';
+    const codFee = isCod ? 50 : 0;
+    const finalTotal = calculatedTotal - discountAmount + codFee;
 
     // Create the order using a prisma transaction
     const order = await prisma.$transaction(async (tx) => {
@@ -140,6 +161,8 @@ exports.createOrder = async (req, res) => {
           totalAmount: finalTotal,
           status: 'pending',
           paymentStatus: 'unpaid',
+          paymentMethod: isCod ? 'cod' : 'razorpay',
+          codFee,
           couponCode: couponRecord ? couponRecord.code : null,
           discountAmount: discountAmount > 0 ? discountAmount : null
         }
@@ -168,6 +191,13 @@ exports.createOrder = async (req, res) => {
         });
       }
 
+      // 4. Clear cart for COD orders
+      if (isCod && userId) {
+        await tx.cartItem.deleteMany({
+          where: { userId }
+        });
+      }
+
       return newOrder;
     });
 
@@ -176,6 +206,12 @@ exports.createOrder = async (req, res) => {
       where: { id: order.id },
       include: { items: true }
     });
+
+    if (isCod) {
+      exports.sendOrderConfirmationEmail(finalOrder).catch(err =>
+        console.error('[Nodemailer async error for COD]:', err.message)
+      );
+    }
 
     return res.status(201).json({
       success: true,
@@ -229,8 +265,15 @@ exports.getOrderById = async (req, res) => {
       });
     }
 
-    // Verify ownership of the order if user is authenticated
-    if (order.userId && (!req.user || order.userId !== req.user.id) && req.user.role !== 'admin') {
+    // Restrict access: must be logged in, and must be the owner of the order OR an admin.
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required to view order details.'
+      });
+    }
+
+    if (req.user.role !== 'admin' && order.userId !== req.user.id) {
       return res.status(403).json({
         success: false,
         message: 'Unauthorized access to this order.'
@@ -314,7 +357,7 @@ exports.sendOrderConfirmationEmail = async (order) => {
                       </tr>
                       <tr>
                         <td style="font-size: 12px; color: #a1a1a6; padding-bottom: 8px;">Payment Method:</td>
-                        <td style="font-size: 12px; color: #ffffff; text-align: right; padding-bottom: 8px;">Razorpay Online</td>
+                        <td style="font-size: 12px; color: #ffffff; text-align: right; padding-bottom: 8px;">${order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Razorpay Online'}</td>
                       </tr>
                       <tr>
                         <td style="font-size: 12px; color: #a1a1a6;">Delivery Address:</td>
@@ -351,14 +394,26 @@ exports.sendOrderConfirmationEmail = async (order) => {
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
                         <td style="font-size: 14px; color: #a1a1a6; padding-bottom: 6px;">Subtotal</td>
-                        <td style="font-size: 14px; color: #ffffff; text-align: right; padding-bottom: 6px;">₹${order.totalAmount.toLocaleString('en-IN')}</td>
+                        <td style="font-size: 14px; color: #ffffff; text-align: right; padding-bottom: 6px;">₹${(order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)).toLocaleString('en-IN')}</td>
                       </tr>
+                      ${order.discountAmount ? `
+                      <tr>
+                        <td style="font-size: 14px; color: #a1a1a6; padding-bottom: 6px;">Discount</td>
+                        <td style="font-size: 14px; color: #22c55e; text-align: right; padding-bottom: 6px;">-₹${order.discountAmount.toLocaleString('en-IN')}</td>
+                      </tr>
+                      ` : ''}
+                      ${order.codFee ? `
+                      <tr>
+                        <td style="font-size: 14px; color: #a1a1a6; padding-bottom: 6px;">COD Charges</td>
+                        <td style="font-size: 14px; color: #ffffff; text-align: right; padding-bottom: 6px;">₹${order.codFee.toLocaleString('en-IN')}</td>
+                      </tr>
+                      ` : ''}
                       <tr>
                         <td style="font-size: 14px; color: #a1a1a6; padding-bottom: 6px;">Shipping</td>
                         <td style="font-size: 14px; color: #22c55e; text-align: right; padding-bottom: 6px;">FREE</td>
                       </tr>
                       <tr style="border-top: 1px solid #1c1c1e;">
-                        <td style="font-size: 16px; color: #ffffff; font-weight: 700; padding-top: 12px;">Total Paid</td>
+                        <td style="font-size: 16px; color: #ffffff; font-weight: 700; padding-top: 12px;">Total ${order.paymentMethod === 'cod' ? 'Payable' : 'Paid'}</td>
                         <td style="font-size: 18px; color: #e6a2a4; font-weight: 800; text-align: right; padding-top: 12px;">₹${order.totalAmount.toLocaleString('en-IN')}</td>
                       </tr>
                     </table>
@@ -406,10 +461,10 @@ exports.sendOrderConfirmationEmail = async (order) => {
 
 // 4. PLACE ORDER — called by checkout.html with {address, notes}
 // Accepts: { address: {name, phone, line1, line2, city, state, pincode}, notes }
-// Returns: { order_id, order_number, total }
+// Returns: { order_id, order_number, total, paymentMethod }
 exports.placeOrder = async (req, res) => {
   try {
-    const { address, notes, couponCode } = req.body;
+    const { address, notes, couponCode, paymentMethod } = req.body;
     const userId = req.user ? req.user.id : null;
 
     let orderItemsData = [];
@@ -427,15 +482,21 @@ exports.placeOrder = async (req, res) => {
         return res.status(400).json({ message: 'Your cart is empty. Cannot place an order.' });
       }
 
-      orderItemsData = dbCartItems.map(item => {
-        calculatedTotal += item.price * item.quantity;
-        return {
+      for (const item of dbCartItems) {
+        // Look up product in DB to guarantee correct price
+        const dbProduct = await prisma.product.findFirst({
+          where: { name: item.productName.trim() }
+        });
+        const priceVal = dbProduct ? dbProduct.price : item.price;
+
+        orderItemsData.push({
           productName: item.productName,
           variant: item.variant,
-          price: item.price,
+          price: priceVal,
           quantity: item.quantity
-        };
-      });
+        });
+        calculatedTotal += priceVal * item.quantity;
+      }
     } 
     // B. Guest User Checkout
     else {
@@ -450,10 +511,20 @@ exports.placeOrder = async (req, res) => {
       for (const item of items) {
         const name = item.productName || item.name;
         if (!name) continue;
-        const priceVal = parseInt(item.price) || 0;
+
+        // Look up product in DB to guarantee correct price
+        const dbProduct = await prisma.product.findFirst({
+          where: { name: name.trim() }
+        });
+
+        if (!dbProduct) {
+          return res.status(400).json({ message: `Product "${name}" not found in database.` });
+        }
+
+        const priceVal = dbProduct.price;
         const qtyVal = parseInt(item.quantity || item.qty) || 1;
         orderItemsData.push({
-          productName: name.trim(),
+          productName: dbProduct.name,
           variant: item.variant ? item.variant.trim() : null,
           price: priceVal,
           quantity: qtyVal
@@ -507,7 +578,9 @@ exports.placeOrder = async (req, res) => {
       discountAmount = Math.min(discountAmount, calculatedTotal);
     }
 
-    const finalTotal = calculatedTotal - discountAmount;
+    const isCod = paymentMethod && paymentMethod.toLowerCase() === 'cod';
+    const codFee = isCod ? 50 : 0;
+    const finalTotal = calculatedTotal - discountAmount + codFee;
 
     const order = await prisma.$transaction(async (tx) => {
       const newOrder = await tx.order.create({
@@ -519,6 +592,8 @@ exports.placeOrder = async (req, res) => {
           totalAmount: finalTotal,
           status: 'pending',
           paymentStatus: 'unpaid',
+          paymentMethod: isCod ? 'cod' : 'razorpay',
+          codFee,
           couponCode: couponRecord ? couponRecord.code : null,
           discountAmount: discountAmount > 0 ? discountAmount : null
         }
@@ -545,14 +620,37 @@ exports.placeOrder = async (req, res) => {
         });
       }
 
+      // Clear cart for COD orders
+      if (isCod && userId) {
+        await tx.cartItem.deleteMany({
+          where: { userId }
+        });
+      }
+
       return newOrder;
     });
+
+    if (isCod) {
+      // Trigger confirmation email
+      try {
+        const fullOrder = await prisma.order.findUnique({
+          where: { id: order.id },
+          include: { items: true }
+        });
+        exports.sendOrderConfirmationEmail(fullOrder).catch(err =>
+          console.error('[Nodemailer async error for COD placeOrder]:', err.message)
+        );
+      } catch (mailErr) {
+        console.error('[Mailer COD Error placeOrder]:', mailErr.message);
+      }
+    }
 
     // Return shape expected by checkout.html
     return res.status(201).json({
       order_id: order.id,
       order_number: `TRI-ORD-${order.id}`,
-      total: order.totalAmount
+      total: order.totalAmount,
+      paymentMethod: order.paymentMethod
     });
   } catch (error) {
     console.error('[Place Order Error]:', error.message);

@@ -23,7 +23,11 @@ const optionalAuth = async (req, res, next) => {
 
   if (token) {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'tri_perf_auth_secret_key_2026_dev_only_change_me');
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret && process.env.NODE_ENV === 'production') {
+        throw new Error('JWT_SECRET is missing');
+      }
+      const decoded = jwt.verify(token, jwtSecret || 'tri_perf_auth_secret_key_2026_dev_only_change_me');
       const prisma = require('../config/db');
       const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
       if (user) {

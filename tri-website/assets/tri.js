@@ -834,6 +834,9 @@
   });
 
   loadCart();
+  if (new URLSearchParams(window.location.search).get('cart') === 'open' || window.location.hash === '#cart') {
+    setTimeout(openCart, 100);
+  }
 
   /* ════════════════════════════════════════
      TOAST
