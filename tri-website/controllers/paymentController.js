@@ -183,16 +183,19 @@ exports.verifyPayment = async (req, res) => {
         });
       }
 
-      // We will require and invoke the mailer system asynchronously to send confirmation
+      // Send customer confirmation + admin notification emails for Razorpay
       try {
-        const { sendOrderConfirmationEmail } = require('./orderController');
-        // Retrieve full order with items for details
+        const { sendOrderConfirmationEmail, sendAdminOrderNotification } = require('./orderController');
+        // Retrieve full order with items for email details
         const fullOrder = await prisma.order.findUnique({
           where: { id: order.id },
           include: { items: true }
         });
-        sendOrderConfirmationEmail(fullOrder).catch(err => 
-          console.error('[Nodemailer async error]:', err.message)
+        sendOrderConfirmationEmail(fullOrder).catch(err =>
+          console.error('[Razorpay Customer Email Error]:', err.message)
+        );
+        sendAdminOrderNotification(fullOrder).catch(err =>
+          console.error('[Razorpay Admin Email Error]:', err.message)
         );
       } catch (mailImportErr) {
         console.error('[Mailer Import Error]:', mailImportErr.message);

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -938,6 +938,10 @@
 
       const payMethod = order.paymentMethod || 'Razorpay';
 
+      // Issue 5: Determine if this order can be cancelled
+      const cancellableStatuses = ['pending', 'processing', 'on-hold'];
+      const canCancel = cancellableStatuses.includes(status.toLowerCase());
+
       card.innerHTML = `
         <div class="order-header">
           <div class="order-header-left">
@@ -966,20 +970,184 @@
             <span class="order-total-label">Order Total</span>
             <span class="order-total-amount">${formatPrice(order.totalAmount || order.total || 0)}</span>
           </div>
+          ${canCancel ? `
+          <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.06);text-align:right;">
+            <button
+              class="tri-cancel-order-btn"
+              data-order-id="${order.id}"
+              style="
+                background:transparent;
+                border:1px solid #C8787A;
+                color:#C8787A;
+                font-family:'Montserrat',sans-serif;
+                font-size:11px;
+                font-weight:700;
+                letter-spacing:0.08em;
+                text-transform:uppercase;
+                padding:8px 18px;
+                border-radius:8px;
+                cursor:pointer;
+                transition:background 0.2s,color 0.2s;
+              "
+              onmouseover="this.style.background='#C8787A';this.style.color='#fff';"
+              onmouseout="this.style.background='transparent';this.style.color='#C8787A';"
+            >✕ Cancel Order</button>
+          </div>` : ''}
         </div>
       `;
 
-      // Toggle expand
-      card.querySelector('.order-header').addEventListener('click', function() {
+      // Toggle expand on header click
+      card.querySelector('.order-header').addEventListener('click', function(e) {
+        // Don't collapse if clicking the cancel button
+        if (e.target.closest('.tri-cancel-order-btn')) return;
         card.classList.toggle('expanded');
       });
 
+      // Wire cancel button if present
+      const cancelBtn = card.querySelector('.tri-cancel-order-btn');
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const ordId = this.dataset.orderId;
+          cancelOrder(ordId, card);
+        });
+      }
+
       return card;
+    }
+
+    // Issue 5: Cancel order API call
+    async function cancelOrder(orderId, cardEl) {
+      if (!confirm('Are you sure you want to cancel this order? This action cannot be undone.')) return;
+
+      // Get auth token
+      const token = window.TriAuth ? TriAuth.getToken() : (localStorage.getItem('tri_token') || '');
+
+      const cancelBtn = cardEl.querySelector('.tri-cancel-order-btn');
+      if (cancelBtn) {
+        cancelBtn.disabled = true;
+        cancelBtn.textContent = 'Cancelling...';
+      }
+
+      try {
+        const res = await fetch(`/api/orders/${orderId}/cancel`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          // Update status display in the card immediately
+          const statusEl = cardEl.querySelector('.order-status');
+          if (statusEl) {
+            statusEl.className = 'order-status status-cancelled';
+            statusEl.textContent = '❌ cancelled';
+          }
+          if (cancelBtn) cancelBtn.remove();
+          // Show confirmation
+          const msg = document.createElement('p');
+          msg.style.cssText = 'text-align:right;font-size:12px;color:#22c55e;margin-top:8px;font-family:"Montserrat",sans-serif;';
+          msg.textContent = '✓ Order cancelled. Confirmation email sent.';
+          cardEl.querySelector('.order-body').appendChild(msg);
+        } else {
+          alert(data.message || 'Could not cancel order. Please contact support.');
+          if (cancelBtn) {
+            cancelBtn.disabled = false;
+            cancelBtn.textContent = '✕ Cancel Order';
+          }
+        }
+      } catch (err) {
+        console.error('Cancel order error:', err);
+        alert('Network error. Please try again.');
+        if (cancelBtn) {
+          cancelBtn.disabled = false;
+          cancelBtn.textContent = '✕ Cancel Order';
+        }
+      }
     }
 
     // Update account nav state if auth-ui is loaded
     if (window.triUpdateNavAuth) triUpdateNavAuth();
   });
+  </script>
+
+  <!-- Issue 4 Fix: Wire chatbot send button to /api/chatbot/query -->
+  <script>
+  (function() {
+    function initChatbotBackend() {
+      const sendBtn = document.getElementById('cb-send');
+      const inputEl = document.getElementById('cb-input');
+      const messagesEl = document.getElementById('cb-messages');
+      if (!sendBtn || !inputEl) return;
+      if (sendBtn._chatbotWired) return; // prevent double-wiring
+      sendBtn._chatbotWired = true;
+
+      function appendMessage(text, type) {
+        const div = document.createElement('div');
+        div.className = `cb-msg ${type}`;
+        div.textContent = text;
+        messagesEl.appendChild(div);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      async function sendQuery() {
+        const message = inputEl.value.trim();
+        if (!message) return;
+        appendMessage(message, 'user');
+        inputEl.value = '';
+
+        // Get user email if logged in
+        const userEmail = window.TriAuth && TriAuth.isLoggedIn() ? TriAuth.getUser()?.email : null;
+
+        // Show typing indicator
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'cb-msg bot';
+        typingDiv.textContent = '...';
+        messagesEl.appendChild(typingDiv);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+
+        try {
+          await fetch('/api/chatbot/query', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              message,
+              email: userEmail,
+              pageUrl: window.location.href
+            })
+          });
+        } catch (e) {
+          console.warn('[Chatbot] Failed to forward query:', e);
+        }
+
+        // Replace typing with response
+        typingDiv.textContent = 'Thank you! Aapka query humein mil gaya. Hum jald hi query@therealinside.com se respond karenge. 🙏';
+      }
+
+      sendBtn.addEventListener('click', sendQuery);
+      inputEl.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') sendQuery();
+      });
+
+      // Quick reply buttons also forward to backend
+      document.querySelectorAll('.cb-quick').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          inputEl.value = this.textContent;
+          sendQuery();
+        });
+      });
+    }
+
+    // Wire after DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initChatbotBackend);
+    } else {
+      initChatbotBackend();
+    }
+  })();
   </script>
 
 </body>

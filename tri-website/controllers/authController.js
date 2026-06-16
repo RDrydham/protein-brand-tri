@@ -29,6 +29,27 @@ const clearAuthCookie = (res) => {
   res.setHeader('Set-Cookie', 'token=; Path=/; HttpOnly; Max-Age=0; SameSite=Strict');
 };
 
+// ── ISSUE 6 FIX: Link all past guest orders to a newly registered/logged-in user ──
+// When a user registers or logs in, we find all orders that were placed as guest
+// using the same email address (userId = null) and assign them to this user account.
+const linkGuestOrders = async (userId, email) => {
+  try {
+    const updated = await prisma.order.updateMany({
+      where: {
+        customerEmail: email.toLowerCase().trim(),
+        userId: null // only unlinked guest orders
+      },
+      data: { userId: userId }
+    });
+    if (updated.count > 0) {
+      console.log(`[Guest Order Link] Linked ${updated.count} guest order(s) for ${email} → userId ${userId}`);
+    }
+  } catch (err) {
+    // Non-blocking: log but don't fail login/register
+    console.error('[Guest Order Link Error]:', err.message);
+  }
+};
+
 // Helper to send reset email
 const sendResetEmail = async (email, name, code) => {
   const SMTP_HOST = process.env.SMTP_HOST || 'smtp.ethereal.email';
@@ -201,6 +222,9 @@ exports.register = async (req, res) => {
       }
     });
 
+    // ISSUE 6 FIX: Link any existing guest orders to this new account
+    await linkGuestOrders(newUser.id, emailLower);
+
     // Generate JWT and set cookie
     const token = generateToken(newUser.id);
     setAuthCookie(res, token);
@@ -257,6 +281,9 @@ exports.login = async (req, res) => {
         message: 'Invalid email or password.'
       });
     }
+
+    // ISSUE 6 FIX: Link any existing guest orders to this account on login
+    await linkGuestOrders(user.id, emailLower);
 
     // Generate JWT and set cookie
     const token = generateToken(user.id);

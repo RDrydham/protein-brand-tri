@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -129,9 +129,6 @@
       border-radius: var(--r-xl);
       overflow: hidden;
       aspect-ratio: 4/3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       position: relative;
       box-shadow: var(--shadow-sm);
       transition: border-color var(--t-med), box-shadow var(--t-med);
@@ -140,15 +137,132 @@
       border-color: var(--border-strong);
       box-shadow: var(--shadow-md);
     }
-    .shop-product-main-image-wrap img {
+    
+    /* Premium Slider Styles */
+    .shop-slider-track {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .shop-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s var(--ease), visibility 0.5s var(--ease);
+      background: #fff;
+    }
+    .shop-slide.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .shop-slide img {
       width: 78%;
       height: 78%;
       object-fit: contain;
       filter: drop-shadow(0 12px 24px rgba(0,0,0,0.08));
       transition: transform 0.6s var(--ease);
     }
-    .shop-product-main-image-wrap:hover img {
+    .shop-slide.active img {
+      transform: scale(1);
+    }
+    .shop-product-main-image-wrap:hover .shop-slide.active img {
       transform: scale(1.04);
+    }
+    
+    /* Navigation Arrows */
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      color: var(--dark);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease), background 0.3s, transform 0.2s;
+    }
+    .slider-arrow svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.2s;
+    }
+    .slider-arrow:hover {
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--rose-dark);
+    }
+    .slider-arrow.prev-arrow:active svg {
+      transform: scale(0.9) translateX(-2px);
+    }
+    .slider-arrow.next-arrow:active svg {
+      transform: scale(0.9) translateX(2px);
+    }
+    .shop-product-main-image-wrap:hover .slider-arrow {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .prev-arrow {
+      left: 16px;
+    }
+    .next-arrow {
+      right: 16px;
+    }
+    
+    /* Slider Dot Indicators (Capsule morph) */
+    .shop-slider-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      margin-bottom: -4px;
+    }
+    .shop-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--r-full);
+      background: #e2dcd5; /* warm gray matches ATRI theme */
+      cursor: pointer;
+      transition: all 0.35s var(--ease);
+    }
+    .shop-dot:hover {
+      background: var(--rose-dark);
+    }
+    .shop-dot.active {
+      width: 24px;
+      background: var(--rose-dark);
+      box-shadow: 0 2px 8px rgba(200, 120, 122, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .slider-arrow {
+        opacity: 1;
+        pointer-events: auto;
+        width: 38px;
+        height: 38px;
+        background: rgba(255, 255, 255, 0.85);
+      }
+      .prev-arrow {
+        left: 10px;
+      }
+      .next-arrow {
+        right: 10px;
+      }
     }
     .shop-badge {
       position: absolute;
@@ -817,15 +931,62 @@
         
         <!-- Left: Image Gallery Showcase -->
         <div class="shop-product-gallery">
-          <div class="shop-product-main-image-wrap">
+          <div class="shop-product-main-image-wrap" id="shop-slider-container">
             <div class="shop-badge">🔥 Try Pack</div>
-            <img
-              src="assets/tri_fusion_pack_ad.webp"
-              alt="TRI Fusion Pack — Protein + BCAA + Pre-Workout Try Pack"
-              loading="eager"
-            />
+            
+            <div class="shop-slider-track">
+              <div class="shop-slide active" data-index="0">
+                <img
+                  src="assets/tri_fusion_pack_ad.webp"
+                  alt="TRI Fusion Pack — Complete Try Pack System"
+                  loading="eager"
+                />
+              </div>
+              <div class="shop-slide" data-index="1">
+                <img
+                  src="assets/tri_fusion_pack_front.webp"
+                  alt="TRI Fusion Pack — Box Front View"
+                  loading="lazy"
+                />
+              </div>
+              <div class="shop-slide" data-index="2">
+                <img
+                  src="assets/tri_fusion_pack_side.webp"
+                  alt="TRI Fusion Pack — Box Perspective View"
+                  loading="lazy"
+                />
+              </div>
+              <div class="shop-slide" data-index="3">
+                <img
+                  src="assets/tri_fusion_pack_back.webp"
+                  alt="TRI Fusion Pack — Box Back Nutrition Facts View"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button type="button" class="slider-arrow prev-arrow" id="slider-prev-btn" aria-label="Previous image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button type="button" class="slider-arrow next-arrow" id="slider-next-btn" aria-label="Next image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
           </div>
-          <div class="shop-product-gallery-pills">
+
+          <!-- Slider Dots Navigation -->
+          <div class="shop-slider-dots" id="shop-slider-dots-container">
+            <div class="shop-dot active" data-index="0" role="button" aria-label="Slide 1"></div>
+            <div class="shop-dot" data-index="1" role="button" aria-label="Slide 2"></div>
+            <div class="shop-dot" data-index="2" role="button" aria-label="Slide 3"></div>
+            <div class="shop-dot" data-index="3" role="button" aria-label="Slide 4"></div>
+          </div>
+
+          <div class="shop-product-gallery-pills" style="margin-top: 16px;">
             <div class="gallery-pill">9 Sachets</div>
             <div class="gallery-pill">3 Systems</div>
             <div class="gallery-pill">Eurofins Verified</div>
@@ -1298,6 +1459,128 @@
         }, 3000);
       });
     });
+  </script>
+
+  <!-- Shop Product Image Slider [NEW] -->
+  <script>
+    (function() {
+      'use strict';
+      const container = document.getElementById('shop-slider-container');
+      if (!container) return;
+
+      const slides = container.querySelectorAll('.shop-slide');
+      const dotsContainer = document.getElementById('shop-slider-dots-container');
+      const dots = dotsContainer ? dotsContainer.querySelectorAll('.shop-dot') : [];
+      const prevBtn = document.getElementById('slider-prev-btn');
+      const nextBtn = document.getElementById('slider-next-btn');
+
+      if (!slides.length) return;
+
+      let currentIdx = 0;
+      let autoplayTimer = null;
+      const autoplayInterval = 3500; // 3.5 seconds
+
+      function showSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+
+        currentIdx = index;
+
+        slides.forEach((slide, i) => {
+          if (i === currentIdx) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+
+        dots.forEach((dot, i) => {
+          if (i === currentIdx) {
+            dot.classList.add('active');
+            dot.setAttribute('aria-selected', 'true');
+          } else {
+            dot.classList.remove('active');
+            dot.setAttribute('aria-selected', 'false');
+          }
+        });
+      }
+
+      function nextSlide() {
+        showSlide(currentIdx + 1);
+      }
+
+      function prevSlide() {
+        showSlide(currentIdx - 1);
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayTimer = setInterval(nextSlide, autoplayInterval);
+      }
+
+      function stopAutoplay() {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          prevSlide();
+          startAutoplay();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          nextSlide();
+          startAutoplay();
+        });
+      }
+
+      dots.forEach((dot, idx) => {
+        dot.addEventListener('click', function(e) {
+          e.preventDefault();
+          showSlide(idx);
+          startAutoplay();
+        });
+      });
+
+      container.addEventListener('mouseenter', stopAutoplay);
+      container.addEventListener('mouseleave', startAutoplay);
+
+      // Mobile swipe gestures
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      container.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        stopAutoplay();
+      }, { passive: true });
+
+      container.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+        startAutoplay();
+      }, { passive: true });
+
+      function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > swipeThreshold) {
+          if (diff > 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+      }
+
+      startAutoplay();
+    })();
   </script>
 
   <!-- Wishlist and Reviews Syncing [NEW] -->

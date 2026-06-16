@@ -46,6 +46,8 @@ router.post('/place', optionalAuth, orderController.placeOrder);
 router.get('/my-orders', auth, orderController.getMyOrders);
 router.get('/track', orderController.trackOrder);
 router.get('/track/:orderNumber', orderController.trackOrder);
+// Issue 5: Cancel order — requires auth (user must be logged in)
+router.post('/:orderId/cancel', auth, orderController.cancelOrder);
 router.get('/:orderId', optionalAuth, orderController.getOrderById);
 
 module.exports = router;

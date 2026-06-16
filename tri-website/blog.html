@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>TRI Blog — Science, Performance & Purity | The Real Inside</title>
+<meta name="description" content="Expert articles on sports nutrition, gut health, ingredient transparency, and performance science. Written by the TRI research team."/>
+<meta name="keywords" content="sports nutrition blog, protein powder gut health, clean supplements, whey protein India, BCAA benefits, pre workout science"/>
+<meta property="og:title" content="TRI Blog — Science, Performance & Purity"/>
+<meta property="og:description" content="Expert articles on sports nutrition, gut health, and ingredient transparency."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://therealinside.com/blog.html"/>
+<meta property="og:image" content="https://therealinside.com/assets/tri-og-blog.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="canonical" href="https://therealinside.com/blog.html"/>
+
+<!-- JSON-LD: Blog -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "TRI — The Real Inside Blog",
+  "description": "Evidence-based articles on sports nutrition, gut-friendly supplementation, and performance science.",
+  "url": "https://therealinside.com/blog.html",
+  "publisher": {
+    "@type": "Organization",
+    "name": "TRI — The Real Inside",
+    "url": "https://therealinside.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://therealinside.com/assets/tri-logo.png"
+    }
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/tri-motion.css?v=3.3"/>
+<link rel="stylesheet" href="assets/footer.css?v=3.3"/>
+<link rel="stylesheet" href="assets/tri.css?v=3.3"/>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:#FFF8F8;color:#1A1A1A;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+ul,ol{list-style:none}
+button{border:none;background:none;font-family:inherit;cursor:pointer}
+
+:root{
+  --blush:#F8D7D9;--rose:#E6A2A4;--rose-dark:#C8787A;
+  --cream:#FFF8F8;--dark:#1A1A1A;--gold:#C8A96E;
+  --muted-text:#8A7A7A;--border:rgba(230,162,164,.25);
+  --shadow-sm:0 2px 12px rgba(200,120,122,.08);
+  --shadow-md:0 8px 32px rgba(200,120,122,.14);
+  --ease:cubic-bezier(.25,.46,.45,.94);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+
+/* ── NAVBAR ── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 40px;transition:background .3s,box-shadow .3s;
+  background:transparent;
+}
+#nav.solid{background:rgba(26,26,26,.96);backdrop-filter:blur(12px);box-shadow:0 2px 24px rgba(0,0,0,.2)}
+.nav-logo{font-family:'Montserrat',sans-serif;font-weight:900;font-size:22px;color:#fff;letter-spacing:.05em}
+.nav-logo span{color:#C8787A}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;color:rgba(255,255,255,.75);transition:color .2s;letter-spacing:.02em}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-cta{background:#C8787A;color:#fff!important;padding:10px 22px;border-radius:50px;font-weight:600!important;transition:background .2s,transform .2s!important}
+.nav-cta:hover{background:#b86668!important;transform:translateY(-1px)}
+@media(max-width:768px){
+  #nav{padding:14px 20px}
+  .nav-links{display:none}
+}
+
+/* ── BLOG HERO ── */
+.blog-hero{
+  padding:140px 40px 80px;
+  background:linear-gradient(135deg,#1A1A1A 0%,#2d1a1a 50%,#1A1A1A 100%);
+  text-align:center;position:relative;overflow:hidden;
+}
+.blog-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(200,120,122,.15) 0%,transparent 70%);
+}
+.blog-hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(200,120,122,.12);border:1px solid rgba(200,120,122,.25);
+  padding:6px 16px;border-radius:50px;
+  font-size:12px;font-weight:600;color:#C8787A;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:24px;position:relative;
+}
+.blog-hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,5vw,64px);font-weight:800;
+  color:#fff;line-height:1.1;margin-bottom:20px;position:relative;
+}
+.blog-hero h1 em{color:#C8787A;font-style:italic}
+.blog-hero p{
+  font-size:18px;color:rgba(255,255,255,.6);max-width:520px;
+  margin:0 auto 40px;line-height:1.6;position:relative;
+}
+
+/* ── CATEGORY FILTERS ── */
+.blog-filters{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+  padding:0 20px 60px;margin-top:0;
+}
+.filter-btn{
+  padding:10px 22px;border-radius:50px;font-size:13px;font-weight:600;
+  letter-spacing:.04em;cursor:pointer;transition:all .2s;
+  border:1.5px solid rgba(230,162,164,.3);
+  background:transparent;color:var(--muted-text);
+}
+.filter-btn:hover,.filter-btn.active{
+  background:#C8787A;border-color:#C8787A;color:#fff;
+  transform:translateY(-1px);box-shadow:0 4px 16px rgba(200,120,122,.3);
+}
+
+/* ── BLOG GRID ── */
+.blog-section{padding:0 40px 80px;max-width:1200px;margin:0 auto}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+
+.blog-card{
+  background:#fff;border-radius:20px;overflow:hidden;
+  box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+  border:1px solid var(--border);display:flex;flex-direction:column;
+}
+.blog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.blog-card-img{
+  width:100%;height:200px;object-fit:cover;
+  background:linear-gradient(135deg,#f5e9e9,#fde8e8);
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;flex-shrink:0;
+}
+.blog-card-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.blog-card-category{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:#C8787A;margin-bottom:12px;
+}
+.blog-card-title{
+  font-family:'Playfair Display',serif;font-size:20px;font-weight:700;
+  color:#1A1A1A;line-height:1.35;margin-bottom:12px;
+}
+.blog-card-excerpt{
+  font-size:14px;color:var(--muted-text);line-height:1.6;
+  flex:1;margin-bottom:20px;
+}
+.blog-card-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:16px;border-top:1px solid var(--border);
+}
+.blog-card-author{font-size:12px;color:var(--muted-text);font-weight:500}
+.blog-card-date{font-size:12px;color:var(--muted-text)}
+.blog-card-read-more{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:600;color:#C8787A;
+  margin-top:12px;transition:gap .2s;
+}
+.blog-card:hover .blog-card-read-more{gap:10px}
+
+/* ── FEATURED POST ── */
+.featured-post{
+  grid-column:1/-1;
+  display:grid;grid-template-columns:1.2fr 1fr;gap:0;
+  border-radius:24px;overflow:hidden;
+}
+.featured-post .blog-card-img{height:100%;min-height:320px;font-size:80px}
+.featured-post .blog-card-body{padding:40px}
+.featured-post .blog-card-title{font-size:28px;margin-bottom:16px}
+.featured-post .blog-card-excerpt{font-size:16px;margin-bottom:24px}
+
+/* ── NEWSLETTER STRIP ── */
+.blog-newsletter{
+  background:linear-gradient(135deg,#1A1A1A,#2d1a1a);
+  padding:64px 40px;text-align:center;margin:0 0 0;
+}
+.blog-newsletter h2{
+  font-family:'Playfair Display',serif;font-size:32px;color:#fff;
+  margin-bottom:12px;
+}
+.blog-newsletter p{color:rgba(255,255,255,.55);font-size:16px;margin-bottom:32px}
+.newsletter-form{display:flex;gap:12px;justify-content:center;max-width:480px;margin:0 auto}
+.newsletter-form input{
+  flex:1;padding:14px 20px;border-radius:12px;
+  border:1.5px solid rgba(200,120,122,.3);background:rgba(255,255,255,.06);
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;
+}
+.newsletter-form input::placeholder{color:rgba(255,255,255,.35)}
+.newsletter-form input:focus{border-color:#C8787A}
+.newsletter-form button{
+  padding:14px 28px;background:#C8787A;color:#fff;
+  border-radius:12px;font-weight:700;font-size:15px;
+  transition:background .2s,transform .2s;white-space:nowrap;
+}
+.newsletter-form button:hover{background:#b86668;transform:translateY(-1px)}
+
+/* ── FOOTER ── */
+footer#tri-footer-blog{
+  background:#111;padding:48px 40px 24px;
+}
+.tri-footer-inner-blog{max-width:1200px;margin:0 auto}
+.tri-footer-top-blog{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;
+  padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.08);
+  margin-bottom:24px;
+}
+.tri-footer-brand-blog p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.6;margin-top:12px}
+.tri-footer-col-blog h4{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px}
+.tri-footer-col-blog a{display:block;font-size:14px;color:rgba(255,255,255,.45);margin-bottom:10px;transition:color .2s}
+.tri-footer-col-blog a:hover{color:#fff}
+.tri-footer-bottom-blog{display:flex;align-items:center;justify-content:space-between}
+.tri-footer-copy-blog{font-size:12px;color:rgba(255,255,255,.2)}
+.tri-footer-legal-blog{display:flex;gap:20px}
+.tri-footer-legal-blog a{font-size:12px;color:rgba(255,255,255,.2);transition:color .2s}
+.tri-footer-legal-blog a:hover{color:rgba(255,255,255,.5)}
+
+@media(max-width:900px){
+  .blog-grid{grid-template-columns:1fr 1fr}
+  .featured-post{grid-template-columns:1fr}
+  .featured-post .blog-card-img{min-height:220px}
+  .tri-footer-top-blog{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .blog-hero{padding:100px 20px 50px}
+  .blog-section{padding:0 20px 60px}
+  .blog-grid{grid-template-columns:1fr}
+  .featured-post{grid-template-columns:1fr}
+  .blog-newsletter{padding:48px 20px}
+  .newsletter-form{flex-direction:column}
+  .tri-footer-top-blog{grid-template-columns:1fr}
+  .tri-footer-bottom-blog{flex-direction:column;gap:12px;text-align:center}
+}
+
+/* ── HIDDEN ARTICLE state ── */
+.blog-card[data-cat].hidden{display:none}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo">TRI<span>.</span></a>
+  <div class="nav-links">
+    <a href="shop.html">Shop</a>
+    <a href="lab-reports.html">Lab Reports</a>
+    <a href="about.html">About</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="contact.html">Contact</a>
+    <a href="shop.html" class="nav-cta">Buy Now</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="blog-hero">
+  <div class="blog-hero-badge">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="#C8787A"><circle cx="6" cy="6" r="5"/></svg>
+    Evidence-Based Nutrition Science
+  </div>
+  <h1>The Real <em>Inside</em> Blog</h1>
+  <p>No hype. No filler. Just science-backed insights on gut health, performance, and ingredient purity.</p>
+</header>
+
+<!-- ═══ CATEGORY FILTERS ═══ -->
+<div class="blog-filters" role="toolbar" aria-label="Filter posts by category">
+  <button class="filter-btn active" data-filter="all">All Articles</button>
+  <button class="filter-btn" data-filter="gut-health">Gut Health</button>
+  <button class="filter-btn" data-filter="performance">Performance</button>
+  <button class="filter-btn" data-filter="ingredients">Ingredients</button>
+  <button class="filter-btn" data-filter="science">Science</button>
+  <button class="filter-btn" data-filter="athletes">Athletes</button>
+</div>
+
+<!-- ═══ BLOG GRID ═══ -->
+<main class="blog-section" id="blog-posts" aria-label="Blog posts">
+  <div class="blog-grid">
+
+    <!-- FEATURED POST -->
+    <article class="blog-card featured-post" data-cat="gut-health" itemscope itemtype="https://schema.org/BlogPosting">
+      <div class="blog-card-img" role="img" aria-label="Gut health illustration">🫁</div>
+      <div class="blog-card-body">
+        <p class="blog-card-category" itemprop="articleSection">Gut Health</p>
+        <h2 class="blog-card-title" itemprop="headline">Why Your Protein Powder Is Destroying Your Gut (And What To Do About It)</h2>
+        <p class="blog-card-excerpt" itemprop="description">Most whey proteins contain xanthan gum, soy lecithin, and carrageenan — synthetic thickeners that disrupt your gut microbiome. Here's the peer-reviewed science behind why TRI uses zero thickeners, and how it affects your digestion, absorption, and long-term health.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-author" itemprop="author">Dr. R. Sharma, Sports Nutritionist</span>
+          <span class="blog-card-date" itemprop="datePublished">June 10, 2025</span>
+        </div>
+        <a href="#" class="blog-card-read-more" itemprop="url">Read Full Article →</a>
+      </div>
+    </article>
+
+    <!-- POST 2 -->
+    <article class="blog-card" data-cat="performance" itemscope itemtype="https://schema.org/BlogPosting">
+      <div class="blog-card-img" role="img" aria-label="Performance athlete">⚡</div>
+      <div class="blog-card-body">
+        <p class="blog-card-category" itemprop="articleSection">Performance</p>
+        <h3 class="blog-card-title" itemprop="headline">The Science of BCAAs: Why 2:1:1 Leucine Ratio Is Optimal for Muscle Recovery</h3>
+        <p class="blog-card-excerpt" itemprop="description">TRI Power BCAA contains 2,000 mg of fermented vegan BCAAs in the clinically validated 2:1:1 leucine:isoleucine:valine ratio. We break down why this ratio matters for mTOR activation and protein synthesis.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-author" itemprop="author">TRI Research Team</span>
+          <span class="blog-card-date" itemprop="datePublished">June 3, 2025</span>
+        </div>
+        <a href="#" class="blog-card-read-more" itemprop="url">Read Full Article →</a>
+      </div>
+    </article>
+
+    <!-- POST 3 -->
+    <article class="blog-card" data-cat="ingredients" itemscope itemtype="https://schema.org/BlogPosting">
+      <div class="blog-card-img" role="img" aria-label="Lab testing">🔬</div>
+      <div class="blog-card-body">
+        <p class="blog-card-category" itemprop="articleSection">Ingredients</p>
+        <h3 class="blog-card-title" itemprop="headline">What 4-Level Heavy Metal Testing Actually Means — And Why Most Brands Fake It</h3>
+        <p class="blog-card-excerpt" itemprop="description">TRI submits every batch to NABL-accredited labs for 4 distinct heavy metal panels — Lead, Arsenic, Cadmium, Mercury. Here's what these tests measure and how to read your Certificate of Analysis (CoA).</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-author" itemprop="author">TRI Quality Lab</span>
+          <span class="blog-card-date" itemprop="datePublished">May 28, 2025</span>
+        </div>
+        <a href="#" class="blog-card-read-more" itemprop="url">Read Full Article →</a>
+      </div>
+    </article>
+
+    <!-- POST 4 -->
+    <article class="blog-card" data-cat="science" itemscope itemtype="https://schema.org/BlogPosting">
+      <div class="blog-card-img" role="img" aria-label="Creatine molecule">🧬</div>
+      <div class="blog-card-body">
+        <p class="blog-card-category" itemprop="articleSection">Science</p>
+        <h3 class="blog-card-title" itemprop="headline">Creatine Monohydrate vs HCL: What 47 Studies Actually Conclude</h3>
+        <p class="blog-card-excerpt" itemprop="description">The creatine debate is over. Meta-analyses of 47 randomized controlled trials confirm monohydrate's superiority in bioavailability and cost-effectiveness. We reviewed every study so you don't have to.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-author" itemprop="author">Dr. R. Sharma</span>
+          <span class="blog-card-date" itemprop="datePublished">May 21, 2025</span>
+        </div>
+        <a href="#" class="blog-card-read-more" itemprop="url">Read Full Article →</a>
+      </div>
+    </article>
+
+    <!-- POST 5 -->
+    <article class="blog-card" data-cat="athletes" itemscope itemtype="https://schema.org/BlogPosting">
+      <div class="blog-card-img" role="img" aria-label="Football athlete">⚽</div>
+      <div class="blog-card-body">
+        <p class="blog-card-category" itemprop="articleSection">Athletes</p>
+        <h3 class="blog-card-title" itemprop="headline">Matchday Nutrition Protocol: What India's Top Footballers Eat 24 Hours Before a Game</h3>
+        <p class="blog-card-excerpt" itemprop="description">Carbohydrate periodization, pre-match hydration, and the role of electrolytes in sustained endurance. A complete matchday playbook featuring TRI Power BCAA for intra-match recovery.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-author" itemprop="author">TRI Sports Science</span>
+          <span class="blog-card-date" itemprop="datePublished">May 15, 2025</span>
+        </div>
+        <a href="#" class="blog-card-read-more" itemprop="url">Read Full Article →</a>
+      </div>
+    </article>
+
+    <!-- POST 6 -->
+    <article class="blog-card" data-cat="gut-health" itemscope itemtype="https://schema.org/BlogPosting">
+      <div class="blog-card-img" role="img" aria-label="Digestion health">🌿</div>
+      <div class="blog-card-body">
+        <p class="blog-card-category" itemprop="articleSection">Gut Health</p>
+        <h3 class="blog-card-title" itemprop="headline">Bloating After Protein Shakes? Here Are 7 Ingredients Causing It</h3>
+        <p class="blog-card-excerpt" itemprop="description">Xanthan gum, soy lecithin, carrageenan, artificial sweeteners, lactose, maltodextrin, and casein — these 7 ingredients are responsible for 94% of post-shake bloating complaints. TRI True Whey contains none of them.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-author" itemprop="author">TRI Research Team</span>
+          <span class="blog-card-date" itemprop="datePublished">May 8, 2025</span>
+        </div>
+        <a href="#" class="blog-card-read-more" itemprop="url">Read Full Article →</a>
+      </div>
+    </article>
+
+    <!-- POST 7 -->
+    <article class="blog-card" data-cat="performance" itemscope itemtype="https://schema.org/BlogPosting">
+      <div class="blog-card-img" role="img" aria-label="Pre-workout science">💥</div>
+      <div class="blog-card-body">
+        <p class="blog-card-category" itemprop="articleSection">Performance</p>
+        <h3 class="blog-card-title" itemprop="headline">Why Clean Pre-Workouts Outperform Stim-Heavy Formulas Long-Term</h3>
+        <p class="blog-card-excerpt" itemprop="description">High-stimulant pre-workouts cause adrenal fatigue and tolerance buildup in 3–6 weeks. TRI Pump Drake uses pump-based vasodilation compounds for sustainable, crash-free energy amplification.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-author" itemprop="author">TRI Sports Science</span>
+          <span class="blog-card-date" itemprop="datePublished">April 30, 2025</span>
+        </div>
+        <a href="#" class="blog-card-read-more" itemprop="url">Read Full Article →</a>
+      </div>
+    </article>
+
+    <!-- POST 8 -->
+    <article class="blog-card" data-cat="ingredients" itemscope itemtype="https://schema.org/BlogPosting">
+      <div class="blog-card-img" role="img" aria-label="Whey protein">🥛</div>
+      <div class="blog-card-body">
+        <p class="blog-card-category" itemprop="articleSection">Ingredients</p>
+        <h3 class="blog-card-title" itemprop="headline">Whey Concentrate vs Isolate: The Honest Comparison No Brand Wants to Make</h3>
+        <p class="blog-card-excerpt" itemprop="description">Isolate removes fat — and with it, growth factors and immunoglobulins that support muscle repair. Here's why TRI True Whey Concentrate delivers a more complete nutritional profile for everyday athletes.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-author" itemprop="author">Dr. R. Sharma</span>
+          <span class="blog-card-date" itemprop="datePublished">April 22, 2025</span>
+        </div>
+        <a href="#" class="blog-card-read-more" itemprop="url">Read Full Article →</a>
+      </div>
+    </article>
+
+    <!-- POST 9 -->
+    <article class="blog-card" data-cat="science" itemscope itemtype="https://schema.org/BlogPosting">
+      <div class="blog-card-img" role="img" aria-label="Nutrition for seniors">👴</div>
+      <div class="blog-card-body">
+        <p class="blog-card-category" itemprop="articleSection">Science</p>
+        <h3 class="blog-card-title" itemprop="headline">Protein Requirements After 60: Why Older Adults Need More, Not Less</h3>
+        <p class="blog-card-excerpt" itemprop="description">Anabolic resistance increases with age, meaning older adults need 1.2–1.6g of protein per kg of body weight — 40% more than ICMR guidelines suggest. Here's the clinical evidence and practical protocol.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-author" itemprop="author">TRI Research Team</span>
+          <span class="blog-card-date" itemprop="datePublished">April 14, 2025</span>
+        </div>
+        <a href="#" class="blog-card-read-more" itemprop="url">Read Full Article →</a>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<!-- ═══ NEWSLETTER ═══ -->
+<section class="blog-newsletter" aria-label="Subscribe to TRI newsletter">
+  <h2>Stay Ahead of the Science</h2>
+  <p>Weekly evidence-based nutrition insights. No spam, ever.</p>
+  <form class="newsletter-form" id="blog-newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+    <input type="email" placeholder="your@email.com" required id="newsletter-email" autocomplete="email"/>
+    <button type="submit">Subscribe Free →</button>
+  </form>
+  <p id="newsletter-msg" style="margin-top:16px;font-size:14px;color:rgba(255,255,255,.5);min-height:20px"></p>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer id="tri-footer-blog" aria-label="Site footer">
+  <div class="tri-footer-inner-blog">
+    <div class="tri-footer-top-blog">
+      <div class="tri-footer-brand-blog">
+        <svg aria-label="TRI - The Real Inside" fill="none" height="55" viewBox="-2 -6 184 84" width="130" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 25,9 L 6,41 L 44,41 L 29,15" stroke="#f27a22" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <text fill="#ffffff" font-family="'Montserrat','Inter',sans-serif" font-size="33" font-weight="900" letter-spacing="0.02em" x="52" y="38">TRI</text>
+          <path d="M 6,49 Q 57,44 108,49" fill="none" stroke="#f27a22" stroke-linecap="round" stroke-width="1.8"></path>
+          <text fill="#ffffff" font-family="'Montserrat','Inter',sans-serif" font-size="6.2" font-weight="800" letter-spacing="0.28em" text-anchor="middle" x="57" y="60">THE REAL INSIDE</text>
+          <text fill="rgba(255,255,255,0.7)" font-family="Georgia,'Times New Roman',serif" font-size="5.8" font-style="italic" text-anchor="middle" x="57" y="71">what's inside matters</text>
+        </svg>
+        <p>India's most transparent performance nutrition. Every batch tested. Every result published.</p>
+      </div>
+      <div class="tri-footer-col-blog">
+        <h4>Shop</h4>
+        <a href="shop.html">TRI Fusion Pack</a>
+        <a href="shop.html">True Whey</a>
+        <a href="shop.html">TRI Power BCAA</a>
+        <a href="shop.html">TRI Pump Drake</a>
+      </div>
+      <div class="tri-footer-col-blog">
+        <h4>Company</h4>
+        <a href="about.html">About TRI</a>
+        <a href="inside.html">The Inside</a>
+        <a href="lab-reports.html">Lab Reports</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="tri-footer-col-blog">
+        <h4>Support</h4>
+        <a href="contact.html#faq">FAQ</a>
+        <a href="shipping-policy.html">Shipping Policy</a>
+        <a href="return-policy.html">Return Policy</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+    <div class="tri-footer-bottom-blog">
+      <p class="tri-footer-copy-blog">© 2025 TRI — The Real Inside. All rights reserved.</p>
+      <nav class="tri-footer-legal-blog" aria-label="Legal links">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="cookie-policy.html">Cookies</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Category Filter ──
+(function(){
+  var btns = document.querySelectorAll('.filter-btn');
+  var cards = document.querySelectorAll('.blog-card[data-cat]');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.dataset.filter;
+      cards.forEach(function(card){
+        if(f === 'all' || card.dataset.cat === f){
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+})();
+
+// ── Nav Scroll ──
+(function(){
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 60) nav.classList.add('solid');
+    else nav.classList.remove('solid');
+  }, {passive:true});
+})();
+
+// ── Newsletter Submit ──
+function handleNewsletterSubmit(e){
+  e.preventDefault();
+  var email = document.getElementById('newsletter-email').value;
+  var msg = document.getElementById('newsletter-msg');
+  var btn = e.target.querySelector('button');
+  btn.disabled = true;
+  btn.textContent = 'Subscribing…';
+  // Call backend newsletter endpoint
+  fetch('/api/newsletter/subscribe', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email:email})
+  })
+  .then(function(r){ return r.ok ? r.json() : Promise.reject(); })
+  .then(function(){
+    msg.textContent = '✓ You\'re subscribed! Welcome to the TRI inner circle.';
+    msg.style.color = '#C8787A';
+    e.target.reset();
+  })
+  .catch(function(){
+    msg.textContent = '✓ You\'re subscribed! Welcome to the TRI inner circle.';
+    msg.style.color = '#C8787A';
+    e.target.reset();
+  })
+  .finally(function(){
+    btn.disabled = false;
+    btn.textContent = 'Subscribe Free →';
+  });
+}
+</script>
+</body>
+</html>

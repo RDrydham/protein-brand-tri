@@ -93,6 +93,100 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/coupons', couponRoutes);
 
+// ── ISSUE 4 FIX: Chatbot Query Forwarding ────────────────────────────────────
+// Intercepts any message submitted via the chatbot widget and emails it to admin.
+// Accepts: { message: string, email?: string, pageUrl?: string }
+app.post('/api/chatbot/query', async (req, res) => {
+  try {
+    const { message, email, pageUrl } = req.body;
+
+    if (!message || !message.trim()) {
+      return res.status(400).json({ success: false, message: 'Query message is required.' });
+    }
+
+    const adminEmail = process.env.ADMIN_EMAIL || 'therealinside365@gmail.com';
+    const SMTP_HOST = process.env.SMTP_HOST || 'smtp.gmail.com';
+    const SMTP_PORT = parseInt(process.env.SMTP_PORT) || 587;
+    const SMTP_USER = process.env.SMTP_USER;
+    const SMTP_PASS = process.env.SMTP_PASS;
+    const sender = process.env.SMTP_FROM || '"TRI Chatbot" <therealinside365@gmail.com>';
+
+    let transporter = null;
+    if (SMTP_USER && SMTP_PASS) {
+      transporter = nodemailer.createTransport({
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_PORT === 465,
+        auth: { user: SMTP_USER, pass: SMTP_PASS }
+      });
+    }
+
+    const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+    const emailHTML = `
+      <!DOCTYPE html>
+      <html>
+      <head><meta charset="utf-8"><title>New Chatbot Query</title></head>
+      <body style="background-color:#0b0b0c;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#f5f5f7;margin:0;padding:0;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background:#0b0b0c;padding:30px 15px;">
+          <tr><td align="center">
+            <table width="560" border="0" cellspacing="0" cellpadding="0" style="background:#121214;border:1px solid #1c1c1e;border-radius:16px;padding:28px;">
+              <tr><td align="center" style="padding-bottom:20px;border-bottom:1px solid #1c1c1e;">
+                <span style="font-size:22px;font-weight:800;color:#ffffff;">△ TRI</span>
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#C8A96E;margin-top:4px;">💬 New Chatbot Query</div>
+              </td></tr>
+              <tr><td style="padding-top:20px;">
+                <table width="100%" style="background:#1c1c1e;border-radius:8px;padding:16px;border-collapse:collapse;">
+                  <tr>
+                    <td style="font-size:13px;color:#a1a1a6;padding:6px 0;vertical-align:top;width:100px;">Message:</td>
+                    <td style="font-size:14px;color:#ffffff;font-weight:600;padding:6px 0;">"${message.trim()}"</td>
+                  </tr>
+                  <tr>
+                    <td style="font-size:13px;color:#a1a1a6;padding:6px 0;">User Email:</td>
+                    <td style="font-size:13px;color:#E6A2A4;padding:6px 0;">${email ? email : 'Not provided (guest)'}</td>
+                  </tr>
+                  <tr>
+                    <td style="font-size:13px;color:#a1a1a6;padding:6px 0;">Page URL:</td>
+                    <td style="font-size:13px;color:#a1a1a6;padding:6px 0;">${pageUrl || 'Unknown'}</td>
+                  </tr>
+                  <tr>
+                    <td style="font-size:13px;color:#a1a1a6;padding:6px 0;">Timestamp:</td>
+                    <td style="font-size:13px;color:#a1a1a6;padding:6px 0;">${timestamp} IST</td>
+                  </tr>
+                </table>
+                <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:20px;text-align:center;">
+                  Reply to this query at: <a href="mailto:${email || adminEmail}" style="color:#E6A2A4;">${email || 'query@therealinside.com'}</a>
+                </p>
+              </td></tr>
+            </table>
+          </td></tr>
+        </table>
+      </body>
+      </html>
+    `;
+
+    if (transporter) {
+      await transporter.sendMail({
+        from: sender,
+        to: adminEmail,
+        replyTo: email || adminEmail,
+        subject: `New Chatbot Query – therealinside.com`,
+        html: emailHTML
+      });
+      console.log(`[Chatbot] Query forwarded to ${adminEmail} from ${email || 'guest'}`);
+    } else {
+      // Log locally if no SMTP configured
+      console.log(`[Chatbot Query - No SMTP] From: ${email || 'guest'} | Page: ${pageUrl} | Message: ${message}`);
+    }
+
+    return res.status(200).json({ success: true, message: 'Query received. Our team will respond shortly.' });
+  } catch (err) {
+    console.error('[Chatbot Query Error]:', err.message);
+    return res.status(500).json({ success: false, message: 'Failed to forward query.' });
+  }
+});
+
+
 // Serve static files from the website directory
 app.use(express.static(path.join(__dirname)));
 
