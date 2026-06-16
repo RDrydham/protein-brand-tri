@@ -126,7 +126,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_KEY }}
           source: "."
-          target: "/home/ubuntu/tri-project"
+          target: "/home/therealinside365/tri-project"
 
       - name: Deploy
         uses: appleboy/ssh-action@master
