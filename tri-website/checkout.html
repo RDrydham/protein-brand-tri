@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <!-- Razorpay SDK: crossorigin="anonymous" prevents "Refused to get unsafe header" CORS errors -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js" crossorigin="anonymous"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; font-size: 16px; }
@@ -1059,7 +1060,7 @@
     }
   }
 
-  /* ── Razorpay flow ── */
+  /* ── Checkout flow ── */
   async function initiateCheckout() {
     clearError();
 
@@ -1083,15 +1084,18 @@
 
     const notes = $('order-notes').value.trim();
     const btn   = $('place-order-btn');
+
+    // ── FIX: Read payment method ONCE here, before any async work ──
+    // This is the ground-truth value — never rely on what the backend echoes back.
+    const payMethod = getSelectedPaymentMethod();
+    const isCOD = (payMethod === 'cod');
+
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Processing...';
 
-    const payMethod = getSelectedPaymentMethod();
-
     function resetButtonText() {
       btn.disabled = false;
-      const currentPayMethod = getSelectedPaymentMethod();
-      btn.innerHTML = currentPayMethod === 'cod'
+      btn.innerHTML = isCOD
         ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Confirm COD Order'
         : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Place Order & Pay';
     }
@@ -1102,23 +1106,68 @@
       reqHeaders['Authorization'] = `Bearer ${token}`;
     }
 
+    const payload = {
+      address,
+      notes,
+      couponCode: appliedCoupon ? appliedCoupon.code : null,
+      items: cartItems,
+      paymentMethod: payMethod   // always send what user selected
+    };
+
+    if (!isLoggedIn) {
+      payload.customerName = address.name;
+      payload.customerEmail = guestEmail;
+    }
+
+    // ══════════════════════════════════════════════════
+    // ── PATH A: Cash on Delivery ──
+    // ── Bypass Razorpay completely. One fetch, then redirect.
+    // ══════════════════════════════════════════════════
+    if (isCOD) {
+      try {
+        showToast('Placing your COD order...');
+        const orderRes = await fetch('/api/orders/place', {
+          method: 'POST',
+          headers: reqHeaders,
+          body: JSON.stringify(payload)
+        });
+        const orderData = await orderRes.json();
+
+        if (!orderRes.ok) {
+          showError(orderData.message || 'Failed to place order. Please try again.');
+          resetButtonText();
+          return;
+        }
+
+        const { order_number } = orderData;
+        // Clear cart and redirect — Razorpay is never touched
+        window.safeStorage.removeItem('tri_cart');
+        showToast('🎉 Order confirmed! Redirecting...');
+        setTimeout(() => {
+          window.location.href = 'order-success.html?order=' + encodeURIComponent(order_number);
+        }, 1000);
+      } catch (err) {
+        console.error('COD checkout error:', err);
+        showError('Network error. Please check your connection and try again.');
+        resetButtonText();
+      }
+      return;   // ← always exits here for COD, never falls through to Razorpay
+    }
+
+    // ══════════════════════════════════════════════════
+    // ── PATH B: Razorpay (Online Payment) ──
+    // ══════════════════════════════════════════════════
+
+    // Guard: Razorpay SDK must be loaded
+    if (typeof window.Razorpay === 'undefined') {
+      showError('Payment gateway is not loaded. Please refresh the page and try again.');
+      resetButtonText();
+      return;
+    }
+
     try {
       // Step 1: Place order on backend
       showToast('Creating your order...');
-      
-      const payload = {
-        address,
-        notes,
-        couponCode: appliedCoupon ? appliedCoupon.code : null,
-        items: cartItems,
-        paymentMethod: payMethod
-      };
-
-      if (!isLoggedIn) {
-        payload.customerName = address.name;
-        payload.customerEmail = guestEmail;
-      }
-
       const orderRes = await fetch('/api/orders/place', {
         method: 'POST',
         headers: reqHeaders,
@@ -1132,17 +1181,7 @@
         return;
       }
 
-      const { order_id, order_number, total, paymentMethod: returnedPaymentMethod } = orderData;
-
-      // If COD, success immediately
-      if (returnedPaymentMethod === 'cod') {
-        window.safeStorage.removeItem('tri_cart');
-        showToast('🎉 Order confirmed! Redirecting...');
-        setTimeout(() => {
-          window.location.href = `order-success.html?order=${encodeURIComponent(order_number)}`;
-        }, 1000);
-        return;
-      }
+      const { order_id, order_number } = orderData;
 
       // Step 2: Create Razorpay payment order
       showToast('Initializing payment gateway...');
@@ -1162,17 +1201,13 @@
       const { razorpay_order_id, amount, currency, key_id } = payData;
 
       // Step 3: Launch Razorpay
-      if (!window.Razorpay) {
-        showError('Payment gateway failed to load. Please refresh and try again.');
-        resetButtonText();
-        return;
-      }
-
+      // NOTE: On mobile, rzp.open() must be called as close to the user gesture as possible.
+      // We minimise async hops above so mobile browsers don't block the popup.
       const options = {
         key: key_id || 'rzp_test_placeholder',
         amount: amount,
         currency: currency || 'INR',
-        name: 'TRI — The Real Inside',
+        name: 'TRI \u2014 The Real Inside',
         description: 'Performance Nutrition Stack',
         order_id: razorpay_order_id,
         prefill: {
@@ -1182,7 +1217,7 @@
         },
         notes: {
           order_number: order_number,
-          address: `${address.line1}, ${address.city} - ${address.pincode}`
+          address: address.line1 + ', ' + address.city + ' - ' + address.pincode
         },
         theme: {
           color: '#C8787A',
@@ -1203,18 +1238,18 @@
             const verifyData = await verifyRes.json();
 
             if (verifyRes.ok || verifyData.message === 'Payment verified successfully!') {
-              // Clear cart
               window.safeStorage.removeItem('tri_cart');
-              showToast('🎉 Payment confirmed! Redirecting...');
+              showToast('\ud83c\udf89 Payment confirmed! Redirecting...');
               setTimeout(() => {
-                window.location.href = `order-success.html?order=${encodeURIComponent(order_number)}`;
+                window.location.href = 'order-success.html?order=' + encodeURIComponent(order_number);
               }, 1000);
             } else {
               showError('Payment verification failed. Please contact support with your payment ID: ' + response.razorpay_payment_id);
               resetButtonText();
             }
           } catch (err) {
-            showError('Failed to verify payment with server. Please contact support.');
+            console.error('Payment verify error:', err);
+            showError('Failed to verify payment. Please contact support.');
             resetButtonText();
           }
         },
@@ -1226,12 +1261,19 @@
         }
       };
 
-      const rzp = new window.Razorpay(options);
-      rzp.on('payment.failed', function (response) {
-        showError('Payment failed: ' + (response.error.description || 'Unknown error. Please try again.'));
+      // Wrap Razorpay instantiation in try/catch to handle SDK errors gracefully
+      try {
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', function (response) {
+          showError('Payment failed: ' + ((response.error && response.error.description) || 'Unknown error. Please try again.'));
+          resetButtonText();
+        });
+        rzp.open();
+      } catch (rzpErr) {
+        console.error('Razorpay open error:', rzpErr);
+        showError('Payment gateway error. Please refresh and try again.');
         resetButtonText();
-      });
-      rzp.open();
+      }
 
     } catch (err) {
       console.error('Checkout error:', err);
