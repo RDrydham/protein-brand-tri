@@ -39,7 +39,7 @@ router.post('/place', optionalAuth, async (req, res) => {
   try {
     await client.query('BEGIN')
 
-    const { address, address_id, notes } = req.body
+    const { address, address_id, notes, shippingAddress, customerName, phoneNumber } = req.body
     console.log("BODY:",req.body)
     let cartItems = []
 
@@ -133,6 +133,30 @@ router.post('/place', optionalAuth, async (req, res) => {
       }
     } else if (address) {
       resolvedAddress = address
+    } else if (shippingAddress) {
+      // Support { shippingAddress, customerName, phoneNumber } format sent by /api/orders/create
+      if (typeof shippingAddress === 'string') {
+        resolvedAddress = {
+          name: customerName || 'Customer',
+          phone: phoneNumber || '',
+          line1: shippingAddress,
+          line2: '',
+          city: '',
+          state: '',
+          pincode: ''
+        }
+      } else {
+        // shippingAddress is already an object
+        resolvedAddress = {
+          name: shippingAddress.name || customerName || 'Customer',
+          phone: shippingAddress.phone || phoneNumber || '',
+          line1: shippingAddress.line1 || shippingAddress.address || '',
+          line2: shippingAddress.line2 || '',
+          city: shippingAddress.city || '',
+          state: shippingAddress.state || '',
+          pincode: shippingAddress.pincode || shippingAddress.zip || ''
+        }
+      }
     } else {
       await client.query('ROLLBACK')
       return res.status(400).json({ message: 'Delivery address is required!' })
