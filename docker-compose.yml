@@ -8,11 +8,14 @@ services:
       - ./tri-website:/usr/share/nginx/html:ro
     networks:
       - trinet
+      
 
   # ── Backend ─────────────────────────────────
   backend:
     build: ./backend
     restart: always
+    ports:
+      - "3000:3000"
     environment:
       DB_HOST: db
       DB_USER: postgres
