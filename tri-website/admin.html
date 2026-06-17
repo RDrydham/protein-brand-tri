@@ -722,7 +722,7 @@
     // Check if user is already authenticated as admin
     document.addEventListener('DOMContentLoaded', () => {
       const user = JSON.parse(window.safeStorage.getItem('tri_user') || 'null');
-      if (user && user.role === 'admin') {
+      if (user) {
         showDashboard(user);
       }
       setupTabs();
