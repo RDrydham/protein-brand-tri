@@ -767,7 +767,7 @@
         });
         
         const data = await res.json();
-        if (data.message === 'Login successful') {
+        if (data.message === 'Login successfull') {
           window.safeStorage.setItem('tri_user', JSON.stringify(data.user));
           if (data.token) {
             window.safeStorage.setItem('tri_token', data.token);
