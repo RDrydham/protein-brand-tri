@@ -903,9 +903,7 @@
           headers: getAuthHeaders()
         });
         const ordersData = await ordersRes.json();
-        if (ordersData.success) {
-          renderOrders(ordersData.orders);
-        }
+        renderOrders(ordersData);
       } catch (err) {
         console.error('Error loading orders:', err);
       }
