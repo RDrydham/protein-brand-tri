@@ -34,13 +34,13 @@ const generateOrderNumber = () => {
 
 // Place order
 router.post('/place', optionalAuth, async (req, res) => {
-  const client = await pool.connect()
-
+  let client
   try {
+    client = await pool.connect()
     await client.query('BEGIN')
 
-    const { address, address_id, notes, shippingAddress, customerName, phoneNumber } = req.body
-    console.log("BODY:",req.body)
+    const { address, address_id, notes, shippingAddress, customerName, phoneNumber, paymentMethod } = req.body
+    console.log("BODY:", req.body)
     let cartItems = []
 
     // A. Authenticated User Checkout
@@ -180,10 +180,16 @@ router.post('/place', optionalAuth, async (req, res) => {
     // Create order
     const orderNumber = generateOrderNumber()
     console.log(`[Order] Creating order ${orderNumber} — total: ${total} — items: ${cartItems.length}`)
+
+    // If payment method is COD, confirm the order immediately
+    const isCOD = paymentMethod === 'cod'
+    const status = isCOD ? 'confirmed' : 'pending'
+    const paymentStatus = isCOD ? 'cod' : 'pending'
+
     const orderResult = await client.query(
-      `INSERT INTO orders (order_number, user_id, total, address, notes)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [orderNumber, req.user ? req.user.id : null, total, JSON.stringify(resolvedAddress), notes]
+      `INSERT INTO orders (order_number, user_id, total, address, notes, status, payment_status)
+       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [orderNumber, req.user ? req.user.id : null, total, JSON.stringify(resolvedAddress), notes, status, paymentStatus]
     )
 
     const order = orderResult.rows[0]
@@ -208,7 +214,7 @@ router.post('/place', optionalAuth, async (req, res) => {
     }
 
     await client.query('COMMIT')
-    console.log(`[Order] ✅ COMMITTED — order_number: ${orderNumber} order_id: ${orderResult.rows[0].id}`)
+    console.log(`[Order] ✅ COMMITTED — order_number: ${orderNumber} order_id: ${order.id}`)
 
     // Send confirmation email (non-blocking)
     try {
@@ -237,11 +243,17 @@ router.post('/place', optionalAuth, async (req, res) => {
       total: order.total
     })
   } catch (error) {
-    await client.query('ROLLBACK')
-    console.error('Order error:', error)
-    res.status(500).json({ message: 'Server error!' })
+    if (client) {
+      try {
+        await client.query('ROLLBACK')
+      } catch (rollbackErr) {
+        console.error('Rollback error:', rollbackErr)
+      }
+    }
+    console.error('Order placement error:', error)
+    res.status(500).json({ success: false, message: error.message || 'Server error!' })
   } finally {
-    client.release()
+    if (client) client.release()
   }
 })
 

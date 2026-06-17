@@ -8,8 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Razorpay SDK: crossorigin="anonymous" prevents "Refused to get unsafe header" CORS errors -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js" crossorigin="anonymous"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; font-size: 16px; }
@@ -731,9 +729,70 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
   }
-  function showError(msg) {
+  
+  // Helper for fetch with timeout
+  async function fetchWithTimeout(resource, options = {}) {
+    const { timeout = 10000 } = options;
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    try {
+      const response = await fetch(resource, {
+        ...options,
+        signal: controller.signal
+      });
+      clearTimeout(id);
+      return response;
+    } catch (err) {
+      clearTimeout(id);
+      throw err;
+    }
+  }
+
+  // Load Razorpay dynamically
+  function loadRazorpaySDK() {
+    return new Promise((resolve) => {
+      if (typeof window.Razorpay !== 'undefined') {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.crossOrigin = 'anonymous';
+      script.onload = () => {
+        console.log('✅ Razorpay SDK loaded successfully');
+        resolve(true);
+      };
+      script.onerror = () => {
+        console.error('❌ Failed to load Razorpay SDK');
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  }
+
+  function showError(msg, showRetry = false) {
     const el = $('form-error');
-    el.textContent = msg;
+    if (showRetry) {
+      el.innerHTML = `
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <span>${msg}</span>
+          <button id="error-retry-btn" style="align-self:flex-start; background:var(--rose-dark); color:#fff; font-size:12px; font-weight:700; padding:6px 12px; border-radius:6px; margin-top:4px; display:inline-flex; align-items:center; gap:6px; border:none; cursor:pointer;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            Retry Now
+          </button>
+        </div>
+      `;
+      const retryBtn = document.getElementById('error-retry-btn');
+      if (retryBtn) {
+        retryBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          clearError();
+          initiateCheckout();
+        });
+      }
+    } else {
+      el.textContent = msg;
+    }
     el.classList.add('show');
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
@@ -1123,18 +1182,23 @@
     // ── PATH A: Cash on Delivery ──
     // ── Bypass Razorpay completely. One fetch, then redirect.
     // ══════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════
+    // ── PATH A: Cash on Delivery ──
+    // ── Bypass Razorpay completely. One fetch, then redirect.
+    // ══════════════════════════════════════════════════
     if (isCOD) {
       try {
         showToast('Placing your COD order...');
-        const orderRes = await fetch('/api/orders/place', {
+        const orderRes = await fetchWithTimeout('/api/orders/place', {
           method: 'POST',
           headers: reqHeaders,
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          timeout: 10000
         });
         const orderData = await orderRes.json();
 
         if (!orderRes.ok) {
-          showError(orderData.message || 'Failed to place order. Please try again.');
+          showError(orderData.message || 'Failed to place order. Please try again.', true);
           resetButtonText();
           return;
         }
@@ -1148,7 +1212,14 @@
         }, 1000);
       } catch (err) {
         console.error('COD checkout error:', err);
-        showError('Network error. Please check your connection and try again.');
+        const isTimeout = err.name === 'AbortError';
+        let msg = 'Network error. Please check your connection and try again.';
+        if (isTimeout) {
+          msg = 'Request timed out. The server took too long to respond. Please try again.';
+        } else if (err instanceof SyntaxError) {
+          msg = 'Our server is temporarily down. Please try after some time or WhatsApp us at +91-9636964462.';
+        }
+        showError(msg, true);
         resetButtonText();
       }
       return;   // ← always exits here for COD, never falls through to Razorpay
@@ -1160,7 +1231,7 @@
 
     // Guard: Razorpay SDK must be loaded
     if (typeof window.Razorpay === 'undefined') {
-      showError('Payment gateway is not loaded. Please refresh the page and try again.');
+      showError('Payment gateway is not loaded. Please refresh the page and try again.', true);
       resetButtonText();
       return;
     }
@@ -1168,15 +1239,16 @@
     try {
       // Step 1: Place order on backend
       showToast('Creating your order...');
-      const orderRes = await fetch('/api/orders/place', {
+      const orderRes = await fetchWithTimeout('/api/orders/place', {
         method: 'POST',
         headers: reqHeaders,
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        timeout: 10000
       });
       const orderData = await orderRes.json();
 
       if (!orderRes.ok) {
-        showError(orderData.message || 'Failed to place order. Please try again.');
+        showError(orderData.message || 'Failed to place order. Please try again.', true);
         resetButtonText();
         return;
       }
@@ -1185,15 +1257,16 @@
 
       // Step 2: Create Razorpay payment order
       showToast('Initializing payment gateway...');
-      const payRes = await fetch('/api/payment/create-order', {
+      const payRes = await fetchWithTimeout('/api/payment/create-order', {
         method: 'POST',
         headers: reqHeaders,
-        body: JSON.stringify({ order_id })
+        body: JSON.stringify({ order_id }),
+        timeout: 10000
       });
       const payData = await payRes.json();
 
       if (!payRes.ok) {
-        showError(payData.message || 'Failed to initialize payment. Your order is saved — please try again.');
+        showError(payData.message || 'Failed to initialize payment. Your order is saved — please try again.', true);
         resetButtonText();
         return;
       }
@@ -1226,14 +1299,15 @@
         handler: async function (response) {
           btn.innerHTML = '<span class="spinner"></span> Verifying payment...';
           try {
-            const verifyRes = await fetch('/api/payment/verify', {
+            const verifyRes = await fetchWithTimeout('/api/payment/verify', {
               method: 'POST',
               headers: reqHeaders,
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature
-              })
+              }),
+              timeout: 15000
             });
             const verifyData = await verifyRes.json();
 
@@ -1244,12 +1318,19 @@
                 window.location.href = 'order-success.html?order=' + encodeURIComponent(order_number);
               }, 1000);
             } else {
-              showError('Payment verification failed. Please contact support with your payment ID: ' + response.razorpay_payment_id);
+              showError('Payment verification failed. Please contact support with your payment ID: ' + response.razorpay_payment_id, true);
               resetButtonText();
             }
           } catch (err) {
             console.error('Payment verify error:', err);
-            showError('Failed to verify payment. Please contact support.');
+            const isTimeout = err.name === 'AbortError';
+            let msg = 'Failed to verify payment. Please contact support.';
+            if (isTimeout) {
+              msg = 'Verification timed out. Please contact support with your payment ID: ' + response.razorpay_payment_id;
+            } else if (err instanceof SyntaxError) {
+              msg = 'Our server is temporarily down. Please contact support with your payment ID: ' + response.razorpay_payment_id;
+            }
+            showError(msg, true);
             resetButtonText();
           }
         },
@@ -1265,19 +1346,26 @@
       try {
         const rzp = new window.Razorpay(options);
         rzp.on('payment.failed', function (response) {
-          showError('Payment failed: ' + ((response.error && response.error.description) || 'Unknown error. Please try again.'));
+          showError('Payment failed: ' + ((response.error && response.error.description) || 'Unknown error. Please try again.'), true);
           resetButtonText();
         });
         rzp.open();
       } catch (rzpErr) {
         console.error('Razorpay open error:', rzpErr);
-        showError('Payment gateway error. Please refresh and try again.');
+        showError('Payment gateway error. Please refresh and try again.', true);
         resetButtonText();
       }
 
     } catch (err) {
       console.error('Checkout error:', err);
-      showError('Server error. Please try again or contact support.');
+      const isTimeout = err.name === 'AbortError';
+      let msg = 'Server error. Please try again or contact support.';
+      if (isTimeout) {
+        msg = 'Request timed out. The server took too long to respond. Please try again.';
+      } else if (err instanceof SyntaxError) {
+        msg = 'Our server is temporarily down. Please try after some time or WhatsApp us at +91-9636964462.';
+      }
+      showError(msg, true);
       resetButtonText();
     }
   }
@@ -1295,6 +1383,30 @@
   renderCart();
   loadCartFromBackend();
   initPaymentMethods();
+
+  // Load Razorpay SDK with fallback
+  loadRazorpaySDK().then((success) => {
+    if (!success) {
+      console.warn('Razorpay SDK failed to load. Disabling online payment.');
+      const rpCard = $('pay-card-razorpay');
+      if (rpCard) {
+        rpCard.style.opacity = '0.5';
+        rpCard.style.pointerEvents = 'none';
+        const secureBadge = rpCard.querySelector('span');
+        if (secureBadge) {
+          secureBadge.textContent = 'UNAVAILABLE';
+          secureBadge.style.background = 'rgba(239, 68, 68, 0.1)';
+          secureBadge.style.color = '#ef4444';
+        }
+      }
+      // Auto-select COD
+      const codCard = $('pay-card-cod');
+      if (codCard) {
+        codCard.click();
+      }
+      showToast('⚠️ Online payment gateway unavailable. Defaulting to Cash on Delivery.');
+    }
+  });
 
 })();
 </script>

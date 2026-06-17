@@ -1,12 +1,12 @@
 require('dotenv').config()
 
-// ── Startup Guard — Fail loudly if critical env vars are missing ──
+// ── Startup Guard — Warn if critical env vars are missing ──
 const REQUIRED_ENV = ['JWT_SECRET', 'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET']
 if (process.env.NODE_ENV === 'production') {
   const missing = REQUIRED_ENV.filter(k => !process.env[k])
   if (missing.length > 0) {
-    console.error('❌ FATAL: Missing required env vars:', missing.join(', '))
-    process.exit(1)
+    console.warn('⚠️ WARNING: Missing required env vars:', missing.join(', '))
+    console.warn('Backend will run in degraded mode. Razorpay or Auth may fail.')
   }
 }
 const express = require('express')
@@ -65,13 +65,15 @@ app.use('/api/coupons', require('./routes/coupons'))
 app.use('/api/admin', require('./routes/admin'))
 
 // ── Health Check ─────────────────────────────
-app.get('/health', (req, res) => {
+const healthCheck = (req, res) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
     uptime: process.uptime()
   })
-})
+}
+app.get('/health', healthCheck)
+app.get('/api/health', healthCheck)
 
 // ── 404 Handler ──────────────────────────────
 app.use((req, res) => {
@@ -80,8 +82,17 @@ app.use((req, res) => {
 
 // ── Error Handler ────────────────────────────
 app.use((err, req, res, next) => {
-  console.error(err.stack)
-  res.status(500).json({ message: 'Something went wrong!' })
+  console.error('Unhandled request error:', err)
+  res.status(500).json({ success: false, message: err.message || 'Something went wrong!' })
+})
+
+// ── Process Crash Protections ────────────────
+process.on('uncaughtException', (err) => {
+  console.error('🔥 UNCAUGHT EXCEPTION:', err)
+})
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🔥 UNHANDLED REJECTION at:', promise, 'reason:', reason)
 })
 
 // ── Start Server ─────────────────────────────
