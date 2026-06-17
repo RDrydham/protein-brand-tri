@@ -767,7 +767,7 @@
         });
         
         const data = await res.json();
-        if (data.success) {
+        if (data.message === 'Login successful') {
           if (data.user.role !== 'admin') {
             alert('Access denied. Administrator privileges required.');
             return;
