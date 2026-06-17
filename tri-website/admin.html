@@ -754,6 +754,7 @@
     }
 
     // Handle Login Form Submit
+    // Handle Login Form Submit
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('login-email').value;
@@ -767,7 +768,9 @@
         });
         
         const data = await res.json();
-        if (data.message === 'Login successfull') {
+        
+        // Fix: res.ok check karne se spelling ki dikkat khatam ho jayegi
+        if (res.ok || data.message === 'Login successful' || data.message === 'Login successfull!') {
           window.safeStorage.setItem('tri_user', JSON.stringify(data.user));
           if (data.token) {
             window.safeStorage.setItem('tri_token', data.token);
