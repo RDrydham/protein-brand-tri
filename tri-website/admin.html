@@ -824,21 +824,17 @@
         }
 
         const statsData = await statsRes.json();
-        if (statsData.success) {
-          document.getElementById('stat-sales').textContent = '₹' + statsData.stats.totalSales.toLocaleString('en-IN');
-          document.getElementById('stat-users').textContent = statsData.stats.totalUsers;
-          document.getElementById('stat-orders').textContent = statsData.stats.totalOrders;
-          document.getElementById('stat-pending').textContent = statsData.stats.ordersByStatus.pending;
-        }
+        document.getElementById('stat-sales').textContent = '₹' + Number(statsData.total_revenue).toLocaleString('en-IN');
+        document.getElementById('stat-users').textContent = statsData.total_users;
+        document.getElementById('stat-orders').textContent = statsData.total_orders;
+        document.getElementById('stat-pending').textContent = '-';
 
-        // Fetch Products
+// Fetch Products
         const productsRes = await fetch('/api/admin/products', {
           headers: getAuthHeaders()
         });
         const productsData = await productsRes.json();
-        if (productsData.success) {
-          renderProducts(productsData.products);
-        }
+        renderProducts(productsData);
 
       } catch (err) {
         console.error('Error loading stats/products data:', err);
