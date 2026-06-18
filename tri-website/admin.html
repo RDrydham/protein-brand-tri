@@ -918,12 +918,12 @@
       }
 
       tbody.innerHTML = orders.map(ord => {
-        const itemsList = Array.isArray(ord.items) ? ord.items.map(item => ${item.productName} (${item.variant || 'Default'}) x${item.quantity}).join('<br>') : 'N/A';
+        const itemsList = Array.isArray(ord.items) ? ord.items.map(item => `${item.productName} (${item.variant || 'Default'}) x${item.quantity}`).join('<br>') : 'N/A';
         const dateStr = new Date(ord.created_at).toLocaleDateString('en-IN', {day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'});
         let addressDisplay = 'N/A';
         try {
           const addr = typeof ord.address === 'string' ? JSON.parse(ord.address) : ord.address;
-          addressDisplay = ${addr.name || ''}, ${addr.phone || ''}, ${addr.address || addr.line1 || ''}, ${addr.city || ''} ${addr.pincode || ''};
+          addressDisplay = `${addr.name || ''}, ${addr.phone || ''}, ${addr.address || addr.line1 || ''}, ${addr.city || ''} ${addr.pincode || ''}`;
         } catch (e) {
           addressDisplay = ord.address || 'N/A';
         }
