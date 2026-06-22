@@ -32,7 +32,7 @@ privacy_content = """
       <p style="margin-bottom: 24px;">We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used, or accessed in an unauthorized way. However, please be aware that no method of transmission over the internet is 100% secure.</p>
 
       <h3 style="font-family: var(--font-serif); font-size: 24px; font-weight: 600; margin-top: 32px; margin-bottom: 16px;">5. Contact Us</h3>
-      <p style="margin-bottom: 24px;">If you have any questions about this Privacy Policy, please contact us at <strong>hello@atriwellness.com</strong>.</p>
+      <p style="margin-bottom: 24px;">If you have any questions about this Privacy Policy, please contact us at <strong>therealinside365@gmail.com</strong>.</p>
     </div>
   </section>
 """
@@ -53,7 +53,7 @@ terms_content = """
       <p style="margin-bottom: 24px;">For health, safety, and hygiene reasons, <strong>opened or used products are strictly non-returnable and non-refundable</strong>. We appreciate your understanding in helping us maintain the highest quality standards.</p>
 
       <h3 style="font-family: var(--font-serif); font-size: 24px; font-weight: 600; margin-top: 32px; margin-bottom: 16px;">4. Damaged or Incorrect Items</h3>
-      <p style="margin-bottom: 24px;">If you receive a damaged, defective, or incorrect product, please contact our customer support team at hello@atriwellness.com within <strong>48 hours of delivery</strong>. We will require photographic evidence of the issue to process a replacement or resolution promptly.</p>
+      <p style="margin-bottom: 24px;">If you receive a damaged, defective, or incorrect product, please contact our customer support team at therealinside365@gmail.com within <strong>48 hours of delivery</strong>. We will require photographic evidence of the issue to process a replacement or resolution promptly.</p>
 
       <h3 style="font-family: var(--font-serif); font-size: 24px; font-weight: 600; margin-top: 32px; margin-bottom: 16px;">5. Modifications to Service and Prices</h3>
       <p style="margin-bottom: 24px;">The Real Inside reserves the right to update, modify, or discontinue product prices, promotional offers, and website content at any time, without prior notice.</p>
