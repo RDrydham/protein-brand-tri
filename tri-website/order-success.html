@@ -444,6 +444,21 @@
   /* ── Clear cart on success page ── */
   window.safeStorage.removeItem('tri_cart');
 
+  /* ── META PIXEL: Purchase ──────────────────────────────────── */
+  try {
+    if (typeof fbq === 'function') {
+      // Attempt to read order total stored by checkout; fall back to ₹599
+      var orderTotal = parseFloat(window.safeStorage.getItem('tri_last_order_total')) || 599;
+      fbq('track', 'Purchase', {
+        content_type: 'product',
+        value: orderTotal,
+        currency: 'INR',
+        order_id: orderNum || undefined
+      });
+    }
+  } catch(e) {}
+  /* ─────────────────────────────────────────────────────────── */
+
 })();
 </script>
 

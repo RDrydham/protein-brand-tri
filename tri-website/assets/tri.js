@@ -3,6 +3,19 @@
    Clean, warm-theme compatible. No dark universe engine.
    ============================================================= */
 
+/* ── META PIXEL BASE CODE (Pixel ID: 1356072756378817) ──────── */
+!function(f,b,e,v,n,t,s){
+  if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window,document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1356072756378817');
+fbq('track', 'PageView');
+/* ────────────────────────────────────────────────────────────── */
+
 (function () {
   'use strict';
   // safeStorage helper — prevents DOMExceptions on devices with blocked storage
@@ -313,6 +326,18 @@
           if (res.ok) {
             await loadCart();
             showToast('Added to cart ✓');
+            // ── META PIXEL: AddToCart (logged-in path) ───────────
+            try {
+              if (typeof fbq === 'function') {
+                fbq('track', 'AddToCart', {
+                  content_name: name,
+                  content_type: 'product',
+                  value: parseFloat(price) || 0,
+                  currency: 'INR'
+                });
+              }
+            } catch(e) {}
+            // ─────────────────────────────────────────────────────
             openCart();
             return;
           } else if (res.status === 401) {
@@ -331,6 +356,20 @@
     else cartItems.push({ name, price: parseInt(price) || 0, image: image || 'assets/hero_product.png', variant, qty: 1 });
     syncCartUI();
     showToast('Added to cart ✓');
+
+    // ── META PIXEL: AddToCart ────────────────────────────────────
+    try {
+      if (typeof fbq === 'function') {
+        fbq('track', 'AddToCart', {
+          content_name: name,
+          content_type: 'product',
+          value: parseFloat(price) || 0,
+          currency: 'INR'
+        });
+      }
+    } catch(e) {}
+    // ─────────────────────────────────────────────────────────────
+
     openCart();
   };
 

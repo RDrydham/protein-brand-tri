@@ -1828,5 +1828,21 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 <script src="assets/tri-auth-ui.js?v=3.3"></script>
 
+<!-- META PIXEL: ViewContent — fires on product page load -->
+<script>
+(function() {
+  try {
+    if (typeof fbq === 'function') {
+      fbq('track', 'ViewContent', {
+        content_name: 'TRI Fusion Pack (Try Pack)',
+        content_type: 'product',
+        value: 599,
+        currency: 'INR'
+      });
+    }
+  } catch(e) {}
+})();
+</script>
+
 </body>
 </html>
