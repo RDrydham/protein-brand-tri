@@ -63,6 +63,7 @@ app.use('/api/payment', require('./routes/payment'))
 app.use('/api/newsletter', require('./routes/newsletter'))
 app.use('/api/coupons', require('./routes/coupons'))
 app.use('/api/admin', require('./routes/admin'))
+app.use('/api/reviews', require('./routes/reviews'))
 
 // ── Health Check ─────────────────────────────
 const healthCheck = (req, res) => {

@@ -86,6 +86,18 @@ CREATE TABLE IF NOT EXISTS newsletter (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- Reviews Table
+CREATE TABLE IF NOT EXISTS reviews (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  product_name VARCHAR(255) NOT NULL,
+  rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  UNIQUE (user_id, product_name)
+);
+
 -- Insert default products
 INSERT INTO products (name, slug, description, price, original_price, stock, image, category) VALUES
 ('TRI Fusion Pack', 'tri-fusion-pack', 'Protein + EAAs + Pre-Workout — 9 Sachets. Experience the complete 3-day performance protocol.', 599.00, 899.00, 100, '/assets/tri_fusion_pack_ad.webp', 'bundle'),
