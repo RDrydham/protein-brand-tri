@@ -44,7 +44,7 @@ router.get('/:productName', async (req, res) => {
       reviews
     })
   } catch (error) {
-    console.error('[Get Reviews Error]:', error.message)
+    console.error('[Get Reviews Error]:', error.message, error.stack)
     return res.status(500).json({ success: false, message: 'Failed to retrieve reviews.' })
   }
 })
@@ -54,7 +54,14 @@ router.get('/:productName', async (req, res) => {
 router.post('/add', auth, async (req, res) => {
   try {
     const { productName, rating, comment } = req.body
-    const userId = req.user.id
+    // Support both JWT payload shapes:
+    //   backend auth signs { id, email, role }
+    //   tri-website dev server signs { userId }
+    const userId = req.user.id || req.user.userId
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: 'Could not identify user from token.' })
+    }
 
     if (!productName || rating === undefined || !comment) {
       return res.status(400).json({
@@ -86,7 +93,7 @@ router.post('/add', auth, async (req, res) => {
       review: result.rows[0]
     })
   } catch (error) {
-    console.error('[Add Review Error]:', error.message)
+    console.error('[Add Review Error]:', error.message, error.stack)
     return res.status(500).json({ success: false, message: 'Failed to save review.' })
   }
 })

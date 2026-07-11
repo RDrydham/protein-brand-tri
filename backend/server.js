@@ -98,8 +98,11 @@ process.on('unhandledRejection', (reason, promise) => {
 
 // ── Start Server ─────────────────────────────
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    console.log(`🚀 TRI Backend running on port ${PORT}`)
+  const db = require('./db')
+  db.init().then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 TRI Backend running on port ${PORT}`)
+    })
   })
 }
 
