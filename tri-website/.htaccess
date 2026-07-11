@@ -72,6 +72,14 @@ RewriteRule ^api/subscribe/?$ subscribe.php [L,QSA]
 RewriteCond %{REQUEST_METHOD} POST [NC]
 RewriteRule ^api/contact/?$ contact-handler.php [L,QSA]
 
+# ── Route: GET  /api/reviews/{productName} → reviews.php ─────
+RewriteCond %{REQUEST_METHOD} GET [NC]
+RewriteRule ^api/reviews/(.+)$ reviews.php?path=$1 [L,QSA]
+
+# ── Route: POST /api/reviews/add → reviews.php ───────────────
+RewriteCond %{REQUEST_METHOD} POST [NC]
+RewriteRule ^api/reviews/add/?$ reviews.php?path=add [L,QSA]
+
 
 # ── Route: Clean URLs for static HTML pages ───────────────────
 RewriteRule ^about/?$        about.html        [L,NC]

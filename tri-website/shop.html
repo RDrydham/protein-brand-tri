@@ -1795,7 +1795,7 @@
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ productName, rating, comment })
+            body: JSON.stringify({ productName, rating, comment, userName: user ? user.name : 'Verified Customer' })
           });
           const data = await res.json();
 
