@@ -1204,6 +1204,17 @@
         }
 
         const { order_number } = orderData;
+        // Save order total for Meta Pixel Purchase event on success page
+        var codTotal = cartItems.reduce((s, i) => s + (i.price * i.qty), 0);
+        if (appliedCoupon) {
+          var codDiscount = appliedCoupon.discountType === 'percentage'
+            ? Math.round((codTotal * appliedCoupon.value) / 100)
+            : appliedCoupon.value;
+          codTotal = codTotal - Math.min(codDiscount, codTotal) + 50; // COD fee
+        } else {
+          codTotal = codTotal + 50; // COD fee
+        }
+        window.safeStorage.setItem('tri_last_order_total', codTotal);
         // Clear cart and redirect — Razorpay is never touched
         window.safeStorage.removeItem('tri_cart');
         showToast('🎉 Order confirmed! Redirecting...');
@@ -1312,6 +1323,15 @@
             const verifyData = await verifyRes.json();
 
             if (verifyRes.ok || verifyData.message === 'Payment verified successfully!') {
+              // Save order total for Meta Pixel Purchase event on success page
+              var onlineTotal = cartItems.reduce((s, i) => s + (i.price * i.qty), 0);
+              if (appliedCoupon) {
+                var onlineDiscount = appliedCoupon.discountType === 'percentage'
+                  ? Math.round((onlineTotal * appliedCoupon.value) / 100)
+                  : appliedCoupon.value;
+                onlineTotal = onlineTotal - Math.min(onlineDiscount, onlineTotal);
+              }
+              window.safeStorage.setItem('tri_last_order_total', onlineTotal);
               window.safeStorage.removeItem('tri_cart');
               showToast('\ud83c\udf89 Payment confirmed! Redirecting...');
               setTimeout(() => {
